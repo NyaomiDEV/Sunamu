@@ -1,0 +1,64 @@
+#background-image-div {
+    filter: blur(48px);
+    -webkit-filter: blur(48px);
+    transform: scale(1.35) !important;
+}
+
+#seekbar-bg {
+    border-radius: 50px;
+    display: flex;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.50) !important;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.30), 0 5px 15px rgba(0, 0, 0, 0.22) !important;
+}
+
+#seekbar-now {
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.90) !important;
+    height: 8px;
+    transition: linear width 1s;
+    margin: 5px;
+}
+
+.settings-div {
+    padding: 5px 10px 5px 10px;
+    margin: 10px;
+    background-color: #FFFFFF40 !important;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.30), 0 5px 15px rgba(0, 0, 0, 0.22) !important;
+    border-radius: 25px;
+    z-index: 3;
+}
+
+.settings-icons {
+    font-size: 26px;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition-duration: 200ms;
+    transition-property: opacity, visibility;
+    transition-delay: 200ms;
+}
+
+@media only screen and (max-width:767px) and (orientation: portrait) {
+    #seekbar-bg {
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.30), 0 5px 15px rgba(0, 0, 0, 0.22) !important;
+    }
+
+    #background-image-div {
+        filter: blur(48px);
+        -webkit-filter: blur(32px);
+        transform: scale(1.45);
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1199px) and (orientation: portrait) {
+    #seekbar-bg {
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.30), 0 5px 15px rgba(0, 0, 0, 0.22) !important;
+    }
+
+    #background-image-div {
+        transform: scale(1.4);
+    }
+}

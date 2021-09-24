@@ -1,0 +1,31 @@
+{
+  "name": "nowplaying-electron",
+  "version": "1.0.0",
+  "main": "src/index",
+  "license": "MPL-2.0",
+  "author": {
+    "email": "me@arytonex.pw",
+    "name": "Naomi Calabretta",
+    "url": "http://arytonex.pw"
+  },
+  "scripts": {
+    "lint": "eslint src/ --ext .ts",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "electron test.js",
+    "postinstall": "electron-rebuild"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.22",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "electron-rebuild": "^3.2.3",
+    "eslint": "^7.18.0"
+  },
+  "dependencies": {
+    "electron": "^15.0.0",
+    "mpris-for-dummies": "arytonex/mpris-for-dummies",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.1.3"
+  }
+}

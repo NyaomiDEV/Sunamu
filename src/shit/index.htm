@@ -1,0 +1,60 @@
+<html lang="en">
+
+<head>
+	<title>Now Playing</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link id="playingcss" href="assets/styles/playing.css" rel="stylesheet">
+	<link id="playingcss-test" href="assets/styles/playingtest.css" rel="stylesheet alternate">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="assets/styles/productsans.css" rel="stylesheet">
+
+	<script src="mainworld.js"></script>
+</head>
+
+<body>
+	<div class="settings-div fadeInOut">
+		<a id="theme-button" href="#" onclick="theme();">
+			<i id="theme-icon" class="material-icons theme-icon">palette</i>
+		</a>
+		<a id="minimize-button" href="#" onclick="np.minimize();">
+			<i id="minimize-icon" class="material-icons minimize-icon">minimize</i>
+		</a>
+		<a id="fullscreen-button" href="#" onclick="fullscreen();">
+			<i id="fullscreen-icon" class="material-icons settings-icon">fullscreen</i>
+		</a>
+		<a id="close-button" href="#" onclick="np.close();">
+			<i id="close-icon" class="material-icons close-icon">close</i>
+		</a>
+	</div>
+	<div id="playing-div">
+		<div id="img-wrapper"><img src="assets/images/no_song.png" id="playing-img">
+			<div id="playback-container">
+				<div id="previous-button" class="material-icons" onclick="np.previous();">skip_previous</div>
+				<div id="playpause-button" class="material-icons" onclick="np.playpause();"></div>
+				<div id="next-button" class="material-icons" onclick="np.next();">skip_next</div>
+			</div>
+		</div>
+		<div id="song-info-div">
+			<h1 id="song-title">
+				Nothing is playing
+			</h1>
+			<h2 id="song-artist">
+				Please play something
+			</h2>
+			<h2 id="song-album"></h2>
+			<div id="seekbar-bg">
+				<div id="seekbar-now" style="width: 0%"></div>
+			</div>
+			<h3 class="left fadeInOut" id="activestate">
+				<!-- todo app icon symbolic -->
+				<span id="app-name">No app</span>
+				<h3 class="right" id="song-time"></h3>
+		</div>
+	</div>
+	<div id="background-image-div"
+		style="background-image: url('assets/images/no_song.png'); background-size: cover; background-position: center center;">
+		<div class="darken"></div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,429 @@
+/*getButterfly
+ Support  JavaScript Blog Hound CMS Photo Gallery
+Product Sans
+Product Sans
+
+What is Product Sans?
+The new Google logo and identity system was developed by creating a custom, geometric sans serif called Product Sans. Simple, humble, and approachable, Product Sans was created from scratch to pair seamlessly with Google logo in a variety of contexts and product lockups without overshadowing it. Additionally, it complements the new identity by introducing a primary branding typeface that is different in style and character from other interface text elements used in Material Design.
+
+Despite being visually indistinguishable from its older brother, Google reported that Google Sans is actually the same font but optimized to work at different sizes. The original Product Sans was only intended for Google’s official product logos.
+Source: Google I/O 2018
+
+The font is a slight variation of Futura, which was designed by Paul Renner in 1927. Here’s a nice research on the new Google font and logo.
+
+Of course, that means you probably won’t be able to tell much difference. But it does mean that when you see Google’s font on billboards or in apps, it’s actually Google Sans — not Product Sans. Google Sans is used anywhere exceptionally large or small sizes are required.
+
+Here’s how the font looks like as installed in the latest Android:
+
+Product Sans Android Demo Product Sans Android Demo Product Sans Android Demo
+
+Product Sans License
+This font has no usable license. Google says “Google offers many fonts under open source licenses. This is not one of them. Please see fonts.google.com for options you can use.”
+
+Product Sans Similar Fonts
+What are some alternatives for this font?
+
+Well, Gilroy, Futura or Harmonia Sans would probably do the job.
+
+Note that you can take Gilroy for a free spin, using the free version of the font from Behance.
+
+Product Sans Download
+Product Sans Specimen (PDF)
+Product Sans (TTF)
+Product Sans (SVG)
+Google Fonts Stylesheet for 100, 300, 400, 500, 700, 900, 100i, 300i, 400i, 500i, 700i, 900i
+See the actual CSS code below.
+ * See: https://fonts.google.com/license/googlerestricted
+ */
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 100;
+  src: local('Product Sans Thin Italic'), local('ProductSans-ThinItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxifypQkot1TnFhsFMOfGShVEu_vWEpkr1ap.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 100;
+  src: local('Product Sans Thin Italic'), local('ProductSans-ThinItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxifypQkot1TnFhsFMOfGShVEu_vWE1kr1ap.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 100;
+  src: local('Product Sans Thin Italic'), local('ProductSans-ThinItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxifypQkot1TnFhsFMOfGShVEu_vWEBkr1ap.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 100;
+  src: local('Product Sans Thin Italic'), local('ProductSans-ThinItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxifypQkot1TnFhsFMOfGShVEu_vWE5krw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Product Sans Light Italic'), local('ProductSans-LightItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu8nSllHimuQpw.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Product Sans Light Italic'), local('ProductSans-LightItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu8nSllAimuQpw.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Product Sans Light Italic'), local('ProductSans-LightItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu8nSllNimuQpw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Product Sans Light Italic'), local('ProductSans-LightItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu8nSllDims.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Product Sans Italic'), local('ProductSans-Italic'), url(https://fonts.gstatic.com/s/productsans/v9/pxidypQkot1TnFhsFMOfGShVEueIaEx8qw.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Product Sans Italic'), local('ProductSans-Italic'), url(https://fonts.gstatic.com/s/productsans/v9/pxidypQkot1TnFhsFMOfGShVEuePaEx8qw.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Product Sans Italic'), local('ProductSans-Italic'), url(https://fonts.gstatic.com/s/productsans/v9/pxidypQkot1TnFhsFMOfGShVEueCaEx8qw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Product Sans Italic'), local('ProductSans-Italic'), url(https://fonts.gstatic.com/s/productsans/v9/pxidypQkot1TnFhsFMOfGShVEueMaEw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Product Sans Medium Italic'), local('ProductSans-MediumItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu9_S1lHimuQpw.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Product Sans Medium Italic'), local('ProductSans-MediumItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu9_S1lAimuQpw.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Product Sans Medium Italic'), local('ProductSans-MediumItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu9_S1lNimuQpw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Product Sans Medium Italic'), local('ProductSans-MediumItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu9_S1lDims.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Product Sans Bold Italic'), local('ProductSans-BoldItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu83TVlHimuQpw.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Product Sans Bold Italic'), local('ProductSans-BoldItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu83TVlAimuQpw.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Product Sans Bold Italic'), local('ProductSans-BoldItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu83TVlNimuQpw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Product Sans Bold Italic'), local('ProductSans-BoldItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu83TVlDims.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 900;
+  src: local('Product Sans Black Italic'), local('ProductSans-BlackItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu8PT1lHimuQpw.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 900;
+  src: local('Product Sans Black Italic'), local('ProductSans-BlackItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu8PT1lAimuQpw.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 900;
+  src: local('Product Sans Black Italic'), local('ProductSans-BlackItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu8PT1lNimuQpw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: italic;
+  font-weight: 900;
+  src: local('Product Sans Black Italic'), local('ProductSans-BlackItalic'), url(https://fonts.gstatic.com/s/productsans/v9/pxieypQkot1TnFhsFMOfGShVEu8PT1lDims.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Product Sans Thin'), local('ProductSans-Thin'), url(https://fonts.gstatic.com/s/productsans/v9/pxidypQkot1TnFhsFMOfGShddOeIaEx8qw.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Product Sans Thin'), local('ProductSans-Thin'), url(https://fonts.gstatic.com/s/productsans/v9/pxidypQkot1TnFhsFMOfGShddOePaEx8qw.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Product Sans Thin'), local('ProductSans-Thin'), url(https://fonts.gstatic.com/s/productsans/v9/pxidypQkot1TnFhsFMOfGShddOeCaEx8qw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Product Sans Thin'), local('ProductSans-Thin'), url(https://fonts.gstatic.com/s/productsans/v9/pxidypQkot1TnFhsFMOfGShddOeMaEw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Product Sans Light'), local('ProductSans-Light'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdvPWbS2lBkm8.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Product Sans Light'), local('ProductSans-Light'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdvPWbTGlBkm8.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Product Sans Light'), local('ProductSans-Light'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdvPWbQWlBkm8.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Product Sans Light'), local('ProductSans-Light'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdvPWbT2lB.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Product Sans'), local('ProductSans-Regular'), url(https://fonts.gstatic.com/s/productsans/v9/pxiDypQkot1TnFhsFMOfGShVE9eOcEg.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Product Sans'), local('ProductSans-Regular'), url(https://fonts.gstatic.com/s/productsans/v9/pxiDypQkot1TnFhsFMOfGShVFNeOcEg.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Product Sans'), local('ProductSans-Regular'), url(https://fonts.gstatic.com/s/productsans/v9/pxiDypQkot1TnFhsFMOfGShVGdeOcEg.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Product Sans'), local('ProductSans-Regular'), url(https://fonts.gstatic.com/s/productsans/v9/pxiDypQkot1TnFhsFMOfGShVF9eO.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Product Sans Medium'), local('ProductSans-Medium'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShd5PSbS2lBkm8.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Product Sans Medium'), local('ProductSans-Medium'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShd5PSbTGlBkm8.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Product Sans Medium'), local('ProductSans-Medium'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShd5PSbQWlBkm8.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Product Sans Medium'), local('ProductSans-Medium'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShd5PSbT2lB.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Product Sans Bold'), local('ProductSans-Bold'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdrPKbS2lBkm8.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Product Sans Bold'), local('ProductSans-Bold'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdrPKbTGlBkm8.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Product Sans Bold'), local('ProductSans-Bold'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdrPKbQWlBkm8.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Product Sans Bold'), local('ProductSans-Bold'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdrPKbT2lB.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Product Sans Black'), local('ProductSans-Black'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdlPCbS2lBkm8.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Product Sans Black'), local('ProductSans-Black'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdlPCbTGlBkm8.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Product Sans Black'), local('ProductSans-Black'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdlPCbQWlBkm8.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Product Sans Black'), local('ProductSans-Black'), url(https://fonts.gstatic.com/s/productsans/v9/pxicypQkot1TnFhsFMOfGShdlPCbT2lB.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+h1, h2, h3, h4, h5, h6, span, p {
+    font-family : "Product Sans";
+}
+
+.product-sans {
+    font-family : "Product Sans";
+}
