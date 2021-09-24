@@ -6,6 +6,7 @@ body {
     font-variant-ligatures: no-common-ligatures;
     font-family: "Product Sans", sans-serif;
     background: black;
+    user-select: none;
 }
 
 a:-webkit-any-link {

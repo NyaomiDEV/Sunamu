@@ -1,10 +1,14 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
-contextBridge.exposeInMainWorld("np", {
+const npApi = {
 	playpause: () => ipcRenderer.send("playpause"),
 	next: () => ipcRenderer.send("next"),
+
 	previous: () => ipcRenderer.send("previous"),
 	minimize: () => ipcRenderer.send("minimize"),
 	close: () => ipcRenderer.send("close"),
-	on: (event, callback) => ipcRenderer.on(event, (e, v) => callback(v))
-});
+
+	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, v) => callback(v))
+};
+
+contextBridge.exposeInMainWorld("np", npApi);

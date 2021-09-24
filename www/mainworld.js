@@ -1,7 +1,19 @@
 /* eslint-disable no-undef */
 
-let elapsed = 0;
-let length = 0;
+// STATUS CONTAINER
+let songdata = {
+	metadata: {
+		title: undefined,
+		artist: undefined,
+		album: undefined,
+		artUrl: undefined,
+		length: 0
+	},
+	status: "Stopped",
+	elapsed: 0,
+	app: undefined,
+	appName: undefined
+};
 
 // UTILS OMG
 function secondsToTime(duration) {
@@ -35,25 +47,29 @@ function theme() {
 }
 
 function progressInterval() {
-	elapsed++;
-	document.getElementById("song-time").innerHTML = secondsToTime(elapsed) + " &middot; " + secondsToTime(length);
-	const seekbarPercent = elapsed / length * 100;
+	if(songdata.status !== "Playing") return;
+	songdata.elapsed++;
+	document.getElementById("song-time").innerHTML = secondsToTime(songdata.elapsed) + " &middot; " + secondsToTime(songdata.metadata.length);
+	const seekbarPercent = songdata.elapsed / songdata.metadata.length * 100;
 	document.getElementById("seekbar-now").style.width = `${seekbarPercent}%`;
+}
+
+function updateNowPlaying() {
+	document.getElementById("playing-img").src = songdata.metadata.artUrl || "assets/images/no_song.png";
+	document.getElementById("background-image-div").style.backgroundImage = `url(${songdata.metadata.artUrl || "assets/images/no_song.png"})`;
+	document.getElementById("song-title").textContent = songdata.metadata.title || "Not playing";
+	document.getElementById("song-artist").textContent = songdata.metadata.artist || "Please play a song";
+	document.getElementById("song-album").textContent = songdata.metadata.album || "";
+	document.getElementById("app-name").textContent = songdata.appName ? `Playing on ${songdata.appName}` : "No app is opened";
+	document.getElementById("playpause-button").textContent = songdata.status === "Playing" ? "pause" : "play_arrow";
 }
 
 setInterval(progressInterval, 1000);
 
 // EVENTS
-window.np.on("update", (update) => {
-	document.getElementById("playing-img").src = update.metadata.artUrl;
-	document.getElementById("background-image-div").style.backgroundImage = `url(${update.metadata.artUrl})`;
-	document.getElementById("song-title").textContent = update.metadata.title;
-	document.getElementById("song-artist").textContent = update.metadata.artist;
-	document.getElementById("song-album").textContent = update.metadata.album;
-	document.getElementById("app-name").textContent = `Playing on ${update.appName}`;
-	document.getElementById("playpause-button").textContent = update.status === "Playing" ? "pause" : "play_arrow";
-	elapsed = update.elapsed;
-	length = update.metadata.length;
+window.np.registerUpdateCallback((update) => {
+	songdata = Object.assign({}, update);
+	updateNowPlaying();
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -65,15 +81,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	document.body.onmousemove = () => {
 		document.body.style.cursor = "inherit";
-		//document.getElementsByClassName("settings-div")[0].classList.remove("hidden");
+		document.getElementsByClassName("settings-div")[0].classList.remove("hidden");
 		document.getElementById("playpause-button").classList.remove("hidden");
 		document.getElementById("previous-button").classList.remove("hidden");
 		document.getElementById("next-button").classList.remove("hidden");
 		clearTimeout(idleMouseTimer);
 
 		idleMouseTimer = setTimeout(() => {
-			//document.body.style.cursor = "none";
-			//document.getElementsByClassName("settings-div")[0].classList.add("hidden");
+			document.body.style.cursor = "none";
+			document.getElementsByClassName("settings-div")[0].classList.add("hidden");
 			document.getElementById("playpause-button").classList.add("hidden");
 			document.getElementById("previous-button").classList.add("hidden");
 			document.getElementById("next-button").classList.add("hidden");
@@ -83,5 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	};
 });
 
+// THEME REMEMBERING
 if(localStorage.getItem("theme") === "test")
 	document.getElementById("playingcss-test").rel = "stylesheet";

@@ -10,9 +10,7 @@
   },
   "scripts": {
     "lint": "eslint src/ --ext .ts",
-    "build": "tsc",
-    "clean": "rm -rf dist",
-    "test": "electron test.js",
+    "test": "electron .",
     "postinstall": "electron-rebuild"
   },
   "devDependencies": {
