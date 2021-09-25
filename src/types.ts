@@ -17,9 +17,20 @@ export type Metadata = {
 	length: number
 }
 
+export type Capabilities = {
+	canControl: boolean,
+	canPlayPause: boolean,
+	canChangeTrack: boolean,
+	hasSeekbar: boolean
+}
+
 export type Update = {
 	metadata: Metadata,
+	capabilities: Capabilities,
 	status: string,
+	loop: string,
+	shuffle: boolean,
+	volume: number,
 	elapsed: number,
 	app: string,
 	appName: string

@@ -12,17 +12,16 @@ let activePlayer: string | undefined;
 let win: BrowserWindow;
 
 async function main() {
-	dbus.sessionBus().getProxyObject("org.freedesktop.DBus", "/org/freedesktop/DBus").then(async (dbusPO) => {
-		const iface = await dbusPO.getInterface("org.freedesktop.DBus");
+	const proxy = await dbus.sessionBus().getProxyObject("org.freedesktop.DBus", "/org/freedesktop/DBus");
+	const iface = proxy.getInterface("org.freedesktop.DBus");
 
-		iface.on("NameOwnerChanged", async (name, oldOwner, newOwner) => {
-			if (name.match(/org\.mpris\.MediaPlayer2/) !== null) {
-				if (oldOwner === "")
-					await addPlayer(name);
-				else if (newOwner === "")
-					await deletePlayer(name);
-			}
-		});
+	iface.on("NameOwnerChanged", async (name, oldOwner, newOwner) => {
+		if (name.match(/org\.mpris\.MediaPlayer2/) !== null) {
+			if (oldOwner === "")
+				await addPlayer(name);
+			else if (newOwner === "")
+				await deletePlayer(name);
+		}
 	});
 
 	const names = await factory.getPlayerNames();
@@ -54,7 +53,7 @@ async function main() {
 
 async function addPlayer(name: string) {
 	players[name] = await factory.getPlayer(name) as Player & MPRIS2Player;
-
+	registerPlayerEvents(name);
 	calculateActivePlayer(name);
 	console.log("Added player", name);
 }
@@ -67,43 +66,71 @@ async function deletePlayer(name: string) {
 }
 
 function registerPlayerEvents(name: string){
-	players[name].on("musicChanged", () => updateInfo());
-	players[name].on("playbackStatusChanged", () => updateInfo());
-	players[name].on("seeked", () => updateInfo());
-}
+	players[name].on("musicChanged", () => {
+		if(name === activePlayer){
+			updateInfo();
+			return;
+		}
 
-function unregisterPlayerEvents(name: string){
-	players[name].removeAllListeners("musicChanged");
-	players[name].removeAllListeners("playbackStatusChanged");
-	players[name].removeAllListeners("seeked");
+		calculateActivePlayer(name);
+	});
+	players[name].on("playbackStatusChanged", (status: string) => {
+		if(name === activePlayer){
+			updateInfo();
+			return;
+		}
+
+		if(status === "Playing") calculateActivePlayer(name);
+	});
+	players[name].on("seeked", () => {
+		if(name === activePlayer){
+			updateInfo();
+			return;
+		}
+
+		calculateActivePlayer(name);
+	});
 }
 
 async function calculateActivePlayer(preferred?: string){
+	let _activePlayer;
+
 	for(let name in players){
 		if(await players[name].PlaybackStatus === "Playing"){
-			registerPlayerEvents(name);
-			activePlayer = name;
+			_activePlayer = name;
 			break;
 		}
 	}
 
-	if(!activePlayer && preferred){
-		registerPlayerEvents(preferred);
-		activePlayer = preferred;
-	}
+	if(!_activePlayer && preferred)
+		_activePlayer = preferred;
 
-	for(let name in players){
-		if (name !== activePlayer)
-			unregisterPlayerEvents(name);
-	}
+	if(!_activePlayer && Object.keys(players).length > 0)
+		_activePlayer = Object.keys(players)[0];
+
+	activePlayer = _activePlayer;
+	updateInfo();
 }
 
 async function updateInfo() {
-	if(!activePlayer) return;
+	if(!activePlayer){
+		console.log("updateInfo empty");
+		win.webContents.send("update");
+		return;
+	}
 
 	let update: Update = {
 		metadata: parseMetadata(await players[activePlayer].Metadata),
+		capabilities: {
+			canControl: await players[activePlayer].CanControl || false,
+			canPlayPause: await players[activePlayer].CanPause || await players[activePlayer].CanPlay || false,
+			canChangeTrack: await players[activePlayer].CanGoNext || await players[activePlayer].CanGoPrevious || false,
+			hasSeekbar: await players[activePlayer].CanSeek || false
+		},
 		status: await players[activePlayer].PlaybackStatus || "Stopped",
+		loop: await players[activePlayer].LoopStatus || "None",
+		shuffle: await players[activePlayer].Shuffle || false,
+		volume: await players[activePlayer].Volume || 0,
 		elapsed: Number(await players[activePlayer].Position) / 1000000,
 		app: activePlayer,
 		appName: await players[activePlayer].app.Identity || ""
@@ -140,9 +167,9 @@ async function spawnWindow() {
 function parseMetadata(metadata): Metadata {
 	return {
 		title: metadata["xesam:title"],
-		artist: typeof metadata["xesam:artist"] === "string" ? metadata["xesam:artist"] : metadata["xesam:artist"].join("; "),
+		artist: typeof metadata["xesam:artist"] === "string" ? metadata["xesam:artist"] : metadata["xesam:artist"]?.join("; "),
 		album: metadata["xesam:album"],
-		length: Number(metadata["mpris:length"]) / 1000000,
+		length: Number(metadata["mpris:length"] || 0) / 1000000,
 		artUrl: metadata["mpris:artUrl"]
 	};
 }

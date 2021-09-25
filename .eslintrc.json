@@ -1,6 +1,7 @@
 {
 	"env": {
-		"node": true
+		"node": true,
+		"browser": true
 	},
 	"extends": "eslint:recommended",
 	"parser": "@typescript-eslint/parser",
