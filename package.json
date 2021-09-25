@@ -22,11 +22,11 @@
     "@typescript-eslint/parser": "^4.14.1",
     "electron": "^15.0.0",
     "electron-builder": "^22.11.7",
-    "eslint": "^7.18.0"
+    "eslint": "^7.18.0",
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "mpris-for-dummies": "arytonex/mpris-for-dummies",
-    "ts-node": "^10.1.0",
-    "typescript": "^4.1.3"
+    "ts-node": "^10.1.0"
   }
 }
