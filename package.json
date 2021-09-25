@@ -1,7 +1,8 @@
 {
   "name": "nowplaying-electron",
+  "description": "Beautiful app to show which music you are playing",
   "version": "1.0.0",
-  "main": "src/index",
+  "main": "src",
   "license": "MPL-2.0",
   "author": {
     "email": "me@arytonex.pw",
@@ -11,17 +12,17 @@
   "scripts": {
     "lint": "eslint src/ --ext .ts",
     "test": "electron .",
-    "postinstall": "electron-rebuild"
+    "build": "electron-builder"
   },
   "devDependencies": {
     "@types/node": "^14.14.22",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
-    "electron-rebuild": "^3.2.3",
+    "electron": "^15.0.0",
+    "electron-builder": "^22.11.7",
     "eslint": "^7.18.0"
   },
   "dependencies": {
-    "electron": "^15.0.0",
     "mpris-for-dummies": "arytonex/mpris-for-dummies",
     "ts-node": "^10.1.0",
     "typescript": "^4.1.3"

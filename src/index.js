@@ -1,2 +1,4 @@
-require("ts-node").register();
+require("ts-node").register({
+	transpileOnly: true
+});
 require("./main");

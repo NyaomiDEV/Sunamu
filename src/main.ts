@@ -156,6 +156,7 @@ async function spawnWindow() {
 		},
 		transparent: false,
 		roundedCorners: true,
+		icon: resolve(__dirname, "app_icon.png")
 	});
 
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
