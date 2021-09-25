@@ -11,6 +11,11 @@ let activePlayer: string | undefined;
 
 let win: BrowserWindow;
 
+if(process.env.ILOVEGLASS === "1"){
+	app.commandLine.appendSwitch("use-gl", "desktop");
+	app.commandLine.appendSwitch("enable-transparent-visuals");
+}
+
 async function main() {
 	const proxy = await dbus.sessionBus().getProxyObject("org.freedesktop.DBus", "/org/freedesktop/DBus");
 	const iface = proxy.getInterface("org.freedesktop.DBus");
@@ -55,14 +60,14 @@ async function addPlayer(name: string) {
 	players[name] = await factory.getPlayer(name) as Player & MPRIS2Player;
 	registerPlayerEvents(name);
 	calculateActivePlayer(name);
-	console.log("Added player", name);
+	debug("Added player", name);
 }
 
 async function deletePlayer(name: string) {
 	players[name].dispose();
 	delete players[name];
 	calculateActivePlayer();
-	console.log("Removed player", name);
+	debug("Removed player", name);
 }
 
 function registerPlayerEvents(name: string){
@@ -114,8 +119,8 @@ async function calculateActivePlayer(preferred?: string){
 
 async function updateInfo() {
 	if(!activePlayer){
-		console.log("updateInfo empty");
-		win.webContents.send("update");
+		debug("updateInfo empty");
+		win?.webContents?.send?.("update");
 		return;
 	}
 
@@ -136,25 +141,25 @@ async function updateInfo() {
 		appName: await players[activePlayer].app.Identity || ""
 	};
 
-	console.log("updateInfo", update);
+	debug("updateInfo", update);
 
-	win.webContents.send("update", update);
+	win?.webContents?.send?.("update", update);
 }
 
 async function spawnWindow() {
 	win = new BrowserWindow({
 		show: true,
 		frame: false,
+		transparent: process.env.ILOVEGLASS === "1",
 		minWidth: 854,
 		minHeight: 480,
-		backgroundColor: "#212121",
+		backgroundColor: process.env.ILOVEGLASS === "1" ? "#00000000" : "#000000",
 		autoHideMenuBar: true,
 		webPreferences: {
 			contextIsolation: true,
 			nodeIntegration: false,
 			preload: resolve(__dirname, "preload.js")
 		},
-		transparent: false,
 		roundedCorners: true,
 		icon: resolve(__dirname, "app_icon.png")
 	});
@@ -173,6 +178,11 @@ function parseMetadata(metadata): Metadata {
 		length: Number(metadata["mpris:length"] || 0) / 1000000,
 		artUrl: metadata["mpris:artUrl"]
 	};
+}
+
+function debug(...args: any){
+	if(process.env.DEBUG === "1")
+		console.log(...args);
 }
 
 main();

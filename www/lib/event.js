@@ -3,6 +3,8 @@ import { updateNowPlaying } from "./nowplaying.js";
 
 window.np.registerUpdateCallback((update) => {
 	Object.assign(songdata, fallback, update);
+	songdata.elapsed = Math.floor(songdata.elapsed);
+	songdata.metadata.length = Math.floor(songdata.metadata.length);
 	updateNowPlaying();
 });
 

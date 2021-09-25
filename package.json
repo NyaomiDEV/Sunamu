@@ -1,7 +1,7 @@
 {
   "name": "nowplaying-electron",
   "description": "Beautiful app to show which music you are playing",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "src",
   "license": "MPL-2.0",
   "author": {
@@ -11,8 +11,10 @@
   },
   "scripts": {
     "lint": "eslint src/ --ext .ts",
-    "test": "electron .",
-    "build": "electron-builder"
+    "test": "DEBUG=1 electron .",
+    "run": "electron .",
+    "build": "electron-builder",
+    "postinstall": "yarn build"
   },
   "devDependencies": {
     "@types/node": "^14.14.22",

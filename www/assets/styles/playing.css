@@ -5,8 +5,8 @@ body {
     justify-content: center;
     font-variant-ligatures: no-common-ligatures;
     font-family: "Product Sans", sans-serif;
-    background: black;
     user-select: none;
+    -webkit-app-region: drag;
 }
 
 a:-webkit-any-link {
@@ -59,16 +59,17 @@ a:-webkit-any-link {
 }
 
 #img-wrapper {
-    max-width:45%;
+    max-width: 45%;
     margin-right: 25px;
+    -webkit-app-region: no-drag;
 }
 
 #playback-container {
-    position:relative;
-    left:50%;
+    position: relative;
+    left: 50%;
     bottom: 45px;
     transform: translateX(-50%);
-    display:inline-block;
+    display: inline-block;
 }
 
 #playpause-button,
@@ -123,19 +124,19 @@ a:-webkit-any-link {
     z-index: 3;
     width: fit-content;
     height: fit-content;
+    -webkit-app-region: no-drag;
 }
 
 .fadeInOut {
     transition-duration: 200ms;
-    transition-property: visibility, opacity;
+    transition-property: opacity;
     transition-delay: 0ms;
 }
 
 .hidden {
-    visibility: hidden;
     opacity: 0;
     transition-duration: 150ms;
-    transition-property: opacity, visibility;
+    transition-property: opacity;
     transition-delay: 200ms;
 }
 

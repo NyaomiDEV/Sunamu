@@ -34,10 +34,7 @@
 }
 
 .hidden {
-    visibility: hidden;
-    opacity: 0;
     transition-duration: 200ms;
-    transition-property: opacity, visibility;
     transition-delay: 200ms;
 }
 
