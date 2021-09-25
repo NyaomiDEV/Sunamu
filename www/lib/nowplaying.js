@@ -1,5 +1,5 @@
 import lang from "./lang.js";
-import songdata from "./songdata.js";
+import songdata, { fallback } from "./songdata.js";
 import { secondsToTime } from "./util.js";
 
 export function updateNowPlaying() {
@@ -35,3 +35,10 @@ export function updateSeekbar() {
 	const seekbarPercent = songdata.elapsed / songdata.metadata.length * 100;
 	document.getElementById("seekbar-now").style.width = `${seekbarPercent}%`;
 }
+
+window.np.registerUpdateCallback((update) => {
+	Object.assign(songdata, fallback, update);
+	songdata.elapsed = Math.floor(songdata.elapsed);
+	songdata.metadata.length = Math.floor(songdata.metadata.length);
+	updateNowPlaying();
+});

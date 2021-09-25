@@ -7,13 +7,10 @@ export function secondsToTime(duration) {
 }
 
 export function fullscreen() {
-	if (document.fullscreenElement != null) {
+	if (document.fullscreenElement != null)
 		document.webkitExitFullscreen();
-		document.getElementById("fullscreen-icon").textContent = "fullscreen";
-	} else {
+	else
 		document.documentElement.webkitRequestFullscreen();
-		document.getElementById("fullscreen-icon").textContent = "close_fullscreen";
-	}
 }
 
 export function themeToggle() {

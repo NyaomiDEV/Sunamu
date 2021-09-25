@@ -1,13 +1,4 @@
-import songdata, { fallback } from "./songdata.js";
-import { updateNowPlaying } from "./nowplaying.js";
-
-window.np.registerUpdateCallback((update) => {
-	Object.assign(songdata, fallback, update);
-	songdata.elapsed = Math.floor(songdata.elapsed);
-	songdata.metadata.length = Math.floor(songdata.metadata.length);
-	updateNowPlaying();
-});
-
+// ON LOAD
 document.addEventListener("DOMContentLoaded", () => {
 	let idleMouseTimer,
 		// eslint-disable-next-line no-unused-vars
@@ -33,4 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			setTimeout(() => forceMouseHide = false, 500);
 		}, 2000);
 	};
+});
+
+// ON FULLSCREEN CHANGE
+document.addEventListener("webkitfullscreenchange", () => {
+	if (document.fullscreenElement != null)
+		document.getElementById("fullscreen-icon").textContent = "close_fullscreen";
+	else
+		document.getElementById("fullscreen-icon").textContent = "fullscreen";
 });
