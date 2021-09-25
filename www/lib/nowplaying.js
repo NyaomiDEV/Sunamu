@@ -27,7 +27,7 @@ export function updateSeekbar() {
 	if((songdata.status !== "Playing" && songdata.status !== "Paused") || !songdata.capabilities.hasSeekbar)
 		return;
 
-	if(songdata.status === "Playing" || songdata.elapsed >= songdata.metadata.length)
+	if(songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
 		songdata.elapsed++;
 
 	document.getElementById("song-time").innerHTML = secondsToTime(songdata.elapsed) + " &middot; " + secondsToTime(songdata.metadata.length);
