@@ -17,8 +17,5 @@ export function clickEvent(e) {
 	const rect = document.getElementsByClassName("seekbar-bg")[0].getBoundingClientRect();
 	const x = e.clientX - rect.left;
 	const percentage = x / rect.width;
-	console.log(percentage);
 	window.np.seek(percentage);
 }
-
-document.getElementsByClassName("seekbar-bg")[0].onclick = clickEvent;
