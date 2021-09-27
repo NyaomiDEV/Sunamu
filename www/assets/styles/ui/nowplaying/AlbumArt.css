@@ -12,9 +12,9 @@
 	background-size: cover;
 	display: block;
 	border-radius: 20px;
-    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
-    width: 75vmin;
-    height: 75vmin;
+	box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+	width: 75vmin;
+	height: 75vmin;
 	max-width: 512px;
 	max-height: 512px;
 }
@@ -43,7 +43,7 @@
 	background-color: transparent;
 	padding: 8px;
 	margin: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 	border-radius: 32px;
 	transition: ease .5s background-color;
 }

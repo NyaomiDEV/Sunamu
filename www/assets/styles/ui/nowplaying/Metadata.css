@@ -8,19 +8,19 @@
 
 .metadata h1 {
 	font-weight: 700;
-    font-size: 70px;
-    margin: 2px;
+	font-size: 70px;
+	margin: 2px;
 }
 
 .metadata h2 {
 	font-weight: 500;
-    font-size: 50px;
-    margin: 4px;
+	font-size: 50px;
+	margin: 4px;
 }
 
 .metadata h3 {
 	font-weight: 400;
-    font-size: 35px;
+	font-size: 35px;
 	margin: 4px;
 }
 
@@ -50,6 +50,6 @@
 	.metadata h1,
 	.metadata h2,
 	.metadata h3 {
-    	text-align: center;
+		text-align: center;
 	}
 }

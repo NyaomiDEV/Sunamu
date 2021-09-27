@@ -1,18 +1,18 @@
 .seekbar-bg {
-    border-radius: 50px;
-    margin-top: 40px;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.50) !important;
+	border-radius: 50px;
+	margin-top: 40px;
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.50) !important;
 	display: flex;
-    height: auto;
-    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.30), 0 5px 15px rgba(0, 0, 0, 0.22) !important;
+	height: auto;
+	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.30), 0 5px 15px rgba(0, 0, 0, 0.22) !important;
 }
 
 #seekbar {
-    border-radius: 50px;
-    background-color: rgba(255, 255, 255, 0.90) !important;
-    height: 8px;
+	border-radius: 50px;
+	background-color: rgba(255, 255, 255, 0.90) !important;
+	height: 8px;
 	margin: 5px;
-    transition: linear width 1s;
-    min-width: 1rem;
+	transition: linear width 1s;
+	min-width: 1rem;
 }
