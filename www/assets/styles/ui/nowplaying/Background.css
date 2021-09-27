@@ -12,7 +12,6 @@
 	background-size: cover;
 	filter: blur(48px);
 	transition: ease 2s background-image;
-	-webkit-app-region: drag;
 }
 
 .background::after {

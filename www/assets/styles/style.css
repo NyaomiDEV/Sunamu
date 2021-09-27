@@ -6,3 +6,6 @@
 
 /* NowPlaying rules */
 @import url("ui/nowplaying/NowPlaying.css");
+
+/* Electron rules */
+@import url("ui/Electron.css");
