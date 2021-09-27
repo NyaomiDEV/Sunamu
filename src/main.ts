@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { resolve } from "path";
-import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat } from "./mpris2";
+import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage } from "./mpris2";
 
 let win: BrowserWindow;
 
@@ -18,6 +18,7 @@ async function main() {
 	ipcMain.on("shuffle", () => Shuffle());
 	ipcMain.on("repeat", () => Repeat());
 	ipcMain.on("minimize", () => win.minimize());
+	ipcMain.on("seek", (_e, perc) => SeekPercentage(perc));
 	ipcMain.on("close", () => {
 		win.close();
 		app.exit();

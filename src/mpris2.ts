@@ -109,6 +109,17 @@ export async function Seek(offset: number) {
 	if (activePlayer) players[activePlayer]?.Player?.Seek?.(offset);
 }
 
+export async function SeekPercentage(percentage: number) {
+	if (activePlayer) {
+		await players[activePlayer]?.Player?.SetPosition(
+			players[activePlayer]?.Player?.Metadata?.["mpris:trackid"],
+			// eslint-disable-next-line no-undef
+			BigInt(Math.floor(Number(players[activePlayer]?.Player?.Metadata?.["mpris:length"]) * percentage))
+		);
+		//updateCallback();
+	}
+}
+
 // UTILS
 async function addPlayer(name: string) {
 	players[name] = await getPlayer(name);
@@ -128,6 +139,7 @@ async function deletePlayer(name: string) {
 function registerPlayerEvents(name: string) {
 	players[name].Player.on("PropertiesChanged", (changed) => {
 		if (name === activePlayer) {
+			debug("changed", changed);
 			updateCallback();
 			return;
 		}
@@ -136,8 +148,10 @@ function registerPlayerEvents(name: string) {
 			calculateActivePlayer(name);
 	});
 
-	players[name].Player.on("Seeked", () => {
+	players[name].Player.on("Seeked", async (to) => {
 		if (name === activePlayer) {
+			debug("seeked", to);
+			await new Promise(resolve => setTimeout(resolve, 250)); // wait for new metadata to get populated by media player
 			updateCallback();
 			return;
 		}

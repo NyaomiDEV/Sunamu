@@ -5,6 +5,7 @@ const npApi = {
 	next: () => ipcRenderer.send("next"),
 	shuffle: () => ipcRenderer.send("shuffle"),
 	repeat: () => ipcRenderer.send("repeat"),
+	seek: (positionToSeekbar) => ipcRenderer.send("seek", positionToSeekbar),
 
 	previous: () => ipcRenderer.send("previous"),
 	minimize: () => ipcRenderer.send("minimize"),

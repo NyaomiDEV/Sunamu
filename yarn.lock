@@ -1896,8 +1896,8 @@ mkdirp@^0.5.4:
     minimist "^1.2.5"
 
 mpris-for-dummies@arytonex/mpris-for-dummies:
-  version "0.0.3"
-  resolved "https://codeload.github.com/arytonex/mpris-for-dummies/tar.gz/fd45f540422608e9b95eafe8af67d53f045ef572"
+  version "0.0.4"
+  resolved "https://codeload.github.com/arytonex/mpris-for-dummies/tar.gz/75770561cc4bb8ee0c480cce0cf9cff70378dcfe"
   dependencies:
     dbus-next "^0.8.2"
 
