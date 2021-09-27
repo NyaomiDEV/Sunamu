@@ -1,0 +1,24 @@
+.background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: -1;
+
+	background-image: var(--cover-art-url);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	filter: blur(48px);
+	transition: ease 2s background-image;
+	-webkit-app-region: drag;
+}
+
+.background::after {
+	content: " ";
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, .2);
+}

@@ -1,0 +1,32 @@
+.window-controls {
+    position: fixed;
+    top: 16px;
+    right: 24px;
+	z-index: 5;
+
+    width: fit-content;
+    height: fit-content;
+    -webkit-app-region: no-drag;
+
+    padding: 5px 10px 5px 10px;
+    margin: 10px;
+    background-color: #FFFFFF40;
+	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.30), 0 5px 15px rgba(0, 0, 0, 0.22) !important;
+    border-radius: 25px;
+
+    opacity: 1;
+    transition: ease .5s opacity;
+}
+
+.window-controls.hidden {
+    opacity: 0;
+}
+
+.window-controls > span {
+	color: white;
+	display: inline-block;
+	margin: 0px 4px;
+	cursor: default;
+	width: fit-content;
+	height: fit-content;
+}

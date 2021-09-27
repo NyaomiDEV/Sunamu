@@ -1,0 +1,23 @@
+@import url("Variables.css");
+@import url("Background.css");
+@import url("AlbumArt.css");
+@import url("Metadata.css");
+@import url("Seekbar.css");
+
+.now-playing {
+	color: white;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	-webkit-app-region: no-drag;
+}
+
+
+@media only screen and (max-width: 1249px) {
+	.now-playing{
+		flex-direction: column;
+	}
+}

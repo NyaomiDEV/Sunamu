@@ -1,0 +1,55 @@
+.metadata {
+	color: white;
+	width: 50vw;
+	min-width: 800px;
+	margin: 16px;
+
+}
+
+.metadata h1 {
+	font-weight: 700;
+    font-size: 70px;
+    margin: 2px;
+}
+
+.metadata h2 {
+	font-weight: 500;
+    font-size: 50px;
+    margin: 4px;
+}
+
+.metadata h3 {
+	font-weight: 400;
+    font-size: 35px;
+	margin: 4px;
+}
+
+.metadata h4 {
+	font-weight: 400;
+	font-size: 25px;
+}
+
+.metadata h1, .metadata h2,
+.metadata h3, .metadata h4 {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.metadata .left {
+	float: left;
+	text-align: left;
+}
+
+.metadata .right {
+	float: right;
+	text-align: right;
+}
+
+@media only screen and (max-width: 1249px) {
+	.metadata h1,
+	.metadata h2,
+	.metadata h3 {
+    	text-align: center;
+	}
+}

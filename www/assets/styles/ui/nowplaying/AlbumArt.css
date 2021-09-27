@@ -1,0 +1,67 @@
+.art-container {
+	position: relative;
+	margin: 16px;
+	width: fit-content;
+	height: fit-content;
+}
+
+.album-art {
+	background-image: var(--cover-art-url);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: block;
+	border-radius: 20px;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    width: 75vmin;
+    height: 75vmin;
+	max-width: 512px;
+	max-height: 512px;
+}
+
+.playback-controls {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	bottom: 24px;
+	width: 100%;
+	opacity: 1;
+	transition: ease .5s opacity;
+}
+
+.playback-controls.hidden {
+	opacity: 0;
+}
+
+.playback-controls > span {
+	color: white;
+	font-size: 24px;
+	background-color: rgba(0, 0, 0, 0.25);
+	backdrop-filter: blur(16px);
+	background-color: transparent;
+	padding: 8px;
+	margin: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+	border-radius: 32px;
+	transition: ease .5s background-color;
+}
+
+.playback-controls > span:hover {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.playback-controls > span.active {
+	color: black;
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+.playback-controls > span.active:hover {
+	color: black;
+	background-color: rgba(255, 255, 255, 0.50);
+}
+
+.playback-controls > #playpause {
+	font-size: 32px;
+}

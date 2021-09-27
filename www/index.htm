@@ -1,55 +1,53 @@
 <html lang="en">
 
 <head>
-	<title>Now Playing</title>
+	<title>NowPlaying</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<link id="playingcss" href="assets/styles/playing.css" rel="stylesheet">
-	<link id="playingcss-test" href="assets/styles/playingtest.css" rel="stylesheet alternate">
+	<link href="assets/styles/style.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="assets/styles/productsans.css" rel="stylesheet">
 
 	<script src="index.js" type="module"></script>
 </head>
 
 <body>
-	<div class="settings-div fadeInOut">
-		<a id="theme-button" href="#" onclick="themeToggle();">
-			<i id="theme-icon" class="material-icons theme-icon">palette</i>
-		</a>
-		<a id="minimize-button" href="#" onclick="np.minimize();">
-			<i id="minimize-icon" class="material-icons minimize-icon">minimize</i>
-		</a>
-		<a id="fullscreen-button" href="#" onclick="fullscreen();">
-			<i id="fullscreen-icon" class="material-icons settings-icon">fullscreen</i>
-		</a>
-		<a id="close-button" href="#" onclick="np.close();">
-			<i id="close-icon" class="material-icons close-icon">close</i>
-		</a>
+	<!-- Background -->
+	<div class="background"></div>
+
+	<!-- Window controls -->
+	<div class="window-controls">
+		<span class="material-icons minimize" onclick="np.minimize();">minimize</span>
+		<span class="material-icons fullscreen" onclick="fullscreen();">fullscreen</span>
+		<span class="material-icons close" onclick="np.close();">close</span>
 	</div>
-	<div id="playing-div">
-		<div id="img-wrapper"><img src="assets/images/no_song.png" id="playing-img">
-			<div id="playback-container" style="display: none;">
-				<div id="previous-button" class="material-icons" onclick="np.previous();">skip_previous</div>
-				<div id="playpause-button" class="material-icons" onclick="np.playpause();">play_arrow</div>
-				<div id="next-button" class="material-icons" onclick="np.next();">skip_next</div>
+
+	<!-- NowPlaying container -->
+	<div class="now-playing">
+
+		<!-- Album Art -->
+		<div class="art-container">
+			<div class="album-art"></div>
+			<div class="playback-controls">
+				<span id="shuffle" class="material-icons" onclick="np.shuffle();">shuffle</span>
+				<span id="previous" class="material-icons" onclick="np.previous();">skip_previous</span>
+				<span id="playpause" class="material-icons" onclick="np.playpause();">play_arrow</span>
+				<span id="next" class="material-icons" onclick="np.next();">skip_next</span>
+				<span id="repeat" class="material-icons" onclick="np.repeat();">repeat</span>
 			</div>
 		</div>
-		<div id="song-info-div">
-			<h1 id="song-title"></h1>
-			<h2 id="song-artist"></h2>
-			<h2 id="song-album"></h2>
-			<div id="seekbar-bg" style="display: none;">
-				<div id="seekbar-now" style="width: 0%"></div>
+
+		<!-- Metadata -->
+		<div class="metadata">
+			<h1 id="title"></h1>
+			<h2 id="artist"></h2>
+			<h3 id="album"></h3>
+			<div class="seekbar-bg">
+				<div id="seekbar"></div>
 			</div>
-			<h3 class="left fadeInOut" id="activestate">
-				<!-- todo app icon symbolic -->
-				<span id="app-name"></span>
-				<h3 class="right" id="song-time"></h3>
+
+			<h4 class="left" id="app-name"></h4>
+			<h4 class="right" id="time"></h4>
 		</div>
-	</div>
-	<div id="background-image-div"
-		style="background-image: url('assets/images/no_song.png'); background-size: cover; background-position: center center;">
-		<div class="darken"></div>
+
 	</div>
 </body>
 

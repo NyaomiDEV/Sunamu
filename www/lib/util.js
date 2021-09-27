@@ -12,18 +12,3 @@ export function fullscreen() {
 	else
 		document.documentElement.webkitRequestFullscreen();
 }
-
-export function themeToggle() {
-	if (localStorage.getItem("theme") === null || localStorage.getItem("theme") === "original") {
-		localStorage.setItem("theme", "test");
-		document.getElementById("playingcss-test").rel = "stylesheet";
-	} else {
-		localStorage.setItem("theme", "original");
-		document.getElementById("playingcss-test").rel = "stylesheet alternate";
-	}
-}
-
-export function theme(){
-	if (localStorage.getItem("theme") === "test")
-		document.getElementById("playingcss-test").rel = "stylesheet";
-}

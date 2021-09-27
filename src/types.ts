@@ -2,10 +2,13 @@ export type NowPlayingAPI = {
 	playpause: () => void,
 	next: () => void,
 	previous: () => void,
+	shuffle: () => void,
+	repeat: () => void,
 
 	minimize: () => void,
 	close: () => void,
 
+	// eslint-disable-next-line no-unused-vars
 	registerUpdateCallback: (callback: Function) => void
 }
 
@@ -25,6 +28,7 @@ export type Capabilities = {
 }
 
 export type Update = {
+	provider: "MPRIS2",
 	metadata: Metadata,
 	capabilities: Capabilities,
 	status: string,

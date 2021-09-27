@@ -1,9 +1,10 @@
 import lang from "./lang.js";
 
 export const fallback = {
+	provider: undefined,
 	metadata: {
-		title: lang.en.NOT_PLAYING,
-		artist: lang.en.PLEASE_PLAY_SONG,
+		title: lang.NOT_PLAYING,
+		artist: lang.PLEASE_PLAY_SONG,
 		album: undefined,
 		artUrl: undefined,
 		length: undefined
@@ -15,6 +16,9 @@ export const fallback = {
 		hasSeekbar: false
 	},
 	status: "Stopped",
+	loop: "None",
+	shuffle: false,
+	volume: 0,
 	elapsed: 0,
 	app: undefined,
 	appName: undefined

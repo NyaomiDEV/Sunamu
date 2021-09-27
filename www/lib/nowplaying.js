@@ -4,23 +4,48 @@ import { secondsToTime } from "./util.js";
 
 export function updateNowPlaying() {
 	// METADATA
-	document.getElementById("playing-img").src = songdata.metadata.artUrl || "assets/images/no_song.png";
-	document.getElementById("background-image-div").style.backgroundImage = `url(${songdata.metadata.artUrl || "assets/images/no_song.png"})`;
-	document.getElementById("song-title").textContent = songdata.metadata.title || lang.en.NOT_PLAYING;
-	document.getElementById("song-artist").textContent = songdata.metadata.artist || lang.en.PLEASE_PLAY_SONG;
-	document.getElementById("song-album").textContent = songdata.metadata.album || "";
-	document.getElementById("app-name").textContent = songdata.appName ? `Playing on ${songdata.appName}` : "";
-	document.getElementById("playpause-button").textContent = songdata.status === "Playing" ? "pause" : "play_arrow";
-	document.getElementById("song-time").textContent = songdata.metadata.length ? secondsToTime(songdata.metadata.length) : "";
+	if (songdata.metadata.artUrl)
+		document.querySelector(":root").style.setProperty("--cover-art-url", `url(${songdata.metadata.artUrl})`);
+	else
+		document.querySelector(":root").style.removeProperty("--cover-art-url");
 
-	// CONTROLS
-	document.getElementById("playback-container").style.display = songdata.capabilities.canControl ? "" : "none";
-	document.getElementById("playpause-button").style.display = songdata.capabilities.canPlayPause ? "" : "none";
-	document.getElementById("next-button").style.display = songdata.capabilities.canChangeTrack ? "" : "none";
-	document.getElementById("previous-button").style.display = songdata.capabilities.canChangeTrack ? "" : "none";
+	document.getElementById("title").textContent = songdata.metadata.title || lang.NOT_PLAYING;
+	document.getElementById("artist").textContent = songdata.metadata.artist || lang.PLEASE_PLAY_SONG;
+	document.getElementById("album").textContent = songdata.metadata.album || "";
+	document.getElementById("app-name").textContent = songdata.appName ? lang.PLAYING_ON_APP.replace("%APP%", songdata.appName) : "";
+	document.getElementById("time").textContent = songdata.metadata.length ? secondsToTime(songdata.metadata.length) : "";
+
+	// CONTROLS VISIBILITY
+	document.getElementsByClassName("playback-controls")[0].style.display = songdata.capabilities.canControl ? "" : "none";
+	document.getElementById("playpause").style.display = songdata.capabilities.canPlayPause ? "" : "none";
+	document.getElementById("next").style.display = songdata.capabilities.canChangeTrack ? "" : "none";
+	document.getElementById("previous").style.display = songdata.capabilities.canChangeTrack ? "" : "none";
+
+	// CONTROLS STATUS
+	document.getElementById("playpause").textContent = songdata.status === "Playing" ? "pause" : "play_arrow";
+
+	const shuffleBtn = document.getElementById("shuffle");
+	if(songdata.shuffle) shuffleBtn.classList.add("active");
+	else shuffleBtn.classList.remove("active");
+
+	const repeatBtn = document.getElementById("repeat");
+	switch(songdata.loop){
+		default:
+			repeatBtn.classList.remove("active");
+			repeatBtn.textContent = "repeat";
+			break;
+		case "Track":
+			repeatBtn.classList.add("active");
+			repeatBtn.textContent = "repeat_one";
+			break;
+		case "Playlist":
+			repeatBtn.classList.add("active");
+			repeatBtn.textContent = "repeat";
+			break;
+	}
 
 	// SEEKBAR
-	document.getElementById("seekbar-bg").style.display = songdata.capabilities.hasSeekbar ? "" : "none";
+	document.getElementsByClassName("seekbar-bg")[0].style.display = songdata.capabilities.hasSeekbar ? "" : "none";
 }
 
 export function updateSeekbar() {
@@ -30,10 +55,10 @@ export function updateSeekbar() {
 	if(songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
 		songdata.elapsed++;
 
-	document.getElementById("song-time").innerHTML = secondsToTime(songdata.elapsed) + " &middot; " + secondsToTime(songdata.metadata.length);
+	document.getElementById("time").innerHTML = secondsToTime(songdata.elapsed) + " &middot; " + secondsToTime(songdata.metadata.length);
 
 	const seekbarPercent = songdata.elapsed / songdata.metadata.length * 100;
-	document.getElementById("seekbar-now").style.width = `${seekbarPercent}%`;
+	document.getElementById("seekbar").style.width = `${seekbarPercent}%`;
 }
 
 window.np.registerUpdateCallback((update) => {
