@@ -1,8 +1,16 @@
 import lang from "./lang.js";
+import { putLyricsInPlace, queryLyrics, updateActiveLyrics } from "./lyrics.js";
 import songdata, { fallback } from "./songdata.js";
 import { secondsToTime } from "./util.js";
+import { updateSeekbar } from "./seekbar.js";
 
-export function updateNowPlaying() {
+export async function updateNowPlaying() {
+	// TITLE
+	if(songdata.provider)
+		document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - NowPlaying";
+	else
+		document.title = "NowPlaying";
+
 	// METADATA
 	if (songdata.metadata.artUrl)
 		document.querySelector(":root").style.setProperty("--cover-art-url", `url(${songdata.metadata.artUrl})`);
@@ -48,22 +56,45 @@ export function updateNowPlaying() {
 	document.getElementsByClassName("seekbar-bg")[0].style.display = songdata.capabilities.hasSeekbar ? "" : "none";
 }
 
-export function updateSeekbar() {
-	if((songdata.status !== "Playing" && songdata.status !== "Paused") || !songdata.capabilities.hasSeekbar)
+export async function pollPosition() {
+	if ((songdata.status !== "Playing" && songdata.status !== "Paused") || !songdata.capabilities.hasSeekbar)
 		return;
 
-	if(songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
-		songdata.elapsed++;
+	if (songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
+		songdata.elapsed = await window.np.getposition();
 
-	document.getElementById("time").innerHTML = secondsToTime(songdata.elapsed) + " &middot; " + secondsToTime(songdata.metadata.length);
-
-	const seekbarPercent = songdata.elapsed / songdata.metadata.length * 100;
-	document.getElementById("seekbar").style.width = `${seekbarPercent}%`;
+	// calls
+	updateTime();
+	updateSeekbar();
+	updateActiveLyrics();
 }
 
-window.np.registerUpdateCallback((update) => {
-	Object.assign(songdata, fallback, update);
-	songdata.elapsed = Math.floor(songdata.elapsed);
-	songdata.metadata.length = Math.floor(songdata.metadata.length);
+function updateTime() {
+	document.getElementById("time").innerHTML = secondsToTime(songdata.elapsed) + " &middot; " + secondsToTime(songdata.metadata.length);
+}
+
+window.np.registerUpdateCallback(async (update) => {
+	// PRE CHECK IF SOMETHING HAS CHANGED ACTUALLY
+	let metadataChanged = false;
+	if(!update) metadataChanged = true;
+	else {
+		for(let key in songdata.metadata){
+			if(songdata.metadata[key] !== update.metadata[key]){
+				metadataChanged = true;
+				break;
+			}
+		}
+	}
+
+	if(!update) Object.assign(songdata, fallback);
+	else Object.assign(songdata, update);
+
 	updateNowPlaying();
+
+	if(songdata.provider && metadataChanged){
+		// we reset lyrics because metadata has changed
+		songdata.lyrics = undefined;
+		await queryLyrics();
+		putLyricsInPlace();
+	}
 });

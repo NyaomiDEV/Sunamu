@@ -3,6 +3,7 @@
 @import url("AlbumArt.css");
 @import url("Metadata.css");
 @import url("Seekbar.css");
+@import url("Lyrics.css");
 
 .now-playing {
 	color: white;

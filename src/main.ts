@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { resolve } from "path";
-import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage } from "./mpris2";
+import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage, GetPosition } from "./mpris2";
 
 let win: BrowserWindow;
 
@@ -23,6 +23,8 @@ async function main() {
 		win.close();
 		app.exit();
 	});
+
+	ipcMain.handle("getposition", async () => await GetPosition());
 
 	await app.whenReady();
 	await spawnWindow();

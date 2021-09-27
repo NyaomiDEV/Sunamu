@@ -15,9 +15,10 @@
 
 	<!-- Window controls -->
 	<div class="window-controls">
-		<span class="material-icons minimize" onclick="np.minimize();">minimize</span>
-		<span class="material-icons fullscreen" onclick="fullscreen();">fullscreen</span>
-		<span class="material-icons close" onclick="np.close();">close</span>
+		<span class="material-icons lyrics-btn">mic</span>
+		<span class="material-icons minimize">minimize</span>
+		<span class="material-icons fullscreen">fullscreen</span>
+		<span class="material-icons close">close</span>
 	</div>
 
 	<!-- NowPlaying container -->
@@ -27,11 +28,11 @@
 		<div class="art-container">
 			<div class="album-art"></div>
 			<div class="playback-controls">
-				<span id="shuffle" class="material-icons" onclick="np.shuffle();">shuffle</span>
-				<span id="previous" class="material-icons" onclick="np.previous();">skip_previous</span>
-				<span id="playpause" class="material-icons" onclick="np.playpause();">play_arrow</span>
-				<span id="next" class="material-icons" onclick="np.next();">skip_next</span>
-				<span id="repeat" class="material-icons" onclick="np.repeat();">repeat</span>
+				<span id="shuffle" class="material-icons">shuffle</span>
+				<span id="previous" class="material-icons">skip_previous</span>
+				<span id="playpause" class="material-icons">play_arrow</span>
+				<span id="next" class="material-icons">skip_next</span>
+				<span id="repeat" class="material-icons">repeat</span>
 			</div>
 		</div>
 
@@ -47,6 +48,9 @@
 			<h4 class="left" id="app-name"></h4>
 			<h4 class="right" id="time"></h4>
 		</div>
+
+		<!-- Lyrics -->
+		<div class="lyrics" style="display: none;"></div>
 
 	</div>
 </body>

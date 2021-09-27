@@ -1,32 +1,31 @@
 .metadata {
 	color: white;
-	width: 50vw;
+	width: 40vw;
 	min-width: 800px;
 	margin: 16px;
-
 }
 
 .metadata h1 {
 	font-weight: 700;
-	font-size: 70px;
+	font-size: 72px;
 	margin: 2px;
 }
 
 .metadata h2 {
 	font-weight: 500;
-	font-size: 50px;
+	font-size: 48px;
 	margin: 4px;
 }
 
 .metadata h3 {
 	font-weight: 400;
-	font-size: 35px;
+	font-size: 32px;
 	margin: 4px;
 }
 
 .metadata h4 {
 	font-weight: 400;
-	font-size: 25px;
+	font-size: 24px;
 }
 
 .metadata h1, .metadata h2,
@@ -47,6 +46,22 @@
 }
 
 @media only screen and (max-width: 1249px) {
+	.metadata h1 {
+		font-size: 48px;
+	}
+
+	.metadata h2 {
+		font-size: 40px;
+	}
+
+	.metadata h3 {
+		font-size: 32px;
+	}
+
+	.metadata h4 {
+		font-size: 24px;
+	}
+
 	.metadata h1,
 	.metadata h2,
 	.metadata h3 {

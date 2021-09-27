@@ -13,9 +13,28 @@ export function fullscreen() {
 		document.documentElement.webkitRequestFullscreen();
 }
 
-export function clickEvent(e) {
-	const rect = document.getElementsByClassName("seekbar-bg")[0].getBoundingClientRect();
-	const x = e.clientX - rect.left;
-	const percentage = x / rect.width;
-	window.np.seek(percentage);
+export function toggleLyricsView(){
+	if(document.getElementsByClassName("metadata")[0].style.display === "none"){
+		document.getElementsByClassName("metadata")[0].style.display = "";
+		document.getElementsByClassName("lyrics")[0].style.display = "none";
+	}else{
+		document.getElementsByClassName("metadata")[0].style.display = "none";
+		document.getElementsByClassName("lyrics")[0].style.display = "";
+		
+		if(document.getElementsByClassName("lyrics")[0].children.length === 1){
+			// assuming we only have one child so it is the no lyrics child
+			document.getElementsByClassName("lyrics")[0].children[0].scrollIntoView({
+				inline: "center",
+				block: "center",
+				behavior: "auto"
+			});
+		}else{
+			// we do have lyrics so we scroll to the active one
+			document.getElementsByClassName("line active")[0]?.scrollIntoView({
+				inline: "center",
+				block: "center",
+				behavior: "auto"
+			});
+		}
+	}
 }

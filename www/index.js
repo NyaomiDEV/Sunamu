@@ -1,17 +1,16 @@
 /* eslint-disable no-undef */
 import "./lib/event.js";
-import { updateNowPlaying, updateSeekbar } from "./lib/nowplaying.js";
+import { pollPosition, updateNowPlaying } from "./lib/nowplaying.js";
 import songdata from "./lib/songdata.js";
-import { fullscreen, clickEvent } from "./lib/util.js";
+import "./lib/seekbar.js";
+import "./lib/buttons.js";
+
+if (window.transparentBackground)
+	document.getElementsByClassName("background")[0].style.display = "none";
 
 updateNowPlaying();
-setInterval(updateSeekbar, 1000);
+setInterval(pollPosition, 200);
 
-window.fullscreen = fullscreen;
-
-window.getNowPlaying = () => songdata;
-
-document.getElementsByClassName("seekbar-bg")[0].onclick = clickEvent;
-
-if(window.transparentBackground)
-	document.getElementsByClassName("background")[0].style.display = "none";
+// Expose debug stuff
+if(window.debugMode)
+	window.getNowPlaying = () => songdata;

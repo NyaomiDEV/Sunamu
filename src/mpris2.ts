@@ -120,6 +120,14 @@ export async function SeekPercentage(percentage: number) {
 	}
 }
 
+export async function GetPosition() {
+	if (activePlayer){
+		const pos = await players[activePlayer]?.Player?.GetPosition?.();
+		return Number(pos) / 1000000;
+	}
+	return undefined;
+}
+
 // UTILS
 async function addPlayer(name: string) {
 	players[name] = await getPlayer(name);

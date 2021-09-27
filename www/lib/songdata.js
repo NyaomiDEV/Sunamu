@@ -21,7 +21,8 @@ export const fallback = {
 	volume: 0,
 	elapsed: 0,
 	app: undefined,
-	appName: undefined
+	appName: undefined,
+	lyrics: undefined
 };
 
 export default Object.assign({}, fallback);

@@ -1,18 +1,31 @@
 .seekbar-bg {
-	border-radius: 50px;
+	border-radius: 8px;
 	margin-top: 40px;
 	width: 100%;
-	background-color: rgba(255, 255, 255, 0.50) !important;
+	background-color: rgba(255, 255, 255, 0.50);
 	display: flex;
-	height: auto;
-	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.30), 0 5px 15px rgba(0, 0, 0, 0.22) !important;
+	height: 16px;
+	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3), 0 5px 16px rgba(0, 0, 0, 0.2);
 }
 
 #seekbar {
-	border-radius: 50px;
-	background-color: rgba(255, 255, 255, 0.90) !important;
+	border-radius: 8px;
+	background-color: rgba(255, 255, 255, 0.8);
 	height: 8px;
-	margin: 5px;
-	transition: linear width 1s;
+	margin: 4px;
+	transition: linear .2s width,
+				ease .25s margin,
+				ease .25s height,
+				ease .25s background-color;
 	min-width: 1rem;
+}
+
+.seekbar-bg:hover #seekbar {
+	background-color: rgb(255, 255, 255);
+	margin: 0;
+	height: 100%;
+}
+
+#seekbar.dragging {
+	transition: none;
 }

@@ -1,17 +1,16 @@
 .window-controls {
 	position: fixed;
-	top: 16px;
+	top: 24px;
 	right: 24px;
 	z-index: 5;
 
 	width: fit-content;
 	height: fit-content;
 
-	padding: 5px 10px 5px 10px;
-	margin: 10px;
+	padding: 4px 8px;
 	background-color: #FFFFFF40;
-	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.30), 0 5px 15px rgba(0, 0, 0, 0.22) !important;
-	border-radius: 25px;
+	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+	border-radius: 24px;
 
 	opacity: 1;
 	transition: ease .5s opacity;
