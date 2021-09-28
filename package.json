@@ -15,8 +15,8 @@
   },
   "scripts": {
     "lint": "eslint src/ --ext .ts",
-    "test": "DEBUG=1 electron test.js",
-    "run": "electron .",
+    "test": "tsc && DEBUG=1 electron .",
+    "run": "tsc && electron .",
     "build": "tsc && electron-builder",
     "release": "tsc && electron-builder",
     "postinstall": "electron-builder install-app-deps",
@@ -30,8 +30,7 @@
     "electron": "^15.0.0",
     "electron-builder": "^22.11.7",
     "eslint": "^7.18.0",
-    "typescript": "^4.1.3",
-    "ts-node": "^10.1.0"
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "mpris-for-dummies": "arytonex/mpris-for-dummies"
