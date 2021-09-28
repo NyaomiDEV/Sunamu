@@ -23,8 +23,9 @@ export type Metadata = {
 export type Capabilities = {
 	canControl: boolean,
 	canPlayPause: boolean,
-	canChangeTrack: boolean,
-	hasSeekbar: boolean
+	canGoNext: boolean,
+	canGoPrevious: boolean,
+	canSeek: boolean
 }
 
 export type Update = {

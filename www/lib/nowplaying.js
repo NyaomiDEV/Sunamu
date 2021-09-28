@@ -26,8 +26,8 @@ export async function updateNowPlaying() {
 	// CONTROLS VISIBILITY
 	document.getElementsByClassName("playback-controls")[0].style.display = songdata.capabilities.canControl ? "" : "none";
 	document.getElementById("playpause").style.display = songdata.capabilities.canPlayPause ? "" : "none";
-	document.getElementById("next").style.display = songdata.capabilities.canChangeTrack ? "" : "none";
-	document.getElementById("previous").style.display = songdata.capabilities.canChangeTrack ? "" : "none";
+	document.getElementById("next").style.display = songdata.capabilities.canGoNext ? "" : "none";
+	document.getElementById("previous").style.display = songdata.capabilities.canGoPrevious ? "" : "none";
 
 	// CONTROLS STATUS
 	document.getElementById("playpause").textContent = songdata.status === "Playing" ? "pause" : "play_arrow";
@@ -53,11 +53,11 @@ export async function updateNowPlaying() {
 	}
 
 	// SEEKBAR
-	document.getElementsByClassName("seekbar-bg")[0].style.display = songdata.capabilities.hasSeekbar ? "" : "none";
+	document.getElementsByClassName("seekbar-bg")[0].style.display = songdata.capabilities.canSeek ? "" : "none";
 }
 
 export async function pollPosition() {
-	if ((songdata.status !== "Playing" && songdata.status !== "Paused") || !songdata.capabilities.hasSeekbar)
+	if ((songdata.status !== "Playing" && songdata.status !== "Paused") || !songdata.capabilities.canSeek)
 		return;
 
 	if (songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)

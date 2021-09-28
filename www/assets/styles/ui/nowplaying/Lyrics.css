@@ -18,7 +18,7 @@
 	content: "";
 	position: relative;
 	width: 100%;
-	padding-top: 16px;
+	padding-top: 32px;
 }
 
 .lyrics .line {
@@ -39,7 +39,7 @@
 }
 
 .lyrics.synchronized::before, .lyrics.synchronized::after {
-	padding-top: calc(50vh / 2 - 32px);
+	padding-top: 100vh;
 }
 
 .lyrics.synchronized .line {

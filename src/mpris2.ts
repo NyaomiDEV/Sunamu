@@ -39,8 +39,9 @@ export async function getUpdate(): Promise<Update | null> {
 		capabilities: {
 			canControl: players[activePlayer].Player.CanControl || false,
 			canPlayPause: players[activePlayer].Player.CanPause || players[activePlayer].Player.CanPlay || false,
-			canChangeTrack: players[activePlayer].Player.CanGoNext || players[activePlayer].Player.CanGoPrevious || false,
-			hasSeekbar: players[activePlayer].Player.CanSeek || false
+			canGoNext: players[activePlayer].Player.CanGoNext || false,
+			canGoPrevious: players[activePlayer].Player.CanGoPrevious || false,
+			canSeek: players[activePlayer].Player.CanSeek || false
 		},
 		status: players[activePlayer].Player.PlaybackStatus || "Stopped",
 		loop: players[activePlayer].Player.LoopStatus || "None",

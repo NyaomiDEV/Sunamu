@@ -12,8 +12,9 @@ export const fallback = {
 	capabilities: {
 		canControl: false,
 		canPlayPause: false,
-		canChangeTrack: false,
-		hasSeekbar: false
+		canGoNext: false,
+		canGoPrevious: false,
+		canSeek: false
 	},
 	status: "Stopped",
 	loop: "None",
