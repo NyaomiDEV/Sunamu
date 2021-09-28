@@ -14,7 +14,7 @@
     "test": "DEBUG=1 electron .",
     "run": "electron .",
     "build": "electron-builder",
-    "postinstall": "yarn build"
+    "postinstall": "electron-builder install-app-deps"
   },
   "devDependencies": {
     "@types/node": "^14.14.22",
