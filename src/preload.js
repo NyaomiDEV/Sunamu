@@ -1,14 +1,17 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
+/** @type {import("./types").NowPlayingAPI} */
 const npApi = {
+	previous: () => ipcRenderer.send("previous"),
 	playpause: () => ipcRenderer.send("playpause"),
 	next: () => ipcRenderer.send("next"),
+
 	shuffle: () => ipcRenderer.send("shuffle"),
 	repeat: () => ipcRenderer.send("repeat"),
+
 	seek: (positionToSeekbar) => ipcRenderer.send("seek", positionToSeekbar),
 	getposition: () => ipcRenderer.invoke("getposition"),
 
-	previous: () => ipcRenderer.send("previous"),
 	minimize: () => ipcRenderer.send("minimize"),
 	close: () => ipcRenderer.send("close"),
 

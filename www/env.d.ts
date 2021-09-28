@@ -1,0 +1,21 @@
+import { NowPlayingAPI } from "../src/types";
+declare global {
+	export type Lyrics = {
+		provider: string,
+		synchronized: boolean,
+		lines: LyricsLine[],
+		copyright: string
+	}
+
+	export type LyricsLine = {
+		text: string,
+		time?: number
+	}
+
+	// eslint-disable-next-line no-unused-vars
+	interface Window {
+		np: NowPlayingAPI;
+		transparentBackground: boolean;
+		debugMode: boolean;
+	}
+}

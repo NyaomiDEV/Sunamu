@@ -2,10 +2,12 @@ import songdata from "../songdata.js";
 
 const musixmatch = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get?format=json&namespace=lyrics_richsynched&subtitle_format=mxm&app_id=web-desktop-app-v1.0";
 
+/** @return {Lyrics} */
 export async function query() {
 	if (!window.localStorage.mxmusertoken)
 		return undefined;
 
+	/** @type {Lyrics} */
 	const reply = {
 		provider: "Musixmatch",
 		synchronized: true,

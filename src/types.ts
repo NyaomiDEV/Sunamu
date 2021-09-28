@@ -1,9 +1,14 @@
 export type NowPlayingAPI = {
+	previous: () => void,
 	playpause: () => void,
 	next: () => void,
-	previous: () => void,
+
 	shuffle: () => void,
 	repeat: () => void,
+
+	// eslint-disable-next-line no-unused-vars
+	seek: (positionToSeekbar: number) => void,
+	getposition: () => Promise<number>
 
 	minimize: () => void,
 	close: () => void,

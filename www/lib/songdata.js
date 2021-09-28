@@ -1,5 +1,6 @@
 import lang from "./lang.js";
 
+/** @type { import("../../src/types").Update & {lyrics: Lyrics} } */
 export const fallback = {
 	provider: undefined,
 	metadata: {
@@ -26,4 +27,5 @@ export const fallback = {
 	lyrics: undefined
 };
 
+/** @type { import("../../src/types").Update & {lyrics: Lyrics} } */
 export default Object.assign({}, fallback);
