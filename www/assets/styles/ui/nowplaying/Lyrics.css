@@ -46,7 +46,8 @@
 	color: rgba(255,255,255,0.7);
 	transition: ease .2s color,
 				ease .2s font-size,
-				ease .2s font-weight;
+				ease .2s font-weight,
+				ease .2s margin;
 }
 
 .lyrics.synchronized .line.active {
