@@ -1,6 +1,26 @@
 appId: xyz.nyaomi.nowplaying-electron
 productName: NowPlaying-Electron
 copyright: Copyright © 2021 Naomi Calabretta
+directories:
+  output: targets
+files:
+  - "**/*"
+  - "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+  - "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+  - "!**/node_modules/*.d.ts"
+  - "!**/node_modules/.bin"
+  - "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}"
+  - "!.editorconfig"
+  - "!**/._*"
+  - "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}"
+  - "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}"
+  - "!**/{appveyor.yml,.travis.yml,circle.yml}"
+  - "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+  - "!src/*"
+  - "!.eslintrc.json"
+  - "!test.js"
+  - "!README.md"
+  - "!tsconfig.json"
 linux:
   target:
   - AppImage
@@ -11,7 +31,7 @@ linux:
   maintainer: Naomi Calabretta
   vendor: Naomi Calabretta
   executableName: NowPlaying
-  icon: src/app_icon.png
+  icon: assets/icons
   synopsis: Beautiful app to show which music you are playing
   description: Inspired by NowPlaying-Spotify, show what you are playing to your friends with this beautiful application
   category: Multimedia

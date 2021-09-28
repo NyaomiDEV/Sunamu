@@ -17,9 +17,12 @@ export function toggleLyricsView(){
 	if(document.getElementsByClassName("metadata")[0].style.display === "none"){
 		document.getElementsByClassName("metadata")[0].style.display = "";
 		document.getElementsByClassName("lyrics")[0].style.display = "none";
+		document.getElementsByClassName("lyrics-footer")[0].style.display = "none";
 	}else{
 		document.getElementsByClassName("metadata")[0].style.display = "none";
 		document.getElementsByClassName("lyrics")[0].style.display = "";
+		document.getElementsByClassName("lyrics-footer")[0].style.display = "";
+
 		
 		if(document.getElementsByClassName("lyrics")[0].children.length === 1){
 			// assuming we only have one child so it is the no lyrics child

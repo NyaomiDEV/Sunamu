@@ -91,10 +91,12 @@ window.np.registerUpdateCallback(async (update) => {
 
 	updateNowPlaying();
 
-	if(songdata.provider && metadataChanged){
-		// we reset lyrics because metadata has changed
+	if (metadataChanged){
 		songdata.lyrics = undefined;
-		await queryLyrics();
-		putLyricsInPlace();
+		if (songdata.provider)
+			await queryLyrics();
 	}
+
+	// This refreshes the lyrics screen
+	putLyricsInPlace();
 });

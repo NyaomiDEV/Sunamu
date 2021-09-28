@@ -45,7 +45,7 @@ async function spawnWindow() {
 			preload: resolve(__dirname, "preload.js")
 		},
 		roundedCorners: true,
-		icon: resolve(__dirname, "app_icon.png")
+		icon: resolve(__dirname, "..", "assets", "icons", "512x512.png")
 	});
 
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));

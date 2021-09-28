@@ -1,14 +1,15 @@
 .lyrics {
 	width: 40vw;
 	min-width: 800px;
-	height: 50vh;
+	height: 75vh;
 	max-height: 512px;
 	margin: 16px;
 	overflow-x: hidden;
-	overflow-y: hidden;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+	scrollbar-color: rgba(255,255,255,.6) transparent;
+	scrollbar-width: thin;
 	mask-image: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
 	-webkit-mask-image: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
 }
@@ -17,26 +18,57 @@
 	content: "";
 	position: relative;
 	width: 100%;
-	padding-top: calc(50vh / 2 - 32px);
+	padding-top: 16px;
 }
 
 .lyrics .line {
 	display: block;
 	font-weight: 500;
-	color: rgba(255,255,255,0.7);
+	color: white;
 	font-size: 32px;
 	margin: 2px;
+}
+
+.lyrics .line:empty,
+.lyrics.synchronized .line:empty {
+	margin: 8px;
+}
+
+.lyrics.synchronized {
+	overflow-y: hidden;
+}
+
+.lyrics.synchronized::before, .lyrics.synchronized::after {
+	padding-top: calc(50vh / 2 - 32px);
+}
+
+.lyrics.synchronized .line {
+	color: rgba(255,255,255,0.7);
 	transition: ease .2s color,
 				ease .2s font-size,
 				ease .2s font-weight;
 }
 
-.lyrics .line.active {
+.lyrics.synchronized .line.active {
 	display: block;
 	font-weight: 700;
 	color: white;
 	font-size: 40px;
 	margin: 8px;
+}
+
+.lyrics.synchronized .line.active:empty {
+	margin: 16px;
+}
+
+.lyrics-footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	margin: 16px;
+	font-size: 16px;
+	color: rgba(255, 255, 255, .6);
+	text-align: left;
 }
 
 @media only screen and (max-width: 1249px) {
@@ -45,16 +77,21 @@
 		align-items: center;
 	}
 
-	.lyrics::before, .lyrics::after {
-		padding-top: calc(50vh / 2 - 16px);
-	}
-
-	.lyrics .line {
+	.lyrics .line, .lyrics.synchronized .line {
 		font-size: 24px;
 		text-align: center;
 	}
 
-	.lyrics .line.active {
+	.lyrics.synchronized::before, .lyrics.synchronized::after {
+		padding-top: calc(50vh / 2 - 16px);
+	}
+
+	.lyrics.synchronized .line.active {
 		font-size: 32px;
+	}
+
+	.lyrics-footer {
+		right: 0;
+		text-align: center;
 	}
 }

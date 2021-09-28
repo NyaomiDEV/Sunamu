@@ -38,8 +38,7 @@
 .playback-controls > span {
 	color: white;
 	font-size: 24px;
-	background-color: rgba(0, 0, 0, 0.25);
-	backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px) brightness(60%) saturate(200%);
 	background-color: transparent;
 	padding: 8px;
 	margin: 8px;
