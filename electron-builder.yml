@@ -2,7 +2,12 @@ appId: xyz.nyaomi.nowplaying-electron
 productName: NowPlaying-Electron
 copyright: Copyright © 2021 Naomi Calabretta
 linux:
-  target: AppImage
+  target:
+  - AppImage
+  - deb
+  - rpm
+  - pacman
+  - tar.xz
   maintainer: Naomi Calabretta
   vendor: Naomi Calabretta
   executableName: NowPlaying
@@ -11,3 +16,6 @@ linux:
   description: Inspired by NowPlaying-Spotify, show what you are playing to your friends with this beautiful application
   category: Multimedia
   desktop: nowplaying-electron
+  publish:
+    - github
+
