@@ -1,7 +1,7 @@
 {
   "name": "nowplaying-electron",
   "description": "Beautiful app to show which music you are playing",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "lib/index.js",
   "license": "MPL-2.0",
   "author": {
