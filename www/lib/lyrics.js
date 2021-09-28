@@ -39,7 +39,7 @@ export function putLyricsInPlace(){
 	}
 
 	// we are good with lyrics so we push them all
-	if(songdata.lyrics.synchronized)
+	if(songdata.lyrics.synchronized && songdata.capabilities.hasSeekbar)
 		container.classList.add("synchronized");
 
 	for(const line of songdata.lyrics.lines){
@@ -54,7 +54,7 @@ export function putLyricsInPlace(){
 }
 
 export function updateActiveLyrics(){
-	if (!songdata.lyrics || !songdata.lyrics.synchronized) return;
+	if (!songdata.lyrics || !songdata.lyrics.synchronized || !songdata.capabilities.hasSeekbar) return;
 	// we get the active one
 	let lineIndex = songdata.lyrics.lines.length - 1;
 	for(let i = 0; i < songdata.lyrics.lines.length; i++){
