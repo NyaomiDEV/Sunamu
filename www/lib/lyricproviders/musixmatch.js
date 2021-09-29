@@ -1,6 +1,6 @@
 import songdata from "../songdata.js";
 
-const musixmatch = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get?format=json&namespace=lyrics_richsynched&subtitle_format=mxm&app_id=web-desktop-app-v1.0";
+const url = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get?format=json&namespace=lyrics_richsynched&subtitle_format=mxm&app_id=web-desktop-app-v1.0";
 
 /** @return {Lyrics} */
 export async function query() {
@@ -28,7 +28,7 @@ export async function query() {
 		"Authority": "apic-desktop.musixmatch.com"
 	});
 	const request = new Request(
-		musixmatch + "&" + Object.keys(params).map(key => key + "=" + encodeURIComponent(params[key])).join("&"),
+		url + "&" + Object.keys(params).map(key => key + "=" + encodeURIComponent(params[key])).join("&"),
 		{ headers }
 	);
 

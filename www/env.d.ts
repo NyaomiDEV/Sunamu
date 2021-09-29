@@ -12,6 +12,13 @@ declare global {
 		time?: number
 	}
 
+	export type LrcFile = {
+		lines: LyricsLine[],
+		metadata: {
+			[x: string]: string
+		}
+	}
+
 	// eslint-disable-next-line no-unused-vars
 	interface Window {
 		np: NowPlayingAPI;

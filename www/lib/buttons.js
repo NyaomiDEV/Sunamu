@@ -5,11 +5,7 @@ function bindWindowControls(){
 	document.getElementsByClassName("close")[0].onclick = () => window.np.close();
 	document.getElementsByClassName("fullscreen")[0].onclick = () => fullscreen();
 
-	// Lyrics mode will be hidden if no token is there
-	if (window.localStorage.mxmusertoken)
-		document.getElementsByClassName("lyrics-btn")[0].onclick = () => toggleLyricsView();
-	else
-		document.getElementsByClassName("lyrics-btn")[0].style.display = "none";
+	document.getElementsByClassName("lyrics-btn")[0].onclick = () => toggleLyricsView();
 }
 
 function bindPlaybackControls(){

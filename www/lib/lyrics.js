@@ -1,13 +1,29 @@
 import lang from "./lang.js";
-import { query as Musixmatch } from "./lyricproviders/musixmatch.js";
 import songdata from "./songdata.js";
+
+import { query as Musixmatch } from "./lyricproviders/musixmatch.js";
+import { query as NetEase } from "./lyricproviders/netease.js";
 
 const container = document.getElementsByClassName("lyrics")[0];
 const footer = document.getElementsByClassName("lyrics-footer")[0];
 
 export async function queryLyrics(){
 	// hardcode musixmatch for now
-	songdata.lyrics = await Musixmatch();
+	let lyrics;
+	
+	const providers = {
+		Musixmatch,
+		NetEase
+	};
+
+	for(const provider in providers){
+		console.log("Fetching from " + provider);
+		lyrics = await providers[provider]();
+		if(lyrics) break;
+	}
+
+	if(lyrics)
+		songdata.lyrics = lyrics;
 }
 
 export function putLyricsInPlace(){
@@ -25,10 +41,7 @@ export function putLyricsInPlace(){
 
 		const noLyrics = document.createElement("span");
 		noLyrics.classList.add("line");
-		if (!window.localStorage.mxmusertoken)
-			noLyrics.textContent = lang.NO_MXM_TOKEN;
-		else
-			noLyrics.textContent = lang.NO_LYRICS;
+		noLyrics.textContent = lang.NO_LYRICS;
 		container.appendChild(noLyrics);
 		noLyrics.scrollIntoView({
 			inline: "center",
@@ -50,7 +63,9 @@ export function putLyricsInPlace(){
 	}
 
 	// we put the copyright where it is supposed to be
-	footer.textContent = `Provided by ${songdata.lyrics.provider} • ${songdata.lyrics.copyright}`;
+	footer.textContent = `Provided by ${songdata.lyrics.provider}`;
+	if(songdata.lyrics.copyright)
+		footer.textContent += ` • ${songdata.lyrics.copyright}`;
 }
 
 export function updateActiveLyrics(){
