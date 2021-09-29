@@ -40,8 +40,6 @@ export async function query() {
 		result = {};
 	}
 
-	console.log(result);
-
 	const synchronizedLyrics = result?.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.body?.subtitle_list?.[0]?.subtitle?.subtitle_body;
 	const unsynchronizedLyrics = result?.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.body?.lyrics?.lyrics_body;
 

@@ -3,21 +3,22 @@ import songdata from "./songdata.js";
 
 import { query as Musixmatch } from "./lyricproviders/musixmatch.js";
 import { query as NetEase } from "./lyricproviders/netease.js";
+import { query as Genius } from "./lyricproviders/genius.js";
 
 const container = document.getElementsByClassName("lyrics")[0];
 const footer = document.getElementsByClassName("lyrics-footer")[0];
 
 export async function queryLyrics(){
-	// hardcode musixmatch for now
 	let lyrics;
 	
 	const providers = {
 		Musixmatch,
-		NetEase
+		NetEase,
+		Genius
 	};
 
 	for(const provider in providers){
-		console.log("Fetching from " + provider);
+		console.debug("Fetching from " + provider);
 		lyrics = await providers[provider]();
 		if(lyrics) break;
 	}
