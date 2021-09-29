@@ -79,6 +79,9 @@ window.np.registerUpdateCallback(async (update) => {
 	if(!update) metadataChanged = true;
 	else {
 		for(let key in songdata.metadata){
+			// skip metadata that is not worth checking because the player might report them 'asynchronously'
+			if(["artUrl", "length"].includes(key)) continue;
+
 			if(songdata.metadata[key] !== update.metadata[key]){
 				metadataChanged = true;
 				break;
