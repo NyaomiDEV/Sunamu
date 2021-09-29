@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { resolve } from "path";
 import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage, GetPosition } from "./mpris2";
+import { searchForUserToken } from "./mxmusertoken";
 
 let win: BrowserWindow;
 
@@ -25,6 +26,7 @@ async function main() {
 	});
 
 	ipcMain.handle("getposition", async () => await GetPosition());
+	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
 
 	await app.whenReady();
 	await spawnWindow();

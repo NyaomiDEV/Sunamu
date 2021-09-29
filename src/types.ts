@@ -14,7 +14,9 @@ export type NowPlayingAPI = {
 	close: () => void,
 
 	// eslint-disable-next-line no-unused-vars
-	registerUpdateCallback: (callback: Function) => void
+	registerUpdateCallback: (callback: Function) => void,
+
+	mxmusertoken: () => Promise<string | undefined>
 }
 
 export type Metadata = {

@@ -15,7 +15,9 @@ const npApi = {
 	minimize: () => ipcRenderer.send("minimize"),
 	close: () => ipcRenderer.send("close"),
 
-	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, v) => callback(v))
+	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, v) => callback(v)),
+
+	mxmusertoken: () => ipcRenderer.invoke("mxmusertoken")
 };
 
 contextBridge.exposeInMainWorld("np", npApi);
