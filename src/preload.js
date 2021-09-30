@@ -21,5 +21,5 @@ const npApi = {
 };
 
 contextBridge.exposeInMainWorld("np", npApi);
-contextBridge.exposeInMainWorld("transparentBackground", process.env.ILOVEGLASS === "1");
-contextBridge.exposeInMainWorld("debugMode", process.env.DEBUG === "1");
+contextBridge.exposeInMainWorld("widgetMode", !!process.env.ILOVEGLASS);
+contextBridge.exposeInMainWorld("debugMode", !!process.env.DEBUG);

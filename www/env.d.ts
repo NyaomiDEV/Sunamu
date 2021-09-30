@@ -22,7 +22,7 @@ declare global {
 	// eslint-disable-next-line no-unused-vars
 	interface Window {
 		np: NowPlayingAPI;
-		transparentBackground: boolean;
+		widgetMode: boolean;
 		debugMode: boolean;
 	}
 }

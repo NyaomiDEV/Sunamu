@@ -13,7 +13,7 @@ export async function updateNowPlaying() {
 
 	// METADATA
 	if (songdata.metadata.artUrl)
-		document.querySelector(":root").style.setProperty("--cover-art-url", `url(${songdata.metadata.artUrl})`);
+		document.querySelector(":root").style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
 	else
 		document.querySelector(":root").style.removeProperty("--cover-art-url");
 

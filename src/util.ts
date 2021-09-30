@@ -1,4 +1,4 @@
 export function debug(...args: any) {
-	if (process.env.DEBUG === "1")
+	if (process.env.DEBUG)
 		console.log(...args);
 }

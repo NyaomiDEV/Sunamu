@@ -9,3 +9,22 @@
 .now-playing > * {
 	-webkit-app-region: no-drag;
 }
+
+html.widget-mode .background {
+	-webkit-app-region: no-drag;
+	display: none;
+}
+
+html.widget-mode .album-art {
+	-webkit-app-region: drag;
+}
+
+html.widget-mode .playback-controls {
+	-webkit-app-region: no-drag;
+}
+
+html.widget-mode .minimize,
+html.widget-mode .fullscreen,
+html.widget-mode .close {
+	display: none;
+}

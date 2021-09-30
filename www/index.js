@@ -5,8 +5,8 @@ import songdata from "./lib/songdata.js";
 import "./lib/seekbar.js";
 import "./lib/buttons.js";
 
-if (window.transparentBackground)
-	document.getElementsByClassName("background")[0].style.display = "none";
+if (window.widgetMode)
+	document.documentElement.classList.add("widget-mode");
 
 updateNowPlaying();
 setInterval(pollPosition, 200);

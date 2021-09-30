@@ -25,7 +25,6 @@ export async function query() {
 		return undefined;
 	}
 
-	console.log(lyrics);
 	reply.lines = lyrics.split("\n").map(x => ({text: x}));
 	return reply;
 }

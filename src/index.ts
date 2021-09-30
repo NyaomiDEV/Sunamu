@@ -3,11 +3,15 @@ import { resolve } from "path";
 import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage, GetPosition } from "./mpris2";
 import { searchForUserToken } from "./mxmusertoken";
 
+const widgetMode = !!process.env.ILOVEGLASS;
+
 let win: BrowserWindow;
 
-if(process.env.ILOVEGLASS === "1"){
+if(widgetMode){
+	console.log("Widget mode");
+	//app.disableHardwareAcceleration();
 	app.commandLine.appendSwitch("use-gl", "desktop");
-	app.commandLine.appendSwitch("enable-transparent-visuals");
+	//app.commandLine.appendSwitch("enable-transparent-visuals");
 }
 
 async function main() {
@@ -29,6 +33,7 @@ async function main() {
 	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
 
 	await app.whenReady();
+	//setTimeout(spawnWindow, widgetMode ? 1000 : 0);
 	await spawnWindow();
 }
 
@@ -36,10 +41,16 @@ async function spawnWindow() {
 	win = new BrowserWindow({
 		show: true,
 		frame: false,
-		transparent: process.env.ILOVEGLASS === "1",
-		minWidth: 854,
-		minHeight: 480,
-		backgroundColor: process.env.ILOVEGLASS === "1" ? "#00000000" : "#000000",
+		transparent: widgetMode,
+		minWidth: 850,
+		minHeight: 950,
+		backgroundColor: widgetMode ? "#00000000" : "#000000",
+		maximizable: !widgetMode,
+		minimizable: !widgetMode,
+		resizable: true,
+		fullscreenable: !widgetMode,
+		skipTaskbar: widgetMode,
+		type: widgetMode ? "dialog" : "normal",
 		autoHideMenuBar: true,
 		webPreferences: {
 			contextIsolation: true,
