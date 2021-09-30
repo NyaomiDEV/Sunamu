@@ -1,8 +1,16 @@
-const howALyricsLineLooks = /\[(\d*:\d*\.?\d*)\](.*)/;
+const howATimestampLooks = /(?:\[(\d+:\d+\.?\d+)\])/g;
+const howALyricsLineLooks = /((?:\[\d+:\d+\.?\d+\])+)(.*)/;
 
 function convertTime(timeString) {
 	const [minutes, seconds] = timeString.split(":");
 	return parseInt(minutes) * 60 + parseFloat(seconds);
+}
+
+function extractTime(timestamps){
+	const matches = [...timestamps.matchAll(howATimestampLooks)];
+	const time = [];
+	matches.forEach(m => time.push(convertTime(m[1])));
+	return time;
 }
 
 function extractMetadataLine(data) {
@@ -11,6 +19,7 @@ function extractMetadataLine(data) {
 
 /** @return {LrcFile} */
 export function parseLrc(data){
+	/** @type {LrcFile} */
 	const result = {
 		metadata: {},
 		lines: []
@@ -27,14 +36,18 @@ export function parseLrc(data){
 	for(const line of lines){
 		const lyrdata = howALyricsLineLooks.exec(line);
 		if(lyrdata){
-			result.lines.push({
-				text: lyrdata[2].replace(/\s+/g, " "),
-				time: convertTime(lyrdata[1])
-			});
+			for(const timestamp of extractTime(lyrdata[1])){
+				result.lines.push({
+					text: lyrdata[2].replace(/\s+/g, " "),
+					time: timestamp
+				});
+			}
 		}else{
 			const [ key, value ] = extractMetadataLine(line);
 			result.metadata[key] = value;
 		}
 	}
+
+	result.lines.sort((a, b) => a.time - b.time);
 	return result;
 }
