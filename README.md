@@ -3,6 +3,9 @@
 # Sunamu
 Show your currently playing song in a stylish way!
 
+![Preview](assets/preview_control.png)
+![Preview](assets/preview_lyrics.png)
+
 ## OwO wats dis?
 
 Sunamu (pronounced as it is written) is a fancy music controller whose only purpose is to look as fancy as possible on secondary displays.
