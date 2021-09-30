@@ -16,6 +16,6 @@ if(window.debugMode)
 	window.getNowPlaying = () => songdata;
 
 if(!localStorage.mxmusertoken){
-	const token = await window.np.mxmusertoken;
+	const token = await window.np.mxmusertoken();
 	if(token) localStorage.mxmusertoken = token;
 }
