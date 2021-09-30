@@ -18,7 +18,7 @@ It only supports Linux for now. macOS and Windows support are not planned.
 - Get lyrics for your songs!
 - Bragging rights for your particular taste in music!*
 
-  *No responsibility is taken from the Sunata devs and contributors if you have bad taste in music
+  *No responsibility is taken from the Sunamu devs and contributors if you have bad taste in music
 
 ## Installation
 
