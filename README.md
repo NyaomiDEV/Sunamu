@@ -17,7 +17,8 @@ It only supports Linux for now. macOS and Windows support are not planned.
 - Display what you are playing in your TV, secondary display, or (heck) around the entire house!
 - Get lyrics for your songs!
 - Bragging rights for your particular taste in music!*
-  *=No responsibility is taken from the Sunata devs and contributors if you have bad taste in music
+
+  *No responsibility is taken from the Sunata devs and contributors if you have bad taste in music
 
 ## Installation
 
