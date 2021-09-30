@@ -133,7 +133,7 @@ export async function GetPosition() {
 async function addPlayer(name: string) {
 	try{
 		players[name] = await getPlayer(name);
-		//await players[name].whenReady();
+		await players[name].whenReady();
 		registerPlayerEvents(name);
 		await calculateActivePlayer(name);
 		debug("Added player", name);
@@ -196,7 +196,7 @@ function parseMetadata(metadata): Metadata {
 	return {
 		title: metadata["xesam:title"],
 		artist: typeof metadata["xesam:artist"] === "string" ? metadata["xesam:artist"] : metadata["xesam:artist"]?.join("; "),
-		album: metadata["xesam:album"],
+		album: typeof metadata["xesam:album"] === "string" ? metadata["xesam:album"] : JSON.stringify(metadata["xesam:album"]), // FUCK YOU NON-COMPLIANT DEVELOPERS, I WILL NOT PUT AN ENDLESS LIST OF QUIRKY APPS HERE
 		length: Number(metadata["mpris:length"] || 0) / 1000000,
 		artUrl: metadata["mpris:artUrl"]
 	};
