@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import "./lib/event.js";
 import { pollPosition, updateNowPlaying } from "./lib/nowplaying.js";
 import songdata from "./lib/songdata.js";

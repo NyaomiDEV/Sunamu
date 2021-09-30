@@ -32,11 +32,12 @@ Just launch it and preferably put it in fullscreen!
 
 You'd have to install the official Musixmatch Desktop App on your computer. Then launch it once; login is not really required. Sunamu will automatically configure itself based on your Musixmatch Desktop installation.
 
-## Observed quirks
+## Notable observed quirks
 
 - Spotify (official app): Their MPRIS2 implementation sucks; as such, you lose synchronized lyrics, the seekbar and the ability to seek to specific parts of a song.
-- Spotify-qt: The album tag is always `[object Object]`: This can be worked around on our end, but it is nonstandard MPRIS2 implementation and the dev of that project should just follow the spec.
+- Spotify-qt: The album tag is a JSON object: Since it is nonstandard MPRIS2 implementation, the dev of that project should just follow the spec. Sunamu shows it as a JSON object to show *something relevant* at all, otherwise it'd be just `[object Object]`.
+- Spotifyd: While the MPRIS2 implementation is kinda okay, they still need to raise the appropriate D-Bus `PropertyChanged` event. See [their issue tracker](https://github.com/Spotifyd/spotifyd/issues/457).
 
 ## License
 
-See the LICENSE file.
+See the [LICENSE](LICENSE) file.

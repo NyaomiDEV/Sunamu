@@ -1,4 +1,4 @@
-import { NowPlayingAPI } from "../src/types";
+import { NowPlayingAPI, Update } from "../src/types";
 declare global {
 	export type Lyrics = {
 		provider: string,
@@ -19,10 +19,13 @@ declare global {
 		}
 	}
 
+	export type SongData = Update & { lyrics?: Lyrics }
+
 	// eslint-disable-next-line no-unused-vars
 	interface Window {
 		np: NowPlayingAPI;
 		widgetMode: boolean;
 		debugMode: boolean;
+		getNowPlaying?: () => SongData
 	}
 }

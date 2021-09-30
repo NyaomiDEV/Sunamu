@@ -33,27 +33,31 @@ export async function getUpdate(): Promise<Update | null> {
 		return null;
 	}
 
-	let update: Update = {
-		provider: "MPRIS2",
-		metadata: parseMetadata(players[activePlayer].Player.Metadata),
-		capabilities: {
-			canControl: players[activePlayer].Player.CanControl || false,
-			canPlayPause: players[activePlayer].Player.CanPause || players[activePlayer].Player.CanPlay || false,
-			canGoNext: players[activePlayer].Player.CanGoNext || false,
-			canGoPrevious: players[activePlayer].Player.CanGoPrevious || false,
-			canSeek: players[activePlayer].Player.CanSeek || false
-		},
-		status: players[activePlayer].Player.PlaybackStatus || "Stopped",
-		loop: players[activePlayer].Player.LoopStatus || "None",
-		shuffle: players[activePlayer].Player.Shuffle || false,
-		volume: players[activePlayer].Player.Volume || 0,
-		elapsed: Number(await players[activePlayer].Player.GetPosition()) / 1000000,
-		app: activePlayer,
-		appName: players[activePlayer].Identity || ""
-	};
+	try{
+		let update: Update = {
+			provider: "MPRIS2",
+			metadata: parseMetadata(players[activePlayer].Player.Metadata),
+			capabilities: {
+				canControl: players[activePlayer].Player.CanControl || false,
+				canPlayPause: players[activePlayer].Player.CanPause || players[activePlayer].Player.CanPlay || false,
+				canGoNext: players[activePlayer].Player.CanGoNext || false,
+				canGoPrevious: players[activePlayer].Player.CanGoPrevious || false,
+				canSeek: players[activePlayer].Player.CanSeek || false
+			},
+			status: players[activePlayer].Player.PlaybackStatus || "Stopped",
+			loop: players[activePlayer].Player.LoopStatus || "None",
+			shuffle: players[activePlayer].Player.Shuffle || false,
+			volume: players[activePlayer].Player.Volume || 0,
+			elapsed: Number(await players[activePlayer].Player.GetPosition()) / 1000000,
+			app: activePlayer,
+			appName: players[activePlayer].Identity || ""
+		};
 
-	debug("updateInfo", update);
-	return update;
+		debug("updateInfo", update);
+		return update;
+	}catch(_){
+		return null;
+	}
 }
 
 export async function Play() {
