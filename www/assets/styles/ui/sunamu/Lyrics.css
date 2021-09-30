@@ -3,7 +3,7 @@
 	min-width: 800px;
 	height: 75vh;
 	max-height: 512px;
-	margin: 16px;
+	margin: 1em;
 	overflow-x: hidden;
 	display: flex;
 	flex-direction: column;
@@ -18,20 +18,20 @@
 	content: "";
 	position: relative;
 	width: 100%;
-	padding-top: 32px;
+	padding-top: 2em;
 }
 
 .lyrics .line {
 	display: block;
 	font-weight: 500;
 	color: white;
-	font-size: 32px;
-	margin: 2px;
+	font-size: 2em;
+	margin: 0.125em;
 }
 
 .lyrics .line:empty,
 .lyrics.synchronized .line:empty {
-	margin: 8px;
+	margin: 0.5em;
 }
 
 .lyrics.synchronized {
@@ -54,20 +54,20 @@
 	display: block;
 	font-weight: 700;
 	color: white;
-	font-size: 40px;
-	margin: 8px;
+	font-size: 2.5em;
+	margin: 0.5em;
 }
 
 .lyrics.synchronized .line.active:empty {
-	margin: 16px;
+	margin: 1em;
 }
 
 .lyrics-footer {
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	margin: 16px;
-	font-size: 16px;
+	margin: 1em;
+	font-size: 1em;
 	color: rgba(255, 255, 255, .6);
 	text-align: left;
 }
@@ -79,7 +79,7 @@
 	}
 
 	.lyrics .line, .lyrics.synchronized .line {
-		font-size: 24px;
+		font-size: 1.5em;
 		text-align: center;
 	}
 
@@ -88,7 +88,7 @@
 	}
 
 	.lyrics.synchronized .line.active {
-		font-size: 32px;
+		font-size: 2em;
 	}
 
 	.lyrics-footer {

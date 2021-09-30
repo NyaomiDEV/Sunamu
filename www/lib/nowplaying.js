@@ -7,9 +7,9 @@ import { updateSeekbar } from "./seekbar.js";
 export async function updateNowPlaying() {
 	// TITLE
 	if(songdata.provider)
-		document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - NowPlaying";
+		document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - Sunamu";
 	else
-		document.title = "NowPlaying";
+		document.title = "Sunamu";
 
 	// METADATA
 	if (songdata.metadata.artUrl)

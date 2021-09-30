@@ -1,5 +1,5 @@
-appId: xyz.nyaomi.nowplaying-electron
-productName: NowPlaying-Electron
+appId: xyz.nyaomi.sunamu
+productName: Sunamu
 copyright: Copyright © 2021 Naomi Calabretta
 directories:
   output: targets
@@ -30,12 +30,12 @@ linux:
   - tar.xz
   maintainer: Naomi Calabretta
   vendor: Naomi Calabretta
-  executableName: NowPlaying
+  executableName: Sunamu
   icon: assets/icons
   synopsis: Beautiful app to show which music you are playing
-  description: Inspired by NowPlaying-Spotify, show what you are playing to your friends with this beautiful application
+  description: Inspired by NowPlaying-for-Spotify, show what you are playing to your friends with this beautiful application
   category: Multimedia
-  desktop: nowplaying-electron
+  desktop: Sunamu
   publish:
     - github
 

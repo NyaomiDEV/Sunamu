@@ -4,8 +4,8 @@
 @import url("ui/base/General.css");
 @import url("ui/base/WindowControls.css");
 
-/* NowPlaying rules */
-@import url("ui/nowplaying/NowPlaying.css");
+/* Sunamu rules */
+@import url("ui/sunamu/Sunamu.css");
 
 /* Electron rules */
 @import url("ui/Electron.css");
