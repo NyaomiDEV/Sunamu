@@ -131,15 +131,18 @@ export async function GetPosition() {
 
 // UTILS
 async function addPlayer(name: string) {
-	players[name] = await getPlayer(name);
-	//await players[name].whenReady();
-	registerPlayerEvents(name);
-	await calculateActivePlayer(name);
-	debug("Added player", name);
+	try{
+		players[name] = await getPlayer(name);
+		//await players[name].whenReady();
+		registerPlayerEvents(name);
+		await calculateActivePlayer(name);
+		debug("Added player", name);
+	}catch(e){
+		debug(`Player ${name} didn't really want to be with us today it seems`);
+	}
 }
 
 async function deletePlayer(name: string) {
-	players[name];
 	delete players[name];
 	await calculateActivePlayer();
 	debug("Removed player", name);
