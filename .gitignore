@@ -4,3 +4,9 @@ node_modules
 /targets/
 /yarn-*.log
 /.env
+
+# just in case someone runs makepkg directly
+/*.pacman
+/*.tar.zst
+/pkg/
+/src/*.pacman
