@@ -2,7 +2,7 @@
 
 pkgname=sunamu
 
-_pkgver=v1.0.6
+_pkgver=v1.1.0
 pkgver=${_pkgver#v}
 pkgrel=1
 
@@ -19,7 +19,7 @@ _filename=${pkgname}-${pkgver}.pacman
 source=("$url/releases/download/${_pkgver}/${_filename}")
 noextract=("${_filename}")
 
-md5sums=('92224dc1353c7137066080bb27f921ca')
+md5sums=('f0fa60bff63af1de33968e6dbe78b477')
 
 options=(!strip)
 
