@@ -62,7 +62,7 @@ async function spawnWindow() {
 	});
 
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
-	//win.webContents.openDevTools();
+	if(process.env.DEBUG) win.webContents.openDevTools();
 
 	win.webContents.on("did-finish-load", async () => await updateInfo());
 }

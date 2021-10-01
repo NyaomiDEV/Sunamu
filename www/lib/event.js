@@ -1,26 +1,27 @@
-if(!window.widgetMode){
-	// ON LOAD
-	document.addEventListener("DOMContentLoaded", () => {
-		let idleMouseTimer,
-			// eslint-disable-next-line no-unused-vars
-			forceMouseHide = false;
+// ON LOAD
+document.addEventListener("DOMContentLoaded", () => {
+	let idleMouseTimer;
 
-		document.body.onmousemove = () => {
-			document.body.style.cursor = "";
-			document.getElementsByClassName("window-controls")[0].classList.remove("hidden");
-			document.getElementsByClassName("playback-controls")[0].classList.remove("hidden");
-			clearTimeout(idleMouseTimer);
+	function hider() {
+		idleMouseTimer = setTimeout(() => {
+			document.body.style.cursor = "none";
+			document.getElementsByClassName("window-controls")[0].classList.add("hidden");
+			document.getElementsByClassName("playback-controls")[0].classList.add("hidden");
+		}, 2000);
+	}
 
-			idleMouseTimer = setTimeout(() => {
-				document.body.style.cursor = "none";
-				document.getElementsByClassName("window-controls")[0].classList.add("hidden");
-				document.getElementsByClassName("playback-controls")[0].classList.add("hidden");
-				forceMouseHide = true;
-				setTimeout(() => forceMouseHide = false, 500);
-			}, 2000);
-		};
-	});
+	document.body.onmousemove = () => {
+		document.body.style.cursor = "";
+		document.getElementsByClassName("window-controls")[0].classList.remove("hidden");
+		document.getElementsByClassName("playback-controls")[0].classList.remove("hidden");
+		clearTimeout(idleMouseTimer);
+		hider();
+	};
 
+	hider();
+});
+
+if (!window.widgetMode) {
 	// ON FULLSCREEN CHANGE
 	document.addEventListener("webkitfullscreenchange", () => {
 		if (document.fullscreenElement != null)
