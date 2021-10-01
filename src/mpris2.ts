@@ -202,6 +202,7 @@ function parseMetadata(metadata): Metadata {
 		artist: typeof metadata["xesam:artist"] === "string" ? metadata["xesam:artist"] : metadata["xesam:artist"]?.join("; "),
 		album: typeof metadata["xesam:album"] === "string" ? metadata["xesam:album"] : JSON.stringify(metadata["xesam:album"]), // FUCK YOU NON-COMPLIANT DEVELOPERS, I WILL NOT PUT AN ENDLESS LIST OF QUIRKY APPS HERE
 		length: Number(metadata["mpris:length"] || 0) / 1000000,
-		artUrl: metadata["mpris:artUrl"]
+		artUrl: metadata["mpris:artUrl"],
+		id: metadata["mpris:trackid"]
 	};
 }

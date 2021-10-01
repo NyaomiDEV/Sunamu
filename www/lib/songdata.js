@@ -8,7 +8,8 @@ export const fallback = {
 		artist: lang.PLEASE_PLAY_SONG,
 		album: undefined,
 		artUrl: undefined,
-		length: undefined
+		length: undefined,
+		id: undefined
 	},
 	capabilities: {
 		canControl: false,

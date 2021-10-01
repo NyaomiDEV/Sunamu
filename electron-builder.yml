@@ -22,6 +22,7 @@ files:
   - "!README.md"
   - "!tsconfig.json"
   - "!assets/{preview*.png,icon.svg}"
+  - "!PKGBUILD"
 linux:
   target:
   - AppImage

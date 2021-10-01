@@ -8,19 +8,19 @@
 .metadata h1 {
 	font-weight: 700;
 	font-size: 4.5em;
-	margin: 0.125em;
+	margin: 0.125em 0;
 }
 
 .metadata h2 {
 	font-weight: 500;
 	font-size: 3em;
-	margin: 0.25em;
+	margin: 0.25em 0;
 }
 
 .metadata h3 {
 	font-weight: 400;
 	font-size: 2em;
-	margin: 0.25em;
+	margin: 0.25em 0;
 }
 
 .metadata h4 {

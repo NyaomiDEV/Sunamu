@@ -24,7 +24,8 @@ export type Metadata = {
 	album: string,
 	artist: string,
 	artUrl: string,
-	length: number
+	length: number,
+	id: string
 }
 
 export type Capabilities = {

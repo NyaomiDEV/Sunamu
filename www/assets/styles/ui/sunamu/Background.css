@@ -10,14 +10,6 @@
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	filter: blur(48px);
+	filter: blur(64px) brightness(50%) saturate(150%);
 	transition: ease 2s background-image;
-}
-
-.background::after {
-	content: " ";
-	position: fixed;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, .3);
 }

@@ -76,7 +76,7 @@ function updateTime() {
 window.np.registerUpdateCallback(async (update) => {
 	// PRE CHECK IF SOMETHING HAS CHANGED ACTUALLY
 	let metadataChanged = false;
-	if(!update) metadataChanged = true;
+	if (!update || songdata.metadata.id !== update.metadata.id) metadataChanged = true;
 	else {
 		for(let key in songdata.metadata){
 			// skip metadata that is not worth checking because the player might report them 'asynchronously'
