@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain } from "electron";
+import { stat } from "fs/promises";
 import { resolve } from "path";
 import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage, GetPosition } from "./mpris2";
 import { searchForUserToken } from "./mxmusertoken";
@@ -31,6 +32,21 @@ async function main() {
 
 	ipcMain.handle("getposition", async () => await GetPosition());
 	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
+	ipcMain.handle("shouldBullyGlasscordUser", async () => {
+		let bullyGlasscordUser = false;
+		const gcPath = resolve(app.getPath("appData"), "glasscord");
+
+		try {
+			await stat(gcPath);
+			bullyGlasscordUser = true;
+			await stat(resolve(gcPath, "DONTBULLYME"));
+			bullyGlasscordUser = false;
+		}catch(_){
+			//...
+		}
+
+		return bullyGlasscordUser;
+	});
 
 	await app.whenReady();
 	//setTimeout(spawnWindow, widgetMode ? 1000 : 0);
@@ -60,9 +76,8 @@ async function spawnWindow() {
 		roundedCorners: true,
 		icon: resolve(__dirname, "..", "assets", "icons", "512x512.png")
 	});
-
+	if (process.env.DEBUG) win.webContents.openDevTools();
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
-	if(process.env.DEBUG) win.webContents.openDevTools();
 
 	win.webContents.on("did-finish-load", async () => await updateInfo());
 }

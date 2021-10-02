@@ -17,6 +17,7 @@ export type NowPlayingAPI = {
 	registerUpdateCallback: (callback: Function) => void,
 
 	mxmusertoken: () => Promise<string | undefined>
+	shouldBullyGlasscordUser: () => Promise<boolean>
 }
 
 export type Metadata = {

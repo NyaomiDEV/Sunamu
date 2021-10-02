@@ -1,5 +1,6 @@
 import lang from "./lang.js";
 import songdata from "./songdata.js";
+import owoify from "./owoify.js";
 
 import { query as Musixmatch } from "./lyricproviders/musixmatch.js";
 import { query as NetEase } from "./lyricproviders/netease.js";
@@ -7,6 +8,7 @@ import { query as Genius } from "./lyricproviders/genius.js";
 
 const container = document.getElementsByClassName("lyrics")[0];
 const footer = document.getElementsByClassName("lyrics-footer")[0];
+const glasscordUser = await window.np.shouldBullyGlasscordUser();
 
 export async function queryLyrics(){
 	let lyrics;
@@ -59,7 +61,7 @@ export function putLyricsInPlace(){
 	for(const line of songdata.lyrics.lines){
 		const elem = document.createElement("span");
 		elem.classList.add("line");
-		elem.textContent = line.text;
+		elem.textContent = glasscordUser ? owoify(line.text) : line.text; // y'all deserve it
 		container.appendChild(elem);
 	}
 
