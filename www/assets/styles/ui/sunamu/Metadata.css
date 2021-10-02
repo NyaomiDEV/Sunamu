@@ -1,26 +1,29 @@
 .metadata {
 	color: white;
 	width: 50vw;
-	min-width: 400px;
+	min-width: 50rem;
 	margin: 1em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .metadata h1 {
 	font-weight: 700;
 	font-size: 4.5em;
-	margin: 0.125em 0;
+	margin: 0rem 0;
 }
 
 .metadata h2 {
 	font-weight: 500;
 	font-size: 3em;
-	margin: 0.25em 0;
+	margin: 0.25rem 0;
 }
 
 .metadata h3 {
 	font-weight: 400;
 	font-size: 2em;
-	margin: 0.25em 0;
+	margin: 0.25rem 0;
 }
 
 .metadata h4 {
@@ -35,6 +38,10 @@
 	text-overflow: ellipsis;
 }
 
+.metadata .details {
+	width: 100%;
+}
+
 .metadata .left {
 	float: left;
 	text-align: left;
@@ -46,6 +53,10 @@
 }
 
 @media only screen and (orientation: portrait) {
+	.metadata {
+		align-items: center;
+	}
+
 	.metadata h1 {
 		font-size: 3em;
 	}
