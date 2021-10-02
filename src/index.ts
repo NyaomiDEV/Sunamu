@@ -4,6 +4,8 @@ import { resolve } from "path";
 import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage, GetPosition } from "./mpris2";
 import { searchForUserToken } from "./mxmusertoken";
 
+process.title = "sunamu";
+
 const widgetMode = !!process.env.ILOVEGLASS;
 
 let win: BrowserWindow;
