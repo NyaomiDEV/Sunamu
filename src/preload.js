@@ -16,6 +16,7 @@ const npApi = {
 	close: () => ipcRenderer.send("close"),
 
 	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, v) => callback(v)),
+	requestUpdate: () => ipcRenderer.send("requestUpdate"),
 
 	mxmusertoken: () => ipcRenderer.invoke("mxmusertoken"),
 	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),

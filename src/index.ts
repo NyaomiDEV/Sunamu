@@ -32,6 +32,10 @@ async function main() {
 		app.exit();
 	});
 
+	ipcMain.on("requestUpdate", async () => {
+		await updateInfo();
+	});
+
 	ipcMain.handle("getposition", async () => await GetPosition());
 	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
 	ipcMain.handle("shouldBullyGlasscordUser", async () => {
@@ -80,8 +84,6 @@ async function spawnWindow() {
 	});
 	if (process.env.DEBUG) win.webContents.openDevTools();
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
-
-	win.webContents.on("did-finish-load", async () => await updateInfo());
 }
 
 async function updateInfo(){

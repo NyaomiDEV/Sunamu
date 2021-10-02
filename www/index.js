@@ -18,3 +18,5 @@ if(!localStorage.mxmusertoken){
 	const token = await window.np.mxmusertoken();
 	if(token) localStorage.mxmusertoken = token;
 }
+
+window.np.requestUpdate();
