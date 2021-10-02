@@ -77,5 +77,6 @@
 	.metadata h2,
 	.metadata h3 {
 		text-align: center;
+		width: 100%;
 	}
 }
