@@ -15,8 +15,8 @@
 	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 16px 12px rgba(0, 0, 0, 0.2);
 	width: 75vmin;
 	height: 75vmin;
-	max-width: 512px;
-	max-height: 512px;
+	max-width: 32rem;
+	max-height: 32rem;
 }
 
 .playback-controls {
@@ -25,7 +25,7 @@
 	align-items: center;
 	justify-content: center;
 	position: absolute;
-	bottom: 24px;
+	bottom: 1.5rem;
 	width: 100%;
 	opacity: 1;
 	transition: ease .5s opacity;

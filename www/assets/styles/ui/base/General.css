@@ -31,3 +31,7 @@ h1, h2, h3, h4, h5, h6, span, p {
 	background-color: rgba(255,255,255,.5);
 	border-radius: 2px;
 }
+
+@media only screen and (max-height: 512px) and (max-width: 950px){
+	html { font-size: 50%; }
+}

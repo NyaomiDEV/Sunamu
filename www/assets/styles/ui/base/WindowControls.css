@@ -1,16 +1,16 @@
 .window-controls {
 	position: fixed;
-	top: 24px;
-	right: 24px;
+	top: 1.5rem;
+	right: 1.5rem;
 	z-index: 5;
 
 	width: fit-content;
 	height: fit-content;
 
-	padding: 4px 8px;
+	padding: 0.25rem 0.5rem;
 	background-color: #FFFFFF40;
 	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
-	border-radius: 24px;
+	border-radius: 1.5rem;
 
 	opacity: 1;
 	transition: ease .5s opacity;
@@ -23,7 +23,8 @@
 .window-controls > span {
 	color: white;
 	display: inline-block;
-	margin: 0px 4px;
+	margin: 0 0.25rem;
+	font-size: 1.5rem;
 	cursor: default;
 	width: fit-content;
 	height: fit-content;

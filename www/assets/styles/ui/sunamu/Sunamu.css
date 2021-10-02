@@ -16,7 +16,7 @@
 }
 
 
-@media only screen and (max-width: 1249px) {
+@media only screen and (orientation: portrait) {
 	.now-playing {
 		flex-direction: column;
 	}

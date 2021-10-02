@@ -72,7 +72,7 @@
 	text-align: left;
 }
 
-@media only screen and (max-width: 1249px) {
+@media only screen and (orientation: portrait) {
 	.lyrics {
 		height: 25vh;
 		align-items: center;
