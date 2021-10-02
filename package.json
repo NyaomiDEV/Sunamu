@@ -19,7 +19,7 @@
     "run": "tsc && electron .",
     "build": "tsc && electron-builder",
     "release": "yarn clean && tsc && electron-builder",
-    "postinstall": "electron-builder install-app-deps",
+    "install-deps": "electron-builder install-app-deps",
     "build:dir": "tsc && electron-builder --dir",
     "clean": "rm -rf lib && rm -rf targets"
   },
