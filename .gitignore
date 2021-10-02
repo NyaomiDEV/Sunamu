@@ -6,7 +6,8 @@ node_modules
 /.env
 
 # just in case someone runs makepkg directly
-/*.pacman
-/*.tar.zst
-/pkg/
-/src/*.pacman
+/aur/sunamu*/*
+!/aur/sunamu*/PKGBUILD
+!/aur/sunamu*/.SRCINFO
+!/aur/sunamu*/sunamu.desktop
+!/aur/sunamu*/sunamu.sh

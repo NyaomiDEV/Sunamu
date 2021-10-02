@@ -22,7 +22,7 @@ files:
   - "!README.md"
   - "!tsconfig.json"
   - "!assets/{preview*.png,icon.svg}"
-  - "!PKGBUILD"
+  - "!aur/*"
 linux:
   target:
   - AppImage
@@ -35,7 +35,7 @@ linux:
   executableName: Sunamu
   icon: assets/icons
   synopsis: Beautiful app to show which music you are playing
-  description: Inspired by NowPlaying-for-Spotify, show what you are playing to your friends with this beautiful application
+  description: Show your currently playing song in a stylish way!
   category: Multimedia
   desktop: Sunamu
   publish:

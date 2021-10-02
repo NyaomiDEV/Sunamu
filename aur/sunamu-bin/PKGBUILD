@@ -1,26 +1,19 @@
-# Maintainer: Naomi Calabretta <arytonex.pw>
+# Maintainer: Naomi Calabretta <me@arytonex.pw>
 
-pkgname=sunamu
-
+pkgname=sunamu-bin
 _pkgver=v1.1.0
 pkgver=${_pkgver#v}
 pkgrel=1
-
-pkgdesc="Show your currently playing song in a stylish way!"
+pkgdesc="Show your currently playing song in a stylish way! (Binary version)"
 url="https://github.com/AryToNeX/Sunamu"
 license=('MPL-2.0')
-
 arch=('x86_64')
-
-conflicts=(${pkgname}-appimage)
+conflicts=(sunamu sunamu-git)
 depends=(c-ares ffmpeg gtk3 http-parser libevent libvpx libxslt libxss minizip nss re2 snappy libnotify libappindicator-gtk3)
-
-_filename=${pkgname}-${pkgver}.pacman
+_filename=sunamu-${pkgver}.pacman
 source=("$url/releases/download/${_pkgver}/${_filename}")
 noextract=("${_filename}")
-
 md5sums=('f0fa60bff63af1de33968e6dbe78b477')
-
 options=(!strip)
 
 package() {
