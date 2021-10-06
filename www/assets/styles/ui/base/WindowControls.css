@@ -20,12 +20,11 @@
 	opacity: 0;
 }
 
-.window-controls > span {
+.window-controls > * {
 	color: white;
 	display: inline-block;
 	margin: 0 0.25rem;
-	font-size: 1.5rem;
+	width: 1.5rem;
+	height: 1.5rem;
 	cursor: default;
-	width: fit-content;
-	height: fit-content;
 }

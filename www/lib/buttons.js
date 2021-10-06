@@ -1,4 +1,5 @@
 import { fullscreen, toggleLyricsView } from "./util.js";
+import songdata from "./songdata.js";
 
 function bindWindowControls(){
 	document.getElementsByClassName("minimize")[0].onclick = () => window.np.minimize();
@@ -13,6 +14,7 @@ function bindPlaybackControls(){
 	document.getElementById("next").onclick = () => window.np.next();
 	document.getElementById("repeat").onclick = () => window.np.repeat();
 	document.getElementById("lyrics-btn").onclick = () => toggleLyricsView();
+	document.getElementById("lastfm").onclick = () => window.np.openExternal(songdata.lastfm.url);
 }
 
 bindWindowControls();

@@ -25,7 +25,8 @@ export const fallback = {
 	elapsed: 0,
 	app: undefined,
 	appName: undefined,
-	lyrics: undefined
+	lyrics: undefined,
+	lastfm: undefined
 };
 
 /** @type {SongData} */

@@ -42,29 +42,30 @@
 	justify-content: center;
 }
 
-.playback-controls > div > span {
+.playback-controls > div > * {
 	color: white;
 	backdrop-filter: blur(16px) brightness(60%) saturate(200%);
 	background-color: transparent;
 	transition: ease .5s background-color;
 }
 
-.playback-controls > span:hover {
+.playback-controls > div > *:hover {
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
-.playback-controls > span.active {
+.playback-controls > div > *.active {
 	color: black;
 	background-color: rgba(255, 255, 255, 0.25);
 }
 
-.playback-controls > span.active:hover {
+.playback-controls > div > *.active:hover {
 	color: black;
 	background-color: rgba(255, 255, 255, 0.50);
 }
 
-.playback-controls .first-row > span {
-	font-size: 1.5rem;
+.playback-controls .first-row > * {
+	width: 1.5rem;
+	height: 1.5rem;
 	padding: 0.5rem;
 	margin: 0.5rem;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -72,11 +73,13 @@
 }
 
 .playback-controls .first-row > #playpause {
-	font-size: 2rem;
+	width: 2rem;
+	height: 2rem;
 }
 
-.playback-controls .second-row > span {
-	font-size: 1rem;
+.playback-controls .second-row > * {
+	width: 1rem;
+	height: 1rem;
 	padding: 0.5rem;
 	margin: 0.5rem;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);

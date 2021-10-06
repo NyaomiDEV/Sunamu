@@ -4,7 +4,6 @@
 	<title>Sunamu</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link href="assets/styles/style.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<script src="index.js" type="module"></script>
 </head>
@@ -15,9 +14,15 @@
 
 	<!-- Window controls -->
 	<div class="window-controls">
-		<span class="material-icons minimize">minimize</span>
-		<span class="material-icons fullscreen">fullscreen</span>
-		<span class="material-icons close">close</span>
+		<svg class="minimize">
+			<use href="assets/images/glyph.svg#minimize"></use>
+		</svg>
+		<svg class="fullscreen">
+			<use href="assets/images/glyph.svg#fullscreen"></use>
+		</svg>
+		<svg class="close">
+			<use href="assets/images/glyph.svg#close"></use>
+		</svg>
 	</div>
 
 	<!-- Main container -->
@@ -28,14 +33,22 @@
 			<div class="album-art"></div>
 			<div class="playback-controls">
 				<div class="first-row">
-					<span id="previous" class="material-icons">skip_previous</span>
-					<span id="playpause" class="material-icons">play_arrow</span>
-					<span id="next" class="material-icons">skip_next</span>
+					<svg id="previous" class="material-icons"><use href="assets/images/glyph.svg#skip_previous"></use>
+					</svg>
+					<svg id="playpause" class="material-icons"><use href="assets/images/glyph.svg#play_arrow"></use>
+					</svg>
+					<svg id="next" class="material-icons"><use href="assets/images/glyph.svg#skip_next"></use>
+					</svg>
 				</div>
 				<div class="second-row">
-					<span id="shuffle" class="material-icons">shuffle</span>
-					<span id="lyrics-btn" class="material-icons">mic</span>
-					<span id="repeat" class="material-icons">repeat</span>
+					<svg id="shuffle"><use href="assets/images/glyph.svg#shuffle"></use>
+					</svg>
+					<svg id="lyrics-btn"><use href="assets/images/glyph.svg#mic"></use>
+					</svg>
+					<svg id="repeat"><use href="assets/images/glyph.svg#repeat"></use>
+					</svg>
+					<svg id="lastfm"><use href="assets/images/glyph.svg#lastfm"></use>
+					</svg>
 				</div>
 			</div>
 		</div>
@@ -50,8 +63,8 @@
 				<div class="seekbar-bg">
 					<div id="seekbar"></div>
 				</div>
-				<div class="details">
-					<h4 class="left" id="app-name"></h4>
+				<div class="details-container">
+					<h4 class="left" id="details"></h4>
 					<h4 class="right" id="time"></h4>
 				</div>
 			</div>

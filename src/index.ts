@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { stat } from "fs/promises";
 import { resolve } from "path";
 import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage, GetPosition } from "./mpris2";
@@ -11,12 +11,10 @@ const widgetMode = !!process.env.ILOVEGLASS;
 
 let win: BrowserWindow;
 
-if(widgetMode){
+if(widgetMode)
 	debug("Widget mode");
-	//app.disableHardwareAcceleration();
-	app.commandLine.appendSwitch("use-gl", "desktop");
-	//app.commandLine.appendSwitch("enable-transparent-visuals");
-}
+
+app.commandLine.appendSwitch("use-gl", "desktop");
 
 async function main() {
 	await init(updateInfo);
@@ -35,6 +33,9 @@ async function main() {
 
 	ipcMain.on("requestUpdate", async () => {
 		await updateInfo();
+	});
+	ipcMain.on("openExternal", (_e, uri) => {
+		shell.openExternal(uri);
 	});
 
 	ipcMain.handle("getposition", async () => await GetPosition());

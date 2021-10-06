@@ -16,6 +16,8 @@ export type NowPlayingAPI = {
 	// eslint-disable-next-line no-unused-vars
 	registerUpdateCallback: (callback: Function) => void,
 	requestUpdate: () => void,
+	// eslint-disable-next-line no-unused-vars
+	openExternal: (uri: string) => void,
 
 	mxmusertoken: () => Promise<string | undefined>
 	shouldBullyGlasscordUser: () => Promise<boolean>

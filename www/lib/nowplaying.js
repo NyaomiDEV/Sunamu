@@ -3,6 +3,8 @@ import { putLyricsInPlace, queryLyrics, updateActiveLyrics } from "./lyrics.js";
 import songdata, { fallback } from "./songdata.js";
 import { secondsToTime } from "./util.js";
 import { updateSeekbar } from "./seekbar.js";
+import { getTrackInfo } from "./thirdparty/lastfm.js";
+import { show } from "./showhide.js";
 
 export async function updateNowPlaying() {
 	// TITLE
@@ -20,8 +22,12 @@ export async function updateNowPlaying() {
 	document.getElementById("title").textContent = songdata.metadata.title || lang.NOT_PLAYING;
 	document.getElementById("artist").textContent = songdata.metadata.artist || lang.PLEASE_PLAY_SONG;
 	document.getElementById("album").textContent = songdata.metadata.album || "";
-	document.getElementById("app-name").textContent = songdata.appName ? lang.PLAYING_ON_APP.replace("%APP%", songdata.appName) : "";
 	document.getElementById("time").textContent = songdata.metadata.length ? secondsToTime(songdata.metadata.length) : "";
+
+	document.getElementById("details").textContent = [
+		songdata.appName ? lang.PLAYING_ON_APP.replace("%APP%", songdata.appName) : undefined,
+		songdata.lastfm?.userplaycount ? lang.PLAY_COUNT.replace("%COUNT%", songdata.lastfm?.userplaycount) : undefined,
+	].filter(Boolean).join(" • ");
 
 	// CONTROLS VISIBILITY
 	const playPauseBtn = document.getElementById("playpause");
@@ -38,7 +44,7 @@ export async function updateNowPlaying() {
 	repeatBtn.style.display = songdata.capabilities.canControl ? "" : "none";
 
 	// CONTROLS STATUS
-	playPauseBtn.textContent = songdata.status === "Playing" ? "pause" : "play_arrow";
+	playPauseBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));
 
 	if(songdata.shuffle) shuffleBtn.classList.add("active");
 	else shuffleBtn.classList.remove("active");
@@ -46,15 +52,15 @@ export async function updateNowPlaying() {
 	switch(songdata.loop){
 		default:
 			repeatBtn.classList.remove("active");
-			repeatBtn.textContent = "repeat";
+			repeatBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#repeat");
 			break;
 		case "Track":
 			repeatBtn.classList.add("active");
-			repeatBtn.textContent = "repeat_one";
+			repeatBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#repeat_one");
 			break;
 		case "Playlist":
 			repeatBtn.classList.add("active");
-			repeatBtn.textContent = "repeat";
+			repeatBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#repeat");
 			break;
 	}
 
@@ -76,7 +82,7 @@ export async function pollPosition() {
 }
 
 function updateTime() {
-	document.getElementById("time").innerHTML = secondsToTime(songdata.elapsed) + " &middot; " + secondsToTime(songdata.metadata.length);
+	document.getElementById("time").textContent = secondsToTime(songdata.elapsed) + " • " + secondsToTime(songdata.metadata.length);
 }
 
 window.np.registerUpdateCallback(async (update) => {
@@ -101,9 +107,19 @@ window.np.registerUpdateCallback(async (update) => {
 	updateNowPlaying();
 
 	if (metadataChanged){
+		show(true);
 		songdata.lyrics = undefined;
-		if (songdata.provider)
+		songdata.lastfm = undefined;
+		document.getElementById("lastfm").style.display = "none";
+		if (songdata.provider){
 			await queryLyrics();
+			await getTrackInfo(localStorage.lfmUsername);
+
+			if(songdata.lastfm){
+				document.getElementById("lastfm").style.display = "";
+				updateNowPlaying(); // again yes
+			}
+		}
 	}
 
 	// This refreshes the lyrics screen

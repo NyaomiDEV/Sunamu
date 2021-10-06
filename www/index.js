@@ -3,6 +3,9 @@ import { pollPosition, updateNowPlaying } from "./lib/nowplaying.js";
 import songdata from "./lib/songdata.js";
 import "./lib/seekbar.js";
 import "./lib/buttons.js";
+import "./lib/screen.js";
+
+import "./lib/thirdparty/lastfm.js";
 
 if (window.widgetMode)
 	document.documentElement.classList.add("widget-mode");
