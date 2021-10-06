@@ -7,8 +7,12 @@ const map = {
 };
 
 let resolution = "vga";
+
+// compute smallest
+const minLength = Math.min(screen.width, screen.height);
+
 for(const key in map){
-	if(screen.height >= map[key])
+	if(minLength >= map[key])
 		resolution = key;
 }
 
