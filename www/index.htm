@@ -15,7 +15,6 @@
 
 	<!-- Window controls -->
 	<div class="window-controls">
-		<span class="material-icons lyrics-btn">mic</span>
 		<span class="material-icons minimize">minimize</span>
 		<span class="material-icons fullscreen">fullscreen</span>
 		<span class="material-icons close">close</span>
@@ -28,35 +27,43 @@
 		<div class="art-container">
 			<div class="album-art"></div>
 			<div class="playback-controls">
-				<span id="shuffle" class="material-icons">shuffle</span>
-				<span id="previous" class="material-icons">skip_previous</span>
-				<span id="playpause" class="material-icons">play_arrow</span>
-				<span id="next" class="material-icons">skip_next</span>
-				<span id="repeat" class="material-icons">repeat</span>
+				<div class="first-row">
+					<span id="previous" class="material-icons">skip_previous</span>
+					<span id="playpause" class="material-icons">play_arrow</span>
+					<span id="next" class="material-icons">skip_next</span>
+				</div>
+				<div class="second-row">
+					<span id="shuffle" class="material-icons">shuffle</span>
+					<span id="lyrics-btn" class="material-icons">mic</span>
+					<span id="repeat" class="material-icons">repeat</span>
+				</div>
 			</div>
 		</div>
 
-		<!-- Metadata -->
-		<div class="metadata">
-			<h1 id="title"></h1>
-			<h2 id="artist"></h2>
-			<h3 id="album"></h3>
-			<div class="seekbar-bg">
-				<div id="seekbar"></div>
+		<!-- Info container -->
+		<div class="info-container">
+			<!-- Metadata -->
+			<div class="metadata">
+				<h1 id="title"></h1>
+				<h2 id="artist"></h2>
+				<h3 id="album"></h3>
+				<div class="seekbar-bg">
+					<div id="seekbar"></div>
+				</div>
+				<div class="details">
+					<h4 class="left" id="app-name"></h4>
+					<h4 class="right" id="time"></h4>
+				</div>
 			</div>
-			<div class="details">
-				<h4 class="left" id="app-name"></h4>
-				<h4 class="right" id="time"></h4>
-			</div>
-		</div>
 
-		<!-- Lyrics -->
-		<div class="lyrics" style="display: none;"></div>
+			<!-- Lyrics -->
+			<div class="lyrics hidden"></div>
+		</div>
 
 	</div>
 
 	<!-- Lyrics copyright footer -->
-	<span class="lyrics-footer" style="display: none;"></span>
+	<span class="lyrics-footer hidden"></span>
 </body>
 
 </html>

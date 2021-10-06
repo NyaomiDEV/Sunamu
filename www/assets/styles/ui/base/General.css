@@ -32,6 +32,14 @@ h1, h2, h3, h4, h5, h6, span, p {
 	border-radius: 2px;
 }
 
-@media only screen and (max-height: 850px), (max-width: 850px){
-	html { font-size: 50%; }
+@media only screen and (max-height: 900px), (max-width: 900px){
+	html {
+		font-size: 75%;
+	}
+}
+
+@media only screen and (max-height: 800px), (max-width: 800px){
+	html {
+		font-size: 50%;
+	}
 }

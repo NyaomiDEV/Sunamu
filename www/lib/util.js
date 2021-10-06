@@ -31,19 +31,22 @@ function reCenter() {
 	}
 }
 
-export function toggleLyricsView(){
-	if(document.getElementsByClassName("metadata")[0].style.display === "none"){
-		document.getElementsByClassName("metadata")[0].style.display = "";
-		document.getElementsByClassName("lyrics")[0].style.display = "none";
-		document.getElementsByClassName("lyrics-footer")[0].style.display = "none";
+export function toggleLyricsView(show){
+	if (typeof show === "undefined")
+		show = document.getElementsByClassName("lyrics")[0].classList.contains("hidden");
 
-		window.onresize = null;
-	}else{
-		document.getElementsByClassName("metadata")[0].style.display = "none";
-		document.getElementsByClassName("lyrics")[0].style.display = "";
-		document.getElementsByClassName("lyrics-footer")[0].style.display = "";
+	if(show){
+		document.getElementsByClassName("metadata")[0].classList.add("hidden");
+		document.getElementsByClassName("lyrics")[0].classList.remove("hidden");
+		document.getElementsByClassName("lyrics-footer")[0].classList.remove("hidden");
 
 		reCenter();
 		window.onresize = () => reCenter();
+	}else{
+		document.getElementsByClassName("metadata")[0].classList.remove("hidden");
+		document.getElementsByClassName("lyrics")[0].classList.add("hidden");
+		document.getElementsByClassName("lyrics-footer")[0].classList.add("hidden");
+
+		window.onresize = null;
 	}
 }

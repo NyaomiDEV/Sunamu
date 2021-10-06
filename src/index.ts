@@ -3,6 +3,7 @@ import { stat } from "fs/promises";
 import { resolve } from "path";
 import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage, GetPosition } from "./mpris2";
 import { searchForUserToken } from "./mxmusertoken";
+import { debug } from "./util";
 
 process.title = "sunamu";
 
@@ -11,7 +12,7 @@ const widgetMode = !!process.env.ILOVEGLASS;
 let win: BrowserWindow;
 
 if(widgetMode){
-	console.log("Widget mode");
+	debug("Widget mode");
 	//app.disableHardwareAcceleration();
 	app.commandLine.appendSwitch("use-gl", "desktop");
 	//app.commandLine.appendSwitch("enable-transparent-visuals");

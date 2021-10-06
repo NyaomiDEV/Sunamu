@@ -4,8 +4,6 @@ function bindWindowControls(){
 	document.getElementsByClassName("minimize")[0].onclick = () => window.np.minimize();
 	document.getElementsByClassName("close")[0].onclick = () => window.np.close();
 	document.getElementsByClassName("fullscreen")[0].onclick = () => fullscreen();
-
-	document.getElementsByClassName("lyrics-btn")[0].onclick = () => toggleLyricsView();
 }
 
 function bindPlaybackControls(){
@@ -14,6 +12,7 @@ function bindPlaybackControls(){
 	document.getElementById("playpause").onclick = () => window.np.playpause();
 	document.getElementById("next").onclick = () => window.np.next();
 	document.getElementById("repeat").onclick = () => window.np.repeat();
+	document.getElementById("lyrics-btn").onclick = () => toggleLyricsView();
 }
 
 bindWindowControls();

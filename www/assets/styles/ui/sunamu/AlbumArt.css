@@ -21,7 +21,7 @@
 
 .playback-controls {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	position: absolute;
@@ -35,15 +35,17 @@
 	opacity: 0;
 }
 
-.playback-controls > span {
+.playback-controls .first-row, .playback-controls .second-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.playback-controls > div > span {
 	color: white;
-	font-size: 1.5rem;
 	backdrop-filter: blur(16px) brightness(60%) saturate(200%);
 	background-color: transparent;
-	padding: 0.5rem;
-	margin: 0.5rem;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 2rem;
 	transition: ease .5s background-color;
 }
 
@@ -61,6 +63,22 @@
 	background-color: rgba(255, 255, 255, 0.50);
 }
 
-.playback-controls > #playpause {
+.playback-controls .first-row > span {
+	font-size: 1.5rem;
+	padding: 0.5rem;
+	margin: 0.5rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 2rem;
+}
+
+.playback-controls .first-row > #playpause {
 	font-size: 2rem;
+}
+
+.playback-controls .second-row > span {
+	font-size: 1rem;
+	padding: 0.5rem;
+	margin: 0.5rem;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 2rem;
 }

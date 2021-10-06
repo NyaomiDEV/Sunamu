@@ -1,21 +1,32 @@
+import { toggleLyricsView } from "./util.js";
+import songdata from "./songdata.js";
+
 // ON LOAD
 document.addEventListener("DOMContentLoaded", () => {
 	let idleMouseTimer;
+	let isBouncy = false;
 
 	function hider() {
 		idleMouseTimer = setTimeout(() => {
 			document.body.style.cursor = "none";
 			document.getElementsByClassName("window-controls")[0].classList.add("hidden");
 			document.getElementsByClassName("playback-controls")[0].classList.add("hidden");
+			if(songdata.lyrics?.synchronized) toggleLyricsView(true);
+			isBouncy = false;
 		}, 2000);
 	}
 
 	document.body.onmousemove = () => {
+		clearTimeout(idleMouseTimer);
+		hider();
+
+		if(isBouncy) return;
+
 		document.body.style.cursor = "";
 		document.getElementsByClassName("window-controls")[0].classList.remove("hidden");
 		document.getElementsByClassName("playback-controls")[0].classList.remove("hidden");
-		clearTimeout(idleMouseTimer);
-		hider();
+		if(songdata.lyrics?.synchronized) toggleLyricsView(false);
+		isBouncy = true;
 	};
 
 	hider();

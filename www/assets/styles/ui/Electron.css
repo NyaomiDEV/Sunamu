@@ -23,9 +23,7 @@ html.widget-mode .playback-controls {
 	-webkit-app-region: no-drag;
 }
 
-html.widget-mode .minimize,
-html.widget-mode .fullscreen,
-html.widget-mode .close {
+html.widget-mode .window-controls {
 	display: none;
 }
 
