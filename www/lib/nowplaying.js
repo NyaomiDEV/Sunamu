@@ -24,19 +24,25 @@ export async function updateNowPlaying() {
 	document.getElementById("time").textContent = songdata.metadata.length ? secondsToTime(songdata.metadata.length) : "";
 
 	// CONTROLS VISIBILITY
-	document.getElementsByClassName("playback-controls")[0].style.display = songdata.capabilities.canControl ? "" : "none";
-	document.getElementById("playpause").style.display = songdata.capabilities.canPlayPause ? "" : "none";
+	const playPauseBtn = document.getElementById("playpause");
+	const shuffleBtn = document.getElementById("shuffle");
+	const repeatBtn = document.getElementById("repeat");
+
+	document.getElementsByClassName("first-row")[0].style.display = songdata.capabilities.canControl ? "" : "none";
+	
+	playPauseBtn.style.display = songdata.capabilities.canPlayPause ? "" : "none";
 	document.getElementById("next").style.display = songdata.capabilities.canGoNext ? "" : "none";
 	document.getElementById("previous").style.display = songdata.capabilities.canGoPrevious ? "" : "none";
 
-	// CONTROLS STATUS
-	document.getElementById("playpause").textContent = songdata.status === "Playing" ? "pause" : "play_arrow";
+	shuffleBtn.style.display = songdata.capabilities.canControl ? "" : "none";
+	repeatBtn.style.display = songdata.capabilities.canControl ? "" : "none";
 
-	const shuffleBtn = document.getElementById("shuffle");
+	// CONTROLS STATUS
+	playPauseBtn.textContent = songdata.status === "Playing" ? "pause" : "play_arrow";
+
 	if(songdata.shuffle) shuffleBtn.classList.add("active");
 	else shuffleBtn.classList.remove("active");
 
-	const repeatBtn = document.getElementById("repeat");
 	switch(songdata.loop){
 		default:
 			repeatBtn.classList.remove("active");
