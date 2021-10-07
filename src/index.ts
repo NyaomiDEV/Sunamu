@@ -17,6 +17,12 @@ if(widgetMode)
 
 app.commandLine.appendSwitch("use-gl", "desktop");
 
+if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland"){
+	// We are in a Wayland session, most probably
+	app.commandLine.appendSwitch("enable-features", "UseOzonePlatform");
+	app.commandLine.appendSwitch("ozone-platform", "wayland");
+}
+
 async function main() {
 	await init(updateInfo);
 
