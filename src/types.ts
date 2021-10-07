@@ -36,6 +36,7 @@ export type Metadata = {
 	title: string,
 	album: string,
 	albumArtist?: string,
+	albumArtists?: string[],
 	artist: string,
 	artists: string[],
 	artUrl: string,

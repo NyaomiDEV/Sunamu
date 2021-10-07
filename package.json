@@ -14,7 +14,7 @@
     "url": "https://github.com/AryToNeX/Sunamu.git"
   },
   "scripts": {
-    "lint": "eslint src/ --ext .ts",
+    "lint": "eslint src/ www/lib/ --ext .ts,.js",
     "test": "tsc && DEBUG=1 electron .",
     "run": "tsc && electron .",
     "build": "tsc && electron-builder",

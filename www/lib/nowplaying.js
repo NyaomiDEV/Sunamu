@@ -10,7 +10,7 @@ import { searchSpotifySong } from "./thirdparty/spotify.js";
 
 export function updateNowPlaying() {
 	// TITLE
-	if(songdata.provider)
+	if (songdata.provider)
 		document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - Sunamu";
 	else
 		document.title = "Sunamu";
@@ -25,13 +25,13 @@ export function updateNowPlaying() {
 	// ARTIST
 	const artist = document.getElementById("artist");
 	const featRegex = /\(?(?:feat\.|ft\.|featuring) .+/i.exec(songdata.metadata.artist);
-	if(featRegex){
+	if (featRegex) {
 		const featSpan = document.createElement("span");
 		featSpan.classList.add("featuring");
 		featSpan.textContent = featRegex[0];
 		artist.textContent = songdata.metadata.artist.substring(0, featRegex.index);
 		artist.appendChild(featSpan);
-	}else
+	} else
 		artist.textContent = songdata.metadata.artist || lang.PLEASE_PLAY_SONG;
 
 	// TITLE, ALBUM, LENGTH
@@ -65,10 +65,10 @@ export function updateNowPlaying() {
 	// CONTROLS STATUS
 	playPauseBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));
 
-	if(songdata.shuffle) shuffleBtn.classList.add("active");
+	if (songdata.shuffle) shuffleBtn.classList.add("active");
 	else shuffleBtn.classList.remove("active");
 
-	switch(songdata.loop){
+	switch (songdata.loop) {
 		default:
 			repeatBtn.classList.remove("active");
 			repeatBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#repeat");
@@ -104,8 +104,8 @@ function updateTime() {
 	document.getElementById("time").textContent = secondsToTime(songdata.elapsed) + " • " + secondsToTime(songdata.metadata.length);
 }
 
-function setDisabledClass(elem, condition){
-	if(condition) elem.classList.remove("disabled");
+function setDisabledClass(elem, condition) {
+	if (condition) elem.classList.remove("disabled");
 	else elem.classList.add("disabled");
 }
 
@@ -117,7 +117,7 @@ async function pollLyrics() {
 }
 
 async function pollLastFm() {
-	if (songdata.provider){
+	if (songdata.provider) {
 		await getTrackInfo(config.lfmUsername);
 		updateNowPlaying();
 	}
@@ -137,7 +137,7 @@ async function pollSpotiUrl() {
 				id = result.id;
 		}
 
-		if(id) {
+		if (id) {
 			songdata.spotiUrl = "https://open.spotify.com/track/" + id;
 			updateNowPlaying();
 		}
@@ -148,22 +148,22 @@ window.np.registerUpdateCallback(async (update) => {
 	// PRE CHECK IF SOMETHING HAS CHANGED ACTUALLY
 	let metadataChanged = false;
 
-	if (!update){
+	if (!update) {
 		metadataChanged = true;
 		Object.assign(songdata, fallback);
 	} else {
 
-		if(songdata.metadata.id !== update.metadata.id){
-			for(let key in songdata.metadata){
+		if (songdata.metadata.id !== update.metadata.id) {
+			for (let key in songdata.metadata) {
 				// skip metadata that is not worth checking because the player might report them 'asynchronously'
-				if(["artUrl", "length"].includes(key)) continue;
+				if (["artUrl", "length"].includes(key)) continue;
 
 				if (
 					(typeof songdata.metadata[key] === "string" && songdata.metadata[key] !== update.metadata[key]) ||
-				(Array.isArray(songdata.metadata[key]) && songdata.metadata[key]
-					.filter(x => !update.metadata[key].includes(x))
-					.concat(update.metadata[key].filter(x => !songdata.metadata[key].includes(x))).length !== 0)
-				){
+					(Array.isArray(songdata.metadata[key]) && songdata.metadata[key]
+						.filter(x => !update.metadata[key].includes(x))
+						.concat(update.metadata[key].filter(x => !songdata.metadata[key].includes(x))).length !== 0)
+				) {
 					metadataChanged = true;
 					break;
 				}
@@ -173,7 +173,7 @@ window.np.registerUpdateCallback(async (update) => {
 		Object.assign(songdata, update);
 	}
 
-	if (metadataChanged){
+	if (metadataChanged) {
 		songdata.lyrics = undefined;
 		songdata.lastfm = undefined;
 		songdata.spotiUrl = undefined;

@@ -6,6 +6,9 @@ export const fallback = {
 	metadata: {
 		title: lang.NOT_PLAYING,
 		artist: lang.PLEASE_PLAY_SONG,
+		artists: undefined,
+		albumArtist: undefined,
+		albumArtists: undefined,
 		album: undefined,
 		artUrl: undefined,
 		length: undefined,
