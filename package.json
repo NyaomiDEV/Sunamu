@@ -33,6 +33,7 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
+    "json5": "^2.2.0",
     "leveldown": "^6.1.0",
     "levelup": "^5.0.1",
     "mpris-for-dummies": "arytonex/mpris-for-dummies"

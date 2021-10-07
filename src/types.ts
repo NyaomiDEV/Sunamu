@@ -18,15 +18,26 @@ export type NowPlayingAPI = {
 	requestUpdate: () => void,
 	// eslint-disable-next-line no-unused-vars
 	openExternal: (uri: string) => void,
+	getConfig: () => Promise<Config>,
 
 	mxmusertoken: () => Promise<string | undefined>
 	shouldBullyGlasscordUser: () => Promise<boolean>
 }
 
+export type Config = {
+	lfmUsername: string,
+	spotify: {
+		clientId: string,
+		clientSecret: string
+	}
+}
+
 export type Metadata = {
 	title: string,
 	album: string,
+	albumArtist?: string,
 	artist: string,
+	artists: string[],
 	artUrl: string,
 	length: number,
 	id: string

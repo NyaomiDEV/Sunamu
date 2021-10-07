@@ -26,7 +26,8 @@ export const fallback = {
 	app: undefined,
 	appName: undefined,
 	lyrics: undefined,
-	lastfm: undefined
+	lastfm: undefined,
+	spotiUrl: undefined
 };
 
 /** @type {SongData} */

@@ -1,17 +1,16 @@
-import "./lib/event.js";
 import { pollPosition, updateNowPlaying } from "./lib/nowplaying.js";
 import songdata from "./lib/songdata.js";
-import "./lib/seekbar.js";
+
 import "./lib/buttons.js";
+import "./lib/event.js";
 import "./lib/screen.js";
+import "./lib/seekbar.js";
 
 import "./lib/thirdparty/lastfm.js";
+import "./lib/thirdparty/spotify.js";
 
 if (window.widgetMode)
 	document.documentElement.classList.add("widget-mode");
-
-updateNowPlaying();
-setInterval(pollPosition, 200);
 
 // Expose debug stuff
 if(window.debugMode)
@@ -22,4 +21,6 @@ if(!localStorage.mxmusertoken){
 	if(token) localStorage.mxmusertoken = token;
 }
 
+updateNowPlaying();
+setInterval(pollPosition, 200);
 window.np.requestUpdate();

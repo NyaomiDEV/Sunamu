@@ -47,7 +47,8 @@ declare global {
 
 	export type SongData = Update & {
 		lyrics?: Lyrics
-		lastfm?: LastFMInfo
+		lastfm?: LastFMInfo,
+		spotiUrl?: string
 	}
 
 	// eslint-disable-next-line no-unused-vars

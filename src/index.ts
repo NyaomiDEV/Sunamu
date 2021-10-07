@@ -1,9 +1,10 @@
 import { app, BrowserWindow, ipcMain, shell } from "electron";
-import { stat } from "fs/promises";
+import { copyFile, readFile, stat } from "fs/promises";
 import { resolve } from "path";
 import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercentage, GetPosition } from "./mpris2";
 import { searchForUserToken } from "./mxmusertoken";
 import { debug } from "./util";
+import JSON5 from "json5";
 
 process.title = "sunamu";
 
@@ -38,7 +39,8 @@ async function main() {
 		shell.openExternal(uri);
 	});
 
-	ipcMain.handle("getposition", async () => await GetPosition());
+	ipcMain.handle("getConfig", async () => await getConfig());
+	ipcMain.handle("getPosition", async () => await GetPosition());
 	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
 	ipcMain.handle("shouldBullyGlasscordUser", async () => {
 		let bullyGlasscordUser = false;
@@ -94,6 +96,17 @@ async function updateInfo(){
 		win?.webContents?.send("update", update);
 	else
 		win?.webContents?.send("update");
+}
+
+async function getConfig(){
+	const configPath = resolve(app.getPath("appData"), "sunamu", "config.json5");
+	const defaultConfigPath = resolve(__dirname, "..", "assets", "config.json5");
+	try {
+		return JSON5.parse(await readFile(configPath, "utf8"));
+	} catch (_) {
+		await copyFile(defaultConfigPath, configPath);
+		JSON5.parse(await readFile(configPath, "utf8"));
+	}
 }
 
 main();

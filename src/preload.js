@@ -10,7 +10,7 @@ const npApi = {
 	repeat: () => ipcRenderer.send("repeat"),
 
 	seek: (positionToSeekbar) => ipcRenderer.send("seek", positionToSeekbar),
-	getposition: () => ipcRenderer.invoke("getposition"),
+	getposition: () => ipcRenderer.invoke("getPosition"),
 
 	minimize: () => ipcRenderer.send("minimize"),
 	close: () => ipcRenderer.send("close"),
@@ -18,6 +18,7 @@ const npApi = {
 	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, v) => callback(v)),
 	requestUpdate: () => ipcRenderer.send("requestUpdate"),
 	openExternal: (uri) => ipcRenderer.send("openExternal", uri),
+	getConfig: () => ipcRenderer.invoke("getConfig"),
 
 	mxmusertoken: () => ipcRenderer.invoke("mxmusertoken"),
 	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),

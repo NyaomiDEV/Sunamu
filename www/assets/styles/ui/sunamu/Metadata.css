@@ -51,6 +51,10 @@
 	width: 100%;
 }
 
+.metadata .featuring {
+	opacity: .6;
+}
+
 .metadata .left {
 	float: left;
 	text-align: left;

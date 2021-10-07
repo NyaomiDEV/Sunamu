@@ -22,7 +22,32 @@ It only supports Linux for now. macOS and Windows support are not planned.
 
 ## Installation
 
+### Every Linux distro
+
 Get the latest release from the [Releases](https://github.com/AryToNeX/Sunamu/releases/latest) section. The AppImage is recommended since it runs basically everywhere.
+
+### Arch Linux
+
+`sunamu` and `sunamu-git` are available as AUR packages. Install either of them via your AUR helper of choice.
+
+## Configuration
+
+Sunamu's configuration file is located in `~/.config/sunamu/config.json5`. You can use it to enable or disable features.
+
+Quick preview*:
+```js
+{
+	// Specify your Last.FM username here to get the fancy play count in the details section
+	"lfmUsername": "",
+	// Specify your Spotify Developer Client ID and Secret here to get the Spotify URL for the playing tracks
+	"spotify": {
+		"clientID": "",
+		"clientSecret": ""
+	}
+}
+```
+
+*It might be outdated easily! Please check [the actual config file](assets/config.json5) instead.
 
 ## Usage
 

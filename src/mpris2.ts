@@ -200,6 +200,8 @@ function parseMetadata(metadata): Metadata {
 	return {
 		title: metadata["xesam:title"],
 		artist: typeof metadata["xesam:artist"] === "string" ? metadata["xesam:artist"] : metadata["xesam:artist"]?.join("; "),
+		artists: typeof metadata["xesam:artist"] === "string" ? [metadata["xesam:artist"]] : metadata["xesam:artist"],
+		albumArtist: metadata["xesam:albumArtist"] || undefined,
 		album: typeof metadata["xesam:album"] === "string" ? metadata["xesam:album"] : JSON.stringify(metadata["xesam:album"]), // FUCK YOU NON-COMPLIANT DEVELOPERS, I WILL NOT PUT AN ENDLESS LIST OF QUIRKY APPS HERE
 		length: Number(metadata["mpris:length"] || 0) / 1000000,
 		artUrl: metadata["mpris:artUrl"],
