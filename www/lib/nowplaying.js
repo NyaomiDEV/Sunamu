@@ -2,7 +2,7 @@ import lang from "./lang.js";
 import config from "./config.js";
 import { putLyricsInPlace, queryLyrics, updateActiveLyrics } from "./lyrics.js";
 import songdata, { fallback } from "./songdata.js";
-import { secondsToTime } from "./util.js";
+import { secondsToTime, spotiId } from "./util.js";
 import { updateSeekbar } from "./seekbar.js";
 import { getTrackInfo } from "./thirdparty/lastfm.js";
 import { show } from "./showhide.js";
@@ -51,16 +51,16 @@ export function updateNowPlaying() {
 	const repeatBtn = document.getElementById("repeat");
 
 	document.getElementsByClassName("first-row")[0].style.display = songdata.capabilities.canControl ? "" : "none";
-	
-	playPauseBtn.style.display = songdata.capabilities.canPlayPause ? "" : "none";
-	document.getElementById("next").style.display = songdata.capabilities.canGoNext ? "" : "none";
-	document.getElementById("previous").style.display = songdata.capabilities.canGoPrevious ? "" : "none";
 
-	shuffleBtn.style.display = songdata.capabilities.canControl ? "" : "none";
-	repeatBtn.style.display = songdata.capabilities.canControl ? "" : "none";
+	setDisabledClass(playPauseBtn, songdata.capabilities.canPlayPause);
+	setDisabledClass(document.getElementById("next"), songdata.capabilities.canGoNext);
+	setDisabledClass(document.getElementById("previous"), songdata.capabilities.canGoPrevious);
 
-	document.getElementById("lastfm").style.display = songdata.lastfm ? "" : "none";
-	document.getElementById("spotify").style.display = songdata.spotiUrl ? "" : "none";
+	setDisabledClass(shuffleBtn, songdata.capabilities.canControl);
+	setDisabledClass(repeatBtn, songdata.capabilities.canControl);
+
+	setDisabledClass(document.getElementById("lastfm"), songdata.lastfm);
+	setDisabledClass(document.getElementById("spotify"), songdata.spotiUrl);
 
 	// CONTROLS STATUS
 	playPauseBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));
@@ -104,6 +104,11 @@ function updateTime() {
 	document.getElementById("time").textContent = secondsToTime(songdata.elapsed) + " • " + secondsToTime(songdata.metadata.length);
 }
 
+function setDisabledClass(elem, condition){
+	if(condition) elem.classList.remove("disabled");
+	else elem.classList.add("disabled");
+}
+
 async function pollLyrics() {
 	if (songdata.provider)
 		await queryLyrics();
@@ -120,9 +125,20 @@ async function pollLastFm() {
 
 async function pollSpotiUrl() {
 	if (songdata.provider) {
-		const result = await searchSpotifySong();
-		if(result) {
-			songdata.spotiUrl = "https://open.spotify.com/track/" + result.id; 
+		let id;
+
+		const spotiMatch = spotiId.exec(songdata.metadata.id);
+
+		if (spotiMatch)
+			id = spotiMatch[1];
+		else {
+			const result = await searchSpotifySong();
+			if (result)
+				id = result.id;
+		}
+
+		if(id) {
+			songdata.spotiUrl = "https://open.spotify.com/track/" + id;
 			updateNowPlaying();
 		}
 	}
@@ -131,21 +147,31 @@ async function pollSpotiUrl() {
 window.np.registerUpdateCallback(async (update) => {
 	// PRE CHECK IF SOMETHING HAS CHANGED ACTUALLY
 	let metadataChanged = false;
-	if (!update || songdata.metadata.id !== update.metadata.id) metadataChanged = true;
-	else {
-		for(let key in songdata.metadata){
-			// skip metadata that is not worth checking because the player might report them 'asynchronously'
-			if(["artUrl", "length"].includes(key)) continue;
 
-			if(songdata.metadata[key] !== update.metadata[key]){
-				metadataChanged = true;
-				break;
+	if (!update){
+		metadataChanged = true;
+		Object.assign(songdata, fallback);
+	} else {
+
+		if(songdata.metadata.id !== update.metadata.id){
+			for(let key in songdata.metadata){
+				// skip metadata that is not worth checking because the player might report them 'asynchronously'
+				if(["artUrl", "length"].includes(key)) continue;
+
+				if (
+					(typeof songdata.metadata[key] === "string" && songdata.metadata[key] !== update.metadata[key]) ||
+				(Array.isArray(songdata.metadata[key]) && songdata.metadata[key]
+					.filter(x => !update.metadata[key].includes(x))
+					.concat(update.metadata[key].filter(x => !songdata.metadata[key].includes(x))).length !== 0)
+				){
+					metadataChanged = true;
+					break;
+				}
 			}
 		}
-	}
 
-	if(!update) Object.assign(songdata, fallback);
-	else Object.assign(songdata, update);
+		Object.assign(songdata, update);
+	}
 
 	if (metadataChanged){
 		songdata.lyrics = undefined;
@@ -159,6 +185,4 @@ window.np.registerUpdateCallback(async (update) => {
 	}
 
 	updateNowPlaying();
-
-
 });

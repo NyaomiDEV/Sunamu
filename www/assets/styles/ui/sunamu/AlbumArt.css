@@ -35,7 +35,7 @@
 	opacity: 0;
 }
 
-.playback-controls .first-row, .playback-controls .second-row {
+.playback-controls > div {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -43,6 +43,12 @@
 }
 
 .playback-controls > div > * {
+	width: 1rem;
+	height: 1rem;
+	padding: 0.5rem;
+	margin: 0.5rem;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 2rem;
 	color: white;
 	backdrop-filter: blur(16px) brightness(60%) saturate(200%);
 	background-color: transparent;
@@ -60,7 +66,17 @@
 
 .playback-controls > div > *.active:hover {
 	color: black;
-	background-color: rgba(255, 255, 255, 0.50);
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.playback-controls > div > *.disabled {
+	color: rgba(255, 255, 255, 0.5);
+	pointer-events: none;
+}
+
+.playback-controls > div > *.active.disabled {
+	color: rgba(0, 0, 0, 0.5);
+	pointer-events: none;
 }
 
 .playback-controls .first-row > * {
@@ -75,13 +91,4 @@
 .playback-controls .first-row > #playpause {
 	width: 2rem;
 	height: 2rem;
-}
-
-.playback-controls .second-row > * {
-	width: 1rem;
-	height: 1rem;
-	padding: 0.5rem;
-	margin: 0.5rem;
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-	border-radius: 2rem;
 }

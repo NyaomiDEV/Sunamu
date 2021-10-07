@@ -1,7 +1,7 @@
 import songdata from "../songdata.js";
+import { spotiId } from "../util.js";
 
 const url = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get?format=json&namespace=lyrics_richsynched&subtitle_format=mxm&app_id=web-desktop-app-v1.0";
-const spotiId = /spotify:track:(.+)/;
 
 function getQueryParams() {
 	const params = {

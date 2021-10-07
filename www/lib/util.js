@@ -1,3 +1,5 @@
+export const spotiId = /spotify:track:(.+)/;
+
 export function secondsToTime(duration) {
 	duration = Math.floor(duration);
 	let seconds = duration % 60,
