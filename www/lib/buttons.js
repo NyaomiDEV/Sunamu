@@ -14,7 +14,10 @@ function bindPlaybackControls(){
 	document.getElementById("next").onclick = () => window.np.next();
 	document.getElementById("repeat").onclick = () => window.np.repeat();
 	document.getElementById("lyrics-btn").onclick = () => toggleLyricsView();
-	document.getElementById("lastfm").onclick = () => window.np.openExternal(songdata.lastfm.url);
+
+	const lastfm = document.getElementById("lastfm");
+	lastfm.oncontextmenu = () => navigator.clipboard.writeText(songdata.lastfm.url);
+	lastfm.onclick = () => window.np.openExternal(songdata.lastfm.url);
 	
 	const spotify = document.getElementById("spotify");
 	spotify.oncontextmenu = () => navigator.clipboard.writeText(songdata.spotiUrl);
