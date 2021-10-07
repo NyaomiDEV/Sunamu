@@ -9,9 +9,6 @@ import "./lib/seekbar.js";
 import "./lib/thirdparty/lastfm.js";
 import "./lib/thirdparty/spotify.js";
 
-if (window.widgetMode)
-	document.documentElement.classList.add("widget-mode");
-
 // Expose debug stuff
 if(window.debugMode)
 	window.getNowPlaying = () => songdata;

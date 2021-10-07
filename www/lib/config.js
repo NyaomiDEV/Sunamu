@@ -1,4 +1,5 @@
 const fallback = {
+	font: "",
 	lfmUsername: "",
 	spotify: {
 		clientID: "",

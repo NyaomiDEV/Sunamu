@@ -1,3 +1,6 @@
+import config from "./config.js";
+
+// Set resolution
 const map = {
 	vga: 480,
 	xga: 720,
@@ -17,3 +20,11 @@ for(const key in map){
 }
 
 document.documentElement.classList.add("resolution-" + resolution);
+
+// Widget mode
+if (window.widgetMode)
+	document.documentElement.classList.add("widget-mode");
+
+// Font
+if (config.font)
+	document.querySelector(":root").style.setProperty("--font-family", config.font);
