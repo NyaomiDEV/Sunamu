@@ -8,8 +8,10 @@ import { getTrackInfo } from "./thirdparty/lastfm.js";
 import { show } from "./showhide.js";
 import { searchSpotifySong } from "./thirdparty/spotify.js";
 
+const featRegex = /\[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
+
 export function updateNowPlaying() {
-	// TITLE
+	// WINDOW TITLE
 	if (songdata.provider)
 		document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - Sunamu";
 	else
@@ -23,20 +25,15 @@ export function updateNowPlaying() {
 
 
 	// ARTIST
-	const artist = document.getElementById("artist");
-	const featRegex = /\(?(?:feat\.|ft\.|featuring) .+/i.exec(songdata.metadata.artist);
-	if (featRegex) {
-		const featSpan = document.createElement("span");
-		featSpan.classList.add("featuring");
-		featSpan.textContent = featRegex[0];
-		artist.textContent = songdata.metadata.artist.substring(0, featRegex.index);
-		artist.appendChild(featSpan);
-	} else
-		artist.textContent = songdata.metadata.artist || lang.PLEASE_PLAY_SONG;
+	formatMetadata(document.getElementById("artist"), featRegex, "featuring", songdata.metadata.artist, lang.PLEASE_PLAY_SONG);
 
-	// TITLE, ALBUM, LENGTH
-	document.getElementById("title").textContent = songdata.metadata.title || lang.NOT_PLAYING;
-	document.getElementById("album").textContent = songdata.metadata.album || "";
+	// TITLE
+	formatMetadata(document.getElementById("title"), featRegex, "featuring", songdata.metadata.title, lang.NOT_PLAYING);
+
+	// ALBUM
+	formatMetadata(document.getElementById("album"), featRegex, "featuring", songdata.metadata.album, "");
+
+	// TIME
 	document.getElementById("time").textContent = songdata.metadata.length ? secondsToTime(songdata.metadata.length) : "";
 
 	// DETAILS
@@ -107,6 +104,21 @@ function updateTime() {
 function setDisabledClass(elem, condition) {
 	if (condition) elem.classList.remove("disabled");
 	else elem.classList.add("disabled");
+}
+
+function formatMetadata(elem, regex, spanClass, data, fallback){
+	let match = regex.exec(data);
+	if (match) {
+		const span = document.createElement("span");
+		span.classList.add(spanClass);
+		span.textContent = match[0];
+		const [start, end] = data.split(match[0]);
+		while(elem.firstChild) elem.removeChild(elem.lastChild);
+		elem.appendChild(document.createTextNode(start));
+		elem.appendChild(span);
+		elem.appendChild(document.createTextNode(end || ""));
+	} else
+		elem.textContent = data || fallback;
 }
 
 async function pollLyrics() {
