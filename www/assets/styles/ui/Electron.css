@@ -28,6 +28,7 @@ html.widget-mode .window-controls {
 }
 
 html.widget-mode .metadata > *,
-html.widget-mode .lyrics > * {
-	text-shadow: 0 2px 8px rgba(0, 0, 0, 1);
+html.widget-mode .lyrics > *,
+html.widget-mode .lyrics-footer {
+	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
 }
