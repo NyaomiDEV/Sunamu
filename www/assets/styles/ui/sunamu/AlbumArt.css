@@ -28,11 +28,6 @@
 	bottom: 1.5rem;
 	width: 100%;
 	opacity: 1;
-	transition: ease .5s opacity;
-}
-
-.playback-controls.hidden {
-	opacity: 0;
 }
 
 .playback-controls > div {
@@ -52,7 +47,12 @@
 	color: white;
 	backdrop-filter: blur(16px) brightness(60%) saturate(200%);
 	background-color: transparent;
-	transition: ease .5s background-color;
+	transition: ease .5s background-color,
+				ease .5s opacity;
+}
+
+.playback-controls.hidden > div > * {
+	opacity: 0;
 }
 
 .playback-controls > div > *:hover {
