@@ -1,17 +1,5 @@
-import { NowPlayingAPI, Update } from "../src/types";
+import { NowPlayingAPI, Update, Lyrics, LyricsLine } from "../src/types";
 declare global {
-	export type Lyrics = {
-		provider: string,
-		synchronized: boolean,
-		lines: LyricsLine[],
-		copyright: string
-	}
-
-	export type LyricsLine = {
-		text: string,
-		time?: number
-	}
-
 	export type LrcFile = {
 		lines: LyricsLine[],
 		metadata: {

@@ -18,7 +18,7 @@
     "test": "tsc && DEBUG=1 electron .",
     "run": "tsc && electron .",
     "build": "tsc && electron-builder",
-    "release": "yarn clean && tsc && electron-builder --armv7l --arm64 --ia32 --x64",
+    "release": "yarn clean && tsc && electron-builder --armv7l --arm64 --ia32 --x64; yarn install-deps",
     "install-deps": "electron-builder install-app-deps",
     "build:dir": "tsc && electron-builder --dir",
     "clean": "rm -rf lib && rm -rf targets"

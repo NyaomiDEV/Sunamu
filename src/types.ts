@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export type NowPlayingAPI = {
 	previous: () => void,
 	playpause: () => void,
@@ -6,19 +7,18 @@ export type NowPlayingAPI = {
 	shuffle: () => void,
 	repeat: () => void,
 
-	// eslint-disable-next-line no-unused-vars
 	seek: (positionToSeekbar: number) => void,
 	getposition: () => Promise<number>
 
 	minimize: () => void,
 	close: () => void,
 
-	// eslint-disable-next-line no-unused-vars
 	registerUpdateCallback: (callback: Function) => void,
 	requestUpdate: () => void,
-	// eslint-disable-next-line no-unused-vars
 	openExternal: (uri: string) => void,
 	getConfig: () => Promise<Config>,
+	getLyrics: (id: string) => Promise<Lyrics | undefined>,
+	saveLyrics: (id: string, data: Lyrics) => Promise<boolean>,
 
 	mxmusertoken: () => Promise<string | undefined>
 	shouldBullyGlasscordUser: () => Promise<boolean>
@@ -63,4 +63,16 @@ export type Update = {
 	elapsed: number,
 	app: string,
 	appName: string
+}
+
+export type Lyrics = {
+	provider: string,
+	synchronized: boolean,
+	lines: LyricsLine[],
+	copyright: string
+}
+
+export type LyricsLine = {
+	text: string,
+	time?: number
 }

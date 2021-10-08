@@ -19,6 +19,8 @@ const npApi = {
 	requestUpdate: () => ipcRenderer.send("requestUpdate"),
 	openExternal: (uri) => ipcRenderer.send("openExternal", uri),
 	getConfig: () => ipcRenderer.invoke("getConfig"),
+	getLyrics: (id) => ipcRenderer.invoke("getLyrics", id),
+	saveLyrics: (id, data) => ipcRenderer.invoke("saveLyrics", id, data),
 
 	mxmusertoken: () => ipcRenderer.invoke("mxmusertoken"),
 	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),

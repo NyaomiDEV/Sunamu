@@ -5,6 +5,7 @@ import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercen
 import { searchForUserToken } from "./mxmusertoken";
 import { debug } from "./util";
 import JSON5 from "json5";
+import {get as getLyrics, save as saveLyrics } from "./lyricsOffline";
 
 process.title = "sunamu";
 
@@ -17,7 +18,7 @@ if(widgetMode)
 
 app.commandLine.appendSwitch("use-gl", "desktop");
 
-if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland"){
+if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && !process.env.NOWAYLAND){
 	// We are in a Wayland session, most probably
 	app.commandLine.appendSwitch("enable-features", "UseOzonePlatform");
 	app.commandLine.appendSwitch("ozone-platform", "wayland");
@@ -48,6 +49,9 @@ async function main() {
 	ipcMain.handle("getConfig", async () => await getConfig());
 	ipcMain.handle("getPosition", async () => await GetPosition());
 	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
+	ipcMain.handle("getLyrics", async (_e, id) => await getLyrics(id));
+	ipcMain.handle("saveLyrics", async (_e, id, data) => await saveLyrics(id, data));
+
 	ipcMain.handle("shouldBullyGlasscordUser", async () => {
 		let bullyGlasscordUser = false;
 		const gcPath = resolve(app.getPath("appData"), "glasscord");
