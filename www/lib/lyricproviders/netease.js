@@ -4,9 +4,9 @@ import songdata from "../songdata.js";
 const search_url = "http://music.163.com/api/search/get";
 const lyrics_url = "http://music.163.com/api/song/lyric";
 
-/** @return {Lyrics} */
+/** @return {import("../../../src/types").Lyrics} */
 export async function query() {
-	/** @type {Lyrics} */
+	/** @type {import("../../../src/types").Lyrics} */
 	const reply = {
 		provider: "NetEase Music",
 		synchronized: true,

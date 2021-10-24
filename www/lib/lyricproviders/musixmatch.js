@@ -19,12 +19,12 @@ function getQueryParams() {
 	return Object.keys(params).map(key => key + "=" + encodeURIComponent(params[key])).join("&");
 }
 
-/** @return {Lyrics} */
+/** @return {import("../../../src/types").Lyrics} */
 export async function query() {
 	if (!window.localStorage.mxmusertoken)
 		return undefined;
 
-	/** @type {Lyrics} */
+	/** @type {import("../../../src/types").Lyrics} */
 	const reply = {
 		provider: "Musixmatch",
 		synchronized: true,

@@ -1,4 +1,5 @@
 import { NowPlayingAPI, Update, Lyrics, LyricsLine } from "../src/types";
+
 declare global {
 	export type LrcFile = {
 		lines: LyricsLine[],
@@ -34,7 +35,7 @@ declare global {
 	}
 
 	export type SongData = Update & {
-		lyrics?: Lyrics
+		lyrics?: Lyrics,
 		lastfm?: LastFMInfo,
 		spotiUrl?: string
 	}

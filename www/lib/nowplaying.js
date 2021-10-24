@@ -8,7 +8,7 @@ import { getTrackInfo } from "./thirdparty/lastfm.js";
 import { show } from "./showhide.js";
 import { searchSpotifySong } from "./thirdparty/spotify.js";
 
-const featRegex = /\[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
+const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
 
 export function updateNowPlaying() {
 	// WINDOW TITLE

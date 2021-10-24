@@ -2,9 +2,9 @@ import songdata from "../songdata.js";
 
 const search_url = "https://genius.com/api/search/song";
 
-/** @return {Lyrics} */
+/** @return {import("../../../src/types").Lyrics} */
 export async function query() {
-	/** @type {Lyrics} */
+	/** @type {import("../../../src/types").Lyrics} */
 	const reply = {
 		provider: "Genius",
 		synchronized: false,

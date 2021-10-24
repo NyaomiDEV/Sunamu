@@ -11,18 +11,24 @@ const footer = document.getElementsByClassName("lyrics-footer")[0];
 const glasscordUser = await window.np.shouldBullyGlasscordUser();
 
 export async function queryLyrics() {
+	/** @type {import("../../src/types").Lyrics} */
 	let lyrics;
 	const id = `${songdata.metadata.artist}:${songdata.metadata.album}:${songdata.metadata.title}`;
 
+	/** @type {import("../../src/types").Lyrics} */
 	const cached = await window.np.getLyrics(id);
-	if (!cached) {
-		console.debug(`Cache miss for ${songdata.metadata.artist} - ${songdata.metadata.title}`);
+
+	if (!cached || !cached?.synchronized) {
+		if(!cached) console.debug(`Cache miss for ${songdata.metadata.artist} - ${songdata.metadata.title}`);
+		else if (!cached?.synchronized) console.debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics anyway for ${songdata.metadata.artist} - ${songdata.metadata.title}`);
 
 		const providers = {
 			Musixmatch,
-			NetEase,
-			Genius
+			NetEase
 		};
+
+		// if cached then we could assume it is unsync and genius can only provide unsync
+		if(!cached) providers.Genius = Genius;
 
 		for (const provider in providers) {
 			console.debug("Fetching from " + provider);
@@ -33,7 +39,9 @@ export async function queryLyrics() {
 		if (lyrics)
 			window.np.saveLyrics(id, lyrics);
 
-	} else
+	}
+
+	if(cached && !lyrics)
 		lyrics = cached;
 
 	if (lyrics)
