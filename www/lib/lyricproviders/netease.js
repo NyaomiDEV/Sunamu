@@ -28,7 +28,11 @@ export async function query() {
 	}
 
 	reply.lines = parseLrc(lyrics).lines;
-	return reply;
+
+	if(reply.lines.length)
+		return reply;
+	
+	return undefined;
 }
 
 function getSearchFields(){
