@@ -18,7 +18,7 @@ export async function queryLyrics() {
 	/** @type {import("../../src/types").Lyrics} */
 	const cached = await window.np.getLyrics(id);
 
-	if (!cached || !cached?.synchronized) {
+	if (!cached || !cached.lines.length || !cached?.synchronized) {
 		if(!cached) console.debug(`Cache miss for ${songdata.metadata.artist} - ${songdata.metadata.title}`);
 		else if (!cached?.synchronized) console.debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics anyway for ${songdata.metadata.artist} - ${songdata.metadata.title}`);
 
@@ -33,7 +33,8 @@ export async function queryLyrics() {
 		for (const provider in providers) {
 			console.debug("Fetching from " + provider);
 			lyrics = await providers[provider]();
-			if (lyrics) break;
+			if (lyrics && lyrics.lines.length) break;
+			lyrics = undefined;
 		}
 
 		if (lyrics)
@@ -44,7 +45,7 @@ export async function queryLyrics() {
 	if(cached && !lyrics)
 		lyrics = cached;
 
-	if (lyrics)
+	if (lyrics && lyrics.lines.length)
 		songdata.lyrics = lyrics;
 }
 
