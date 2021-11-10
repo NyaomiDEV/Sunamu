@@ -11,29 +11,32 @@ async function connect(){
 
 	let _resolve;
 	loginPromise = new Promise(resolve => {_resolve = resolve;});
+	let error: boolean, client: RPC.Client;
 
-	const client = new RPC.Client({
-		transport: "ipc"
-	});
+	do {
+		client = new RPC.Client({
+			transport: "ipc"
+		});
 
-	client.once("connected", () => {
-		debug("Discord RPC is connected");
-	});
+		client.once("connected", () => {
+			debug("Discord RPC is connected");
+		});
 
-	// @ts-ignore
-	client.once("disconnected", async () => {
-		debug("Discord RPC was disconnected");
-		rpc = undefined;
-	});
+		// @ts-ignore
+		client.once("disconnected", async () => {
+			debug("Discord RPC was disconnected");
+			rpc = undefined;
+		});
 
-	let error;
-	do{
 		try{
-			debug("Discord RPC logging in");
 			error = false;
+			debug("Discord RPC logging in");
 			await client.connect(clientId);
 		}catch(_e){
+			debug(_e);
 			error = true;
+			client.removeAllListeners();
+			await client.destroy().catch(() => {});
 			debug("Discord RPC errored out while logging in, waiting 5 seconds before retrying");
 			await new Promise(resolve => setTimeout(resolve, 5000));
 		}
