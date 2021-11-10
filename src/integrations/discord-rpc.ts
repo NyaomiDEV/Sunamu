@@ -1,6 +1,6 @@
 import RPC from "discord-rpc";
-import { Update } from "./types";
-import { debug } from "./util";
+import { Update } from "../types";
+import { debug } from "../util";
 
 const disabled = typeof process.env.DISCORDRPC !== "undefined" && !process.env.DISCORDRPC;
 debug("Discord RPC is disabled?", disabled);

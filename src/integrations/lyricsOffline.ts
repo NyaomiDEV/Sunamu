@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { createHash } from "crypto";
 import JSON5 from "json5";
-import { Lyrics } from "./types";
+import { Lyrics } from "../types";
 
 const lyrPath = resolve(app.getPath("appData"), "sunamu", "Lyrics Cache");
 

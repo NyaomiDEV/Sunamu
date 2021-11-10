@@ -1,7 +1,7 @@
-import { debug } from "./util";
+import { debug } from "../util";
 import { getPlayer, getPlayerNames } from "mpris-for-dummies";
 import dbus from "dbus-next";
-import { Metadata, Update } from "./types";
+import { Metadata, Update } from "../types";
 import MediaPlayer2 from "mpris-for-dummies/lib/MediaPlayer2";
 
 let players: { [key: string]: MediaPlayer2 } = {};
