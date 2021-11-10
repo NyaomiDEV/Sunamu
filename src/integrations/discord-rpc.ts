@@ -6,7 +6,7 @@ const clientId = "908012408008736779";
 let rpc: RPC.Client | undefined;
 let loginPromise;
 
-async function login(){
+async function connect(){
 	if(loginPromise) return loginPromise;
 
 	let _resolve;
@@ -31,7 +31,7 @@ async function login(){
 		try{
 			debug("Discord RPC logging in");
 			error = false;
-			await client.login({ clientId });
+			await client.connect(clientId);
 		}catch(_e){
 			error = true;
 			debug("Discord RPC errored out while logging in, waiting 5 seconds before retrying");
@@ -57,7 +57,7 @@ export async function updatePresence(update?: Update) {
 	) return;
 
 	while (!rpc)
-		await login();
+		await connect();
 
 	if(!update || !update.metadata.id) {
 		rpc.clearActivity();
