@@ -1,0 +1,11 @@
+{
+	"files.associations": {
+		"*.json5": "json5",
+		"initializer_list": "cpp",
+		"memory": "cpp",
+		"functional": "cpp",
+		"string": "cpp",
+		"vector": "cpp"
+	},
+	"C_Cpp.errorSquiggles": "Enabled"
+}

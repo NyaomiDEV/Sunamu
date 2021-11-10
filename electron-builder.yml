@@ -23,6 +23,8 @@ files:
   - "!tsconfig.json"
   - "!assets/{preview*.png,icon.svg}"
   - "!aur/*"
+  - "!.github/*"
+  - "!.vscode/*"
 linux:
   target:
   - AppImage

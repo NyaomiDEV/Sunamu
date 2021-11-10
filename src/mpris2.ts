@@ -28,10 +28,8 @@ export async function init(callback: Function): Promise<void>{
 }
 
 export async function getUpdate(): Promise<Update | null> {
-	if (!activePlayer) {
-		debug("updateInfo empty");
+	if (!activePlayer)
 		return null;
-	}
 
 	try{
 		let update: Update = {
@@ -52,8 +50,6 @@ export async function getUpdate(): Promise<Update | null> {
 			app: activePlayer,
 			appName: players[activePlayer].Identity || ""
 		};
-
-		debug("updateInfo", update);
 		return update;
 	}catch(_){
 		return null;
@@ -155,7 +151,6 @@ async function deletePlayer(name: string) {
 function registerPlayerEvents(name: string) {
 	players[name].Player.on("PropertiesChanged", (changed) => {
 		if (name === activePlayer) {
-			debug("changed", changed);
 			updateCallback();
 			return;
 		}
@@ -164,9 +159,8 @@ function registerPlayerEvents(name: string) {
 			calculateActivePlayer(name);
 	});
 
-	players[name].Player.on("Seeked", async (to) => {
+	players[name].Player.on("Seeked", async () => {
 		if (name === activePlayer) {
-			debug("seeked", to);
 			await new Promise(resolve => setTimeout(resolve, 250)); // wait for new metadata to get populated by media player
 			updateCallback();
 			return;

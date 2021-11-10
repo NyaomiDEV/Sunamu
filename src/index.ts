@@ -5,7 +5,8 @@ import { getUpdate, init, Next, PlayPause, Previous, Shuffle, Repeat, SeekPercen
 import { searchForUserToken } from "./mxmusertoken";
 import { debug } from "./util";
 import JSON5 from "json5";
-import {get as getLyrics, save as saveLyrics } from "./lyricsOffline";
+import { get as getLyrics, save as saveLyrics } from "./lyricsOffline";
+import { updatePresence } from "./discord-rpc";
 
 process.title = "sunamu";
 
@@ -102,10 +103,13 @@ async function spawnWindow() {
 
 async function updateInfo(){
 	const update = await getUpdate();
-	if(update)
+	if(update) {
 		win?.webContents?.send("update", update);
-	else
+		updatePresence(update);
+	} else {
 		win?.webContents?.send("update");
+		updatePresence();
+	}
 }
 
 async function getConfig(){

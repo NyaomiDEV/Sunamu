@@ -7,7 +7,6 @@ import JSON5 from "json5";
 import { Lyrics } from "./types";
 
 const lyrPath = resolve(app.getPath("appData"), "sunamu", "Lyrics Cache");
-console.log(lyrPath);
 
 function md5(data){
 	return createHash("md5").update(data).digest("hex");
