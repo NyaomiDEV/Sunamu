@@ -1,14 +1,9 @@
 import RPC from "discord-rpc";
 import { Update } from "../types";
-import { debug } from "../util";
-
-const disabled = typeof process.env.DISCORDRPC !== "undefined" && !process.env.DISCORDRPC;
-debug("Discord RPC is disabled?", disabled);
+import { checkSwitch, debug, getConfig } from "../util";
 
 const clientId = "908012408008736779";
-
 let rpc: RPC.Client | undefined;
-
 let loginPromise;
 
 async function login(){
@@ -50,7 +45,16 @@ async function login(){
 }
 
 export async function updatePresence(update?: Update) {
-	if (disabled) return;
+	const enabled = (await getConfig()).discordRpc;
+	const isEnabledOverride = (!!process.env.DISCORDRPC);
+	const enabledOverrideValue = checkSwitch(process.env.DISCORDRPC);
+
+	if(
+		!(
+			(isEnabledOverride && enabledOverrideValue) ||
+			(!isEnabledOverride && enabled)
+		)
+	) return;
 
 	while (!rpc)
 		await login();

@@ -7,5 +7,7 @@
 	"spotify": {
 		"clientID": "",
 		"clientSecret": ""
-	}
+	},
+	// Specify if you want your Discord Presence to show what you are playing
+	"discordRpc": true
 }

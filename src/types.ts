@@ -29,7 +29,8 @@ export type Config = {
 	spotify: {
 		clientId: string,
 		clientSecret: string
-	}
+	},
+	discordRpc: boolean
 }
 
 export type Metadata = {
