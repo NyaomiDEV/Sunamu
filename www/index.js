@@ -9,6 +9,8 @@ import "./lib/seekbar.js";
 import "./lib/thirdparty/lastfm.js";
 import "./lib/thirdparty/spotify.js";
 
+window.title = "Sunamu" + (window.widgetMode ? " Widget" : "");
+
 // Expose debug stuff
 if(window.debugMode)
 	window.getNowPlaying = () => songdata;

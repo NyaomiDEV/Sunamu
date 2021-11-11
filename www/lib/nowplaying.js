@@ -13,10 +13,12 @@ const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
 
 export function updateNowPlaying() {
 	// WINDOW TITLE
-	if (songdata.provider)
-		document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - Sunamu";
-	else
-		document.title = "Sunamu";
+	if(!window.widgetMode){
+		if (songdata.provider)
+			document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - " + window.title;
+		else
+			document.title = window.title;
+	}
 
 	// COVER ART
 	if (songdata.metadata.artUrl)

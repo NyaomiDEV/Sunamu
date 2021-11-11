@@ -80,6 +80,7 @@ async function spawnWindow() {
 		show: true,
 		frame: false,
 		transparent: widgetMode,
+		hasShadow: !widgetMode,
 		minWidth: 458,
 		minHeight: 512,
 		backgroundColor: widgetMode ? "#00000000" : "#000000",
@@ -88,7 +89,6 @@ async function spawnWindow() {
 		resizable: true,
 		fullscreenable: !widgetMode,
 		skipTaskbar: widgetMode,
-		type: widgetMode ? "dialog" : "normal",
 		autoHideMenuBar: true,
 		webPreferences: {
 			contextIsolation: true,
@@ -96,9 +96,10 @@ async function spawnWindow() {
 			preload: resolve(__dirname, "preload.js")
 		},
 		roundedCorners: true,
-		icon: resolve(__dirname, "..", "assets", "icons", "512x512.png")
+		icon: resolve(__dirname, "..", "assets", "icons", "512x512.png"),
+		title: widgetMode ? "Sunamu Widget" : "Sunamu"
 	});
-	if (process.env.DEBUG) win.webContents.openDevTools();
+	//if (process.env.DEBUG) win.webContents.openDevTools();
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
 }
 

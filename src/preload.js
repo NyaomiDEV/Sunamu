@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require("electron");
+const { checkSwitch } = require("./util");
 
 /** @type {import("./types").NowPlayingAPI} */
 const npApi = {
@@ -29,5 +30,5 @@ const npApi = {
 };
 
 contextBridge.exposeInMainWorld("np", npApi);
-contextBridge.exposeInMainWorld("widgetMode", !!process.env.ILOVEGLASS);
-contextBridge.exposeInMainWorld("debugMode", !!process.env.DEBUG);
+contextBridge.exposeInMainWorld("widgetMode", checkSwitch(process.env.ILOVEGLASS));
+contextBridge.exposeInMainWorld("debugMode", checkSwitch(process.env.DEBUG));
