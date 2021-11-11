@@ -11,16 +11,19 @@ const footer = document.getElementsByClassName("lyrics-footer")[0];
 const glasscordUser = await window.np.shouldBullyGlasscordUser();
 
 export async function queryLyrics() {
+	// copy the songdata variable since we run async and might have race conditions between us and the user
+	const _songdata = Object.assign({}, songdata);
+
 	/** @type {import("../../src/types").Lyrics} */
 	let lyrics;
-	const id = `${songdata.metadata.artist}:${songdata.metadata.album}:${songdata.metadata.title}`;
+	const id = computeLyricsID(_songdata);
 
 	/** @type {import("../../src/types").Lyrics} */
 	const cached = await window.np.getLyrics(id);
 
 	if (!cached || !cached.lines.length || !cached?.synchronized) {
-		if(!cached) console.debug(`Cache miss for ${songdata.metadata.artist} - ${songdata.metadata.title}`);
-		else if (!cached?.synchronized) console.debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics anyway for ${songdata.metadata.artist} - ${songdata.metadata.title}`);
+		if(!cached) console.debug(`Cache miss for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
+		else if (!cached?.synchronized) console.debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics anyway for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
 
 		const providers = {
 			Musixmatch,
@@ -45,8 +48,13 @@ export async function queryLyrics() {
 	if(cached && !lyrics)
 		lyrics = cached;
 
-	if (lyrics && lyrics.lines.length)
+	// update the lyrics if and only if the current playing song's ID matches
+	if (lyrics && lyrics.lines.length && id === computeLyricsID(songdata))
 		songdata.lyrics = lyrics;
+}
+
+function computeLyricsID(__songdata){
+	return `${__songdata.metadata.artist}:${__songdata.metadata.album}:${__songdata.metadata.title}`;
 }
 
 export function putLyricsInPlace() {
