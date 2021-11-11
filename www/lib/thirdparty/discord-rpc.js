@@ -16,13 +16,31 @@ async function getPresence() {
 		largeImageText: songdata.metadata.album,
 		smallImageKey: songdata.status.toLowerCase(),
 		smallImageText: songdata.status,
-		instance: false
+		instance: false,
+		buttons: []
 	};
 
 	if (songdata.status === "Playing") {
 		activity.startTimestamp = start;
 		activity.endTimestamp = end;
 	}
+
+	if (songdata.spotiUrl){
+		activity.buttons.push({
+			label: "Listen on Spotify",
+			url: songdata.spotiUrl
+		});
+	}
+
+	if (songdata.lastfm) {
+		activity.buttons.push({
+			label: "View on Last.fm",
+			url: songdata.lastfm.url
+		});
+	}
+
+	if(!activity.buttons.length)
+		delete activity.buttons;
 
 	return activity;
 }
