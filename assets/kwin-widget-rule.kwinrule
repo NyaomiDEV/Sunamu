@@ -1,0 +1,26 @@
+[Sunamu Widget]
+Description=Sunamu Widget
+activity=00000000-0000-0000-0000-000000000000
+activityrule=2
+below=true
+belowrule=2
+desktops=
+desktopsrule=2
+ignoregeometry=true
+ignoregeometryrule=2
+position=0,0
+positionrule=2
+size=458,512
+sizerule=2
+skippager=true
+skippagerrule=2
+skipswitcher=true
+skipswitcherrule=2
+skiptaskbar=true
+skiptaskbarrule=2
+title=Sunamu Widget
+titlematch=1
+types=1
+windowrole=browser-window
+wmclass=sunamu
+wmclassmatch=1
