@@ -1,14 +1,16 @@
+import { Presence } from "discord-rpc";
+
 /* eslint-disable no-unused-vars */
 export type NowPlayingAPI = {
 	previous: () => void,
-	playpause: () => void,
+	playPause: () => void,
 	next: () => void,
 
 	shuffle: () => void,
 	repeat: () => void,
 
 	seek: (positionToSeekbar: number) => void,
-	getposition: () => Promise<number>
+	getPosition: () => Promise<number>
 
 	minimize: () => void,
 	close: () => void,
@@ -22,6 +24,8 @@ export type NowPlayingAPI = {
 
 	mxmusertoken: () => Promise<string | undefined>
 	shouldBullyGlasscordUser: () => Promise<boolean>
+
+	updateDiscordPresence: (presence: Presence) => void
 }
 
 export type Config = {
@@ -66,6 +70,12 @@ export type Update = {
 	appName: string
 }
 
+export type SongData = Update & {
+	lyrics?: Lyrics,
+	lastfm?: LastFMInfo,
+	spotiUrl?: string
+}
+
 export type Lyrics = {
 	provider: string,
 	synchronized: boolean,
@@ -76,4 +86,30 @@ export type Lyrics = {
 export type LyricsLine = {
 	text: string,
 	time?: number
+}
+
+export type LastFMInfo = {
+	artist: {
+		name: string,
+		url: string
+	}
+	name: string,
+	duration: string,
+	url: string,
+	mbid?: string,
+
+	listeners: string,
+	playcount: string,
+
+	userloved?: string,
+	userplaycount?: string,
+
+	streamable: {
+		fulltrack: string,
+		"#text": string
+	},
+
+	toptags: {
+		tags: any[]
+	}
 }

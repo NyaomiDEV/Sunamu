@@ -10,7 +10,7 @@ function bindWindowControls(){
 function bindPlaybackControls(){
 	document.getElementById("shuffle").onclick = () => window.np.shuffle();
 	document.getElementById("previous").onclick = () => window.np.previous();
-	document.getElementById("playpause").onclick = () => window.np.playpause();
+	document.getElementById("playpause").onclick = () => window.np.playPause();
 	document.getElementById("next").onclick = () => window.np.next();
 	document.getElementById("repeat").onclick = () => window.np.repeat();
 	document.getElementById("lyrics-btn").onclick = () => toggleLyricsView();

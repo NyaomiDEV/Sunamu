@@ -3,14 +3,14 @@ const { contextBridge, ipcRenderer } = require("electron");
 /** @type {import("./types").NowPlayingAPI} */
 const npApi = {
 	previous: () => ipcRenderer.send("previous"),
-	playpause: () => ipcRenderer.send("playpause"),
+	playPause: () => ipcRenderer.send("playPause"),
 	next: () => ipcRenderer.send("next"),
 
 	shuffle: () => ipcRenderer.send("shuffle"),
 	repeat: () => ipcRenderer.send("repeat"),
 
 	seek: (positionToSeekbar) => ipcRenderer.send("seek", positionToSeekbar),
-	getposition: () => ipcRenderer.invoke("getPosition"),
+	getPosition: () => ipcRenderer.invoke("getPosition"),
 
 	minimize: () => ipcRenderer.send("minimize"),
 	close: () => ipcRenderer.send("close"),
@@ -24,6 +24,8 @@ const npApi = {
 
 	mxmusertoken: () => ipcRenderer.invoke("mxmusertoken"),
 	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),
+
+	updateDiscordPresence: (presence) => ipcRenderer.send("updateDiscordPresence", presence)
 };
 
 contextBridge.exposeInMainWorld("np", npApi);

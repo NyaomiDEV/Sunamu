@@ -33,5 +33,5 @@ export const fallback = {
 	spotiUrl: undefined
 };
 
-/** @type {SongData} */
+/** @type {import("../../src/types").SongData} */
 export default Object.assign({}, fallback);

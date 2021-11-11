@@ -1,9 +1,8 @@
-import RPC from "discord-rpc";
-import { Update } from "../types";
+import RPC, { Client, Presence } from "discord-rpc";
 import { checkSwitch, debug, getConfig } from "../util";
 
 const clientId = "908012408008736779";
-let rpc: RPC.Client | undefined;
+let rpc: Client | undefined;
 let loginPromise;
 
 async function connect(){
@@ -11,7 +10,7 @@ async function connect(){
 
 	let _resolve;
 	loginPromise = new Promise(resolve => {_resolve = resolve;});
-	let error: boolean, client: RPC.Client;
+	let error: boolean, client: Client;
 
 	do {
 		client = new RPC.Client({
@@ -47,7 +46,7 @@ async function connect(){
 	loginPromise = undefined;
 }
 
-export async function updatePresence(update?: Update) {
+export async function updatePresence(presence?: Presence) {
 	const enabled = (await getConfig()).discordRpc;
 	const isEnabledOverride = (!!process.env.DISCORDRPC);
 	const enabledOverrideValue = checkSwitch(process.env.DISCORDRPC);
@@ -62,29 +61,10 @@ export async function updatePresence(update?: Update) {
 	while (!rpc)
 		await connect();
 
-	if(!update || !update.metadata.id) {
+	if(!presence) {
 		rpc.clearActivity();
 		return;
 	}
 
-	const now = Date.now();
-	const start = Math.round(now - (update.elapsed * 1000));
-	const end = Math.round(start + (update.metadata.length * 1000));
-
-	const activity: RPC.Presence = {
-		details: update.metadata.artist,
-		state: update.metadata.title,
-		largeImageKey: "app_large",
-		largeImageText: update.metadata.album,
-		smallImageKey: update.status.toLowerCase(),
-		smallImageText: update.status,
-		instance: false
-	};
-
-	if (update.status === "Playing") {
-		activity.startTimestamp = start;
-		activity.endTimestamp = end;
-	}
-
-	return rpc.setActivity(activity);
+	return rpc.setActivity(presence);
 }

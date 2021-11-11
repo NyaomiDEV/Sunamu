@@ -3,13 +3,13 @@ import { stat } from "fs/promises";
 import { resolve } from "path";
 import Player from "./player";
 import { searchForUserToken } from "./integrations/mxmusertoken";
-import { debug, getConfig } from "./util";
+import { checkSwitch, debug, getConfig } from "./util";
 import { get as getLyrics, save as saveLyrics } from "./integrations/lyricsOffline";
 import { updatePresence } from "./integrations/discord-rpc";
 
 process.title = "sunamu";
 
-const widgetMode = !!process.env.ILOVEGLASS;
+const widgetMode = checkSwitch(process.env.ILOVEGLASS);
 
 let win: BrowserWindow;
 
@@ -27,7 +27,7 @@ if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && 
 async function main() {
 	await Player.init(updateInfo);
 
-	ipcMain.on("playpause", () => Player.PlayPause());
+	ipcMain.on("playPause", () => Player.PlayPause());
 	ipcMain.on("next", () => Player.Next());
 	ipcMain.on("previous", () => Player.Previous());
 	ipcMain.on("shuffle", () => Player.Shuffle());
@@ -46,8 +46,10 @@ async function main() {
 		shell.openExternal(uri);
 	});
 
+	ipcMain.on("updateDiscordPresence", async (_e, presence) => updatePresence(presence));
+
 	ipcMain.handle("getConfig", async () => await getConfig());
-	ipcMain.handle("getPosition", async () => await Player.GetPosition());
+	ipcMain.handle("getPosition", async () => Player.GetPosition());
 	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
 	ipcMain.handle("getLyrics", async (_e, id) => await getLyrics(id));
 	ipcMain.handle("saveLyrics", async (_e, id, data) => await saveLyrics(id, data));
@@ -105,11 +107,9 @@ async function updateInfo(){
 	if(update) {
 		debug("update", update);
 		win?.webContents?.send("update", update);
-		updatePresence(update);
 	} else {
 		debug("update empty");
 		win?.webContents?.send("update");
-		updatePresence();
 	}
 }
 

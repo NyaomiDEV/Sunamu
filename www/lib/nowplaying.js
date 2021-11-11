@@ -7,6 +7,7 @@ import { updateSeekbar } from "./seekbar.js";
 import { getTrackInfo } from "./thirdparty/lastfm.js";
 import { show } from "./showhide.js";
 import { searchSpotifySong } from "./thirdparty/spotify.js";
+import { updateDiscordPresence } from "./thirdparty/discord-rpc.js";
 
 const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
 
@@ -82,6 +83,9 @@ export function updateNowPlaying() {
 
 	// SEEKBAR
 	document.getElementsByClassName("seekbar-bg")[0].style.display = songdata.capabilities.canSeek ? "" : "none";
+
+	// DISCORD PRESENCE
+	updateDiscordPresence();
 }
 
 export async function pollPosition() {
@@ -89,7 +93,7 @@ export async function pollPosition() {
 		return;
 
 	if (songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
-		songdata.elapsed = await window.np.getposition();
+		songdata.elapsed = await window.np.getPosition();
 
 	// calls
 	updateTime();
