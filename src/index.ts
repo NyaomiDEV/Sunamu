@@ -5,7 +5,7 @@ import Player from "./player";
 import { searchForUserToken } from "./integrations/mxmusertoken";
 import { checkSwitch, debug, getConfig } from "./util";
 import { get as getLyrics, save as saveLyrics } from "./integrations/lyricsOffline";
-import { updatePresence } from "./integrations/discord-rpc";
+import { getPresenceConfig, updatePresence } from "./integrations/discord-rpc";
 
 process.title = "sunamu";
 
@@ -27,32 +27,41 @@ if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && 
 async function main() {
 	await Player.init(updateInfo);
 
+	registerSunamuApi();
+
+	await app.whenReady();
+	await spawnWindow();
+}
+
+function registerSunamuApi(){
+	ipcMain.on("previous", () => Player.Previous());
 	ipcMain.on("playPause", () => Player.PlayPause());
 	ipcMain.on("next", () => Player.Next());
-	ipcMain.on("previous", () => Player.Previous());
+
 	ipcMain.on("shuffle", () => Player.Shuffle());
 	ipcMain.on("repeat", () => Player.Repeat());
-	ipcMain.on("minimize", () => win.minimize());
+
 	ipcMain.on("seek", (_e, perc) => Player.SeekPercentage(perc));
+	ipcMain.handle("getPosition", async () => Player.GetPosition());
+
+	ipcMain.handle("getLyrics", async (_e, id) => await getLyrics(id));
+	ipcMain.handle("saveLyrics", async (_e, id, data) => await saveLyrics(id, data));
+
+	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
+
+	ipcMain.on("updateDiscordPresence", async (_e, presence) => updatePresence(presence));
+	ipcMain.handle("getDiscordPresenceConfig", async () => await getPresenceConfig());
+
+	ipcMain.on("requestUpdate", async () => await updateInfo());
+
+	ipcMain.on("minimize", () => win.minimize());
 	ipcMain.on("close", () => {
 		win.close();
 		app.exit();
 	});
 
-	ipcMain.on("requestUpdate", async () => {
-		await updateInfo();
-	});
-	ipcMain.on("openExternal", (_e, uri) => {
-		shell.openExternal(uri);
-	});
-
-	ipcMain.on("updateDiscordPresence", async (_e, presence) => updatePresence(presence));
-
+	ipcMain.on("openExternal", (_e, uri) => shell.openExternal(uri));
 	ipcMain.handle("getConfig", async () => await getConfig());
-	ipcMain.handle("getPosition", async () => Player.GetPosition());
-	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
-	ipcMain.handle("getLyrics", async (_e, id) => await getLyrics(id));
-	ipcMain.handle("saveLyrics", async (_e, id, data) => await saveLyrics(id, data));
 
 	ipcMain.handle("shouldBullyGlasscordUser", async () => {
 		let bullyGlasscordUser = false;
@@ -63,16 +72,12 @@ async function main() {
 			bullyGlasscordUser = true;
 			await stat(resolve(gcPath, "DONTBULLYME"));
 			bullyGlasscordUser = false;
-		}catch(_){
+		} catch (_) {
 			//...
 		}
 
 		return bullyGlasscordUser;
 	});
-
-	await app.whenReady();
-	//setTimeout(spawnWindow, widgetMode ? 1000 : 0);
-	await spawnWindow();
 }
 
 async function spawnWindow() {

@@ -51,7 +51,7 @@ async function searchPrecise() {
 
 	const request = new Request(
 		root + "search?" + encodeObject({
-			q: `artist:"${songdata.metadata.artist.split("\"").join("\\\"")}" album:"${songdata.metadata.album.split("\"").join("\\\"")}" ${songdata.metadata.title}`,
+			q: `artist:"${songdata.metadata.artist?.split("\"").join("\\\"")}" album:"${songdata.metadata.album?.split("\"").join("\\\"")}" ${songdata.metadata.title}`,
 			type: "track",
 			limit: 1,
 			offset: 0

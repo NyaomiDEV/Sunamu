@@ -13,20 +13,24 @@ const npApi = {
 	seek: (positionToSeekbar) => ipcRenderer.send("seek", positionToSeekbar),
 	getPosition: () => ipcRenderer.invoke("getPosition"),
 
-	minimize: () => ipcRenderer.send("minimize"),
-	close: () => ipcRenderer.send("close"),
-
-	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, v) => callback(v)),
-	requestUpdate: () => ipcRenderer.send("requestUpdate"),
-	openExternal: (uri) => ipcRenderer.send("openExternal", uri),
-	getConfig: () => ipcRenderer.invoke("getConfig"),
 	getLyrics: (id) => ipcRenderer.invoke("getLyrics", id),
 	saveLyrics: (id, data) => ipcRenderer.invoke("saveLyrics", id, data),
 
 	mxmusertoken: () => ipcRenderer.invoke("mxmusertoken"),
-	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),
 
-	updateDiscordPresence: (presence) => ipcRenderer.send("updateDiscordPresence", presence)
+	getDiscordPresenceConfig: () => ipcRenderer.invoke("getDiscordPresenceConfig"),
+	updateDiscordPresence: (presence) => ipcRenderer.send("updateDiscordPresence", presence),
+
+	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, v) => callback(v)),
+	requestUpdate: () => ipcRenderer.send("requestUpdate"),
+
+	minimize: () => ipcRenderer.send("minimize"),
+	close: () => ipcRenderer.send("close"),
+
+	openExternal: (uri) => ipcRenderer.send("openExternal", uri),
+	getConfig: () => ipcRenderer.invoke("getConfig"),
+
+	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),
 };
 
 contextBridge.exposeInMainWorld("np", npApi);

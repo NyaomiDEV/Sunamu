@@ -1,6 +1,6 @@
 import lang from "./lang.js";
 
-/** @type {SongData} */
+/** @type {import("../../src/types").SongData} */
 export const fallback = {
 	provider: undefined,
 	metadata: {

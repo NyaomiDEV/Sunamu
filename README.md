@@ -49,8 +49,12 @@ Quick preview*:
 		"clientID": "",
 		"clientSecret": ""
 	},
-	// Specify if you want your Discord Presence to show what you are playing
-	"discordRpc": true
+	"discordRpc": {
+		// Specify if you want your Discord Presence to show what you are playing
+		"enabled": true,
+		// Probably blacklist your browser here lol (unless you do want to show it)
+		"blacklist": []
+	}
 }
 ```
 

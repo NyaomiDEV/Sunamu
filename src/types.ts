@@ -12,20 +12,24 @@ export type NowPlayingAPI = {
 	seek: (positionToSeekbar: number) => void,
 	getPosition: () => Promise<number>
 
-	minimize: () => void,
-	close: () => void,
-
-	registerUpdateCallback: (callback: Function) => void,
-	requestUpdate: () => void,
-	openExternal: (uri: string) => void,
-	getConfig: () => Promise<Config>,
 	getLyrics: (id: string) => Promise<Lyrics | undefined>,
 	saveLyrics: (id: string, data: Lyrics) => Promise<boolean>,
 
 	mxmusertoken: () => Promise<string | undefined>
-	shouldBullyGlasscordUser: () => Promise<boolean>
 
+	getDiscordPresenceConfig: () => Promise<DiscordPresenceConfig>
 	updateDiscordPresence: (presence: Presence) => void
+
+	registerUpdateCallback: (callback: Function) => void,
+	requestUpdate: () => void,
+
+	minimize: () => void,
+	close: () => void,
+
+	openExternal: (uri: string) => void,
+	getConfig: () => Promise<Config>,
+
+	shouldBullyGlasscordUser: () => Promise<boolean>
 }
 
 export type Config = {
@@ -34,7 +38,12 @@ export type Config = {
 		clientId: string,
 		clientSecret: string
 	},
-	discordRpc: boolean
+	discordRpc: DiscordPresenceConfig
+}
+
+export type DiscordPresenceConfig = {
+	enabled: boolean,
+	blacklist: string[]
 }
 
 export type Metadata = {
