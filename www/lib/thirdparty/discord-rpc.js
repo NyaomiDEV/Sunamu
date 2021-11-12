@@ -2,7 +2,7 @@ import songdata from "../songdata.js";
 
 /** @type {import("../../../src/types").DiscordPresenceConfig} */
 const config = await window.np.getDiscordPresenceConfig();
-console.log(config);
+
 async function getPresence() {
 	if (!songdata || !songdata.metadata.id || config.blacklist.includes(songdata.appName))
 		return;
