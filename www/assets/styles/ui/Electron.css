@@ -32,3 +32,11 @@ html.widget-mode .lyrics > *,
 html.widget-mode .lyrics-footer {
 	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
 }
+
+html.widget-mode body {
+	transition: ease .2s filter;
+}
+
+html.widget-mode body.hidden {
+	filter: blur(16px) opacity(0);
+}

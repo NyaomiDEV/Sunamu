@@ -6,6 +6,9 @@ let isBouncy = false;
 
 export function hide() {
 	idleMouseTimer = setTimeout(() => {
+		if (window.widgetMode && !songdata.metadata.id)
+			document.body.classList.add("hidden");
+
 		document.body.style.cursor = "none";
 		document.getElementsByClassName("window-controls")[0].classList.add("hidden");
 		document.getElementsByClassName("playback-controls")[0].classList.add("hidden");
@@ -20,6 +23,9 @@ export function show(force) {
 
 	if (isBouncy) return;
 
+	if (window.widgetMode)
+		document.body.classList.remove("hidden");
+	
 	document.body.style.cursor = "";
 	document.getElementsByClassName("window-controls")[0].classList.remove("hidden");
 	document.getElementsByClassName("playback-controls")[0].classList.remove("hidden");
