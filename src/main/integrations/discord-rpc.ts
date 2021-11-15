@@ -1,6 +1,7 @@
 import RPC, { Client, Presence } from "discord-rpc";
 import { DiscordPresenceConfig } from "../../types";
-import { checkFunctionality, debug } from "../util";
+import { debug } from "../util";
+import { checkFunctionality } from "../appStatus";
 import { get as getConfig } from "../config";
 
 const clientId = "908012408008736779";
@@ -49,7 +50,7 @@ async function connect(){
 }
 
 export async function getPresenceConfig(){
-	const settings: DiscordPresenceConfig = Object.assign({}, getConfig("discordRpc"));
+	const settings: DiscordPresenceConfig = Object.assign({}, getConfig("discord"));
 	settings.enabled = checkFunctionality(settings.enabled, "discord-rpc");
 	return settings;
 }

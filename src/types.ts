@@ -40,6 +40,9 @@ export type NowPlayingAPI = {
 }
 
 export type Config = {
+	widgetMode: boolean,
+	debugMode: boolean,
+	waylandOzone: boolean,
 	font: string,
 	lfmUsername: string,
 	spotify: {

@@ -3,10 +3,11 @@ import { stat } from "fs/promises";
 import { resolve } from "path";
 import Player from "./player";
 import { searchForUserToken } from "./integrations/mxmusertoken";
-import { widgetMode, debugMode, checkFunctionality, debug } from "./util";
+import { debug } from "./util";
 import { get as getLyrics, save as saveLyrics } from "./integrations/lyricsOffline";
 import { getPresenceConfig, updatePresence } from "./integrations/discord-rpc";
-import { get as getConfig, getAll as getAllConfig } from "./config";
+import { getAll as getAllConfig } from "./config";
+import { widgetMode, debugMode, waylandOzone} from "./appStatus";
 
 process.title = "sunamu";
 
@@ -17,7 +18,7 @@ if(widgetMode)
 
 app.commandLine.appendSwitch("use-gl", "desktop");
 
-if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && checkFunctionality(getConfig("waylandOzone"), "wayland-ozone")){
+if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && waylandOzone){
 	// We are in a Wayland session, most probably
 	app.commandLine.appendSwitch("enable-features", "UseOzonePlatform");
 	app.commandLine.appendSwitch("ozone-platform", "wayland");
