@@ -1,6 +1,6 @@
 import RPC, { Client, Presence } from "discord-rpc";
 import { DiscordPresenceConfig } from "../types";
-import { checkSwitch, debug, getConfig } from "../util";
+import { checkFunctionality, debug, getConfig } from "../util";
 
 const clientId = "908012408008736779";
 let rpc: Client | undefined;
@@ -49,16 +49,7 @@ async function connect(){
 
 export async function getPresenceConfig(){
 	const settings: DiscordPresenceConfig = Object.assign({}, (await getConfig()).discordRpc);
-	const enabled = settings.enabled;
-	const isEnabledOverride = (!!process.env.DISCORDRPC);
-	const enabledOverrideValue = checkSwitch(process.env.DISCORDRPC);
-
-	if (
-		!(
-			(isEnabledOverride && enabledOverrideValue) ||
-			(!isEnabledOverride && enabled)
-		)
-	) settings.enabled = false;
+	settings.enabled = checkFunctionality(settings.enabled, process.env.DISCORDRPC);
 	return settings;
 }
 

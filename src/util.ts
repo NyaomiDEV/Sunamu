@@ -35,3 +35,17 @@ export function checkSwitch(str?: string): boolean{
 	}
 	return Boolean(str);
 }
+
+export function checkFunctionality(configBoolean: boolean, envString?: string | undefined): boolean{
+	const envOverride = (!!envString);
+	const envValue = checkSwitch(envString);
+
+	if (
+		!(
+			(envOverride && envValue) ||
+			(!envOverride && configBoolean)
+		)
+	) return false;
+
+	return true;
+}
