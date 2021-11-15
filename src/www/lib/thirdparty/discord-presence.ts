@@ -16,7 +16,7 @@ async function getPresence() {
 
 	const activity: Presence = { // everything must be two characters long at least
 		details: `"${songdata.metadata.title}"`,
-		state: `By ${songdata.metadata.artists}`,
+		state: `By ${songdata.metadata.artist}`,
 		largeImageKey: "app_large",
 		largeImageText: `"${songdata.metadata.album}"`,
 		smallImageKey: songdata.status.toLowerCase(),
