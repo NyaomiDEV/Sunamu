@@ -1,5 +1,6 @@
 import { pollPosition, updateNowPlaying } from "./lib/nowplaying.js";
 import songdata from "./lib/songdata.js";
+import type { NowPlayingAPI, SongData } from "../types";
 
 import "./lib/buttons.js";
 import "./lib/event.js";
@@ -8,6 +9,17 @@ import "./lib/seekbar.js";
 
 import "./lib/thirdparty/lastfm.js";
 import "./lib/thirdparty/spotify.js";
+
+declare global {
+	// eslint-disable-next-line no-unused-vars
+	interface Window {
+		title: string,
+		np: NowPlayingAPI;
+		widgetMode: boolean;
+		debugMode: boolean;
+		getNowPlaying?: () => SongData
+	}
+}
 
 window.title = "Sunamu" + (window.widgetMode ? " Widget" : "");
 
@@ -23,3 +35,4 @@ if(!localStorage.mxmusertoken){
 updateNowPlaying();
 setInterval(pollPosition, 200);
 window.np.requestUpdate();
+

@@ -1,26 +1,26 @@
+import type { LrcFile } from "../../types";
+
 const howATimestampLooks = /(?:\[(\d+:\d+\.?\d+)\])/g;
 const howALyricsLineLooks = /((?:\[\d+:\d+\.?\d+\])+)(.*)/;
 
-function convertTime(timeString) {
+function convertTime(timeString: string): number {
 	const [minutes, seconds] = timeString.split(":");
 	return parseInt(minutes) * 60 + parseFloat(seconds);
 }
 
-function extractTime(timestamps){
+function extractTime(timestamps: string){
 	const matches = [...timestamps.matchAll(howATimestampLooks)];
-	const time = [];
+	const time: number[] = [];
 	matches.forEach(m => time.push(convertTime(m[1])));
 	return time;
 }
 
-function extractMetadataLine(data) {
+function extractMetadataLine(data: string): string[] {
 	return data.trim().slice(1, -1).split(": ");
 }
 
-/** @return {LrcFile} */
-export function parseLrc(data){
-	/** @type {LrcFile} */
-	const result = {
+export function parseLrc(data: string): LrcFile{
+	const result: LrcFile = {
 		metadata: {},
 		lines: []
 	};
@@ -29,9 +29,9 @@ export function parseLrc(data){
 	// remove enhanced LRC format
 	data = data.replace(/<\d+:\d+\.\d+>/g, "").replace(/<\d+:\d+>/g, "").replace(/<\d+>/g, "");
 	// extend compressed time tags (ex. [01:30] becomes [01:30.000])
-	data = data.replace(/\[(\d+):(\d+)\]/g, (_match, p1, p2) => `[${p1}:${p2}.000]`);
+	data = data.replace(/\[(\d+):(\d+)\]/g, (_match: any, p1: any, p2: any) => `[${p1}:${p2}.000]`);
 
-	let lines = data.trim().split("\n").map(x => x.trim());
+	let lines = data.trim().split("\n").map((x: string) => x.trim());
 
 	for(const line of lines){
 		const lyrdata = howALyricsLineLooks.exec(line);
@@ -48,6 +48,6 @@ export function parseLrc(data){
 		}
 	}
 
-	result.lines.sort((a, b) => a.time - b.time);
+	result.lines.sort((a, b) => a.time! - b.time!);
 	return result;
 }

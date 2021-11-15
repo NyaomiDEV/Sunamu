@@ -1,5 +1,9 @@
 import { Presence } from "discord-rpc";
 
+export type DeepPartial<T> = {
+	[P in keyof T]?: DeepPartial<T[P]>;
+};
+
 /* eslint-disable no-unused-vars */
 export type NowPlayingAPI = {
 	previous: () => void,
@@ -18,7 +22,7 @@ export type NowPlayingAPI = {
 	mxmusertoken: () => Promise<string | undefined>
 
 	getDiscordPresenceConfig: () => Promise<DiscordPresenceConfig>
-	updateDiscordPresence: (presence: Presence) => void
+	updateDiscordPresence: (presence?: Presence) => void
 
 	registerUpdateCallback: (callback: Function) => void,
 	requestUpdate: () => void,
@@ -33,9 +37,10 @@ export type NowPlayingAPI = {
 }
 
 export type Config = {
+	font: string,
 	lfmUsername: string,
 	spotify: {
-		clientId: string,
+		clientID: string,
 		clientSecret: string
 	},
 	discordRpc: DiscordPresenceConfig
@@ -89,7 +94,7 @@ export type Lyrics = {
 	provider: string,
 	synchronized: boolean,
 	lines: LyricsLine[],
-	copyright: string
+	copyright?: string
 }
 
 export type LyricsLine = {
@@ -120,5 +125,12 @@ export type LastFMInfo = {
 
 	toptags: {
 		tags: any[]
+	}
+}
+
+export type LrcFile = {
+	lines: LyricsLine[],
+	metadata: {
+		[x: string]: string
 	}
 }

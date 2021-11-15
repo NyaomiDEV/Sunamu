@@ -1,8 +1,8 @@
-const { contextBridge, ipcRenderer } = require("electron");
-const { checkSwitch } = require("./util");
+import { contextBridge, ipcRenderer } from "electron";
+import { NowPlayingAPI } from "../types";
+import { checkSwitch } from "./util";
 
-/** @type {import("./types").NowPlayingAPI} */
-const npApi = {
+const npApi: NowPlayingAPI = {
 	previous: () => ipcRenderer.send("previous"),
 	playPause: () => ipcRenderer.send("playPause"),
 	next: () => ipcRenderer.send("next"),

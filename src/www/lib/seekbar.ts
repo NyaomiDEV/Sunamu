@@ -1,7 +1,7 @@
 import songdata from "./songdata.js";
 
-const seekbarBg = document.getElementsByClassName("seekbar-bg")[0];
-const seekbar = document.getElementById("seekbar");
+const seekbarBg = document.getElementsByClassName("seekbar-bg")[0] as HTMLElement;
+const seekbar = document.getElementById("seekbar") as HTMLElement;
 
 seekbarBg.onclick = seekTo;
 
@@ -33,7 +33,7 @@ function seekTo(e) {
 
 export function updateSeekbar() {
 	const seekbarPercent = songdata.elapsed / songdata.metadata.length * 100;
-	const seekbar = document.getElementById("seekbar");
+	const seekbar = document.getElementById("seekbar")!;
 	if (!seekbar.classList.contains("dragging"))
-		document.getElementById("seekbar").style.width = `${seekbarPercent}%`;
+		document.getElementById("seekbar")!.style.width = `${seekbarPercent}%`;
 }

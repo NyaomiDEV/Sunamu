@@ -14,11 +14,11 @@ export async function queryLyrics() {
 	// copy the songdata variable since we run async and might have race conditions between us and the user
 	const _songdata = Object.assign({}, songdata);
 
-	/** @type {import("../../src/types").Lyrics} */
+	/** @type {import("../../types").Lyrics | undefined} */
 	let lyrics;
 	const id = computeLyricsID(_songdata);
 
-	/** @type {import("../../src/types").Lyrics} */
+	/** @type {import("../../types").Lyrics | undefined} */
 	const cached = await window.np.getLyrics(id);
 
 	if (!cached || !cached.lines.length || !cached?.synchronized) {
@@ -31,6 +31,7 @@ export async function queryLyrics() {
 		};
 
 		// if cached then we could assume it is unsync and genius can only provide unsync
+		// @ts-ignore
 		if(!cached) providers.Genius = Genius;
 
 		for (const provider in providers) {
@@ -60,6 +61,7 @@ function computeLyricsID(__songdata){
 export function putLyricsInPlace() {
 	// remove all children of container
 	container.classList.remove("synchronized");
+	// @ts-ignore
 	while (container.firstChild) container.removeChild(container.lastChild);
 
 	// remove text from footer
@@ -104,6 +106,7 @@ export function updateActiveLyrics() {
 	// we get the active one
 	let lineIndex = songdata.lyrics.lines.length - 1;
 	for (let i = 0; i < songdata.lyrics.lines.length; i++) {
+		// @ts-ignore
 		if (songdata.elapsed < songdata.lyrics.lines[i + 1]?.time) {
 			lineIndex = i;
 			break;

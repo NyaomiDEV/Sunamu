@@ -1,6 +1,6 @@
 export const spotiId = /spotify:track:(.+)/;
 
-export function secondsToTime(duration) {
+export function secondsToTime(duration: number) {
 	duration = Math.floor(duration);
 	let seconds = duration % 60,
 		minutes = Math.floor(duration / 60) % 60;
@@ -10,8 +10,10 @@ export function secondsToTime(duration) {
 
 export function fullscreen() {
 	if (document.fullscreenElement != null)
+		// @ts-ignore
 		document.webkitExitFullscreen();
 	else
+		// @ts-ignore
 		document.documentElement.webkitRequestFullscreen();
 }
 
@@ -33,7 +35,7 @@ function reCenter() {
 	}
 }
 
-export function toggleLyricsView(show){
+export function toggleLyricsView(show?: boolean){
 	if (typeof show === "undefined")
 		show = document.getElementsByClassName("lyrics")[0].classList.contains("hidden");
 

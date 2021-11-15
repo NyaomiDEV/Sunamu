@@ -1,7 +1,8 @@
+import type { DeepPartial, SongData } from "../../types";
+
 import lang from "./lang.js";
 
-/** @type {import("../../src/types").SongData} */
-export const fallback = {
+export const fallback: DeepPartial<SongData> = {
 	provider: undefined,
 	metadata: {
 		title: lang.NOT_PLAYING,
@@ -33,5 +34,4 @@ export const fallback = {
 	spotiUrl: undefined
 };
 
-/** @type {import("../../src/types").SongData} */
-export default Object.assign({}, fallback);
+export default Object.assign({}, fallback) as SongData;

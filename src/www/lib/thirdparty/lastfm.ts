@@ -33,7 +33,7 @@ export async function queryLastFM(methodName, options){
 }
 
 export async function getTrackInfo(forUsername){
-	const opts = {
+	const opts: any = {
 		track: songdata.metadata.title,
 		artist: songdata.metadata.artist,
 		autocorrect: 1

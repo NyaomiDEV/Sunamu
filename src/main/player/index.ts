@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Update } from "../types";
+import { Update } from "../../types";
 import * as MPRIS2 from "./mpris2";
 
 const player: Player = {

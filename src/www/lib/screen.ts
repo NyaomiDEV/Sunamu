@@ -27,4 +27,4 @@ if (window.widgetMode)
 
 // Font
 if (config.font)
-	document.querySelector(":root").style.setProperty("--font-family", config.font);
+	(document.querySelector(":root") as HTMLElement).style.setProperty("--font-family", config.font);

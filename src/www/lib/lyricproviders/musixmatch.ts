@@ -1,10 +1,12 @@
+import type { Lyrics } from "../../../types";
+
 import songdata from "../songdata.js";
 import { spotiId } from "../util.js";
 
 const url = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get?format=json&namespace=lyrics_richsynched&subtitle_format=mxm&app_id=web-desktop-app-v1.0";
 
 function getQueryParams() {
-	const params = {
+	const params: any = {
 		q_artist: songdata.metadata.artist,
 		q_artists: songdata.metadata.artist,
 		q_track: songdata.metadata.title,
@@ -19,13 +21,11 @@ function getQueryParams() {
 	return Object.keys(params).map(key => key + "=" + encodeURIComponent(params[key])).join("&");
 }
 
-/** @return {import("../../../src/types").Lyrics} */
-export async function query() {
+export async function query(): Promise<Lyrics | undefined> {
 	if (!window.localStorage.mxmusertoken)
 		return undefined;
 
-	/** @type {import("../../../src/types").Lyrics} */
-	const reply = {
+	const reply: Lyrics = {
 		provider: "Musixmatch",
 		synchronized: true,
 		copyright: undefined,

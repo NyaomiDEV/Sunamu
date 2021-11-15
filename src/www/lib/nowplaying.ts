@@ -7,7 +7,7 @@ import { updateSeekbar } from "./seekbar.js";
 import { getTrackInfo } from "./thirdparty/lastfm.js";
 import { show } from "./showhide.js";
 import { searchSpotifySong } from "./thirdparty/spotify.js";
-import { updateDiscordPresence } from "./thirdparty/discord-rpc.js";
+import { updateDiscordPresence } from "./thirdparty/discord-presence.js";
 
 const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
 
@@ -22,9 +22,9 @@ export function updateNowPlaying() {
 
 	// COVER ART
 	if (songdata.metadata.artUrl)
-		document.querySelector(":root").style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
+		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
 	else
-		document.querySelector(":root").style.removeProperty("--cover-art-url");
+		(document.querySelector(":root") as HTMLElement).style.removeProperty("--cover-art-url");
 
 
 	// ARTIST
@@ -37,20 +37,20 @@ export function updateNowPlaying() {
 	formatMetadata(document.getElementById("album"), featRegex, "featuring", songdata.metadata.album, "");
 
 	// TIME
-	document.getElementById("time").textContent = songdata.metadata.length ? secondsToTime(songdata.metadata.length) : "";
+	document.getElementById("time")!.textContent = songdata.metadata.length ? secondsToTime(songdata.metadata.length) : "";
 
 	// DETAILS
-	document.getElementById("details").textContent = [
+	document.getElementById("details")!.textContent = [
 		songdata.appName ? lang.PLAYING_ON_APP.replace("%APP%", songdata.appName) : undefined,
 		songdata.lastfm?.userplaycount ? lang.PLAY_COUNT.replace("%COUNT%", songdata.lastfm?.userplaycount) : undefined,
 	].filter(Boolean).join(" • ");
 
 	// CONTROLS VISIBILITY
-	const playPauseBtn = document.getElementById("playpause");
-	const shuffleBtn = document.getElementById("shuffle");
-	const repeatBtn = document.getElementById("repeat");
+	const playPauseBtn = document.getElementById("playpause")!;
+	const shuffleBtn = document.getElementById("shuffle")!;
+	const repeatBtn = document.getElementById("repeat")!;
 
-	document.getElementsByClassName("first-row")[0].style.display = songdata.capabilities.canControl ? "" : "none";
+	(document.getElementsByClassName("first-row")[0] as HTMLElement).style.display = songdata.capabilities.canControl ? "" : "none";
 
 	setDisabledClass(playPauseBtn, songdata.capabilities.canPlayPause);
 	setDisabledClass(document.getElementById("next"), songdata.capabilities.canGoNext);
@@ -63,7 +63,7 @@ export function updateNowPlaying() {
 	setDisabledClass(document.getElementById("spotify"), songdata.spotiUrl);
 
 	// CONTROLS STATUS
-	playPauseBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));
+	(playPauseBtn.firstChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));
 
 	if (songdata.shuffle) shuffleBtn.classList.add("active");
 	else shuffleBtn.classList.remove("active");
@@ -71,20 +71,20 @@ export function updateNowPlaying() {
 	switch (songdata.loop) {
 		default:
 			repeatBtn.classList.remove("active");
-			repeatBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#repeat");
+			(repeatBtn.firstChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#repeat");
 			break;
 		case "Track":
 			repeatBtn.classList.add("active");
-			repeatBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#repeat_one");
+			(repeatBtn.firstChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#repeat_one");
 			break;
 		case "Playlist":
 			repeatBtn.classList.add("active");
-			repeatBtn.firstChild.setAttribute("href", "assets/images/glyph.svg#repeat");
+			(repeatBtn.firstChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#repeat");
 			break;
 	}
 
 	// SEEKBAR
-	document.getElementsByClassName("seekbar-bg")[0].style.display = songdata.capabilities.canSeek ? "" : "none";
+	(document.getElementsByClassName("seekbar-bg")[0] as HTMLElement).style.display = songdata.capabilities.canSeek ? "" : "none";
 
 	// DISCORD PRESENCE
 	updateDiscordPresence();
@@ -104,7 +104,7 @@ export async function pollPosition() {
 }
 
 function updateTime() {
-	document.getElementById("time").textContent = secondsToTime(songdata.elapsed) + " • " + secondsToTime(songdata.metadata.length);
+	document.getElementById("time")!.textContent = secondsToTime(songdata.elapsed) + " • " + secondsToTime(songdata.metadata.length);
 }
 
 function setDisabledClass(elem, condition) {

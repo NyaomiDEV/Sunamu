@@ -1,11 +1,11 @@
+import type { Lyrics } from "../../../types";
+
 import songdata from "../songdata.js";
 
 const search_url = "https://genius.com/api/search/song";
 
-/** @return {import("../../../src/types").Lyrics} */
-export async function query() {
-	/** @type {import("../../../src/types").Lyrics} */
-	const reply = {
+export async function query(): Promise<Lyrics | undefined> {
+	const reply: Lyrics = {
 		provider: "Genius",
 		synchronized: false,
 		copyright: undefined,
@@ -69,7 +69,7 @@ async function getLyricsFromGenius(url) {
 	if(lyricsSections){
 		const template = document.createElement("div");
 		template.innerHTML = lyricsSections;
-		return template.textContent.trim();
+		return template.textContent!.trim();
 	}
 
 	lyricsSections = result.match(/<div class="Lyrics__Container.+?>.+?<\/div>/sg);

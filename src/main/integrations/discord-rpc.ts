@@ -1,5 +1,5 @@
 import RPC, { Client, Presence } from "discord-rpc";
-import { DiscordPresenceConfig } from "../types";
+import { DiscordPresenceConfig } from "../../types";
 import { checkFunctionality, debug, getConfig } from "../util";
 
 const clientId = "908012408008736779";

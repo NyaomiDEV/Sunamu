@@ -2,7 +2,7 @@ import { resolve } from "path";
 import JSON5 from "json5";
 import { copyFile, readFile } from "fs/promises";
 import { app } from "electron";
-import { Config } from "./types";
+import { Config } from "../types";
 
 export function debug(...args: any) {
 	if (process.env.DEBUG)

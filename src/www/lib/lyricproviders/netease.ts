@@ -1,13 +1,13 @@
+import type { Lyrics } from "../../../types";
+
 import { parseLrc } from "../lrc.js";
 import songdata from "../songdata.js";
 
 const search_url = "http://music.163.com/api/search/get";
 const lyrics_url = "http://music.163.com/api/song/lyric";
 
-/** @return {import("../../../src/types").Lyrics} */
-export async function query() {
-	/** @type {import("../../../src/types").Lyrics} */
-	const reply = {
+export async function query(): Promise<Lyrics | undefined> {
+	const reply: Lyrics = {
 		provider: "NetEase Music",
 		synchronized: true,
 		copyright: undefined,
