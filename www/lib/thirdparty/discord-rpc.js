@@ -1,4 +1,5 @@
 import songdata from "../songdata.js";
+import { secondsToTime } from "../util.js";
 
 /** @type {import("../../../src/types").DiscordPresenceConfig} */
 const config = await window.np.getDiscordPresenceConfig();
@@ -14,7 +15,7 @@ async function getPresence() {
 	/** @type {import("discord-rpc").Presence} */
 	const activity = {
 		details: songdata.metadata.artist,
-		state: songdata.metadata.title,
+		state: `${songdata.metadata.title} (${secondsToTime(songdata.metadata.length)})`,
 		largeImageKey: "app_large",
 		largeImageText: songdata.metadata.album,
 		smallImageKey: songdata.status.toLowerCase(),
