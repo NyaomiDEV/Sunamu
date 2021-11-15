@@ -1,26 +1,23 @@
-import { resolve } from "path";
-import JSON5 from "json5";
-import { copyFile, readFile } from "fs/promises";
-import { app } from "electron";
-import { Config } from "../types";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import { get as getConfig } from "./config";
+
+export const argv = yargs(hideBin(process.argv)).argv;
+console.log(argv);
+
+export const widgetMode = checkFunctionality(getConfig("widgetMode"), "widget");
+
+export const debugMode = checkFunctionality(getConfig("debugMode"), "debug");
 
 export function debug(...args: any) {
-	if (process.env.DEBUG)
+	if (debugMode)
 		console.log(...args);
 }
 
-export async function getConfig(): Promise<Config> {
-	const configPath = resolve(app.getPath("appData"), "sunamu", "config.json5");
-	const defaultConfigPath = resolve(__dirname, "..", "assets", "config.json5");
-	try {
-		return JSON5.parse(await readFile(configPath, "utf8"));
-	} catch (_) {
-		await copyFile(defaultConfigPath, configPath);
-		return JSON5.parse(await readFile(configPath, "utf8"));
-	}
-}
+export function checkSwitch(str?: string): boolean | undefined{
+	if(!str)
+		return undefined;
 
-export function checkSwitch(str?: string): boolean{
 	switch (str?.toLowerCase().trim()) {
 		case "true":
 		case "yes":
@@ -36,16 +33,6 @@ export function checkSwitch(str?: string): boolean{
 	return Boolean(str);
 }
 
-export function checkFunctionality(configBoolean: boolean, envString?: string | undefined): boolean{
-	const envOverride = (!!envString);
-	const envValue = checkSwitch(envString);
-
-	if (
-		!(
-			(envOverride && envValue) ||
-			(!envOverride && configBoolean)
-		)
-	) return false;
-
-	return true;
+export function checkFunctionality(configBoolean: boolean, name: string): boolean{
+	return argv[name.toLowerCase()] ?? checkSwitch(process.env[name.replace(/-/g, "_").toUpperCase()]) ?? configBoolean;
 }

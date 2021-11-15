@@ -1,10 +1,11 @@
 import RPC, { Client, Presence } from "discord-rpc";
 import { DiscordPresenceConfig } from "../../types";
-import { checkFunctionality, debug, getConfig } from "../util";
+import { checkFunctionality, debug } from "../util";
+import { get as getConfig } from "../config";
 
 const clientId = "908012408008736779";
 let rpc: Client | undefined;
-let loginPromise;
+let loginPromise: Promise<unknown> | undefined;
 
 async function connect(){
 	if(loginPromise) return loginPromise;
@@ -48,8 +49,8 @@ async function connect(){
 }
 
 export async function getPresenceConfig(){
-	const settings: DiscordPresenceConfig = Object.assign({}, (await getConfig()).discordRpc);
-	settings.enabled = checkFunctionality(settings.enabled, process.env.DISCORDRPC);
+	const settings: DiscordPresenceConfig = Object.assign({}, getConfig("discordRpc"));
+	settings.enabled = checkFunctionality(settings.enabled, "discord-rpc");
 	return settings;
 }
 

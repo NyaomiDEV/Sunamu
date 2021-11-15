@@ -33,7 +33,10 @@ export type NowPlayingAPI = {
 	openExternal: (uri: string) => void,
 	getConfig: () => Promise<Config>,
 
-	shouldBullyGlasscordUser: () => Promise<boolean>
+	shouldBullyGlasscordUser: () => Promise<boolean>,
+
+	isWidgetMode: () => Promise<boolean>,
+	isDebugMode: () => Promise<boolean>
 }
 
 export type Config = {

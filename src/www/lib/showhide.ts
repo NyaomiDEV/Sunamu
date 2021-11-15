@@ -6,7 +6,7 @@ let isBouncy = false;
 
 export function hide() {
 	idleMouseTimer = setTimeout(() => {
-		if (window.widgetMode && !songdata.metadata.id)
+		if (document.documentElement.classList.contains("widget-mode") && !songdata.metadata.id)
 			document.body.classList.add("hidden");
 
 		document.body.style.cursor = "none";
@@ -23,7 +23,7 @@ export function show(force) {
 
 	if (isBouncy) return;
 
-	if (window.widgetMode)
+	if (document.documentElement.classList.contains("widget-mode"))
 		document.body.classList.remove("hidden");
 	
 	document.body.style.cursor = "";

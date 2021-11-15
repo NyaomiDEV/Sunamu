@@ -1,6 +1,7 @@
+import type { NowPlayingAPI, SongData } from "../types";
+
 import { pollPosition, updateNowPlaying } from "./lib/nowplaying.js";
 import songdata from "./lib/songdata.js";
-import type { NowPlayingAPI, SongData } from "../types";
 
 import "./lib/buttons.js";
 import "./lib/event.js";
@@ -15,16 +16,14 @@ declare global {
 	interface Window {
 		title: string,
 		np: NowPlayingAPI;
-		widgetMode: boolean;
-		debugMode: boolean;
 		getNowPlaying?: () => SongData
 	}
 }
 
-window.title = "Sunamu" + (window.widgetMode ? " Widget" : "");
+window.title = "Sunamu" + (document.documentElement.classList.contains("widget-mode") ? " Widget" : "");
 
 // Expose debug stuff
-if(window.debugMode)
+if(await window.np.isDebugMode())
 	window.getNowPlaying = () => songdata;
 
 if(!localStorage.mxmusertoken){

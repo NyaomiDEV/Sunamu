@@ -39,6 +39,7 @@
     "json5": "^2.2.0",
     "leveldown": "^6.1.0",
     "levelup": "^5.0.1",
-    "mpris-for-dummies": "arytonex/mpris-for-dummies"
+    "mpris-for-dummies": "arytonex/mpris-for-dummies",
+    "yargs": "^17.2.1"
   }
 }

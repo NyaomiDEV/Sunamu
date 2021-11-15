@@ -1,6 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { NowPlayingAPI } from "../types";
-import { checkSwitch } from "./util";
 
 const npApi: NowPlayingAPI = {
 	previous: () => ipcRenderer.send("previous"),
@@ -31,8 +30,9 @@ const npApi: NowPlayingAPI = {
 	getConfig: () => ipcRenderer.invoke("getConfig"),
 
 	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),
+
+	isWidgetMode: () => ipcRenderer.invoke("isWidgetMode"),
+	isDebugMode: () => ipcRenderer.invoke("isDebugMode")
 };
 
 contextBridge.exposeInMainWorld("np", npApi);
-contextBridge.exposeInMainWorld("widgetMode", checkSwitch(process.env.ILOVEGLASS));
-contextBridge.exposeInMainWorld("debugMode", checkSwitch(process.env.DEBUG));

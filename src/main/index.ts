@@ -3,13 +3,12 @@ import { stat } from "fs/promises";
 import { resolve } from "path";
 import Player from "./player";
 import { searchForUserToken } from "./integrations/mxmusertoken";
-import { checkSwitch, debug, getConfig } from "./util";
+import { widgetMode, debugMode, checkFunctionality, debug } from "./util";
 import { get as getLyrics, save as saveLyrics } from "./integrations/lyricsOffline";
 import { getPresenceConfig, updatePresence } from "./integrations/discord-rpc";
+import { get as getConfig, getAll as getAllConfig } from "./config";
 
 process.title = "sunamu";
-
-const widgetMode = checkSwitch(process.env.ILOVEGLASS);
 
 let win: BrowserWindow;
 
@@ -18,7 +17,7 @@ if(widgetMode)
 
 app.commandLine.appendSwitch("use-gl", "desktop");
 
-if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && !process.env.NOWAYLAND){
+if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && checkFunctionality(getConfig("waylandOzone"), "wayland-ozone")){
 	// We are in a Wayland session, most probably
 	app.commandLine.appendSwitch("enable-features", "UseOzonePlatform");
 	app.commandLine.appendSwitch("ozone-platform", "wayland");
@@ -61,7 +60,7 @@ function registerSunamuApi(){
 	});
 
 	ipcMain.on("openExternal", (_e, uri) => shell.openExternal(uri));
-	ipcMain.handle("getConfig", async () => await getConfig());
+	ipcMain.handle("getConfig", () => getAllConfig());
 
 	ipcMain.handle("shouldBullyGlasscordUser", async () => {
 		let bullyGlasscordUser = false;
@@ -78,6 +77,9 @@ function registerSunamuApi(){
 
 		return bullyGlasscordUser;
 	});
+
+	ipcMain.handle("isWidgetMode", () => widgetMode);
+	ipcMain.handle("isDebugMode", () => debugMode);
 }
 
 async function spawnWindow() {

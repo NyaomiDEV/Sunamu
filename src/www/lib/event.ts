@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	hide();
 });
 
-if (!window.widgetMode) {
+if (!document.documentElement.classList.contains("widget-mode")) {
 	// ON FULLSCREEN CHANGE
 	document.addEventListener("webkitfullscreenchange", () => {
 		if (document.fullscreenElement != null)

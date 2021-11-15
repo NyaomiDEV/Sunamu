@@ -22,7 +22,7 @@ for(const key in map){
 document.documentElement.classList.add("resolution-" + resolution);
 
 // Widget mode
-if (window.widgetMode)
+if (await window.np.isWidgetMode())
 	document.documentElement.classList.add("widget-mode");
 
 // Font
