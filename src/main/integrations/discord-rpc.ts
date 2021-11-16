@@ -50,7 +50,7 @@ async function connect(){
 }
 
 export async function getPresenceConfig(){
-	const settings: DiscordPresenceConfig = Object.assign({}, getConfig("discord"));
+	const settings: DiscordPresenceConfig = Object.assign({}, getConfig("discordRpc"));
 	settings.enabled = checkFunctionality(settings.enabled, "discord-rpc");
 	return settings;
 }

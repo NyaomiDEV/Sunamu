@@ -37,7 +37,8 @@ function saveUserConfig() {
 function compareAndUpdate(obj1: any, obj2: any): boolean {
 	let changed = false;
 	for (const key in obj1) {
-		if (!obj2[key] || typeof obj1[key] !== typeof obj2[key] || Array.isArray(obj1[key]) !== Array.isArray(obj2[key])) {
+		if (typeof obj1[key] !== typeof obj2[key] || Array.isArray(obj1[key]) !== Array.isArray(obj2[key])) {
+			console.log(obj1[key], obj2[key]);
 			obj2[key] = obj1[key];
 			changed = true;
 			continue;
