@@ -82,6 +82,7 @@
 		"curly": [
 			"error",
 			"multi-or-nest"
-		]
+		],
+		"no-case-declarations": "off"
 	}
 }

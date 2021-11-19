@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { Update } from "../../types";
-import * as MPRIS2 from "./mpris2";
 
 const player: Player = {
 	init: (_callback: Function) => new Promise(resolve => resolve()),
@@ -17,15 +16,19 @@ const player: Player = {
 	SeekPercentage: (_percentage: number) => undefined,
 	GetPosition: () => undefined,
 };
-export default player;
 
-switch(process.platform){
-	case "linux":
-		Object.assign(player, MPRIS2);
-		break;
-	default:
-		console.error("Player: Unsupported platform!");
-		break;
+export default async function getPlayer(){
+	switch (process.platform) {
+		case "linux":
+			let MPRIS2 = await import("./mpris2");
+			Object.assign(player, MPRIS2);
+			break;
+		default:
+			console.error("Player: Unsupported platform!");
+			break;
+	}
+
+	return player;
 }
 
 export interface Player {

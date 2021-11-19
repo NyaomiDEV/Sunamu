@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { stat } from "fs/promises";
 import { resolve } from "path";
-import Player from "./player";
+import getPlayer, { Player } from "./player";
 import { searchForUserToken } from "./integrations/mxmusertoken";
 import { debug } from "./util";
 import { get as getLyrics, save as saveLyrics } from "./integrations/lyricsOffline";
@@ -13,6 +13,7 @@ import windowStateKeeper from "electron-window-state";
 process.title = "sunamu";
 
 let win: BrowserWindow;
+let player: Player;
 
 if(widgetMode)
 	debug("Widget mode");
@@ -26,7 +27,8 @@ if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && 
 }
 
 async function main() {
-	await Player.init(updateInfo);
+	player = await getPlayer();
+	player.init(updateInfo);
 
 	registerSunamuApi();
 
@@ -35,15 +37,15 @@ async function main() {
 }
 
 function registerSunamuApi(){
-	ipcMain.on("previous", () => Player.Previous());
-	ipcMain.on("playPause", () => Player.PlayPause());
-	ipcMain.on("next", () => Player.Next());
+	ipcMain.on("previous", () => player.Previous());
+	ipcMain.on("playPause", () => player.PlayPause());
+	ipcMain.on("next", () => player.Next());
 
-	ipcMain.on("shuffle", () => Player.Shuffle());
-	ipcMain.on("repeat", () => Player.Repeat());
+	ipcMain.on("shuffle", () => player.Shuffle());
+	ipcMain.on("repeat", () => player.Repeat());
 
-	ipcMain.on("seek", (_e, perc) => Player.SeekPercentage(perc));
-	ipcMain.handle("getPosition", async () => Player.GetPosition());
+	ipcMain.on("seek", (_e, perc) => player.SeekPercentage(perc));
+	ipcMain.handle("getPosition", async () => player.GetPosition());
 
 	ipcMain.handle("getLyrics", async (_e, id) => await getLyrics(id));
 	ipcMain.handle("saveLyrics", async (_e, id, data) => await saveLyrics(id, data));
@@ -125,7 +127,7 @@ async function spawnWindow() {
 }
 
 async function updateInfo(){
-	const update = await Player.getUpdate();
+	const update = await player.getUpdate();
 	if(update) {
 		debug("update", update);
 		win?.webContents?.send("update", update);
