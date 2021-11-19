@@ -12,6 +12,7 @@ export const fallback: DeepPartial<SongData> = {
 		albumArtists: undefined,
 		album: undefined,
 		artUrl: undefined,
+		artData: undefined,
 		length: undefined,
 		id: undefined
 	},

@@ -57,6 +57,12 @@ export type DiscordPresenceConfig = {
 	blacklist: string[]
 }
 
+export type ArtData = {
+	size: number,
+	type: string,
+	data: Buffer
+}
+
 export type Metadata = {
 	title: string,
 	album: string,
@@ -64,7 +70,8 @@ export type Metadata = {
 	albumArtists?: string[],
 	artist: string,
 	artists: string[],
-	artUrl: string,
+	artUrl?: string,
+	artData?: ArtData,
 	length: number,
 	id: string
 }

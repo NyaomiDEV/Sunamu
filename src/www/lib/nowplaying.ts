@@ -10,6 +10,7 @@ import { searchSpotifySong } from "./thirdparty/spotify.js";
 import { updateDiscordPresence } from "./thirdparty/discord-presence.js";
 
 const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
+let artDataBlobUrl: string | undefined;
 
 export function updateNowPlaying() {
 	// WINDOW TITLE
@@ -21,11 +22,19 @@ export function updateNowPlaying() {
 	}
 
 	// COVER ART
+	if (artDataBlobUrl){
+		window.webkitURL.revokeObjectURL(artDataBlobUrl);
+		artDataBlobUrl = undefined;
+	}
+
 	if (songdata.metadata.artUrl)
 		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
-	else
+	else if (songdata.metadata.artData) {
+		const blob = new Blob([songdata.metadata.artData.data]);
+		artDataBlobUrl = window.webkitURL.createObjectURL(blob);
+		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
+	} else
 		(document.querySelector(":root") as HTMLElement).style.removeProperty("--cover-art-url");
-
 
 	// ARTIST
 	formatMetadata(document.getElementById("artist"), featRegex, "featuring", songdata.metadata.artist, lang.PLEASE_PLAY_SONG);
