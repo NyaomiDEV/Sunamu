@@ -8,6 +8,7 @@ import { get as getLyrics, save as saveLyrics } from "./integrations/lyricsOffli
 import { getPresenceConfig, updatePresence } from "./integrations/discord-rpc";
 import { getAll as getAllConfig } from "./config";
 import { widgetMode, debugMode, waylandOzone} from "./appStatus";
+import windowStateKeeper from "electron-window-state";
 
 process.title = "sunamu";
 
@@ -84,11 +85,20 @@ function registerSunamuApi(){
 }
 
 async function spawnWindow() {
+	const mainWindowState = windowStateKeeper({
+		defaultWidth: 458,
+		defaultHeight: 512
+	});
+
 	win = new BrowserWindow({
-		show: true,
+		show: false,
 		frame: false,
 		transparent: widgetMode,
 		hasShadow: !widgetMode,
+		x: mainWindowState.x,
+		y: mainWindowState.y,
+		width: mainWindowState.width,
+		height: mainWindowState.height,
 		minWidth: 458,
 		minHeight: 512,
 		backgroundColor: widgetMode ? "#00000000" : "#000000",
@@ -107,8 +117,11 @@ async function spawnWindow() {
 		icon: resolve(__dirname, "..", "assets", "icons", "512x512.png"),
 		title: widgetMode ? "Sunamu Widget" : "Sunamu"
 	});
-	//if (process.env.DEBUG) win.webContents.openDevTools();
+	mainWindowState.manage(win);
+	//if (debugMode) win.webContents.openDevTools();
+
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
+	win.once("ready-to-show", () => win.show());
 }
 
 async function updateInfo(){

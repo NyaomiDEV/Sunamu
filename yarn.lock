@@ -159,6 +159,13 @@
   resolved "https://registry.yarnpkg.com/@types/discord-rpc/-/discord-rpc-4.0.0.tgz#29080812b9092996046af1a21138fb488d180f87"
   integrity sha512-a5HiKOcBkB43g/lN6fBYw8FyGc6Ue9CYucxxHxXlELXpb1CxCa2NA2pGK2Ub88pi4uY5+HQeSFbYtH6DJtV3Qw==
 
+"@types/electron-window-state@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/electron-window-state/-/electron-window-state-5.0.0.tgz#caf38c09d26294d3bed74985be0f666bb6451b0e"
+  integrity sha512-bT4efa3CIsyvI7gTNM/EtIp3AcFqw0sdnf/eYquxVOIANVgL+5NibU3BEibVsf+ow2qo4pRqgtkoJxAUBSlf9A==
+  dependencies:
+    electron-window-state "*"
+
 "@types/fs-extra@^9.0.11":
   version "9.0.13"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-9.0.13.tgz#7594fbae04fe7f1918ce8b3d213f74ff44ac1f45"
@@ -1028,6 +1035,14 @@ electron-publish@22.13.1:
     fs-extra "^10.0.0"
     lazy-val "^1.0.5"
     mime "^2.5.2"
+
+electron-window-state@*, electron-window-state@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/electron-window-state/-/electron-window-state-5.0.3.tgz#4f36d09e3f953d87aff103bf010f460056050aa8"
+  integrity sha512-1mNTwCfkolXl3kMf50yW3vE2lZj0y92P/HYWFBrb+v2S/pCka5mdwN3cagKm458A7NjndSwijynXgcLWRodsVg==
+  dependencies:
+    jsonfile "^4.0.0"
+    mkdirp "^0.5.1"
 
 electron@^15.3.1:
   version "15.3.1"
@@ -1934,7 +1949,7 @@ minimist@^1.2.0, minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-mkdirp@^0.5.4:
+mkdirp@^0.5.1, mkdirp@^0.5.4:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
   integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
