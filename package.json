@@ -41,6 +41,7 @@
     "leveldown": "^6.1.0",
     "levelup": "^5.0.1",
     "mpris-for-dummies": "arytonex/mpris-for-dummies",
+    "register-scheme": "https://github.com/NyaomiDEV/node-register-scheme",
     "yargs": "^17.2.1"
   }
 }
