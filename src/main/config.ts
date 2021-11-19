@@ -1,6 +1,6 @@
 import { Config } from "../types";
 import JSON5 from "json5";
-import { copyFileSync, readFileSync, writeFileSync } from "fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import { app } from "electron";
 
@@ -17,6 +17,7 @@ function getUserConfig() {
 	try {
 		return JSON5.parse(readFileSync(configPath, "utf8"));
 	} catch (_) {
+		mkdirSync(resolve(defaultConfigPath, ".."), {recursive: true});
 		copyFileSync(defaultConfigPath, configPath);
 		return defaultConfig;
 	}
