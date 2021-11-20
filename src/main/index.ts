@@ -18,12 +18,13 @@ let player: Player;
 if(widgetMode)
 	debug("Widget mode");
 
-app.commandLine.appendSwitch("use-gl", "desktop");
-
-if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && waylandOzone){
-	// We are in a Wayland session, most probably
-	app.commandLine.appendSwitch("enable-features", "UseOzonePlatform");
-	app.commandLine.appendSwitch("ozone-platform", "wayland");
+if(process.platform === "linux"){
+	app.commandLine.appendSwitch("use-gl", "desktop");
+	if(process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && waylandOzone){
+		// We are in a Wayland session, most probably
+		app.commandLine.appendSwitch("enable-features", "UseOzonePlatform");
+		app.commandLine.appendSwitch("ozone-platform", "wayland");
+	}
 }
 
 async function main() {
@@ -120,7 +121,7 @@ async function spawnWindow() {
 		title: widgetMode ? "Sunamu Widget" : "Sunamu"
 	});
 	mainWindowState.manage(win);
-	//if (debugMode) win.webContents.openDevTools();
+	if (debugMode) win.webContents.openDevTools();
 
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
 	win.once("ready-to-show", () => win.show());

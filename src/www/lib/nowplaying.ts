@@ -29,7 +29,7 @@ export function updateNowPlaying() {
 
 	if (songdata.metadata.artUrl)
 		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
-	else if (songdata.metadata.artData) {
+	else if (songdata.metadata.artData?.data) {
 		const blob = new Blob([songdata.metadata.artData.data]);
 		artDataBlobUrl = window.webkitURL.createObjectURL(blob);
 		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
@@ -172,6 +172,7 @@ async function pollSpotiUrl() {
 }
 
 window.np.registerUpdateCallback(async (update) => {
+	console.log(update);
 	// PRE CHECK IF SOMETHING HAS CHANGED ACTUALLY
 	let metadataChanged = false;
 
