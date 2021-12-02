@@ -181,22 +181,22 @@ window.np.registerUpdateCallback(async (update) => {
 		Object.assign(songdata, fallback);
 	} else {
 
-		if (songdata.metadata.id !== update.metadata.id) {
-			for (let key in songdata.metadata) {
-				// skip metadata that is not worth checking because the player might report them 'asynchronously'
-				if (["artUrl", "length"].includes(key)) continue;
 
-				if (
-					(typeof songdata.metadata[key] === "string" && songdata.metadata[key] !== update.metadata[key]) ||
+		for (let key in songdata.metadata) {
+			// skip metadata that is not worth checking because the player might report them 'asynchronously'
+			if (["artUrl", "length"].includes(key)) continue;
+
+			if (
+				(typeof songdata.metadata[key] === "string" && songdata.metadata[key] !== update.metadata[key]) ||
 					(Array.isArray(songdata.metadata[key]) && songdata.metadata[key]
 						.filter(x => !update.metadata[key].includes(x))
 						.concat(update.metadata[key].filter(x => !songdata.metadata[key].includes(x))).length !== 0)
-				) {
-					metadataChanged = true;
-					break;
-				}
+			) {
+				metadataChanged = true;
+				break;
 			}
 		}
+
 
 		Object.assign(songdata, update);
 	}
