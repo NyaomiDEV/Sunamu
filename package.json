@@ -4,14 +4,14 @@
   "version": "1.2.0",
   "main": "dist/main/index.js",
   "license": "MPL-2.0",
+  "private": true,
   "author": {
     "email": "me@arytonex.pw",
-    "name": "Naomi Calabretta",
-    "url": "http://arytonex.pw"
+    "name": "Naomi Calabretta"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AryToNeX/Sunamu.git"
+    "url": "https://github.com/NyaomiDEV/Sunamu.git"
   },
   "scripts": {
     "lint": "eslint src/ www/lib/ --ext .ts,.js",
@@ -26,13 +26,13 @@
   },
   "devDependencies": {
     "@types/discord-rpc": "^4.0.0",
-    "@types/node": "^14.14.22",
-    "@typescript-eslint/eslint-plugin": "^4.14.1",
-    "@typescript-eslint/parser": "^4.14.1",
-    "electron": "^15.3.1",
-    "electron-builder": "^22.11.7",
-    "eslint": "^7.18.0",
-    "typescript": "^4.1.3"
+    "@types/node": "^16",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "electron": "^16.0.0",
+    "electron-builder": "^22.14.5",
+    "eslint": "^8.3.0",
+    "typescript": "^4.5.2"
   },
   "dependencies": {
     "discord-rpc": "^4.0.1",
@@ -40,8 +40,8 @@
     "json5": "^2.2.0",
     "leveldown": "^6.1.0",
     "levelup": "^5.0.1",
-    "mpris-for-dummies": "arytonex/mpris-for-dummies",
-    "register-scheme": "https://github.com/NyaomiDEV/node-register-scheme",
+    "mpris-for-dummies": "NyaomiDEV/mpris-for-dummies",
+    "register-scheme": "NyaomiDEV/node-register-scheme",
     "yargs": "^17.2.1"
   }
 }
