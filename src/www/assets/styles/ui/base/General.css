@@ -4,6 +4,8 @@ html {
 	margin: 0;
 	padding: 0;
 	user-select: none;
+	scrollbar-color: rgba(255,255,255,.5) transparent;
+	scrollbar-width: 4px;
 }
 
 html.widget-mode {
