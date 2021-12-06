@@ -3,8 +3,15 @@
 # Sunamu (スナム)
 Show your currently playing song in a stylish way!
 
-![Preview](assets/preview_control.png)
-![Preview](assets/preview_lyrics.png)
+<div style="display: flex; justify-items: space-between; flex-wrap: wrap; width: 100%">
+<img alt="Lyrics preview" src="assets/preview_lyrics.png" style="width: 45%; height: auto; margin: 2%" />
+<img alt="Browser preview" src="assets/preview_browser.png" style="width: 45%; height: auto; margin: 2%" />
+<img alt="Widget preview" src="assets/preview_widget.png" style="width: 45%; height: auto; margin: 2%" />
+<img alt="OBS source preview" src="assets/preview_obs.png" style="width: 45%; height: auto; margin: 2%" />
+<img alt="Like its father, it can play Little Talks" src="assets/preview_widget_2.png" style="width: 45%; height: auto; margin: 2%" />
+<img alt="Hey!" src="assets/preview_widget_3.png" style="width: 45%; height: auto; margin: 2%" />
+
+</div>
 
 ## OwO wats dis?
 
@@ -37,28 +44,9 @@ Get the latest release from the [Releases](https://github.com/AryToNeX/Sunamu/re
 
 ## Configuration
 
-Sunamu's configuration file is located in `~/.config/sunamu/config.json5`. You can use it to enable or disable features.
+Sunamu's configuration file is located in `~/.config/sunamu/config.json5`. You can use it to enable or disable features, and there are a LOT of them!
 
-Quick preview*:
-```js
-{
-	// Specify your Last.FM username here to get the fancy play count in the details section
-	"lfmUsername": "",
-	// Specify your Spotify Developer Client ID and Secret here to get the Spotify URL for the playing tracks
-	"spotify": {
-		"clientID": "",
-		"clientSecret": ""
-	},
-	"discordRpc": {
-		// Specify if you want your Discord Presence to show what you are playing
-		"enabled": true,
-		// Probably blacklist your browser here lol (unless you do want to show it)
-		"blacklist": []
-	}
-}
-```
-
-*It might be outdated easily! Please check [the actual config file](assets/config.json5) instead.
+Do you want to give it a read? [Here it is!](assets/config.json5)
 
 ## Usage
 
