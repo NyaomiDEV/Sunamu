@@ -49,10 +49,10 @@ export const songdata = Object.assign({}, fallback) as SongData;
 export async function updateInfo() {
 	const update = await (await getPlayer()).getUpdate();
 	const metadataChanged = updateSongData(update);
-	sendSongData(metadataChanged);
+	broadcastSongData(metadataChanged);
 }
 
-export async function sendSongData(metadataChanged: boolean){
+export async function broadcastSongData(metadataChanged: boolean){
 	//debug(songdata);
 	for (const cb of callbacks) await cb(songdata, metadataChanged);
 }
@@ -123,14 +123,14 @@ async function pollLyrics() {
 	if (songdata.provider)
 		await queryLyrics();
 	// This refreshes the lyrics screen
-	sendSongData(false);
+	broadcastSongData(false);
 	pushLyricsUpdate();
 }
 
 async function pollLastFm() {
 	if (songdata.provider) {
 		await getTrackInfo(get("lfmUsername"));
-		sendSongData(false);
+		broadcastSongData(false);
 	}
 }
 
@@ -150,7 +150,7 @@ async function pollSpotiUrl() {
 
 		if (id) {
 			songdata.spotiUrl = "https://open.spotify.com/track/" + id;
-			sendSongData(false);
+			broadcastSongData(false);
 		}
 	}
 }

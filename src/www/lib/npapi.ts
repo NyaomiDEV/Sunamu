@@ -17,9 +17,8 @@ if(!isElectron()){
 
 		registerUpdateCallback: (callback) => socket.on("update", (songdata, metadataChanged) => callback(songdata, metadataChanged)),
 		registerLyricsCallback: (callback) => socket.on("refreshLyrics", () => callback()),
-		requestUpdate: () => socket.emit("requestUpdate"),
-		requestSongData: () => socket.emit("requestSongData"),
 
+		getSongData: () => new Promise(resolve => socket.emit("getSongData", resolve)),
 		getConfig: () => new Promise(resolve => socket.emit("getConfig", resolve)),
 
 		shouldBullyGlasscordUser: () => new Promise(resolve => socket.emit("shouldBullyGlasscordUser", resolve)),

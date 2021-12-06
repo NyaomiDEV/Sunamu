@@ -33,4 +33,4 @@ export const fallback: DeepPartial<SongData> = {
 	spotiUrl: undefined
 };
 
-export default Object.assign({}, fallback) as SongData;
+export default Object.assign({}, fallback, await window.np.getSongData()) as SongData;

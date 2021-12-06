@@ -16,9 +16,8 @@ export type NowPlayingAPI = {
 
 	registerUpdateCallback: (callback: Function) => void,
 	registerLyricsCallback: (callback: Function) => void,
-	requestUpdate: () => void,
-	requestSongData: () => void,
 
+	getSongData: () => Promise<SongData>,
 	getConfig: () => Promise<Config>,
 
 	shouldBullyGlasscordUser: () => Promise<boolean>,

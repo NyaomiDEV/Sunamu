@@ -5,7 +5,7 @@ import getPlayer, { Player } from "./player";
 import { getAll as getAllConfig } from "./config";
 import { widgetModeElectron, debugMode, waylandOzone } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
-import { addLyricsUpdateCallback, addUpdateCallback, updateInfo, sendSongData } from "./playbackStatus";
+import { addLyricsUpdateCallback, addUpdateCallback, songdata } from "./playbackStatus";
 import { getAppData } from "./util";
 
 process.title = "sunamu";
@@ -33,9 +33,7 @@ function registerElectronIpc() {
 	ipcMain.on("seek", (_e, perc) => player.SeekPercentage(perc));
 	ipcMain.handle("getPosition", async () => player.GetPosition());
 
-	ipcMain.on("requestUpdate", async () => await updateInfo());
-	ipcMain.on("requestSongData", async () => await sendSongData(false));
-
+	ipcMain.handle("getSongData", async () => songdata);
 	ipcMain.handle("getConfig", () => getAllConfig());
 
 	ipcMain.handle("shouldBullyGlasscordUser", async () => {

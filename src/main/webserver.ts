@@ -8,7 +8,7 @@ import { getAppData } from "./util";
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { Server as StaticServer } from "node-static";
-import { addLyricsUpdateCallback, addUpdateCallback, updateInfo, sendSongData } from "./playbackStatus";
+import { addLyricsUpdateCallback, addUpdateCallback, updateInfo, songdata } from "./playbackStatus";
 
 let player: Player;
 
@@ -30,8 +30,8 @@ function registerSocketIO(socket: Socket) {
 	socket.on("getPosition", async (callback) => callback(await player.GetPosition()));
 
 	socket.on("requestUpdate", async () => await updateInfo());
-	socket.on("requestSongData", async () => await sendSongData(false));
 
+	socket.on("getSongData", async (callback) => callback(songdata));
 	socket.on("getConfig", (callback) => callback(getAllConfig()));
 
 	socket.on("shouldBullyGlasscordUser", async (callback) => {

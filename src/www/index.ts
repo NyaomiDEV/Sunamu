@@ -3,7 +3,7 @@ import type { NowPlayingAPI, SongData } from "../types";
 import "./lib/npapi.js";
 import "./lib/screen.js";
 
-import { pollPosition } from "./lib/nowplaying.js";
+import { pollPosition, updateNowPlaying } from "./lib/nowplaying.js";
 import songdata from "./lib/songdata.js";
 
 import "./lib/buttons.js";
@@ -26,5 +26,4 @@ if(await window.np.isDebugMode())
 	window.getNowPlaying = () => songdata;
 
 setInterval(pollPosition, 200);
-
-window.np.requestUpdate();
+updateNowPlaying();
