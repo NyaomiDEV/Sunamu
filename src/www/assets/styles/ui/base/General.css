@@ -42,8 +42,12 @@ a:-webkit-any-link {
 	border-radius: 2px;
 }
 
-html.resolution-vga {
+html.resolution-qvga {
 	font-size: 4px;
+}
+
+html.resolution-vga {
+	font-size: 6px;
 }
 
 html.resolution-xga {

@@ -3,6 +3,7 @@ import { isElectron } from "./util.js";
 
 // Set resolution
 const map = {
+	qvga: 320,
 	vga: 480,
 	xga: 720,
 	fhd: 1080,
@@ -10,7 +11,7 @@ const map = {
 	"4k": 2160
 };
 
-let resolution = "vga";
+let resolution = Object.keys(map)[0];
 
 // compute smallest
 const minLength = Math.min(screen.width, screen.height);
