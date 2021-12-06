@@ -29,6 +29,7 @@
     "@types/mime": "^2.0.3",
     "@types/node": "^16",
     "@types/node-static": "^0.7.7",
+    "@types/obs-studio": "^2.16.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "electron": "^16.0.0",

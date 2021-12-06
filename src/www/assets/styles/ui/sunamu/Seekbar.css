@@ -29,3 +29,12 @@
 #seekbar.dragging {
 	transition: none;
 }
+
+html.no-progress .seekbar-bg {
+	display: none;
+}
+
+html.non-interactive .seekbar-bg,
+html.non-interactive #seekbar {
+	pointer-events: none;
+}

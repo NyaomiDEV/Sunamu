@@ -132,7 +132,8 @@ function formatMetadata(elem, regex, spanClass, data, fallback){
 window.np.registerUpdateCallback((_songdata, metadataChanged) => {
 	console.log(_songdata, metadataChanged);
 	Object.assign(songdata, fallback, _songdata);
-	show(true);
+	if(!document.documentElement.classList.contains("static"))
+		show(true);
 	updateNowPlaying();
 	putLyricsInPlace();
 });

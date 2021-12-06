@@ -1,13 +1,13 @@
-import "./lib/npapi.js";
-
 import type { NowPlayingAPI, SongData } from "../types";
+
+import "./lib/npapi.js";
+import "./lib/screen.js";
 
 import { pollPosition } from "./lib/nowplaying.js";
 import songdata from "./lib/songdata.js";
 
 import "./lib/buttons.js";
 import "./lib/event.js";
-import "./lib/screen.js";
 import "./lib/seekbar.js";
 
 declare global {

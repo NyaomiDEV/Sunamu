@@ -1,27 +1,44 @@
 {
-	"useElectron": true,
-	"useWebserver": true,
-	// Do you want to run Sunamu in widget mode?
-	"widgetMode": false,
-	// Do you want to run Sunamu Web in widget mode? (Useful for embedding in OBS Studio)
-	"widgetModeWeb": false,
+	useElectron: true,
+	useWebserver: true,
+	webserverPort: 3000,
 	// Do you want to run Sunamu in debug mode?
-	"debugMode": false,
+	debugMode: false,
 	// Do you want to use the Ozone Wayland Platform? (Linux only)
-	"waylandOzone": true,
-	// Specify a custom font to use
-	"font": "",
+	waylandOzone: true,
 	// Specify your Last.FM username here to get the fancy play count in the details section
-	"lfmUsername": "",
+	lfmUsername: "",
 	// Specify your Spotify Developer Client ID and Secret here to get the Spotify URL for the playing tracks
-	"spotify": {
-		"clientID": "",
-		"clientSecret": ""
+	spotify: {
+		clientID: "",
+		clientSecret: "" 
 	},
-	"discordRpc": {
+	discordRpc: {
 		// Specify if you want your Discord Presence to show what you are playing
-		"enabled": true,
+		enabled: true,
 		// Probably blacklist your browser here lol (unless you do want to show it)
-		"blacklist": []
+		blacklist: []
+	},
+	scenes: {
+		default: {
+			widgetMode: false,
+			font: "",
+		},
+		electron: {
+			widgetMode: true,
+			font: ""
+		},
+		"obs-studio": {
+			widgetMode: true,
+			font: "",
+			nonInteractive: true,
+			static: true,
+			showAlbumArt: true,
+			showControls: false,
+			showProgress: false,
+			showInfo: false,
+			showLyrics: false,
+			showExtraButtons: false
+		}
 	}
 }

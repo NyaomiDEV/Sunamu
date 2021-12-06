@@ -65,6 +65,18 @@
 	text-align: right;
 }
 
+html.widget-mode .metadata > * {
+	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
+}
+
+html.no-progress #time {
+	display: none;
+}
+
+html.no-info #details {
+	display: none;
+}
+
 @media only screen and (orientation: portrait) {
 	.metadata {
 		align-items: center;

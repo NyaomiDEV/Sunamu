@@ -33,22 +33,40 @@ export type NowPlayingAPI = {
 }
 
 export type Config = {
-	widgetMode: boolean,
-	widgetModeWeb: boolean,
+	useElectron: boolean,
+	useWebserver: boolean,
 	debugMode: boolean,
 	waylandOzone: boolean,
-	font: string,
 	lfmUsername: string,
-	spotify: {
-		clientID: string,
-		clientSecret: string
+	mxmusertoken: string,
+	spotify: SpotifyConfig,
+	discordRpc: DiscordPresenceConfig,
+	scenes: {
+		[sceneName: string]: SceneConfig
 	},
-	discordRpc: DiscordPresenceConfig
+}
+
+export type SpotifyConfig = {
+	clientID: string,
+	clientSecret: string
 }
 
 export type DiscordPresenceConfig = {
 	enabled: boolean,
 	blacklist: string[]
+}
+
+export type SceneConfig = {
+	widgetMode?: boolean,
+	font?: string,
+	nonInteractive?: boolean,
+	static?: boolean,
+	showAlbumArt?: boolean,
+	showControls?: boolean,
+	showProgress?: boolean,
+	showInfo?: boolean,
+	showLyrics?: boolean,
+	showExtraButtons?: boolean,
 }
 
 export type ArtData = {

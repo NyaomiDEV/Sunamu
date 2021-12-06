@@ -93,3 +93,21 @@
 	width: 2rem;
 	height: 2rem;
 }
+
+html.no-album-art .album-art {
+	display: none;
+}
+
+html.no-controls .playback-controls,
+html.non-interactive .playback-controls {
+	display: none;
+}
+
+html.no-lyrics #lyrics-btn {
+	display: none;
+}
+
+html.no-extra-buttons #spotify,
+html.no-extra-buttons #lastfm {
+	display: none;
+}

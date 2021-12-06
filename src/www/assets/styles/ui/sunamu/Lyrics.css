@@ -84,6 +84,16 @@
 	filter: blur(16px) opacity(0);
 }
 
+html.widget-mode .lyrics > *,
+html.widget-mode .lyrics-footer {
+	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
+}
+
+html.no-lyrics .lyrics,
+html.no-lyrics .lyrics-footer {
+	display: none;
+}
+
 @media only screen and (orientation: portrait) {
 	.lyrics {
 		align-items: center;

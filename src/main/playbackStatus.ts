@@ -5,7 +5,7 @@ import { searchSpotifySong } from "./thirdparty/spotify";
 import { getTrackInfo } from "./thirdparty/lastfm";
 import { spotiId } from "./util";
 import { queryLyrics } from "./integrations/lyrics";
-import { debug } from ".";
+//import { debug } from ".";
 
 // eslint-disable-next-line no-unused-vars
 const callbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
@@ -53,7 +53,7 @@ export async function updateInfo() {
 }
 
 export async function sendSongData(metadataChanged: boolean){
-	debug(songdata);
+	//debug(songdata);
 	for (const cb of callbacks) await cb(songdata, metadataChanged);
 }
 

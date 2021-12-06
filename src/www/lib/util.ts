@@ -34,6 +34,9 @@ function reCenter() {
 }
 
 export function toggleLyricsView(show?: boolean){
+	if (document.documentElement.classList.contains("no-lyrics"))
+		return;
+
 	if (typeof show === "undefined")
 		show = document.getElementsByClassName("lyrics")[0].classList.contains("hidden");
 

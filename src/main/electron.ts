@@ -3,7 +3,7 @@ import { stat } from "fs/promises";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
 import { getAll as getAllConfig } from "./config";
-import { widgetMode, debugMode, waylandOzone } from "./appStatus";
+import { widgetModeElectron, debugMode, waylandOzone } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
 import { addLyricsUpdateCallback, addUpdateCallback, updateInfo, sendSongData } from "./playbackStatus";
 import { getAppData } from "./util";
@@ -54,7 +54,7 @@ function registerElectronIpc() {
 		return bullyGlasscordUser;
 	});
 
-	ipcMain.handle("isWidgetMode", () => widgetMode);
+	ipcMain.handle("isWidgetMode", () => widgetModeElectron);
 	ipcMain.handle("isDebugMode", () => debugMode);
 
 	ipcMain.on("minimize", () => win.minimize());
@@ -78,20 +78,20 @@ async function spawnWindow() {
 	win = new BrowserWindow({
 		show: false,
 		frame: false,
-		transparent: widgetMode,
-		hasShadow: !widgetMode,
+		transparent: widgetModeElectron,
+		hasShadow: !widgetModeElectron,
 		x: mainWindowState.x,
 		y: mainWindowState.y,
 		width: mainWindowState.width,
 		height: mainWindowState.height,
 		minWidth: 458,
 		minHeight: 512,
-		backgroundColor: widgetMode ? "#00000000" : "#000000",
-		maximizable: !widgetMode,
-		minimizable: !widgetMode,
+		backgroundColor: widgetModeElectron ? "#00000000" : "#000000",
+		maximizable: !widgetModeElectron,
+		minimizable: !widgetModeElectron,
 		resizable: true,
-		fullscreenable: !widgetMode,
-		skipTaskbar: widgetMode,
+		fullscreenable: !widgetModeElectron,
+		skipTaskbar: widgetModeElectron,
 		autoHideMenuBar: true,
 		webPreferences: {
 			contextIsolation: true,
@@ -100,7 +100,7 @@ async function spawnWindow() {
 		},
 		roundedCorners: true,
 		icon: resolve(__dirname, "..", "assets", "icons", "512x512.png"),
-		title: widgetMode ? "Sunamu Widget" : "Sunamu"
+		title: widgetModeElectron ? "Sunamu Widget" : "Sunamu"
 	});
 	mainWindowState.manage(win);
 	if (debugMode) win.webContents.openDevTools();

@@ -17,6 +17,14 @@ body {
 	padding: 0;
 }
 
+html.widget-mode body {
+	transition: ease .2s filter;
+}
+
+html.widget-mode body.hidden {
+	filter: blur(16px) opacity(0);
+}
+
 a:-webkit-any-link {
 	text-decoration: none !important;
 }

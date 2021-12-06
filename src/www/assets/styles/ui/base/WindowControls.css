@@ -36,3 +36,8 @@
 .window-controls .close {
 	display: none;
 }
+
+html.widget-mode .window-controls,
+html.non-interactive .window-controls {
+	display: none;
+}

@@ -1,8 +1,8 @@
 import { stat } from "fs/promises";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
-import { getAll as getAllConfig } from "./config";
-import { widgetModeWeb, debugMode, useElectron } from "./appStatus";
+import { get as getConfig, getAll as getAllConfig } from "./config";
+import { widgetMode, debugMode, useElectron } from "./appStatus";
 import { getAppData } from "./util";
 
 import { Server, Socket } from "socket.io";
@@ -12,7 +12,7 @@ import { addLyricsUpdateCallback, addUpdateCallback, updateInfo, sendSongData } 
 
 let player: Player;
 
-const file = new StaticServer(resolve(__dirname, "..", "www"), { indexFile: "index.htm" });
+const file = new StaticServer(resolve(__dirname, "..", "www"), { indexFile: "index.htm", cache: 0 });
 const server = createServer((req, res) => file.serve(req, res));
 
 export const io = new Server(server);
@@ -50,7 +50,7 @@ function registerSocketIO(socket: Socket) {
 		callback(bullyGlasscordUser);
 	});
 
-	socket.on("isWidgetMode", (callback) => callback(widgetModeWeb));
+	socket.on("isWidgetMode", (callback) => callback(widgetMode));
 	socket.on("isDebugMode", (callback) => callback(debugMode));
 	socket.on("isElectronRunning", (callback) => callback(useElectron));
 
@@ -61,7 +61,7 @@ function registerSocketIO(socket: Socket) {
 export default async function webserverMain(){
 	player = await getPlayer();
 
-	server.listen(3000, () => console.log("WebServer listening on port 3000"));
+	server.listen(getConfig("webserverPort"), () => console.log("WebServer listening on port 3000"));
 
 	io.on("connection", socket => {
 		registerSocketIO(socket);

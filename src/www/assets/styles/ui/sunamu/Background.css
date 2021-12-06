@@ -13,3 +13,7 @@
 	filter: blur(64px) brightness(50%) saturate(150%);
 	transition: ease 2s background-image;
 }
+
+html.widget-mode .background {
+	display: none;
+}

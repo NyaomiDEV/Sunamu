@@ -4,8 +4,8 @@ import { get as getConfig } from "./config";
 
 export const argv = yargs(hideBin(process.argv)).argv;
 
-export const widgetMode = checkFunctionality(getConfig("widgetMode"), "widget");
-export const widgetModeWeb = checkFunctionality(getConfig("widgetModeWeb"), "widget-web");
+export const widgetModeElectron = checkFunctionality(getConfig("scenes").electron.widgetMode, "widget-electron");
+export const widgetMode = checkFunctionality(getConfig("scenes").default.widgetMode, "widget");
 export const debugMode = checkFunctionality(getConfig("debugMode"), "debug");
 export const waylandOzone = checkFunctionality(getConfig("waylandOzone"), "wayland-ozone");
 
