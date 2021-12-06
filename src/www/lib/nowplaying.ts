@@ -51,11 +51,11 @@ export function updateNowPlaying() {
 	].filter(Boolean).join(" • ");
 
 	// CONTROLS VISIBILITY
+	(document.getElementsByClassName("playback-controls")[0] as HTMLElement).style.display = songdata.metadata.id ? "" : "none";
+
 	const playPauseBtn = document.getElementById("playpause")!;
 	const shuffleBtn = document.getElementById("shuffle")!;
 	const repeatBtn = document.getElementById("repeat")!;
-
-	(document.getElementsByClassName("first-row")[0] as HTMLElement).style.display = songdata.capabilities.canControl ? "" : "none";
 
 	setDisabledClass(playPauseBtn, songdata.capabilities.canPlayPause);
 	setDisabledClass(document.getElementById("next"), songdata.capabilities.canGoNext);
