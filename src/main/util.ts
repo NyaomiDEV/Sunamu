@@ -1,6 +1,13 @@
-import { debugMode } from "./appStatus";
+import { resolve } from "path";
 
-export function debug(...args: any) {
-	if (debugMode)
-		console.log(...args);
+export function getAppData() {
+	switch (process.platform) {
+		case "linux":
+			if (process.env.XDG_CONFIG_HOME) return resolve(process.env.XDG_CONFIG_HOME);
+			return resolve(process.env.HOME!, ".config");
+		case "win32":
+			return resolve(process.env.APPDATA!);
+		default:
+			return "";
+	}
 }

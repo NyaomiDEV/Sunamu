@@ -10,6 +10,7 @@ import { widgetMode, debugMode, waylandOzone } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
 import { io } from "./webserver";
 import { addCallback, updateInfo } from "./eventDispatcher";
+import { getAppData } from "./util";
 
 process.title = "sunamu";
 
@@ -55,7 +56,7 @@ function registerElectronIpc() {
 
 	ipcMain.handle("shouldBullyGlasscordUser", async () => {
 		let bullyGlasscordUser = false;
-		const gcPath = resolve(app.getPath("appData"), "glasscord");
+		const gcPath = resolve(getAppData(), "glasscord");
 
 		try {
 			await stat(gcPath);

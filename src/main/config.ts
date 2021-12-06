@@ -2,9 +2,9 @@ import { Config } from "../types";
 import JSON5 from "json5";
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
-import { app } from "electron";
+import { getAppData } from "./util";
 
-const configPath = resolve(app.getPath("appData"), "sunamu", "config.json5");
+const configPath = resolve(getAppData(), "sunamu", "config.json5");
 const defaultConfigPath = resolve(__dirname, "..", "..", "assets", "config.json5");
 
 const defaultConfig: Config = JSON5.parse(readFileSync(defaultConfigPath, "utf8"));

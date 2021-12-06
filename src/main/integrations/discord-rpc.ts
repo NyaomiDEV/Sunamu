@@ -1,6 +1,6 @@
 import RPC, { Client, Presence } from "discord-rpc";
 import { DiscordPresenceConfig } from "../../types";
-import { debug } from "../util";
+import { debug } from "../";
 import { checkFunctionality } from "../appStatus";
 import { get as getConfig } from "../config";
 

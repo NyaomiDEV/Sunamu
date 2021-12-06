@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-vars */
-import { app } from "electron";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { createHash } from "crypto";
 import JSON5 from "json5";
 import { Lyrics } from "../../types";
+import { getAppData } from "../util";
 
-const lyrPath = resolve(app.getPath("appData"), "sunamu", "Lyrics Cache");
+const lyrPath = resolve(getAppData(), "sunamu", "Lyrics Cache");
 
 function md5(data){
 	return createHash("md5").update(data).digest("hex");

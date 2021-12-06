@@ -1,4 +1,4 @@
-import { debug } from "../util";
+import { debug } from "../";
 import { getPlayer, getPlayerNames } from "mpris-for-dummies";
 import dbus from "dbus-next";
 import { Metadata, Update } from "../../types";

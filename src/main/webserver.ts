@@ -5,7 +5,8 @@ import { searchForUserToken } from "./integrations/mxmusertoken";
 import { get as getLyrics, save as saveLyrics } from "./integrations/lyricsOffline";
 import { getPresenceConfig, updatePresence } from "./integrations/discord-rpc";
 import { getAll as getAllConfig } from "./config";
-import { widgetModeWeb, debugMode, getAppData, useElectron } from "./appStatus";
+import { widgetModeWeb, debugMode, useElectron } from "./appStatus";
+import { getAppData } from "./util";
 
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
