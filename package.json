@@ -45,6 +45,7 @@
     "levelup": "^5.0.1",
     "mime": "^3.0.0",
     "mpris-for-dummies": "NyaomiDEV/mpris-for-dummies",
+    "node-fetch": "^2.6.1",
     "node-static": "^0.7.11",
     "register-scheme": "NyaomiDEV/node-register-scheme",
     "socket.io": "^4.4.0",

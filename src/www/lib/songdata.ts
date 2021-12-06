@@ -1,12 +1,10 @@
 import type { DeepPartial, SongData } from "../../types";
 
-import lang from "./lang.js";
-
 export const fallback: DeepPartial<SongData> = {
 	provider: undefined,
 	metadata: {
-		title: lang.NOT_PLAYING,
-		artist: lang.PLEASE_PLAY_SONG,
+		title: undefined,
+		artist: undefined,
 		artists: undefined,
 		albumArtist: undefined,
 		albumArtists: undefined,

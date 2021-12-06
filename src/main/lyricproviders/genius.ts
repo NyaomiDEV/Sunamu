@@ -1,6 +1,7 @@
-import type { Lyrics } from "../../../types";
+import type { Lyrics } from "../../types";
 
-import songdata from "../songdata.js";
+import fetch, { Request } from "node-fetch";
+import { songdata } from "../playbackStatus";
 
 const search_url = "https://genius.com/api/search/song";
 
@@ -45,7 +46,7 @@ async function getSongURL() {
 
 	let result;
 	try {
-		result = await (await fetch(search_request, {mode: "no-cors"})).json();
+		result = await (await fetch(search_request)).json();
 	} catch (e) {
 		console.error("Genius search request got an error!", e);
 		result = {};
@@ -59,7 +60,7 @@ async function getLyricsFromGenius(url) {
 
 	let result;
 	try {
-		result = await (await fetch(request, {mode: "no-cors"})).text();
+		result = await (await fetch(request)).text();
 	} catch (e) {
 		console.error("Genius lyrics request got an error!", e);
 		return undefined;

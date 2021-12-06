@@ -1,9 +1,6 @@
 import { stat } from "fs/promises";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
-import { searchForUserToken } from "./integrations/mxmusertoken";
-import { get as getLyrics, save as saveLyrics } from "./integrations/lyricsOffline";
-import { getPresenceConfig, updatePresence } from "./integrations/discord-rpc";
 import { getAll as getAllConfig } from "./config";
 import { widgetModeWeb, debugMode, useElectron } from "./appStatus";
 import { getAppData } from "./util";
@@ -11,16 +8,17 @@ import { getAppData } from "./util";
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { Server as StaticServer } from "node-static";
-import { addCallback, updateInfo } from "./eventDispatcher";
+import { addLyricsUpdateCallback, addUpdateCallback, updateInfo, sendSongData } from "./playbackStatus";
 
 let player: Player;
 
-const file = new StaticServer(resolve(__dirname, "..", "www"), { indexFile: "index.htm", headers: { "Access-Control-Allow-Origin": "*"} });
+const file = new StaticServer(resolve(__dirname, "..", "www"), { indexFile: "index.htm" });
 const server = createServer((req, res) => file.serve(req, res));
 
 export const io = new Server(server);
 
 function registerSocketIO(socket: Socket) {
+
 	socket.on("previous", () => player.Previous());
 	socket.on("playPause", () => player.PlayPause());
 	socket.on("next", () => player.Next());
@@ -31,15 +29,8 @@ function registerSocketIO(socket: Socket) {
 	socket.on("seek", (perc) => player.SeekPercentage(perc));
 	socket.on("getPosition", async (callback) => callback(await player.GetPosition()));
 
-	socket.on("getLyrics", async (id, callback) => callback(await getLyrics(id)));
-	socket.on("saveLyrics", async (id, data, callback) => callback(await saveLyrics(id, data)));
-
-	socket.on("mxmusertoken", async (callback) => callback(await searchForUserToken()));
-
-	socket.on("updateDiscordPresence", (presence) => updatePresence(presence));
-	socket.on("getDiscordPresenceConfig", async (callback) => callback(await getPresenceConfig()));
-
 	socket.on("requestUpdate", async () => await updateInfo());
+	socket.on("requestSongData", async () => await sendSongData(false));
 
 	socket.on("getConfig", (callback) => callback(getAllConfig()));
 
@@ -63,7 +54,8 @@ function registerSocketIO(socket: Socket) {
 	socket.on("isDebugMode", (callback) => callback(debugMode));
 	socket.on("isElectronRunning", (callback) => callback(useElectron));
 
-	addCallback(update => socket.emit("update", update));
+	addUpdateCallback(async (songdata, metadataChanged) => { socket.emit("update", songdata, metadataChanged); });
+	addLyricsUpdateCallback(async () => { socket.emit("refreshLyrics"); });
 }
 
 export default async function webserverMain(){

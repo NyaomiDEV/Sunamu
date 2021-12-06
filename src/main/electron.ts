@@ -2,14 +2,10 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { stat } from "fs/promises";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
-import { searchForUserToken } from "./integrations/mxmusertoken";
-import { get as getLyrics, save as saveLyrics } from "./integrations/lyricsOffline";
-import { getPresenceConfig, updatePresence } from "./integrations/discord-rpc";
 import { getAll as getAllConfig } from "./config";
 import { widgetMode, debugMode, waylandOzone } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
-import { io } from "./webserver";
-import { addCallback, updateInfo } from "./eventDispatcher";
+import { addLyricsUpdateCallback, addUpdateCallback, updateInfo, sendSongData } from "./playbackStatus";
 import { getAppData } from "./util";
 
 process.title = "sunamu";
@@ -37,20 +33,8 @@ function registerElectronIpc() {
 	ipcMain.on("seek", (_e, perc) => player.SeekPercentage(perc));
 	ipcMain.handle("getPosition", async () => player.GetPosition());
 
-	ipcMain.handle("getLyrics", async (_e, id) => await getLyrics(id));
-	ipcMain.handle("saveLyrics", async (_e, id, data) => {
-		const result = await saveLyrics(id, data);
-		if (result)
-			io.emit("refreshLyrics");
-		return result;
-	});
-
-	ipcMain.handle("mxmusertoken", async () => await searchForUserToken());
-
-	ipcMain.on("updateDiscordPresence", async (_e, presence) => updatePresence(presence));
-	ipcMain.handle("getDiscordPresenceConfig", async () => await getPresenceConfig());
-
 	ipcMain.on("requestUpdate", async () => await updateInfo());
+	ipcMain.on("requestSongData", async () => await sendSongData(false));
 
 	ipcMain.handle("getConfig", () => getAllConfig());
 
@@ -81,7 +65,8 @@ function registerElectronIpc() {
 
 	ipcMain.on("openExternal", (_e, uri) => shell.openExternal(uri));
 
-	addCallback(update => win.webContents.send("update", update));
+	addUpdateCallback(async (songdata, metadataChanged) => win.webContents.send("update", songdata, metadataChanged));
+	addLyricsUpdateCallback(async () => win.webContents.send("refreshLyrics"));
 }
 
 async function spawnWindow() {

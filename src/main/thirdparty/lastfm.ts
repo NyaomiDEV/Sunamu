@@ -2,7 +2,8 @@
 // Please do not copy it, or if you do, please do not use it
 // for spammy queries. We do not really want it to get rate
 
-import songdata from "../songdata.js";
+import { songdata } from "../playbackStatus";
+import fetch, { Request } from "node-fetch";
 
 // limited, do we?
 const apiKey = "fd35d621eee8c53c1130c12b2d53d7fb";
@@ -29,7 +30,7 @@ export async function queryLastFM(methodName, options){
 	);
 
 	const result = await fetch(request);
-	return await result.json();
+	return await result.json() as any;
 }
 
 export async function getTrackInfo(forUsername){

@@ -1,7 +1,10 @@
-import type { Lyrics } from "../../../types";
+import type { Lyrics } from "../../types";
 
-import songdata from "../songdata.js";
-import { spotiId } from "../util.js";
+import fetch, { Request, Headers } from "node-fetch";
+import { songdata } from "../playbackStatus";
+import { spotiId } from "../util";
+import { get as getConfig, set as setConfig } from "../config";
+import { searchForUserToken } from "../integrations/mxmusertoken";
 
 const url = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get?format=json&namespace=lyrics_richsynched&subtitle_format=mxm&app_id=web-desktop-app-v1.0";
 
@@ -12,7 +15,7 @@ function getQueryParams() {
 		q_track: songdata.metadata.title,
 		q_album: songdata.metadata.album,
 		q_duration: songdata.metadata.length,
-		usertoken: window.localStorage.mxmusertoken
+		usertoken: getConfig("mxmusertoken")
 	};
 
 	const spotiMatch = spotiId.exec(songdata.metadata.id);
@@ -22,8 +25,12 @@ function getQueryParams() {
 }
 
 export async function query(): Promise<Lyrics | undefined> {
-	if (!window.localStorage.mxmusertoken)
-		return undefined;
+	if (!getConfig("mxmusertoken")){
+		const token = await searchForUserToken();
+		if(!token) return undefined;
+
+		setConfig("mxmusertoken", token);
+	}
 
 	const reply: Lyrics = {
 		provider: "Musixmatch",
@@ -43,7 +50,7 @@ export async function query(): Promise<Lyrics | undefined> {
 
 	let result;
 	try {
-		result = await (await fetch(request, {mode: "no-cors"})).json();
+		result = await (await fetch(request)).json();
 	} catch (e) {
 		console.error("Musixmatch request got an error!", e);
 		result = {};

@@ -15,18 +15,10 @@ if(!isElectron()){
 		seek: (positionToSeekbar) => socket.emit("seek", positionToSeekbar),
 		getPosition: () => new Promise(resolve => socket.emit("getPosition", resolve)),
 
-		getLyrics: (id) => new Promise(resolve => socket.emit("getLyrics", id, resolve)),
-		//saveLyrics: (id, data) => new Promise(resolve => socket.emit("saveLyrics", id, data, resolve)),
-		saveLyrics: async () => false,
-
-		mxmusertoken: () => new Promise(resolve => socket.emit("mxmusertoken", resolve)),
-
-		getDiscordPresenceConfig: () => new Promise(resolve => socket.emit("getDiscordPresenceConfig", resolve)),
-		updateDiscordPresence: (presence) => socket.emit("updateDiscordPresence", presence),
-
-		registerUpdateCallback: (callback) => socket.on("update", v => callback(v)),
+		registerUpdateCallback: (callback) => socket.on("update", (songdata, metadataChanged) => callback(songdata, metadataChanged)),
 		registerLyricsCallback: (callback) => socket.on("refreshLyrics", () => callback()),
 		requestUpdate: () => socket.emit("requestUpdate"),
+		requestSongData: () => socket.emit("requestSongData"),
 
 		getConfig: () => new Promise(resolve => socket.emit("getConfig", resolve)),
 

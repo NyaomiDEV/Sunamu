@@ -11,7 +11,7 @@ const defaultConfig: Config = JSON5.parse(readFileSync(defaultConfigPath, "utf8"
 const config: Config = getUserConfig();
 
 if (compareAndUpdate(defaultConfig, config))
-	saveUserConfig();
+	save();
 
 function getUserConfig() {
 	try {
@@ -21,18 +21,6 @@ function getUserConfig() {
 		copyFileSync(defaultConfigPath, configPath);
 		return defaultConfig;
 	}
-}
-
-function saveUserConfig() {
-	const now = new Date();
-	const date = now.getFullYear().toString().padStart(4, "0") +
-				now.getMonth().toString().padStart(2, "0") +
-				now.getDay().toString().padStart(2, "0") + "-" +
-				now.getHours().toString().padStart(2, "0") +
-				now.getMinutes().toString().padStart(2, "0") +
-				now.getSeconds().toString().padStart(2, "0");
-	copyFileSync(configPath, configPath + ".backup-" + date);
-	writeFileSync(configPath, JSON5.stringify(config, undefined, 2));
 }
 
 function compareAndUpdate(obj1: any, obj2: any): boolean {
@@ -52,10 +40,29 @@ function compareAndUpdate(obj1: any, obj2: any): boolean {
 	return changed;
 }
 
+export function save(backup: boolean = true) {
+	if(backup){
+		const now = new Date();
+		const date = now.getFullYear().toString().padStart(4, "0") +
+			now.getMonth().toString().padStart(2, "0") +
+			now.getDay().toString().padStart(2, "0") + "-" +
+			now.getHours().toString().padStart(2, "0") +
+			now.getMinutes().toString().padStart(2, "0") +
+			now.getSeconds().toString().padStart(2, "0");
+		copyFileSync(configPath, configPath + ".backup-" + date);
+	}
+	writeFileSync(configPath, JSON5.stringify(config, undefined, 2));
+}
+
 export function get(name: string) {
 	return config[name] || undefined;
 }
 
 export function getAll(): Config {
 	return Object.assign({}, config);
+}
+
+export function set(name: string, value: any){
+	config[name] = value;
+	save(false);
 }

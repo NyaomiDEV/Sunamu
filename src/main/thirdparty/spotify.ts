@@ -1,5 +1,6 @@
-import songdata from "../songdata.js";
-import config from "../config.js";
+import { songdata } from "../playbackStatus";
+import { getAll as config } from "../config";
+import fetch, { Request } from "node-fetch";
 
 const root = "https://api.spotify.com/v1/";
 let authorization = {
@@ -9,7 +10,7 @@ let authorization = {
 };
 
 async function checkLogin() {
-	if (!config.spotify.clientID || !config.spotify.clientSecret){
+	if (!config().spotify.clientID || !config().spotify.clientSecret){
 		console.debug("No Spotify app credentials in local storage");
 		return false;
 	}
@@ -20,7 +21,7 @@ async function checkLogin() {
 		"https://accounts.spotify.com/api/token",
 		{
 			headers: {
-				"Authorization": `Basic ${btoa(`${config.spotify.clientID}:${config.spotify.clientSecret}`)}`,
+				"Authorization": `Basic ${btoa(`${config().spotify.clientID}:${config().spotify.clientSecret}`)}`,
 				"Content-Type": "application/x-www-form-urlencoded"
 			},
 			method: "POST",
@@ -31,7 +32,7 @@ async function checkLogin() {
 	const result = await fetch(request);
 
 	if(result.status === 200){
-		const body = await result.json();
+		const body = await result.json() as any;
 		authorization.access_token = body.access_token;
 		authorization.token_type = body.token_type;
 		authorization.expiration = (Math.floor(Date.now() / 1000) + body.expires_in);
@@ -66,7 +67,7 @@ async function searchPrecise() {
 	const result = await fetch(request);
 
 	if (result.status === 200) {
-		const body = await result.json();
+		const body = await result.json() as any;
 		return body.tracks.items[0] || undefined;
 	}
 
@@ -94,7 +95,7 @@ async function searchNotSoPrecise() {
 	const result = await fetch(request);
 
 	if (result.status === 200) {
-		const body = await result.json();
+		const body = await result.json() as any;
 		return body.tracks.items[0] || undefined;
 	}
 

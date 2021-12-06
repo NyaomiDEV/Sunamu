@@ -1,7 +1,8 @@
-import type { Lyrics } from "../../../types";
+import type { Lyrics } from "../../types";
 
-import { parseLrc } from "../lrc.js";
-import songdata from "../songdata.js";
+import fetch, { Request } from "node-fetch";
+import { parseLrc } from "./lrc";
+import { songdata } from "../playbackStatus";
 
 const search_url = "http://music.163.com/api/search/get";
 const lyrics_url = "http://music.163.com/api/song/lyric";
@@ -62,7 +63,7 @@ async function getSongId(){
 
 	let result;
 	try {
-		result = await (await fetch(search_request, {mode: "no-cors"})).json();
+		result = await (await fetch(search_request)).json();
 	} catch (e) {
 		console.error("NetEase search request got an error!", e);
 		result = {};
@@ -78,7 +79,7 @@ async function getLyricsFromSongId(songId){
 
 	let result;
 	try {
-		result = await (await fetch(search_request, {mode: "no-cors"})).json();
+		result = await (await fetch(search_request)).json();
 	} catch (e) {
 		console.error("NetEase lyrics request got an error!", e);
 		result = {};

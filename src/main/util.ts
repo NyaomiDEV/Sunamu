@@ -1,5 +1,7 @@
 import { resolve } from "path";
 
+export const spotiId = /spotify:track:(.+)/;
+
 export function getAppData() {
 	switch (process.platform) {
 		case "linux":
@@ -10,4 +12,12 @@ export function getAppData() {
 		default:
 			return "";
 	}
+}
+
+export function secondsToTime(duration: number) {
+	duration = Math.floor(duration);
+	let seconds = duration % 60,
+		minutes = Math.floor(duration / 60) % 60;
+
+	return minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
 }

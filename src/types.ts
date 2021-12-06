@@ -1,5 +1,3 @@
-import { Presence } from "discord-rpc";
-
 export type DeepPartial<T> = {
 	[P in keyof T]?: DeepPartial<T[P]>;
 };
@@ -16,21 +14,10 @@ export type NowPlayingAPI = {
 	seek: (positionToSeekbar: number) => void,
 	getPosition: () => Promise<number>
 
-	getLyrics: (id: string) => Promise<Lyrics | undefined>,
-	saveLyrics: (id: string, data: Lyrics) => Promise<boolean>,
-
-	mxmusertoken: () => Promise<string | undefined>
-
-	getDiscordPresenceConfig: () => Promise<DiscordPresenceConfig>
-	updateDiscordPresence: (presence?: Presence) => void
-
 	registerUpdateCallback: (callback: Function) => void,
-	registerLyricsCallback?: (callback: Function) => void,
+	registerLyricsCallback: (callback: Function) => void,
 	requestUpdate: () => void,
-
-	minimize?: () => void,
-	close?: () => void,
-	openExternal?: (uri: string) => void,
+	requestSongData: () => void,
 
 	getConfig: () => Promise<Config>,
 
@@ -39,6 +26,10 @@ export type NowPlayingAPI = {
 	isWidgetMode: () => Promise<boolean>,
 	isDebugMode: () => Promise<boolean>
 	isElectronRunning?: () => Promise<boolean>
+
+	minimize?: () => void,
+	close?: () => void,
+	openExternal?: (uri: string) => void,
 }
 
 export type Config = {

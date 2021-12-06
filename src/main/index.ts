@@ -1,5 +1,5 @@
 import getPlayer, { Player } from "./player";
-import { updateInfo } from "./eventDispatcher";
+import { updateInfo } from "./playbackStatus";
 import { debugMode, useElectron, useWebserver } from "./appStatus";
 
 export function debug(...args: any) {

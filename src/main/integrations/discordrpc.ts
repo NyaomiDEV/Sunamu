@@ -49,7 +49,7 @@ async function connect(){
 	loginPromise = undefined;
 }
 
-export async function getPresenceConfig(){
+export function getPresenceConfig(){
 	const settings: DiscordPresenceConfig = Object.assign({}, getConfig("discordRpc"));
 	settings.enabled = checkFunctionality(settings.enabled, "discord-rpc");
 	return settings;

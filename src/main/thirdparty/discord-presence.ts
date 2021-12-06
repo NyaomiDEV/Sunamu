@@ -1,10 +1,11 @@
 import type { Presence } from "discord-rpc";
-import type { DiscordPresenceConfig } from "../../../types";
+import type { DiscordPresenceConfig } from "../../types";
+import { getPresenceConfig, updatePresence } from "../integrations/discordrpc";
 
-import songdata from "../songdata.js";
-import { secondsToTime } from "../util.js";
+import { songdata } from "../playbackStatus";
+import { secondsToTime } from "../util";
 
-const config: DiscordPresenceConfig = await window.np.getDiscordPresenceConfig();
+const config: DiscordPresenceConfig = getPresenceConfig();
 
 async function getPresence() {
 	if (!songdata || !songdata.metadata.id || config.blacklist.includes(songdata.appName))
@@ -53,5 +54,5 @@ async function getPresence() {
 export async function updateDiscordPresence(){
 	if(!config.enabled) return;
 
-	return window.np.updateDiscordPresence(await getPresence());
+	return updatePresence(await getPresence());
 }

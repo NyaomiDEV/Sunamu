@@ -2,64 +2,9 @@ import lang from "./lang.js";
 import songdata from "./songdata.js";
 import owoify from "./owoify.js";
 
-import { query as Musixmatch } from "./lyricproviders/musixmatch.js";
-import { query as NetEase } from "./lyricproviders/netease.js";
-import { query as Genius } from "./lyricproviders/genius.js";
-import { isElectron } from "./util.js";
-
 const container = document.getElementsByClassName("lyrics")[0];
 const footer = document.getElementsByClassName("lyrics-footer")[0];
 const glasscordUser = await window.np.shouldBullyGlasscordUser();
-
-export async function queryLyrics() {
-	// copy the songdata variable since we run async and might have race conditions between us and the user
-	const _songdata = Object.assign({}, songdata);
-
-	/** @type {import("../../types").Lyrics | undefined} */
-	let lyrics;
-	const id = computeLyricsID(_songdata);
-
-	/** @type {import("../../types").Lyrics | undefined} */
-	const cached = await window.np.getLyrics(id);
-
-	if(isElectron() || !(await window.np.isElectronRunning!())){
-		// This should only be executed inside the electron (main/renderer) process
-		if (!cached || !cached.lines.length || !cached?.synchronized) {
-			if (!cached) console.debug(`Cache miss for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
-			else if (!cached?.synchronized) console.debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics anyway for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
-
-			const providers = {
-				Musixmatch,
-				NetEase
-			};
-
-			// if cached then we could assume it is unsync and genius can only provide unsync
-			// @ts-ignore
-			if (!cached) providers.Genius = Genius;
-
-			for (const provider in providers) {
-				console.debug("Fetching from " + provider);
-				lyrics = await providers[provider]();
-				if (lyrics && lyrics.lines.length) break;
-				lyrics = undefined;
-			}
-
-			if (lyrics)
-				window.np.saveLyrics(id, lyrics);
-		}
-	}
-
-	if(cached && !lyrics)
-		lyrics = cached;
-
-	// update the lyrics if and only if the current playing song's ID matches
-	if (lyrics && lyrics.lines.length && id === computeLyricsID(songdata))
-		songdata.lyrics = lyrics;
-}
-
-function computeLyricsID(__songdata){
-	return `${__songdata.metadata.artist}:${__songdata.metadata.album}:${__songdata.metadata.title}`;
-}
 
 export function putLyricsInPlace() {
 	// remove all children of container
@@ -120,10 +65,29 @@ export function updateActiveLyrics() {
 	const wasActiveBefore = container.children[lineIndex]?.classList?.contains("active");
 
 	for (let i = 0; i < container.children.length; i++) {
-		if (i === lineIndex)
-			container.children[i].classList?.add("active");
-		else
-			container.children[i].classList?.remove("active");
+		if (i === lineIndex){
+			const line = container.children[i] as HTMLElement;
+			line.style.filter = "";
+			line.classList?.add("active");
+		}else{
+			const line = container.children[i] as HTMLElement;
+			const distance = Math.abs(i - lineIndex);
+			switch(distance){
+				case 1:
+					line.style.filter = "blur(1px)";
+					break;
+				case 2:
+					line.style.filter = "blur(2px)";
+					break;
+				case 3:
+					line.style.filter = "blur(4px)";
+					break;
+				default:
+					line.style.filter = "blur(8px)";
+					break;
+			}
+			line.classList?.remove("active");
+		}
 	}
 
 	// now we bring the active into view
@@ -134,3 +98,5 @@ export function updateActiveLyrics() {
 		});
 	}
 }
+
+window.np.registerLyricsCallback!(() => putLyricsInPlace());

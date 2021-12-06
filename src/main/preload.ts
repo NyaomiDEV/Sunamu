@@ -12,27 +12,23 @@ const npApi: NowPlayingAPI = {
 	seek: (positionToSeekbar) => ipcRenderer.send("seek", positionToSeekbar),
 	getPosition: () => ipcRenderer.invoke("getPosition"),
 
-	getLyrics: (id) => ipcRenderer.invoke("getLyrics", id),
-	saveLyrics: (id, data) => ipcRenderer.invoke("saveLyrics", id, data),
+	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, songdata, metadataChanged) => callback(songdata, metadataChanged)),
+	registerLyricsCallback: (callback) => ipcRenderer.on("refreshLyrics", () => callback()),
 
-	mxmusertoken: () => ipcRenderer.invoke("mxmusertoken"),
-
-	getDiscordPresenceConfig: () => ipcRenderer.invoke("getDiscordPresenceConfig"),
-	updateDiscordPresence: (presence) => ipcRenderer.send("updateDiscordPresence", presence),
-
-	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, v) => callback(v)),
 	requestUpdate: () => ipcRenderer.send("requestUpdate"),
+	requestSongData: () => ipcRenderer.send("requestSongData"),
 
-	minimize: () => ipcRenderer.send("minimize"),
-	close: () => ipcRenderer.send("close"),
-
-	openExternal: (uri) => ipcRenderer.send("openExternal", uri),
 	getConfig: () => ipcRenderer.invoke("getConfig"),
 
 	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),
 
 	isWidgetMode: () => ipcRenderer.invoke("isWidgetMode"),
-	isDebugMode: () => ipcRenderer.invoke("isDebugMode")
+	isDebugMode: () => ipcRenderer.invoke("isDebugMode"),
+	isElectronRunning: async () => true,
+
+	minimize: () => ipcRenderer.send("minimize"),
+	close: () => ipcRenderer.send("close"),
+	openExternal: (uri) => ipcRenderer.send("openExternal", uri),
 };
 
 contextBridge.exposeInMainWorld("np", npApi);
