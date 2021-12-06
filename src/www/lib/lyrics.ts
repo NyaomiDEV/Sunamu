@@ -5,6 +5,7 @@ import owoify from "./owoify.js";
 import { query as Musixmatch } from "./lyricproviders/musixmatch.js";
 import { query as NetEase } from "./lyricproviders/netease.js";
 import { query as Genius } from "./lyricproviders/genius.js";
+import { isElectron } from "./util.js";
 
 const container = document.getElementsByClassName("lyrics")[0];
 const footer = document.getElementsByClassName("lyrics-footer")[0];
@@ -21,29 +22,31 @@ export async function queryLyrics() {
 	/** @type {import("../../types").Lyrics | undefined} */
 	const cached = await window.np.getLyrics(id);
 
-	if (!cached || !cached.lines.length || !cached?.synchronized) {
-		if(!cached) console.debug(`Cache miss for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
-		else if (!cached?.synchronized) console.debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics anyway for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
+	if(isElectron() || !(await window.np.isElectronRunning!())){
+		// This should only be executed inside the electron (main/renderer) process
+		if (!cached || !cached.lines.length || !cached?.synchronized) {
+			if (!cached) console.debug(`Cache miss for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
+			else if (!cached?.synchronized) console.debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics anyway for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
 
-		const providers = {
-			Musixmatch,
-			NetEase
-		};
+			const providers = {
+				Musixmatch,
+				NetEase
+			};
 
-		// if cached then we could assume it is unsync and genius can only provide unsync
-		// @ts-ignore
-		if(!cached) providers.Genius = Genius;
+			// if cached then we could assume it is unsync and genius can only provide unsync
+			// @ts-ignore
+			if (!cached) providers.Genius = Genius;
 
-		for (const provider in providers) {
-			console.debug("Fetching from " + provider);
-			lyrics = await providers[provider]();
-			if (lyrics && lyrics.lines.length) break;
-			lyrics = undefined;
+			for (const provider in providers) {
+				console.debug("Fetching from " + provider);
+				lyrics = await providers[provider]();
+				if (lyrics && lyrics.lines.length) break;
+				lyrics = undefined;
+			}
+
+			if (lyrics)
+				window.np.saveLyrics(id, lyrics);
 		}
-
-		if (lyrics)
-			window.np.saveLyrics(id, lyrics);
-
 	}
 
 	if(cached && !lyrics)
@@ -126,7 +129,6 @@ export function updateActiveLyrics() {
 	// now we bring the active into view
 	if (!wasActiveBefore) {
 		container.children[lineIndex]?.scrollIntoView({
-			inline: "center",
 			block: "center",
 			behavior: "smooth"
 		});

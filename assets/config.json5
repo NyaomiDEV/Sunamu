@@ -1,6 +1,10 @@
 {
+	"useElectron": true,
+	"useWebserver": true,
 	// Do you want to run Sunamu in widget mode?
 	"widgetMode": false,
+	// Do you want to run Sunamu Web in widget mode? (Useful for embedding in OBS Studio)
+	"widgetModeWeb": false,
 	// Do you want to run Sunamu in debug mode?
 	"debugMode": false,
 	// Do you want to use the Ozone Wayland Platform? (Linux only)

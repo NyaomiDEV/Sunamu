@@ -1,42 +1,54 @@
-.background {
+html.electron .background {
 	-webkit-app-region: drag;
 }
 
-.window-controls {
+html.electron .window-controls {
 	-webkit-app-region: no-drag;
 }
 
-.now-playing > * {
+html.electron .window-controls .minimize {
+	display: inline-block;
+}
+
+html.electron .window-controls .close {
+	display: inline-block;
+}
+
+html.electron .now-playing > * {
 	-webkit-app-region: no-drag;
 }
 
-html.widget-mode .background {
+html.electron.widget-mode .background {
 	-webkit-app-region: no-drag;
 	display: none;
 }
 
-html.widget-mode .album-art {
+html.electron.widget-mode .album-art {
 	-webkit-app-region: drag;
 }
 
-html.widget-mode .playback-controls {
+html.electron.widget-mode .playback-controls {
 	-webkit-app-region: no-drag;
 }
 
-html.widget-mode .window-controls {
+html.electron.widget-mode .window-controls {
 	display: none;
 }
 
-html.widget-mode .metadata > *,
-html.widget-mode .lyrics > *,
-html.widget-mode .lyrics-footer {
+html.electron.widget-mode .metadata > *,
+html.electron.widget-mode .lyrics > *,
+html.electron.widget-mode .lyrics-footer {
 	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
 }
 
-html.widget-mode body {
+html.electron.widget-mode body {
 	transition: ease .2s filter;
 }
 
-html.widget-mode body.hidden {
+html.electron.widget-mode body.hidden {
 	filter: blur(16px) opacity(0);
+}
+
+:root.electron {
+	--cover-art-url: url("../../../images/no_song.png");
 }

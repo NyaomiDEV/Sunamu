@@ -25,22 +25,25 @@ export type NowPlayingAPI = {
 	updateDiscordPresence: (presence?: Presence) => void
 
 	registerUpdateCallback: (callback: Function) => void,
+	registerLyricsCallback?: (callback: Function) => void,
 	requestUpdate: () => void,
 
-	minimize: () => void,
-	close: () => void,
+	minimize?: () => void,
+	close?: () => void,
+	openExternal?: (uri: string) => void,
 
-	openExternal: (uri: string) => void,
 	getConfig: () => Promise<Config>,
 
 	shouldBullyGlasscordUser: () => Promise<boolean>,
 
 	isWidgetMode: () => Promise<boolean>,
 	isDebugMode: () => Promise<boolean>
+	isElectronRunning?: () => Promise<boolean>
 }
 
 export type Config = {
 	widgetMode: boolean,
+	widgetModeWeb: boolean,
 	debugMode: boolean,
 	waylandOzone: boolean,
 	font: string,
@@ -58,7 +61,6 @@ export type DiscordPresenceConfig = {
 }
 
 export type ArtData = {
-	size: number,
 	type: string,
 	data: Buffer
 }

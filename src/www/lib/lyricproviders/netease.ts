@@ -62,7 +62,7 @@ async function getSongId(){
 
 	let result;
 	try {
-		result = await (await fetch(search_request)).json();
+		result = await (await fetch(search_request, {mode: "no-cors"})).json();
 	} catch (e) {
 		console.error("NetEase search request got an error!", e);
 		result = {};
@@ -78,7 +78,7 @@ async function getLyricsFromSongId(songId){
 
 	let result;
 	try {
-		result = await (await fetch(search_request)).json();
+		result = await (await fetch(search_request, {mode: "no-cors"})).json();
 	} catch (e) {
 		console.error("NetEase lyrics request got an error!", e);
 		result = {};

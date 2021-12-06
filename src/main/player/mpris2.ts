@@ -3,6 +3,8 @@ import { getPlayer, getPlayerNames } from "mpris-for-dummies";
 import dbus from "dbus-next";
 import { Metadata, Update } from "../../types";
 import MediaPlayer2 from "mpris-for-dummies/lib/MediaPlayer2";
+import { readFile } from "fs/promises";
+import mime from "mime";
 
 let players: { [key: string]: MediaPlayer2 } = {};
 let activePlayer: string | undefined;
@@ -34,7 +36,7 @@ export async function getUpdate(): Promise<Update | null> {
 	try{
 		let update: Update = {
 			provider: "MPRIS2",
-			metadata: parseMetadata(players[activePlayer].Player.Metadata),
+			metadata: await parseMetadata(players[activePlayer].Player.Metadata),
 			capabilities: {
 				canControl: players[activePlayer].Player.CanControl || false,
 				canPlayPause: players[activePlayer].Player.CanPause || players[activePlayer].Player.CanPlay || false,
@@ -190,7 +192,7 @@ async function calculateActivePlayer(preferred?: string) {
 	updateCallback();
 }
 
-function parseMetadata(metadata): Metadata {
+async function parseMetadata(metadata): Promise<Metadata> {
 	return {
 		title: metadata["xesam:title"],
 		artist: typeof metadata["xesam:artist"] === "string" ? metadata["xesam:artist"] : metadata["xesam:artist"]?.join("; "),
@@ -200,6 +202,10 @@ function parseMetadata(metadata): Metadata {
 		album: typeof metadata["xesam:album"] === "string" ? metadata["xesam:album"] : JSON.stringify(metadata["xesam:album"]), // FUCK YOU NON-COMPLIANT DEVELOPERS, I WILL NOT PUT AN ENDLESS LIST OF QUIRKY APPS HERE
 		length: Number(metadata["mpris:length"] || 0) / 1000000,
 		artUrl: metadata["mpris:artUrl"],
+		artData: {
+			data: await readFile(new URL(metadata["mpris:artUrl"]).pathname),
+			type: mime.getType(metadata["mpris:artUrl"]) || ""
+		},
 		id: metadata["mpris:trackid"]
 	};
 }

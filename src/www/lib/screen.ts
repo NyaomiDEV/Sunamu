@@ -1,4 +1,5 @@
 import config from "./config.js";
+import { isElectron } from "./util.js";
 
 // Set resolution
 const map = {
@@ -20,6 +21,10 @@ for(const key in map){
 }
 
 document.documentElement.classList.add("resolution-" + resolution);
+
+// Electron
+if (isElectron())
+	document.documentElement.classList.add("electron");
 
 // Widget mode
 if (await window.np.isWidgetMode())

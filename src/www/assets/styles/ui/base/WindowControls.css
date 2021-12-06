@@ -28,3 +28,11 @@
 	height: 1.5rem;
 	cursor: default;
 }
+
+.window-controls .minimize {
+	display: none;
+}
+
+.window-controls .close {
+	display: none;
+}

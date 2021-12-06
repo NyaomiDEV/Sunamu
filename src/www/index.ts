@@ -1,5 +1,7 @@
 import type { NowPlayingAPI, SongData } from "../types";
 
+import "./lib/npapi.js";
+
 import { pollPosition, updateNowPlaying } from "./lib/nowplaying.js";
 import songdata from "./lib/songdata.js";
 

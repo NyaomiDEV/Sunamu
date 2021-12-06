@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { Update } from "../../types";
 
-const player: Player = {
-	init: (_callback: Function) => new Promise(resolve => resolve()),
-	getUpdate: () => new Promise(resolve => resolve(null)),
+const fallback: Player = {
+	init: async (_callback: Function) => undefined,
+	getUpdate: async () => null,
 	Play: () => undefined,
 	Pause: () => undefined,
 	PlayPause: () => undefined,
@@ -14,18 +14,23 @@ const player: Player = {
 	Repeat: () => undefined,
 	Seek: (_offset: number) => undefined,
 	SeekPercentage: (_percentage: number) => undefined,
-	GetPosition: () => undefined,
+	GetPosition: async () => undefined,
 };
 
+let player: Player;
+
 export default async function getPlayer(){
-	switch (process.platform) {
-		case "linux":
-			let MPRIS2 = await import("./mpris2");
-			Object.assign(player, MPRIS2);
-			break;
-		default:
-			console.error("Player: Unsupported platform!");
-			break;
+	if(!player){
+		switch (process.platform) {
+			case "linux":
+				let MPRIS2 = await import("./mpris2");
+				player = Object.assign({}, MPRIS2);
+				break;
+			default:
+				console.error("Player: Unsupported platform!");
+				player = Object.assign({}, fallback);
+				break;
+		}
 	}
 
 	return player;
@@ -48,5 +53,5 @@ export interface Player {
 
 	Seek(offset: number): void
 	SeekPercentage(percentage: number): void
-	GetPosition(): number | undefined
+	GetPosition(): Promise<number | undefined>
 }

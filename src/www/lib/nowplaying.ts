@@ -2,7 +2,7 @@ import lang from "./lang.js";
 import config from "./config.js";
 import { putLyricsInPlace, queryLyrics, updateActiveLyrics } from "./lyrics.js";
 import songdata, { fallback } from "./songdata.js";
-import { secondsToTime, spotiId } from "./util.js";
+import { secondsToTime, spotiId, isElectron } from "./util.js";
 import { updateSeekbar } from "./seekbar.js";
 import { getTrackInfo } from "./thirdparty/lastfm.js";
 import { show } from "./showhide.js";
@@ -23,15 +23,15 @@ export function updateNowPlaying() {
 
 	// COVER ART
 	if (artDataBlobUrl){
-		window.webkitURL.revokeObjectURL(artDataBlobUrl);
+		(window.URL || window.webkitURL).revokeObjectURL(artDataBlobUrl);
 		artDataBlobUrl = undefined;
 	}
 
-	if (songdata.metadata.artUrl)
+	if (songdata.metadata.artUrl && isElectron())
 		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
 	else if (songdata.metadata.artData?.data) {
 		const blob = new Blob([songdata.metadata.artData.data]);
-		artDataBlobUrl = window.webkitURL.createObjectURL(blob);
+		artDataBlobUrl = (window.URL || window.webkitURL).createObjectURL(blob);
 		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
 	} else
 		(document.querySelector(":root") as HTMLElement).style.removeProperty("--cover-art-url");
@@ -214,3 +214,6 @@ window.np.registerUpdateCallback(async (update) => {
 
 	updateNowPlaying();
 });
+
+if(!isElectron())
+	window.np.registerLyricsCallback!(() => pollLyrics());

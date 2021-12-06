@@ -43,7 +43,7 @@ export async function query(): Promise<Lyrics | undefined> {
 
 	let result;
 	try {
-		result = await (await fetch(request)).json();
+		result = await (await fetch(request, {mode: "no-cors"})).json();
 	} catch (e) {
 		console.error("Musixmatch request got an error!", e);
 		result = {};

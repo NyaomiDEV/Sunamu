@@ -1,9 +1,13 @@
 html {
 	overflow: hidden;
-	background-color: transparent;
+	background-color: black;
 	margin: 0;
 	padding: 0;
 	user-select: none;
+}
+
+html.widget-mode {
+	background-color: transparent;
 }
 
 body {

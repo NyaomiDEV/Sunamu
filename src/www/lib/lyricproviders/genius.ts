@@ -45,7 +45,7 @@ async function getSongURL() {
 
 	let result;
 	try {
-		result = await (await fetch(search_request)).json();
+		result = await (await fetch(search_request, {mode: "no-cors"})).json();
 	} catch (e) {
 		console.error("Genius search request got an error!", e);
 		result = {};
@@ -59,7 +59,7 @@ async function getLyricsFromGenius(url) {
 
 	let result;
 	try {
-		result = await (await fetch(request)).text();
+		result = await (await fetch(request, {mode: "no-cors"})).text();
 	} catch (e) {
 		console.error("Genius lyrics request got an error!", e);
 		return undefined;

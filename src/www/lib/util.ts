@@ -11,10 +11,10 @@ export function secondsToTime(duration: number) {
 export function fullscreen() {
 	if (document.fullscreenElement != null)
 		// @ts-ignore
-		document.webkitExitFullscreen();
+		document.exitFullscreen() || document.webkitExitFullscreen();
 	else
 		// @ts-ignore
-		document.documentElement.webkitRequestFullscreen();
+		document.documentElement.requestFullscreen() || document.documentElement.webkitRequestFullscreen();
 }
 
 function reCenter() {
@@ -53,4 +53,9 @@ export function toggleLyricsView(show?: boolean){
 
 		window.onresize = null;
 	}
+}
+
+export function isElectron(): boolean{
+	if (navigator.userAgent.toLowerCase().indexOf(" electron/") > -1) return true;
+	return false;
 }

@@ -26,12 +26,15 @@
   },
   "devDependencies": {
     "@types/discord-rpc": "^4.0.0",
+    "@types/mime": "^2.0.3",
     "@types/node": "^16",
+    "@types/node-static": "^0.7.7",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "electron": "^16.0.0",
     "electron-builder": "^22.14.5",
     "eslint": "^8.3.0",
+    "socket.io-client": "^4.4.0",
     "typescript": "^4.5.2"
   },
   "dependencies": {
@@ -40,8 +43,11 @@
     "json5": "^2.2.0",
     "leveldown": "^6.1.0",
     "levelup": "^5.0.1",
+    "mime": "^3.0.0",
     "mpris-for-dummies": "NyaomiDEV/mpris-for-dummies",
+    "node-static": "^0.7.11",
     "register-scheme": "NyaomiDEV/node-register-scheme",
+    "socket.io": "^4.4.0",
     "yargs": "^17.2.1"
   }
 }
