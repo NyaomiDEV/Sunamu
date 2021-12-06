@@ -3,10 +3,20 @@ import { DiscordPresenceConfig } from "../../types";
 import { debug } from "../";
 import { checkFunctionality } from "../appStatus";
 import { get as getConfig } from "../config";
+import { songdata } from "../playbackStatus";
+import { secondsToTime } from "../util";
 
 const clientId = "908012408008736779";
 let rpc: Client | undefined;
 let loginPromise: Promise<unknown> | undefined;
+
+const config: DiscordPresenceConfig = getPresenceConfig();
+
+function getPresenceConfig() {
+	const settings: DiscordPresenceConfig = Object.assign({}, getConfig("discordRpc"));
+	settings.enabled = checkFunctionality(settings.enabled, "discord-rpc");
+	return settings;
+}
 
 async function connect(){
 	if(loginPromise) return loginPromise;
@@ -49,13 +59,11 @@ async function connect(){
 	loginPromise = undefined;
 }
 
-export function getPresenceConfig(){
-	const settings: DiscordPresenceConfig = Object.assign({}, getConfig("discordRpc"));
-	settings.enabled = checkFunctionality(settings.enabled, "discord-rpc");
-	return settings;
-}
+export async function updatePresence() {
+	if (!config.enabled) return;
 
-export async function updatePresence(presence?: Presence) {
+	const presence = await getPresence();
+
 	while (!rpc)
 		await connect();
 
@@ -65,4 +73,48 @@ export async function updatePresence(presence?: Presence) {
 	}
 
 	return rpc.setActivity(presence);
+}
+
+async function getPresence() {
+	if (!songdata || !songdata.metadata.id || config.blacklist.includes(songdata.appName))
+		return;
+
+	const now = Date.now();
+	const start = Math.round(now - (songdata.elapsed * 1000));
+	const end = Math.round(start + (songdata.metadata.length * 1000));
+
+	const activity: Presence = { // everything must be two characters long at least
+		details: `"${songdata.metadata.title}"`,
+		state: `By ${songdata.metadata.artist}`,
+		largeImageKey: "app_large",
+		largeImageText: `"${songdata.metadata.album}"`,
+		smallImageKey: songdata.status.toLowerCase(),
+		smallImageText: `${songdata.status} (${secondsToTime(songdata.metadata.length)})`,
+		instance: false,
+		buttons: []
+	};
+
+	if (songdata.status === "Playing") {
+		activity.startTimestamp = start;
+		activity.endTimestamp = end;
+	}
+
+	if (songdata.spotiUrl) {
+		activity.buttons!.push({
+			label: "Listen on Spotify",
+			url: songdata.spotiUrl
+		});
+	}
+
+	if (songdata.lastfm) {
+		activity.buttons!.push({
+			label: "View on Last.fm",
+			url: songdata.lastfm.url
+		});
+	}
+
+	if (!activity.buttons!.length)
+		delete activity.buttons;
+
+	return activity;
 }

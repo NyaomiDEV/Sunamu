@@ -1,6 +1,7 @@
 import getPlayer, { Player } from "./player";
-import { updateInfo } from "./playbackStatus";
+import { addUpdateCallback, updateInfo } from "./playbackStatus";
 import { debugMode, useElectron, useWebserver } from "./appStatus";
+import { updatePresence } from "./integrations/discordrpc";
 
 export function debug(...args: any) {
 	if(debugMode)
@@ -24,6 +25,10 @@ async function main() {
 		const WebServer = await import("./webserver");
 		await WebServer.default();
 	}
+
+	addUpdateCallback(async () => {
+		updatePresence();
+	});
 }
 
 main();
