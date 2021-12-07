@@ -17,21 +17,6 @@ export function updateNowPlaying() {
 			document.title = window.title;
 	}
 
-	// COVER ART
-	if (artDataBlobUrl){
-		(window.URL || window.webkitURL).revokeObjectURL(artDataBlobUrl);
-		artDataBlobUrl = undefined;
-	}
-
-	if (songdata.metadata.artUrl && isElectron())
-		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
-	else if (songdata.metadata.artData?.data) {
-		const blob = new Blob([songdata.metadata.artData.data]);
-		artDataBlobUrl = (window.URL || window.webkitURL).createObjectURL(blob);
-		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
-	} else
-		(document.querySelector(":root") as HTMLElement).style.removeProperty("--cover-art-url");
-
 	// ARTIST
 	formatMetadata(document.getElementById("artist"), featRegex, "featuring", songdata.metadata.artist, lang.PLEASE_PLAY_SONG);
 
@@ -90,6 +75,9 @@ export function updateNowPlaying() {
 
 	// SEEKBAR
 	(document.getElementsByClassName("seekbar-bg")[0] as HTMLElement).style.display = songdata.capabilities.canSeek ? "" : "none";
+
+	// ALBUM ART
+	updateAlbumArt();
 }
 
 export async function pollPosition() {
@@ -103,6 +91,43 @@ export async function pollPosition() {
 	updateTime();
 	updateSeekbar();
 	updateActiveLyrics();
+}
+
+async function updateAlbumArt(){
+	if (songdata.metadata.artUrl && isElectron())
+		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
+	else if (songdata.metadata.artData?.data) {
+
+		const newArt = songdata.metadata.artData?.data as ArrayBuffer;
+
+		if(artDataBlobUrl){
+			const oldArt = await fetch(artDataBlobUrl).then(r => r.arrayBuffer()) as ArrayBuffer;
+			let same = true;
+			if(oldArt.byteLength === newArt.byteLength){
+				for (let i = 0; i < newArt.byteLength; i++) {
+					if(oldArt[i] !== newArt[i]){
+						same = false;
+						break;
+					}
+				}
+			}else
+				same = false;
+
+			if (same){
+				(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
+				return;
+			}
+
+			(window.URL || window.webkitURL).revokeObjectURL(artDataBlobUrl);
+			artDataBlobUrl = undefined;
+		}
+
+		const newBlob = new Blob([newArt]);
+		artDataBlobUrl = (window.URL || window.webkitURL).createObjectURL(newBlob);
+		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
+
+	} else
+		(document.querySelector(":root") as HTMLElement).style.removeProperty("--cover-art-url");
 }
 
 function updateTime() {

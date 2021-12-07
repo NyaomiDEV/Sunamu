@@ -92,7 +92,7 @@ function updateSongData(update?: Update|null): boolean{
 			if (["artUrl", "artData", "length"].includes(key)) continue;
 
 			if (
-				!songdata.metadata[key] ||
+				!songdata.metadata[key] && update.metadata[key] ||
 				(typeof songdata.metadata[key] === "string" && songdata.metadata[key] !== update.metadata[key]) ||
 				(Array.isArray(songdata.metadata[key]) && songdata.metadata[key]
 					.filter(x => !update.metadata[key].includes(x))
@@ -136,7 +136,7 @@ async function pollLastFm() {
 
 async function pollSpotiUrl() {
 	if (songdata.provider) {
-		let id;
+		let id: string | undefined;
 
 		const spotiMatch = spotiId.exec(songdata.metadata.id);
 
