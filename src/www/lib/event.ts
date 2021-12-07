@@ -18,7 +18,8 @@ if(!document.documentElement.classList.contains("static")){
 if (!document.documentElement.classList.contains("widget-mode")) {
 	// ON FULLSCREEN CHANGE
 	const listener = () => {
-		if (document.fullscreenElement != null)
+		// @ts-ignore
+		if (document.fullscreenElement || document.webkitFullscreenElement)
 			document.getElementsByClassName("fullscreen")[0].firstElementChild!.setAttribute("href", "assets/images/glyph.svg#close_fullscreen");
 		else
 			document.getElementsByClassName("fullscreen")[0].firstElementChild!.setAttribute("href", "assets/images/glyph.svg#fullscreen");

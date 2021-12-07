@@ -7,12 +7,22 @@ export function secondsToTime(duration: number) {
 }
 
 export function fullscreen() {
-	if (document.fullscreenElement != null)
+	// @ts-ignore
+	if (document.fullscreenElement || document.webkitFullscreenElement){
+		if (document.exitFullscreen)
+			document.exitFullscreen();
 		// @ts-ignore
-		document.exitFullscreen() || document.webkitExitFullscreen();
-	else
+		else if (document.webkitExitFullscreen)
+			// @ts-ignore
+			document.webkitExitFullscreen();
+	} else {
+		if (document.documentElement.requestFullscreen)
+			document.documentElement.requestFullscreen();
 		// @ts-ignore
-		document.documentElement.requestFullscreen() || document.documentElement.webkitRequestFullscreen();
+		else if (document.documentElement.webkitRequestFullscreen)
+			// @ts-ignore
+			document.documentElement.webkitRequestFullscreen();
+	}
 }
 
 function reCenter() {
