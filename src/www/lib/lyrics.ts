@@ -67,6 +67,7 @@ export function updateActiveLyrics() {
 	for (let i = 0; i < container.children.length; i++) {
 		if (i === lineIndex){
 			const line = container.children[i] as HTMLElement;
+			line.style.opacity = "";
 			line.style.filter = "";
 			line.classList?.add("active");
 		}else{
@@ -74,15 +75,19 @@ export function updateActiveLyrics() {
 			const distance = Math.abs(i - lineIndex);
 			switch(distance){
 				case 1:
+					line.style.opacity = "0.875";
 					line.style.filter = "blur(1px)";
 					break;
 				case 2:
+					line.style.opacity = "0.75";
 					line.style.filter = "blur(2px)";
 					break;
 				case 3:
+					line.style.opacity = "0.625";
 					line.style.filter = "blur(4px)";
 					break;
 				default:
+					line.style.opacity = "0.5";
 					line.style.filter = "blur(8px)";
 					break;
 			}
