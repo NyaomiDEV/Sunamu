@@ -1,10 +1,11 @@
 import { debug } from "../";
 import { getPlayer, getPlayerNames } from "mpris-for-dummies";
 import dbus from "dbus-next";
-import { Metadata, Update } from "../../types";
+import { ArtData, Metadata, Update } from "../../types";
 import MediaPlayer2 from "mpris-for-dummies/lib/MediaPlayer2";
 import { readFile } from "fs/promises";
 import mime from "mime";
+import fetch from "node-fetch";
 
 let players: { [key: string]: MediaPlayer2 } = {};
 let activePlayer: string | undefined;
@@ -193,6 +194,30 @@ async function calculateActivePlayer(preferred?: string) {
 }
 
 async function parseMetadata(metadata): Promise<Metadata> {
+	let artBuffer: Buffer | undefined;
+	let artData: ArtData | undefined;
+
+	const artUrl = new URL(metadata["mpris:artUrl"]);
+
+	try{
+		if (artUrl.protocol === "file:")
+			artBuffer = await readFile(artUrl.pathname);
+		else {
+			const response = await fetch(artUrl.href);
+			if (response.ok)
+				artBuffer = Buffer.from(await response.arrayBuffer());
+		}
+	}catch(e){
+		//...
+	}
+
+	if(artBuffer){
+		artData = {
+			data: artBuffer,
+			type: mime.getType(metadata["mpris:artUrl"]) || ""
+		};
+	}
+
 	return {
 		title: metadata["xesam:title"],
 		artist: typeof metadata["xesam:artist"] === "string" ? metadata["xesam:artist"] : metadata["xesam:artist"]?.join("; "),
@@ -202,10 +227,7 @@ async function parseMetadata(metadata): Promise<Metadata> {
 		album: typeof metadata["xesam:album"] === "string" ? metadata["xesam:album"] : JSON.stringify(metadata["xesam:album"]), // FUCK YOU NON-COMPLIANT DEVELOPERS, I WILL NOT PUT AN ENDLESS LIST OF QUIRKY APPS HERE
 		length: Number(metadata["mpris:length"] || 0) / 1000000,
 		artUrl: metadata["mpris:artUrl"],
-		artData: {
-			data: await readFile(new URL(metadata["mpris:artUrl"]).pathname),
-			type: mime.getType(metadata["mpris:artUrl"]) || ""
-		},
+		artData: artData || undefined,
 		id: metadata["mpris:trackid"]
 	};
 }
