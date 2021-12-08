@@ -194,28 +194,31 @@ async function calculateActivePlayer(preferred?: string) {
 }
 
 async function parseMetadata(metadata): Promise<Metadata> {
-	let artBuffer: Buffer | undefined;
 	let artData: ArtData | undefined;
 
-	const artUrl = new URL(metadata["mpris:artUrl"]);
+	if (metadata["mpris:artUrl"]){
+		let artBuffer: Buffer | undefined;
 
-	try{
-		if (artUrl.protocol === "file:")
-			artBuffer = await readFile(artUrl.pathname);
-		else {
-			const response = await fetch(artUrl.href);
-			if (response.ok)
-				artBuffer = Buffer.from(await response.arrayBuffer());
+		const artUrl = new URL(metadata["mpris:artUrl"]);
+
+		try{
+			if (artUrl.protocol === "file:")
+				artBuffer = await readFile(artUrl.pathname);
+			else {
+				const response = await fetch(artUrl.href);
+				if (response.ok)
+					artBuffer = Buffer.from(await response.arrayBuffer());
+			}
+		}catch(e){
+			//...
 		}
-	}catch(e){
-		//...
-	}
 
-	if(artBuffer){
-		artData = {
-			data: artBuffer,
-			type: mime.getType(metadata["mpris:artUrl"]) || ""
-		};
+		if(artBuffer){
+			artData = {
+				data: artBuffer,
+				type: mime.getType(metadata["mpris:artUrl"]) || ""
+			};
+		}
 	}
 
 	return {
