@@ -13,15 +13,21 @@ process.title = "sunamu";
 let player: Player;
 
 async function main() {
+	let _useWebserver = useWebserver;
 	player = await getPlayer();
 	player.init(updateInfo);
 
 	if(useElectron){
-		const Electron = await import("./electron");
-		await Electron.default();
+		try{
+			const Electron = await import("./electron");
+			await Electron.default();
+		}catch(_e){
+			console.error("Electron is not available. Perhaps you are using vanilla Node?\nForcing Webserver!");
+			_useWebserver = true;
+		}
 	}
 
-	if(useWebserver){
+	if(_useWebserver){
 		const WebServer = await import("./webserver");
 		await WebServer.default();
 	}
