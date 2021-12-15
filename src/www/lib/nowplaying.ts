@@ -26,9 +26,6 @@ export function updateNowPlaying() {
 	// ALBUM
 	formatMetadata(document.getElementById("album"), featRegex, "featuring", songdata.metadata.album, "");
 
-	// TIME
-	document.getElementById("time")!.textContent = songdata.metadata.length ? secondsToTime(songdata.metadata.length) : "";
-
 	// DETAILS
 	document.getElementById("details")!.textContent = [
 		songdata.appName ? lang.PLAYING_ON_APP.replace("%APP%", songdata.appName) : undefined,
@@ -76,6 +73,9 @@ export function updateNowPlaying() {
 	// SEEKBAR
 	(document.getElementsByClassName("seekbar-bg")[0] as HTMLElement).style.display = songdata.capabilities.canSeek ? "" : "none";
 
+	// TIME
+	updateTime();
+
 	// ALBUM ART
 	updateAlbumArt();
 }
@@ -98,10 +98,11 @@ async function updateAlbumArt(){
 		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
 	else if (songdata.metadata.artData?.data) {
 
-		const newArt = songdata.metadata.artData?.data as ArrayBuffer;
+		const newArt = new Uint8Array(songdata.metadata.artData?.data);
 
 		if(artDataBlobUrl){
-			const oldArt = await fetch(artDataBlobUrl).then(r => r.arrayBuffer()) as ArrayBuffer;
+			const oldArt = await fetch(artDataBlobUrl).then(async r => new Uint8Array(await r.arrayBuffer())) as Uint8Array;
+
 			let same = true;
 			if(oldArt.byteLength === newArt.byteLength){
 				for (let i = 0; i < newArt.byteLength; i++) {
@@ -131,7 +132,14 @@ async function updateAlbumArt(){
 }
 
 function updateTime() {
-	document.getElementById("time")!.textContent = secondsToTime(songdata.elapsed) + " • " + secondsToTime(songdata.metadata.length);
+	const time = document.getElementById("time")!;
+	if(songdata.metadata.length){
+		if(typeof songdata.elapsed !== "undefined")
+			time.textContent = secondsToTime(songdata.elapsed) + " • " + secondsToTime(songdata.metadata.length);
+		else
+			time.textContent = secondsToTime(songdata.metadata.length);
+	}else
+		time.textContent = "";
 }
 
 function setDisabledClass(elem, condition) {
@@ -157,8 +165,10 @@ function formatMetadata(elem, regex, spanClass, data, fallback){
 window.np.registerUpdateCallback((_songdata, metadataChanged) => {
 	console.log(_songdata, metadataChanged);
 	Object.assign(songdata, fallback, _songdata);
-	if(!document.documentElement.classList.contains("static"))
+	if(!document.documentElement.classList.contains("static") && metadataChanged){
 		show(true);
+		putLyricsInPlace();
+	}
+
 	updateNowPlaying();
-	putLyricsInPlace();
 });

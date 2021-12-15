@@ -101,7 +101,7 @@ async function spawnWindow() {
 		title: widgetModeElectron ? "Sunamu Widget" : "Sunamu"
 	});
 	mainWindowState.manage(win);
-	//if (debugMode) win.webContents.openDevTools();
+	if (debugMode) win.webContents.openDevTools();
 
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
 	win.once("ready-to-show", () => win.show());
