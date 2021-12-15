@@ -1,11 +1,11 @@
-import { app } from "electron";
+import { getAppData } from "../util";
 import { resolve } from "path";
 import leveldown from "leveldown";
 import levelup from "levelup";
 import { stat } from "fs/promises";
 
 export async function searchForUserToken(): Promise<string | undefined>{
-	const mxmLocalStorage = resolve(app.getPath("appData"), "Musixmatch", "Local Storage", "leveldb");
+	const mxmLocalStorage = resolve(getAppData(), "Musixmatch", "Local Storage", "leveldb");
 	try{
 		await stat(mxmLocalStorage);
 	}catch(_){
