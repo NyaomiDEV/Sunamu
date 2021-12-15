@@ -1,5 +1,9 @@
 node_modules
-/dist/
+/dist/types*
+/dist/main/
+/dist/www/lib/
+/dist/www/index*
+!/dist/www/index.htm
 /lib/
 /targets/
 /yarn-*.log

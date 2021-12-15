@@ -15,10 +15,10 @@
   },
   "scripts": {
     "lint": "eslint src/ www/lib/ --ext .ts,.js",
-    "compile": "tsc -b && cp -r src/www/{index.htm,assets} dist/www/",
-    "clean": "rm -rf dist; rm -rf targets",
+    "compile": "tsc -b",
+    "clean": "rm dist/types*; rm -rf dist/main; rm -rf dist/www/lib; rm -rf dist/www/index.{js,d.ts,d.ts.map}; rm -rf targets",
     "install-deps": "electron-builder install-app-deps",
-    "test": "yarn compile && DEBUG=1 electron .",
+    "test": "yarn compile && electron . --debug",
     "run": "yarn compile && electron .",
     "build": "yarn compile && electron-builder",
     "build:dir": "yarn compile && electron-builder --dir",
