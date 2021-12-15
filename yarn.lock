@@ -2920,6 +2920,13 @@ widest-line@^3.1.0:
   dependencies:
     string-width "^4.0.0"
 
+winplayer-node@NyaomiDEV/WinPlayer-Node:
+  version "1.0.0"
+  resolved "https://codeload.github.com/NyaomiDEV/WinPlayer-Node/tar.gz/79359bca6588b1ea53d57fd0cb0118092d7ace6d"
+  dependencies:
+    bindings "^1.5.0"
+    node-addon-api "^4.2.0"
+
 word-wrap@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"

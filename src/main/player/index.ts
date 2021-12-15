@@ -26,6 +26,10 @@ export default async function getPlayer(){
 				let MPRIS2 = await import("./mpris2");
 				player = Object.assign({}, MPRIS2);
 				break;
+			case "win32":
+				let winplayer = await import("./winplayer");
+				player = Object.assign({}, winplayer);
+				break;
 			default:
 				console.error("Player: Unsupported platform!");
 				player = Object.assign({}, fallback);
