@@ -41,7 +41,9 @@ export async function query(): Promise<Lyrics | undefined> {
 
 	const headers = new Headers({
 		"Cookie": "x-mxm-user-id=",
-		"Authority": "apic-desktop.musixmatch.com"
+		"Authority": "apic-desktop.musixmatch.com",
+		"pragma": "no-cache",
+		"cache-control": "no-cache"
 	});
 	const request = new Request(
 		url + "&" + getQueryParams(),
@@ -53,22 +55,27 @@ export async function query(): Promise<Lyrics | undefined> {
 		result = await (await fetch(request)).json();
 	} catch (e) {
 		console.error("Musixmatch request got an error!", e);
-		result = {};
+		return undefined;
 	}
 
-	const synchronizedLyrics = result?.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.body?.subtitle_list?.["0"]?.subtitle?.subtitle_body;
-	const unsynchronizedLyrics = result?.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.body?.lyrics?.lyrics_body;
+	const synchronizedLyrics = result?.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.body?.subtitle_list?.[0]?.subtitle;
+	const unsynchronizedLyrics = result?.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.body?.lyrics;
 
-	if (synchronizedLyrics) {
-		reply.lines = JSON.parse(synchronizedLyrics).map(v => ({ text: v.text, time: v.time.total }));
-		reply.copyright = result?.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.body?.subtitle_list?.[0]?.subtitle?.lyrics_copyright?.trim().split("\n").join(" • ");
+	if (synchronizedLyrics?.subtitle_body) {
+		reply.lines = JSON.parse(synchronizedLyrics.subtitle_body).map(v => ({ text: v.text, time: v.time.total }));
+		reply.copyright = synchronizedLyrics.lyrics_copyright?.trim().split("\n").join(" • ");
 	}
-	else if (unsynchronizedLyrics) {
+	else if (unsynchronizedLyrics?.lyrics_body) {
 		reply.synchronized = false;
-		reply.lines = unsynchronizedLyrics.split("\n").map(x => ({ text: x }));
-		reply.copyright = result?.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.body?.lyrics?.lyrics_copyright?.trim().split("\n").join(" • ");
+		reply.lines = unsynchronizedLyrics.lyrics_body.split("\n").map(x => ({ text: x }));
+		reply.copyright = unsynchronizedLyrics.lyrics_copyright?.trim().split("\n").join(" • ");
 	} else {
-		console.error("Musixmatch request didn't get us any lyrics!", result?.message?.header);
+		console.error(
+			"Musixmatch request didn't get us any lyrics!",
+			result?.message?.header,
+			result?.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.header || null,
+			result?.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.header || null
+		);
 		return undefined;
 	}
 

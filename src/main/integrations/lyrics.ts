@@ -19,7 +19,7 @@ export async function queryLyrics() {
 	// This should only be executed inside the electron (main/renderer) process
 	if (!cached || !cached.lines.length || !cached?.synchronized) {
 		if (!cached) debug(`Cache miss for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
-		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics anyway for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
+		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
 
 		const providers = {
 			Musixmatch,

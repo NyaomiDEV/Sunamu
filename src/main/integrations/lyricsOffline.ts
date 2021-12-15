@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "fs/promises";
+import { mkdir, readFile, rm, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { createHash } from "crypto";
 import JSON5 from "json5";
@@ -32,6 +32,17 @@ export async function save(id: string, data: any): Promise<boolean>{
 	// save
 	try {
 		await writeFile(cachePath, JSON5.stringify(data));
+		return true;
+	} catch (_) {
+		return false;
+	}
+}
+
+export async function remove(id: string): Promise<boolean>{
+	const cachePath = resolve(lyrPath, md5(id));
+	// save
+	try {
+		await rm(cachePath);
 		return true;
 	} catch (_) {
 		return false;
