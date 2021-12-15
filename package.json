@@ -18,8 +18,11 @@
     "compile": "tsc -b",
     "clean": "rm dist/types*; rm -rf dist/main; rm -rf dist/www/lib; rm -rf dist/www/index.{js,d.ts,d.ts.map}; rm -rf targets",
     "install-deps": "electron-builder install-app-deps",
+    "install-deps:node": "npm rebuild",
     "test": "yarn compile && electron . --debug",
+    "test:node": "yarn compile && node . --debug",
     "run": "yarn compile && electron .",
+    "run:node": "yarn compile && node .",
     "build": "yarn compile && electron-builder",
     "build:dir": "yarn compile && electron-builder --dir",
     "release": "yarn clean && yarn compile && electron-builder --armv7l --arm64 --ia32 --x64; yarn install-deps"
@@ -52,7 +55,8 @@
     "yargs": "^17.2.1"
   },
   "optionalDependencies": {
-    "winplayer-node": "NyaomiDEV/WinPlayer-Node",
-    "mpris-for-dummies": "NyaomiDEV/mpris-for-dummies"
-  }
+    "mpris-for-dummies": "NyaomiDEV/mpris-for-dummies",
+    "winplayer-node": "NyaomiDEV/WinPlayer-Node"
+  },
+  "packageManager": "yarn@3.1.1"
 }
