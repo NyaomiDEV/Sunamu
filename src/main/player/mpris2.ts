@@ -216,7 +216,7 @@ async function parseMetadata(metadata): Promise<Metadata> {
 		if(artBuffer){
 			artData = {
 				data: artBuffer,
-				type: mime.getType(metadata["mpris:artUrl"]) || ""
+				type: [mime.getType(metadata["mpris:artUrl"]) || ""]
 			};
 		}
 	}

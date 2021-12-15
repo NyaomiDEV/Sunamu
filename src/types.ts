@@ -69,7 +69,7 @@ export type SceneConfig = {
 }
 
 export type ArtData = {
-	type: string,
+	type: string[],
 	data: Buffer
 }
 
