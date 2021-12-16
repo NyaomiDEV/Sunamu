@@ -1,5 +1,6 @@
 import { songdata } from "../playbackStatus";
 import { getAll as config } from "../config";
+import { debug } from "../";
 import fetch, { Request } from "node-fetch";
 
 const root = "https://api.spotify.com/v1/";
@@ -11,7 +12,7 @@ let authorization = {
 
 async function checkLogin() {
 	if (!config().spotify.clientID || !config().spotify.clientSecret){
-		console.debug("No Spotify app credentials in local storage");
+		debug("No Spotify app credentials in config file");
 		return false;
 	}
 
