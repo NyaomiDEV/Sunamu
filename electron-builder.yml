@@ -42,3 +42,10 @@ linux:
   desktop: Sunamu
   publish:
     - github
+win:
+  target:
+  - nsis
+  - zip
+  icon: assets/icons/icon.ico
+  legalTrademarks: Copyright © 2021 Naomi Calabretta
+  

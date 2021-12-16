@@ -23,8 +23,9 @@
     "test:node": "yarn compile && node . --debug",
     "run": "yarn compile && electron .",
     "run:node": "yarn compile && node .",
-    "build": "yarn compile && electron-builder",
+    "build": "yarn compile && electron-builder --linux",
     "build:dir": "yarn compile && electron-builder --dir",
+    "build:win": "yarn compile && electron-builder --windows",
     "release": "yarn clean && yarn compile && electron-builder --linux --armv7l --arm64 --ia32 --x64; yarn install-deps",
     "release:win": "yarn clean && yarn compile && electron-builder --windows --arm64 --ia32 --x64; yarn install-deps"
   },
