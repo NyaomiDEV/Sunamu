@@ -26,8 +26,8 @@
     "build": "yarn compile && electron-builder --linux",
     "build:dir": "yarn compile && electron-builder --dir",
     "build:win": "yarn compile && electron-builder --windows",
-    "release": "yarn clean && yarn compile && electron-builder --linux --armv7l --arm64 --ia32 --x64; yarn install-deps",
-    "release:win": "yarn clean && yarn compile && electron-builder --windows --arm64 --ia32 --x64; yarn install-deps"
+    "release": "yarn clean && yarn compile && electron-builder --linux --armv7l --arm64 --ia32 --x64 --publish always; yarn install-deps",
+    "release:win": "yarn clean && yarn compile && electron-builder --windows --arm64 --ia32 --x64 --publish always; yarn install-deps"
   },
   "devDependencies": {
     "@types/discord-rpc": "^4.0.0",
