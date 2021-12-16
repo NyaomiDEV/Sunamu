@@ -67,6 +67,18 @@ function registerElectronIpc() {
 	addLyricsUpdateCallback(async () => win.webContents.send("refreshLyrics"));
 }
 
+function getIcon(){
+	let icoName = "512x512.png";
+	switch(process.platform){
+		case "win32":
+			icoName = "icon.ico";
+			break;
+		default:
+			break;
+	}
+	return resolve(__dirname, "..", "..", "assets", "icons", icoName);
+}
+
 async function spawnWindow() {
 	const mainWindowState = windowStateKeeper({
 		defaultWidth: 458,
@@ -97,7 +109,7 @@ async function spawnWindow() {
 			preload: resolve(__dirname, "preload.js")
 		},
 		roundedCorners: true,
-		icon: resolve(__dirname, "..", "assets", "icons", "512x512.png"),
+		icon: getIcon(),
 		title: widgetModeElectron ? "Sunamu Widget" : "Sunamu"
 	});
 	mainWindowState.manage(win);
