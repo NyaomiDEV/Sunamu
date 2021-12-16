@@ -59,6 +59,5 @@
   "optionalDependencies": {
     "mpris-for-dummies": "NyaomiDEV/mpris-for-dummies",
     "winplayer-node": "NyaomiDEV/WinPlayer-Node"
-  },
-  "packageManager": "yarn@3.1.1"
+  }
 }
