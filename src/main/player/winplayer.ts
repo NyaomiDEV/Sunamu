@@ -1,4 +1,5 @@
 import { Update } from "../../types";
+// @ts-ignore
 import Player from "winplayer-node";
 let _player;
 

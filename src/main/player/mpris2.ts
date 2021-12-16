@@ -1,11 +1,15 @@
 import { debug } from "../";
-import { getPlayer, getPlayerNames } from "mpris-for-dummies";
-import dbus from "dbus-next";
 import { ArtData, Metadata, Update } from "../../types";
-import MediaPlayer2 from "mpris-for-dummies/lib/MediaPlayer2";
 import { readFile } from "fs/promises";
 import mime from "mime";
 import fetch from "node-fetch";
+
+// @ts-ignore
+import dbus from "dbus-next";
+// @ts-ignore
+import { getPlayer, getPlayerNames } from "mpris-for-dummies";
+// @ts-ignore
+import MediaPlayer2 from "mpris-for-dummies/lib/MediaPlayer2";
 
 let players: { [key: string]: MediaPlayer2 } = {};
 let activePlayer: string | undefined;
