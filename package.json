@@ -1,7 +1,7 @@
 {
   "name": "sunamu",
   "description": "Beautiful app to show which music you are playing",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "main": "dist/main/index.js",
   "license": "MPL-2.0",
   "private": true,
@@ -25,7 +25,8 @@
     "run:node": "yarn compile && node .",
     "build": "yarn compile && electron-builder",
     "build:dir": "yarn compile && electron-builder --dir",
-    "release": "yarn clean && yarn compile && electron-builder --armv7l --arm64 --ia32 --x64; yarn install-deps"
+    "release": "yarn clean && yarn compile && electron-builder --linux --armv7l --arm64 --ia32 --x64; yarn install-deps",
+    "release:win": "yarn clean && yarn compile && electron-builder --windows --arm64 --ia32 --x64; yarn install-deps"
   },
   "devDependencies": {
     "@types/discord-rpc": "^4.0.0",
