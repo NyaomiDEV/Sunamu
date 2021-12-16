@@ -1,4 +1,4 @@
-<img alt="Logo" src="assets/icon.svg" width="128px" height="128px" align="left"/>
+<img alt="Logo" src="assets/icons/icon.svg" width="128px" height="128px" align="left"/>
 
 # Sunamu (スナム)
 Show your currently playing song in a stylish way!
