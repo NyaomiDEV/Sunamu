@@ -56,23 +56,28 @@ export async function query(): Promise<Lyrics | undefined> {
 		return undefined;
 	}
 
-	const synchronizedLyrics = result.data.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.body?.subtitle_list?.[0]?.subtitle;
-	const unsynchronizedLyrics = result.data.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.body?.lyrics;
+	const synchronizedLyrics = result.data.message?.body?.macro_calls?.["track.subtitles.get"]?.message;
+	const subtitle = synchronizedLyrics?.body?.subtitle_list?.[0]?.subtitle;
 
-	if (synchronizedLyrics?.subtitle_body) {
-		reply.lines = JSON.parse(synchronizedLyrics.subtitle_body).map(v => ({ text: v.text, time: v.time.total }));
-		reply.copyright = synchronizedLyrics.lyrics_copyright?.trim().split("\n").join(" • ");
+	const unsynchronizedLyrics = result.data.message?.body?.macro_calls?.["track.lyrics.get"]?.message;
+	const lyrics = unsynchronizedLyrics?.body?.lyrics;
+
+	if (subtitle?.subtitle_body) {
+		reply.lines = JSON.parse(subtitle?.subtitle_body).map(v => ({ text: v.text, time: v.time.total }));
+		reply.copyright = subtitle?.lyrics_copyright?.trim().split("\n").join(" • ");
 	}
-	else if (unsynchronizedLyrics?.lyrics_body) {
+	else if (lyrics?.lyrics_body) {
 		reply.synchronized = false;
-		reply.lines = unsynchronizedLyrics.lyrics_body.split("\n").map(x => ({ text: x }));
-		reply.copyright = unsynchronizedLyrics.lyrics_copyright?.trim().split("\n").join(" • ");
+		reply.lines = lyrics?.lyrics_body.split("\n").map(x => ({ text: x }));
+		reply.copyright = lyrics?.lyrics_copyright?.trim().split("\n").join(" • ");
 	} else {
 		console.error(
 			"Musixmatch request didn't get us any lyrics!",
 			result.data.message?.header,
-			result.data.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.header || null,
-			result.data.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.header || null
+			synchronizedLyrics?.header || null,
+			subtitle || null,
+			unsynchronizedLyrics?.header || null,
+			lyrics || null
 		);
 		return undefined;
 	}
