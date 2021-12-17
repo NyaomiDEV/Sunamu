@@ -2,7 +2,7 @@ import { debug } from "../";
 import { ArtData, Metadata, Update } from "../../types";
 import { readFile } from "fs/promises";
 import mime from "mime";
-import fetch from "node-fetch";
+import axios from "axios";
 
 // @ts-ignore
 import dbus from "dbus-next";
@@ -209,9 +209,9 @@ async function parseMetadata(metadata): Promise<Metadata> {
 			if (artUrl.protocol === "file:")
 				artBuffer = await readFile(artUrl.pathname);
 			else {
-				const response = await fetch(artUrl.href);
-				if (response.ok)
-					artBuffer = Buffer.from(await response.arrayBuffer());
+				const response = await axios.get<ArrayBuffer>(artUrl.href, {responseType: "arraybuffer"});
+				if (response.status === 200)
+					artBuffer = Buffer.from(response.data);
 			}
 		}catch(e){
 			//...

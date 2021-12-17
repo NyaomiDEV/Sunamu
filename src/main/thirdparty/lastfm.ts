@@ -3,20 +3,21 @@
 // for spammy queries. We do not really want it to get rate
 
 import { songdata } from "../playbackStatus";
-import fetch, { Request } from "node-fetch";
+import axios from "axios";
+import { URLSearchParams } from "url";
 
 // limited, do we?
 const apiKey = "fd35d621eee8c53c1130c12b2d53d7fb";
 const root = "https://ws.audioscrobbler.com/2.0/";
 
 function queryString(options){
-	const params = {
+	const params = new URLSearchParams({
 		...options,
 		format: "json",
 		api_key: apiKey
-	};
+	});
 
-	return Object.keys(params).map(key => key + "=" + encodeURIComponent(params[key])).join("&");
+	return params.toString();
 }
 
 export async function queryLastFM(methodName, options){
@@ -25,15 +26,13 @@ export async function queryLastFM(methodName, options){
 		...options
 	};
 
-	const request = new Request(
-		root + "?" + queryString(allOptions)
-	);
-
-	const result = await fetch(request);
-	return await result.json() as any;
+	const result = await axios.get(root + "?" + queryString(allOptions));
+	return result.data;
 }
 
 export async function getTrackInfo(forUsername){
+	if(!songdata.metadata.id) return;
+	
 	const opts: any = {
 		track: songdata.metadata.title,
 		artist: songdata.metadata.artist,

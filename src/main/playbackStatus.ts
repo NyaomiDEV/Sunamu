@@ -5,7 +5,7 @@ import { searchSpotifySong } from "./thirdparty/spotify";
 import { getTrackInfo } from "./thirdparty/lastfm";
 import { spotiId } from "./util";
 import { queryLyrics } from "./integrations/lyrics";
-import { debug } from ".";
+//import { debug } from ".";
 
 // eslint-disable-next-line no-unused-vars
 const songdataCallbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
@@ -68,7 +68,7 @@ export async function updateInfo() {
 
 // ------ SONG DATA
 export async function broadcastSongData(metadataChanged: boolean){
-	debug(songdata);
+	//debug(songdata);
 	for (const cb of songdataCallbacks) await cb(songdata, metadataChanged);
 }
 
@@ -176,7 +176,6 @@ async function pollSpotifyDetails() {
 			id = spotiMatch[1];
 		else {
 			const result = await searchSpotifySong();
-			console.log(result);
 			
 			if (result)
 				id = result.id;

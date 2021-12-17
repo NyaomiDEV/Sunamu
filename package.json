@@ -44,13 +44,13 @@
     "typescript": "^4.5.2"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "discord-rpc": "^4.0.1",
     "electron-window-state": "^5.0.3",
     "json5": "^2.2.0",
     "leveldown": "^6.1.0",
     "levelup": "^5.0.1",
     "mime": "^3.0.0",
-    "node-fetch": "^2.6.1",
     "node-static": "^0.7.11",
     "register-scheme": "NyaomiDEV/node-register-scheme",
     "socket.io": "^4.4.0",

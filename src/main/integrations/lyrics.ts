@@ -37,8 +37,10 @@ export async function queryLyrics() {
 			lyrics = undefined;
 		}
 
-		if (lyrics)
+		if (lyrics){
 			saveLyrics(id, lyrics);
+			debug("Fetched from " + lyrics.provider);
+		}
 	}
 
 	if(cached && !lyrics)

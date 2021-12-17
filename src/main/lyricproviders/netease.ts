@@ -1,6 +1,7 @@
 import type { Lyrics } from "../../types";
 
-import fetch, { Request } from "node-fetch";
+import { URLSearchParams } from "url";
+import axios, { AxiosResponse } from "axios";
 import { parseLrc } from "./lrc";
 import { songdata } from "../playbackStatus";
 
@@ -37,53 +38,45 @@ export async function query(): Promise<Lyrics | undefined> {
 }
 
 function getSearchFields(){
-	const post_fields = {
+	const post_fields = new URLSearchParams({
 		s: songdata.metadata.artist + " " + songdata.metadata.title,
-		type: 1,
-		limit: 10,
-		offset: 0
-	};
+		type: "1",
+		limit: "10",
+		offset: "0"
+	});
 
-	return Object.keys(post_fields).map(key => key + "=" + encodeURIComponent(post_fields[key])).join("&");
+	return post_fields.toString();
 }
 
 function getLyricFields(songId){
-	const lyric_fields = {
+	const lyric_fields = new URLSearchParams({
 		id: songId,
-		lv: -1
-	};
+		lv: "-1"
+	});
 
-	return Object.keys(lyric_fields).map(key => key + "=" + encodeURIComponent(lyric_fields[key])).join("&");
+	return lyric_fields.toString();
 }
 
 async function getSongId(){
-	const search_request = new Request(
-		search_url + "?" + getSearchFields()
-	);
-
-	let result;
+	let result: AxiosResponse<any, any>;
 	try {
-		result = await (await fetch(search_request)).json();
+		result = await axios.get(search_url + "?" + getSearchFields());
 	} catch (e) {
 		console.error("NetEase search request got an error!", e);
-		result = {};
+		return undefined;
 	}
 
-	return result?.result?.songs?.[0].id || undefined;
+	return result?.data.result?.songs?.[0].id;
 }
 
 async function getLyricsFromSongId(songId){
-	const search_request = new Request(
-		lyrics_url + "?" + getLyricFields(songId)
-	);
-
-	let result;
+	let result: AxiosResponse<any, any>;
 	try {
-		result = await (await fetch(search_request)).json();
+		result = await axios.get(lyrics_url + "?" + getLyricFields(songId));
 	} catch (e) {
 		console.error("NetEase lyrics request got an error!", e);
-		result = {};
+		return undefined;
 	}
 
-	return result?.lrc?.lyric || undefined;
+	return result.data.lrc?.lyric;
 }

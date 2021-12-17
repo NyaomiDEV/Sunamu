@@ -1,26 +1,31 @@
 import type { Lyrics } from "../../types";
 
-import fetch, { Request, Headers } from "node-fetch";
+import { URLSearchParams } from "url";
+import axios, { AxiosResponse } from "axios";
 import { songdata } from "../playbackStatus";
 import { get as getConfig, set as setConfig } from "../config";
 import { searchForUserToken } from "../integrations/mxmusertoken";
 
-const url = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get?format=json&namespace=lyrics_richsynched&subtitle_format=mxm&app_id=web-desktop-app-v1.0";
+const url = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get";
 
 function getQueryParams() {
-	const params: any = {
+	const params = new URLSearchParams({
+		app_id: "web-desktop-app-v1.0",
+		format: "json",
+		namespace: "lyrics_richsynched",
+		subtitle_format: "mxm",
 		q_artist: songdata.metadata.artist,
 		q_artists: songdata.metadata.artist,
 		q_track: songdata.metadata.title,
 		q_album: songdata.metadata.album,
-		q_duration: songdata.metadata.length,
+		q_duration: `${songdata.metadata.length}`,
 		usertoken: getConfig("mxmusertoken")
-	};
+	});
 
 	if (songdata.metadata.id)
-		params.track_spotify_id = songdata.metadata.id;
+		params.append("track_spotify_id", songdata.metadata.id);
 
-	return Object.keys(params).map(key => key + "=" + encodeURIComponent(params[key])).join("&");
+	return params.toString();
 }
 
 export async function query(): Promise<Lyrics | undefined> {
@@ -38,27 +43,21 @@ export async function query(): Promise<Lyrics | undefined> {
 		lines: []
 	};
 
-	const headers = new Headers({
-		"Cookie": "x-mxm-user-id=",
-		"Authority": "apic-desktop.musixmatch.com",
-		"pragma": "no-cache",
-		"cache-control": "no-cache"
-	});
-	const request = new Request(
-		url + "&" + getQueryParams(),
-		{ headers }
-	);
-
-	let result;
+	let result: AxiosResponse<any, any>;
 	try {
-		result = await (await fetch(request)).json();
+		result = await axios.get(url + "?" + getQueryParams(), {
+			headers: {
+				"Cookie": "x-mxm-user-id=",
+				"Authority": "apic-desktop.musixmatch.com"
+			}
+		});
 	} catch (e) {
 		console.error("Musixmatch request got an error!", e);
 		return undefined;
 	}
 
-	const synchronizedLyrics = result?.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.body?.subtitle_list?.[0]?.subtitle;
-	const unsynchronizedLyrics = result?.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.body?.lyrics;
+	const synchronizedLyrics = result.data.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.body?.subtitle_list?.[0]?.subtitle;
+	const unsynchronizedLyrics = result.data.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.body?.lyrics;
 
 	if (synchronizedLyrics?.subtitle_body) {
 		reply.lines = JSON.parse(synchronizedLyrics.subtitle_body).map(v => ({ text: v.text, time: v.time.total }));
@@ -71,9 +70,9 @@ export async function query(): Promise<Lyrics | undefined> {
 	} else {
 		console.error(
 			"Musixmatch request didn't get us any lyrics!",
-			result?.message?.header,
-			result?.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.header || null,
-			result?.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.header || null
+			result.data.message?.header,
+			result.data.message?.body?.macro_calls?.["track.subtitles.get"]?.message?.header || null,
+			result.data.message?.body?.macro_calls?.["track.lyrics.get"]?.message?.header || null
 		);
 		return undefined;
 	}

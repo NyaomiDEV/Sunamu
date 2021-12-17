@@ -1,6 +1,7 @@
 import type { Lyrics } from "../../types";
 
-import fetch, { Request } from "node-fetch";
+import { URLSearchParams } from "url";
+import axios, { AxiosResponse } from "axios";
 import { songdata } from "../playbackStatus";
 
 const search_url = "https://genius.com/api/search/song";
@@ -31,49 +32,43 @@ export async function query(): Promise<Lyrics | undefined> {
 }
 
 function getSearchFields() {
-	const post_fields = {
+	const post_fields = new URLSearchParams({
 		q: songdata.metadata.artist + " " + songdata.metadata.title,
-		per_page: 1
-	};
+		per_page: "1"
+	});
 
-	return Object.keys(post_fields).map(key => key + "=" + encodeURIComponent(post_fields[key])).join("&");
+	return post_fields.toString();
 }
 
 async function getSongURL() {
-	const search_request = new Request(
-		search_url + "?" + getSearchFields()
-	);
-
-	let result;
+	let result: AxiosResponse<any, any>;
 	try {
-		result = await (await fetch(search_request)).json();
+		result = await axios.get(search_url + "?" + getSearchFields());
 	} catch (e) {
 		console.error("Genius search request got an error!", e);
-		result = {};
+		return undefined;
 	}
 
-	return result?.response?.sections?.[0]?.hits?.[0]?.result?.url || undefined;
+	return result.data.response?.sections?.[0]?.hits?.[0]?.result?.url;
 }
 
 async function getLyricsFromGenius(url) {
-	const request = new Request(url);
-
-	let result;
+	let result: AxiosResponse<string, any>;
 	try {
-		result = await (await fetch(request)).text();
+		result = await axios.get<string>(url, {responseType: "text"});
 	} catch (e) {
 		console.error("Genius lyrics request got an error!", e);
 		return undefined;
 	}
 	
-	let lyricsSections = result?.match(/<div class="lyrics">(.+?)<\/div>/s)?.[1];
-	if(lyricsSections){
+	let lyricsSections = result.data?.match(/<div class="lyrics">(.+?)<\/div>/s);
+	if(lyricsSections?.[1]){
 		const template = document.createElement("div");
-		template.innerHTML = lyricsSections;
+		template.innerHTML = lyricsSections?.[1];
 		return template.textContent!.trim();
 	}
 
-	lyricsSections = result.match(/<div class="Lyrics__Container.+?>.+?<\/div>/sg);
+	lyricsSections = result.data?.match(/<div class="Lyrics__Container.+?>.+?<\/div>/sg);
 	if (lyricsSections) {
 		let lyricsInner = "";
 		for (const section of lyricsSections) {
@@ -85,7 +80,7 @@ async function getLyricsFromGenius(url) {
 		return getLyrics(template);
 	}
 
-	lyricsSections = result.match(/<div data-scrolltrigger-pin="true" class="Lyrics__Container.+?>.+?<\/div>/sg);
+	lyricsSections = result.data?.match(/<div data-scrolltrigger-pin="true" class="Lyrics__Container.+?>.+?<\/div>/sg);
 	if (lyricsSections) {
 		let lyricsInner = "";
 		for (const section of lyricsSections) {
