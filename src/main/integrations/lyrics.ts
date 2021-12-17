@@ -42,7 +42,9 @@ export async function queryLyrics() {
 		if (lyrics){
 			saveLyrics(id, lyrics);
 			debug("Fetched from " + lyrics.provider);
-		}
+		}else
+			debug("Unable to fetch lyrics");
+		
 	}
 
 	if(cached && !lyrics)
