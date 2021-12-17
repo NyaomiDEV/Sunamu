@@ -32,9 +32,11 @@ export async function queryLyrics() {
 
 		for (const provider in providers) {
 			debug("Fetching from " + provider);
-			lyrics = await providers[provider]();
-			if (lyrics && lyrics.lines.length) break;
-			lyrics = undefined;
+			const _lyrics = await providers[provider]();
+			if (lyrics?.lines.length){
+				lyrics = _lyrics;
+				break;
+			}
 		}
 
 		if (lyrics){

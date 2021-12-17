@@ -34,6 +34,7 @@ export async function query(): Promise<Lyrics | undefined> {
 	if(reply.lines.length)
 		return reply;
 	
+	console.error("Could not get synchronized lyrics on NetEase!");
 	return undefined;
 }
 
