@@ -17,8 +17,7 @@ function getUserConfig() {
 	try {
 		return JSON5.parse(readFileSync(configPath, "utf8"));
 	} catch (_) {
-		mkdirSync(resolve(defaultConfigPath, ".."), {recursive: true});
-		copyFileSync(defaultConfigPath, configPath);
+		save(false, defaultConfig);
 		return defaultConfig;
 	}
 }
@@ -27,7 +26,6 @@ function compareAndUpdate(obj1: any, obj2: any): boolean {
 	let changed = false;
 	for (const key in obj1) {
 		if (typeof obj1[key] !== typeof obj2[key] || Array.isArray(obj1[key]) !== Array.isArray(obj2[key])) {
-			console.log(obj1[key], obj2[key]);
 			obj2[key] = obj1[key];
 			changed = true;
 			continue;
@@ -40,7 +38,8 @@ function compareAndUpdate(obj1: any, obj2: any): boolean {
 	return changed;
 }
 
-export function save(backup: boolean = true) {
+export function save(backup: boolean = true, configToSave = config) {
+	mkdirSync(resolve(configPath, ".."), { recursive: true });
 	if(backup){
 		const now = new Date();
 		const date = now.getFullYear().toString().padStart(4, "0") +
@@ -51,7 +50,7 @@ export function save(backup: boolean = true) {
 			now.getSeconds().toString().padStart(2, "0");
 		copyFileSync(configPath, configPath + ".backup-" + date);
 	}
-	writeFileSync(configPath, JSON5.stringify(config, undefined, 2));
+	writeFileSync(configPath, JSON5.stringify(configToSave, undefined, 2));
 }
 
 export function get(name: string) {
