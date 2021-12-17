@@ -3,7 +3,7 @@ import type { NowPlayingAPI, SongData } from "../types";
 import "./lib/npapi.js";
 import "./lib/screen.js";
 
-import { pollPosition, updateNowPlaying } from "./lib/nowplaying.js";
+import { updateNowPlaying } from "./lib/nowplaying.js";
 import { putLyricsInPlace } from "./lib/lyrics.js";
 import songdata from "./lib/songdata.js";
 
@@ -26,6 +26,5 @@ window.title = "Sunamu" + (document.documentElement.classList.contains("widget-m
 if(await window.np.isDebugMode())
 	window.getNowPlaying = () => songdata;
 
-setInterval(pollPosition, 200);
 updateNowPlaying();
 putLyricsInPlace();

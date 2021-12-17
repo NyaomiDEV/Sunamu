@@ -2,7 +2,6 @@ import type { Lyrics } from "../../types";
 
 import fetch, { Request, Headers } from "node-fetch";
 import { songdata } from "../playbackStatus";
-import { spotiId } from "../util";
 import { get as getConfig, set as setConfig } from "../config";
 import { searchForUserToken } from "../integrations/mxmusertoken";
 
@@ -18,8 +17,8 @@ function getQueryParams() {
 		usertoken: getConfig("mxmusertoken")
 	};
 
-	const spotiMatch = spotiId.exec(songdata.metadata.id);
-	if (spotiMatch) params.track_spotify_id = spotiMatch[1];
+	if (songdata.metadata.id)
+		params.track_spotify_id = songdata.metadata.id;
 
 	return Object.keys(params).map(key => key + "=" + encodeURIComponent(params[key])).join("&");
 }

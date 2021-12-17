@@ -22,7 +22,7 @@ async function checkLogin() {
 		"https://accounts.spotify.com/api/token",
 		{
 			headers: {
-				"Authorization": `Basic ${btoa(`${config().spotify.clientID}:${config().spotify.clientSecret}`)}`,
+				"Authorization": `Basic ${Buffer.from(`${config().spotify.clientID}:${config().spotify.clientSecret}`).toString("base64")}`,
 				"Content-Type": "application/x-www-form-urlencoded"
 			},
 			method: "POST",

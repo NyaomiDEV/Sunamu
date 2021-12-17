@@ -1,5 +1,5 @@
 import getPlayer, { Player } from "./player";
-import { addUpdateCallback, updateInfo } from "./playbackStatus";
+import { addSongDataCallback, updateInfo } from "./playbackStatus";
 import { debugMode, useElectron, useWebserver } from "./appStatus";
 import { updatePresence } from "./integrations/discordrpc";
 
@@ -32,7 +32,7 @@ async function main() {
 		await WebServer.default();
 	}
 
-	addUpdateCallback(async () => {
+	addSongDataCallback(async () => {
 		updatePresence();
 	});
 }

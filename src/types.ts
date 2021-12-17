@@ -12,8 +12,8 @@ export type NowPlayingAPI = {
 	repeat: () => void,
 
 	seek: (positionToSeekbar: number) => void,
-	getPosition: () => Promise<number>
 
+	registerPositionCallback: (callback: Function) => void,
 	registerUpdateCallback: (callback: Function) => void,
 	registerLyricsCallback: (callback: Function) => void,
 
@@ -28,7 +28,7 @@ export type NowPlayingAPI = {
 
 	minimize?: () => void,
 	close?: () => void,
-	openExternal?: (uri: string) => void,
+	openExternal: (uri: string) => void,
 }
 
 export type Config = {
@@ -110,7 +110,7 @@ export type Update = {
 export type SongData = Update & {
 	lyrics?: Lyrics,
 	lastfm?: LastFMInfo,
-	spotiUrl?: string
+	spotify?: SpotifyInfo
 }
 
 export type Lyrics = {
@@ -123,6 +123,12 @@ export type Lyrics = {
 export type LyricsLine = {
 	text: string,
 	time?: number
+}
+
+export type SpotifyInfo = {
+	id: string,
+	uri: string,
+	url: string
 }
 
 export type LastFMInfo = {

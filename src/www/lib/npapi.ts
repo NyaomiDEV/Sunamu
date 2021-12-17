@@ -13,8 +13,8 @@ if(!isElectron()){
 		repeat: () => socket.emit("repeat"),
 
 		seek: (positionToSeekbar) => socket.emit("seek", positionToSeekbar),
-		getPosition: () => new Promise(resolve => socket.emit("getPosition", resolve)),
 
+		registerPositionCallback: (callback) => socket.on("position", (position) => callback(position)),
 		registerUpdateCallback: (callback) => socket.on("update", (songdata, metadataChanged) => callback(songdata, metadataChanged)),
 		registerLyricsCallback: (callback) => socket.on("refreshLyrics", () => callback()),
 

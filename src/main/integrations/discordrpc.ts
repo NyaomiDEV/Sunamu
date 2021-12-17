@@ -99,10 +99,10 @@ async function getPresence() {
 		activity.endTimestamp = end;
 	}
 
-	if (songdata.spotiUrl) {
+	if (songdata.spotify) {
 		activity.buttons!.push({
 			label: "Listen on Spotify",
-			url: songdata.spotiUrl
+			url: songdata.spotify.url
 		});
 	}
 

@@ -5,7 +5,7 @@ import getPlayer, { Player } from "./player";
 import { getAll as getAllConfig } from "./config";
 import { widgetModeElectron, debugMode, waylandOzone } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
-import { addLyricsUpdateCallback, addUpdateCallback, songdata } from "./playbackStatus";
+import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, songdata } from "./playbackStatus";
 import { getAppData } from "./util";
 
 process.title = "sunamu";
@@ -63,7 +63,8 @@ function registerElectronIpc() {
 
 	ipcMain.on("openExternal", (_e, uri) => shell.openExternal(uri));
 
-	addUpdateCallback(async (songdata, metadataChanged) => win.webContents.send("update", songdata, metadataChanged));
+	addPositionCallback(async (position) => win.webContents.send("position", position));
+	addSongDataCallback(async (songdata, metadataChanged) => win.webContents.send("update", songdata, metadataChanged));
 	addLyricsUpdateCallback(async () => win.webContents.send("refreshLyrics"));
 }
 
@@ -106,7 +107,7 @@ async function spawnWindow() {
 		webPreferences: {
 			contextIsolation: true,
 			nodeIntegration: false,
-			preload: resolve(__dirname, "preload.js")
+			preload: resolve(__dirname, "electron-npapi.js")
 		},
 		roundedCorners: true,
 		icon: getIcon(),

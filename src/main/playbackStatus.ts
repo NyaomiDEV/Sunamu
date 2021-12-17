@@ -8,8 +8,12 @@ import { queryLyrics } from "./integrations/lyrics";
 import { debug } from ".";
 
 // eslint-disable-next-line no-unused-vars
-const callbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
-const lcallbacks: Array<() => Promise<void>> = [];
+const songdataCallbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
+const lyricsCallbacks: Array<() => Promise<void>> = [];
+// eslint-disable-next-line no-unused-vars
+const positionCallbacks: Array<(position: number) => Promise<void>> = [];
+
+setInterval(pollPosition, 500);
 
 const fallback: DeepPartial<SongData> = {
 	provider: undefined,
@@ -41,45 +45,72 @@ const fallback: DeepPartial<SongData> = {
 	appName: undefined,
 	lyrics: undefined,
 	lastfm: undefined,
-	spotiUrl: undefined
+	spotify: undefined
 };
 
 export const songdata = Object.assign({}, fallback) as SongData;
 
 export async function updateInfo() {
 	const update = await (await getPlayer()).getUpdate();
-	const metadataChanged = updateSongData(update);
-	broadcastSongData(metadataChanged);
+	const metadataChanged = await updateSongData(update);
+	await broadcastSongData(metadataChanged);
+
+	if (metadataChanged) {
+		songdata.lyrics = undefined;
+		songdata.lastfm = undefined;
+		songdata.spotify = undefined;
+
+		await pollLastFm();
+		await pollSpotifyDetails();
+		await pollLyrics();
+	}
 }
 
+// ------ SONG DATA
 export async function broadcastSongData(metadataChanged: boolean){
 	debug(songdata);
-	for (const cb of callbacks) await cb(songdata, metadataChanged);
+	for (const cb of songdataCallbacks) await cb(songdata, metadataChanged);
 }
 
 // eslint-disable-next-line no-unused-vars
-export function addUpdateCallback(cb: (songdata?: SongData, metadataChanged?: boolean) => Promise<void>) {
-	callbacks.push(cb);
+export function addSongDataCallback(cb: (songdata?: SongData, metadataChanged?: boolean) => Promise<void>) {
+	songdataCallbacks.push(cb);
 }
 
 // eslint-disable-next-line no-unused-vars
-export function deleteUpdateCallback(cb: (songdata?: SongData, metadataChanged?: boolean) => Promise<void>) {
-	callbacks.splice(callbacks.indexOf(cb), 1);
+export function deleteSongDataCallback(cb: (songdata?: SongData, metadataChanged?: boolean) => Promise<void>) {
+	songdataCallbacks.splice(songdataCallbacks.indexOf(cb), 1);
 }
 
-export async function pushLyricsUpdate(){
-	for (const cb of lcallbacks) await cb();
+// ------- LYRICS
+export async function broadcastLyrics(){
+	for (const cb of lyricsCallbacks) await cb();
 }
 
 export function addLyricsUpdateCallback(cb: () => Promise<void>) {
-	lcallbacks.push(cb);
+	lyricsCallbacks.push(cb);
 }
 
 export function deleteLyricsUpdateCallback(cb: () => Promise<void>) {
-	lcallbacks.splice(lcallbacks.indexOf(cb), 1);
+	lyricsCallbacks.splice(lyricsCallbacks.indexOf(cb), 1);
 }
 
-function updateSongData(update?: Update|null): boolean{
+// ------- POSITION
+export async function broadcastPosition() {
+	for (const cb of positionCallbacks) await cb(songdata.elapsed);
+}
+
+// eslint-disable-next-line no-unused-vars
+export function addPositionCallback(cb: (position: number) => Promise<void>) {
+	positionCallbacks.push(cb);
+}
+
+// eslint-disable-next-line no-unused-vars
+export function deletePositionCallback(cb: (position: number) => Promise<void>) {
+	positionCallbacks.splice(positionCallbacks.indexOf(cb), 1);
+}
+
+async function updateSongData(update?: Update|null): Promise<boolean>{
 	// PRE CHECK IF SOMETHING HAS CHANGED ACTUALLY
 	let metadataChanged = false;
 
@@ -106,35 +137,36 @@ function updateSongData(update?: Update|null): boolean{
 		Object.assign(songdata, update);
 	}
 
-	if (metadataChanged) {
-		songdata.lyrics = undefined;
-		songdata.lastfm = undefined;
-		songdata.spotiUrl = undefined;
-
-		pollLyrics();
-		pollLastFm();
-		pollSpotiUrl();
-	}
-
 	return metadataChanged;
+}
+
+export async function pollPosition() {
+	if ((songdata.status !== "Playing" && songdata.status !== "Paused") || !songdata.capabilities.canSeek)
+		return;
+
+	if (songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
+		songdata.elapsed = await (await getPlayer()).GetPosition();
+
+	// calls
+	await broadcastPosition();
 }
 
 async function pollLyrics() {
 	if (songdata.provider)
 		await queryLyrics();
 	// This refreshes the lyrics screen
-	broadcastSongData(false);
-	pushLyricsUpdate();
+	await broadcastSongData(false);
+	await broadcastLyrics();
 }
 
 async function pollLastFm() {
 	if (songdata.provider) {
 		await getTrackInfo(get("lfmUsername"));
-		broadcastSongData(false);
+		await broadcastSongData(false);
 	}
 }
 
-async function pollSpotiUrl() {
+async function pollSpotifyDetails() {
 	if (songdata.provider) {
 		let id: string | undefined;
 
@@ -144,13 +176,19 @@ async function pollSpotiUrl() {
 			id = spotiMatch[1];
 		else {
 			const result = await searchSpotifySong();
+			console.log(result);
+			
 			if (result)
 				id = result.id;
 		}
 
 		if (id) {
-			songdata.spotiUrl = "https://open.spotify.com/track/" + id;
-			broadcastSongData(false);
+			songdata.spotify = {
+				id,
+				uri: "spotify:track:" + id,
+				url: "https://open.spotify.com/track/" + id
+			};
+			await broadcastSongData(false);
 		}
 	}
 }

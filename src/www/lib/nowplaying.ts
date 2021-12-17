@@ -1,6 +1,6 @@
 import lang from "./lang.js";
 import { putLyricsInPlace, updateActiveLyrics } from "./lyrics.js";
-import songdata, { fallback } from "./songdata.js";
+import songdata from "./songdata.js";
 import { secondsToTime, isElectron } from "./util.js";
 import { updateSeekbar } from "./seekbar.js";
 import { show } from "./showhide.js";
@@ -47,7 +47,7 @@ export function updateNowPlaying() {
 	setDisabledClass(repeatBtn, songdata.capabilities.canControl);
 
 	setDisabledClass(document.getElementById("lastfm"), songdata.lastfm);
-	setDisabledClass(document.getElementById("spotify"), songdata.spotiUrl);
+	setDisabledClass(document.getElementById("spotify"), songdata.spotify?.url);
 
 	// CONTROLS STATUS
 	(playPauseBtn.firstChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));
@@ -78,19 +78,6 @@ export function updateNowPlaying() {
 
 	// ALBUM ART
 	updateAlbumArt();
-}
-
-export async function pollPosition() {
-	if ((songdata.status !== "Playing" && songdata.status !== "Paused") || !songdata.capabilities.canSeek)
-		return;
-
-	if (songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
-		songdata.elapsed = await window.np.getPosition();
-
-	// calls
-	updateTime();
-	updateSeekbar();
-	updateActiveLyrics();
 }
 
 async function updateAlbumArt(){
@@ -162,13 +149,21 @@ function formatMetadata(elem, regex, spanClass, data, fallback){
 		elem.textContent = data || fallback;
 }
 
+// --- REGISTER CALLBACKS
 window.np.registerUpdateCallback((_songdata, metadataChanged) => {
 	console.log(_songdata, metadataChanged);
-	Object.assign(songdata, fallback, _songdata);
+	Object.assign(songdata, _songdata);
 	if(!document.documentElement.classList.contains("static") && metadataChanged){
 		show(true);
 		putLyricsInPlace();
 	}
 
 	updateNowPlaying();
+});
+
+window.np.registerPositionCallback((position) => {
+	songdata.elapsed = position;
+	updateTime();
+	updateSeekbar();
+	updateActiveLyrics();
 });

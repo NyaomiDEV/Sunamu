@@ -133,7 +133,7 @@ export async function GetPosition() {
 		const pos = await players[activePlayer]?.Player?.GetPosition?.();
 		return Number(pos) / 1000000;
 	}
-	return undefined;
+	return 0;
 }
 
 // UTILS

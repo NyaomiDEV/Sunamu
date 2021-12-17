@@ -14,7 +14,7 @@ const fallback: Player = {
 	Repeat: () => undefined,
 	Seek: (_offset: number) => undefined,
 	SeekPercentage: (_percentage: number) => undefined,
-	GetPosition: async () => undefined,
+	GetPosition: async () => 0,
 };
 
 let player: Player;
@@ -57,5 +57,5 @@ export interface Player {
 
 	Seek(offset: number): void
 	SeekPercentage(percentage: number): void
-	GetPosition(): Promise<number | undefined>
+	GetPosition(): Promise<number>
 }

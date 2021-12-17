@@ -8,7 +8,7 @@ import { getAppData } from "./util";
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { Server as StaticServer } from "node-static";
-import { addLyricsUpdateCallback, addUpdateCallback, updateInfo, songdata } from "./playbackStatus";
+import { addLyricsUpdateCallback, addSongDataCallback, updateInfo, songdata, addPositionCallback } from "./playbackStatus";
 
 let player: Player;
 
@@ -54,7 +54,8 @@ function registerSocketIO(socket: Socket) {
 	socket.on("isDebugMode", (callback) => callback(debugMode));
 	socket.on("isElectronRunning", (callback) => callback(useElectron));
 
-	addUpdateCallback(async (songdata, metadataChanged) => { socket.emit("update", songdata, metadataChanged); });
+	addPositionCallback(async (position) => { socket.emit("position", position); });
+	addSongDataCallback(async (songdata, metadataChanged) => { socket.emit("update", songdata, metadataChanged); });
 	addLyricsUpdateCallback(async () => { socket.emit("refreshLyrics"); });
 }
 
