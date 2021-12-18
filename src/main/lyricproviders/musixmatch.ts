@@ -31,7 +31,10 @@ function getQueryParams() {
 export async function query(): Promise<Lyrics | undefined> {
 	if (!getConfig("mxmusertoken")){
 		const token = await searchForUserToken();
-		if(!token) return undefined;
+		if(!token){
+			console.error("No Musixmatch user token found");
+			return undefined;
+		}
 
 		setConfig("mxmusertoken", token);
 	}
