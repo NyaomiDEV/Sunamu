@@ -58,6 +58,7 @@
   },
   "optionalDependencies": {
     "mpris-for-dummies": "NyaomiDEV/mpris-for-dummies",
+    "windowtoolbox": "NyaomiDEV/windowtoolbox",
     "winplayer-node": "NyaomiDEV/WinPlayer-Node"
   }
 }

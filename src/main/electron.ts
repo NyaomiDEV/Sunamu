@@ -103,6 +103,7 @@ async function spawnWindow() {
 		resizable: true,
 		fullscreenable: !widgetModeElectron,
 		skipTaskbar: widgetModeElectron,
+		focusable: !(process.platform === "win32" && widgetModeElectron),
 		autoHideMenuBar: true,
 		webPreferences: {
 			contextIsolation: true,
@@ -114,10 +115,17 @@ async function spawnWindow() {
 		title: widgetModeElectron ? "Sunamu Widget" : "Sunamu"
 	});
 	mainWindowState.manage(win);
+
 	if (debugMode) win.webContents.openDevTools();
 
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
-	win.once("ready-to-show", () => win.show());
+	win.once("ready-to-show", async () => {
+		win.show();
+		if (process.platform === "win32") {
+			const win32platform = await import("./platform/win32");
+			if(widgetModeElectron) win32platform.sendOnBottom(win);
+		}
+	});
 }
 
 export default async function electronMain() {
