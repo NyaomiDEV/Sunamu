@@ -1,6 +1,7 @@
 import { Update } from "../../types";
 // @ts-ignore
 import Player from "winplayer-node";
+import { basename, extname } from "path";
 let _player;
 
 export async function init(callback: Function): Promise<void>{
@@ -8,7 +9,13 @@ export async function init(callback: Function): Promise<void>{
 }
 
 export async function getUpdate(): Promise<Update | null> {
-	return _player.getUpdate();
+	const update: Update = await _player.getUpdate();
+
+	// Remove the trailing extension on app names
+	if(update.app === update.appName) // Win32 app or otherwise app without registered AUMID
+		update.appName = basename(update.appName, extname(update.appName));
+
+	return update;
 }
 
 export function Play() {
