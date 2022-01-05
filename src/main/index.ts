@@ -1,12 +1,9 @@
 import getPlayer, { Player } from "./player";
 import { addSongDataCallback, updateInfo } from "./playbackStatus";
-import { debugMode, useElectron, useWebserver } from "./appStatus";
+import { useElectron, useWebserver } from "./appStatus";
 import { updatePresence } from "./integrations/discordrpc";
 
-export function debug(...args: any) {
-	if(debugMode)
-		console.log(...args);
-}
+export { logToDebug as debug } from "./logger";
 
 process.title = "sunamu";
 

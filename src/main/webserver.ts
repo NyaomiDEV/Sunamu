@@ -8,7 +8,7 @@ import { getAppData } from "./util";
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { Server as StaticServer } from "node-static";
-import { addLyricsUpdateCallback, addSongDataCallback, updateInfo, songdata, addPositionCallback } from "./playbackStatus";
+import { addLyricsUpdateCallback, addSongDataCallback, songdata, addPositionCallback } from "./playbackStatus";
 
 let player: Player;
 
@@ -28,8 +28,6 @@ function registerSocketIO(socket: Socket) {
 
 	socket.on("seek", (perc) => player.SeekPercentage(perc));
 	socket.on("getPosition", async (callback) => callback(await player.GetPosition()));
-
-	socket.on("requestUpdate", async () => await updateInfo());
 
 	socket.on("getSongData", async (callback) => callback(songdata));
 	socket.on("getConfig", (callback) => callback(getAllConfig()));

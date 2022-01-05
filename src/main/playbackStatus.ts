@@ -5,7 +5,7 @@ import { searchSpotifySong } from "./thirdparty/spotify";
 import { getTrackInfo } from "./thirdparty/lastfm";
 import { spotiId } from "./util";
 import { queryLyrics } from "./integrations/lyrics";
-//import { debug } from ".";
+import { debug } from ".";
 
 // eslint-disable-next-line no-unused-vars
 const songdataCallbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
@@ -51,6 +51,7 @@ const fallback: DeepPartial<SongData> = {
 export const songdata = Object.assign({}, fallback) as SongData;
 
 export async function updateInfo() {
+	debug(1, "UpdateInfo called");
 	const update = await (await getPlayer()).getUpdate();
 	const metadataChanged = await updateSongData(update);
 	await broadcastSongData(metadataChanged);
@@ -60,14 +61,18 @@ export async function updateInfo() {
 		songdata.lastfm = undefined;
 		songdata.spotify = undefined;
 
-		await pollLastFm();
-		await pollSpotifyDetails();
-		await pollLyrics();
+		if(songdata.metadata.id){
+			debug(songdata.metadata.id);
+			await pollLastFm();
+			await pollSpotifyDetails();
+			await pollLyrics();
+		}
 	}
 }
 
 // ------ SONG DATA
 export async function broadcastSongData(metadataChanged: boolean){
+	debug(1, "broadcastSongData called with", metadataChanged);
 	//debug(songdata);
 	for (const cb of songdataCallbacks) await cb(songdata, metadataChanged);
 }
@@ -152,7 +157,7 @@ export async function pollPosition() {
 }
 
 async function pollLyrics() {
-	if (songdata.provider)
+	if (songdata.metadata.id)
 		await queryLyrics();
 	// This refreshes the lyrics screen
 	await broadcastSongData(false);
@@ -160,14 +165,14 @@ async function pollLyrics() {
 }
 
 async function pollLastFm() {
-	if (songdata.provider) {
+	if (songdata.metadata.id) {
 		await getTrackInfo(get("lfmUsername"));
 		await broadcastSongData(false);
 	}
 }
 
 async function pollSpotifyDetails() {
-	if (songdata.provider) {
+	if (songdata.metadata.id) {
 		let id: string | undefined;
 
 		const spotiMatch = spotiId.exec(songdata.metadata.id);
