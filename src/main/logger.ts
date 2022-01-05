@@ -2,12 +2,13 @@ import { basename } from "path";
 import { inspect } from "util";
 import { debugMode } from "./appStatus";
 
-function getStack(caller) {
+function getStack(caller: Function) {
 	const _handler = Error.prepareStackTrace;
 	Error.prepareStackTrace = (_a, b) => b;
 	const resultHolder: any = {};
-	Error.captureStackTrace(resultHolder, caller || getStack);
-	const stack: any[] = resultHolder.stack;
+	Error.captureStackTrace(resultHolder, caller);
+	// eslint-disable-next-line no-undef
+	const stack: NodeJS.CallSite[] = resultHolder.stack;
 	Error.prepareStackTrace = _handler;
 
 	const parsedStack: any[] = [];
@@ -18,6 +19,7 @@ function getStack(caller) {
 			file: callSite.getFileName(),
 			line: callSite.getLineNumber(),
 			column: callSite.getColumnNumber(),
+			// @ts-ignore this does exist, wtf typedefs
 			async: callSite.isAsync()
 		});
 	}
