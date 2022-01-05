@@ -33,7 +33,9 @@ export function logToDebug(...args: any[]) {
 			shiftStack = args.shift();
 
 		const callSite = getStack(logToDebug)[shiftStack];
-		const debugString = `[${basename(callSite.file)}:${callSite.function || callSite.method || "!anonymous"}:${callSite.line}:${callSite.column}]`;
+		let debugString = "[idkwhere]";
+		if(callSite)
+			debugString = `[${basename(callSite.file)}:${callSite.function || callSite.method || "!anonymous"}:${callSite.line}:${callSite.column}]`;
 		
 		for(const i in args){
 			if(typeof args[i] !== "string")

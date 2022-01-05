@@ -11,9 +11,11 @@ export async function init(callback: Function): Promise<void>{
 export async function getUpdate(): Promise<Update | null> {
 	const update: Update = await _player.getUpdate();
 
-	// Remove the trailing extension on app names
-	if(update.app === update.appName) // Win32 app or otherwise app without registered AUMID
-		update.appName = basename(update.appName, extname(update.appName));
+	if(update !== null){
+		// Remove the trailing extension on app names
+		if (update.app === update.appName) // Win32 app or otherwise app without registered AUMID
+			update.appName = basename(update.appName, extname(update.appName));
+	}
 
 	return update;
 }
