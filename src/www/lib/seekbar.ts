@@ -19,8 +19,16 @@ seekbarBg.onmousedown = (e) => {
 	seekbarBg.onmouseup = (e) => {
 		seekbarBg.onmouseup = null;
 		seekbarBg.onmousemove = null;
+		seekbarBg.onmouseleave = null;
 		seekbar.classList.remove("dragging");
 		seekTo(e);
+	};
+
+	seekbarBg.onmouseleave = () => {
+		seekbarBg.onmouseup = null;
+		seekbarBg.onmousemove = null;
+		seekbarBg.onmouseleave = null;
+		seekbar.classList.remove("dragging");
 	};
 };
 
