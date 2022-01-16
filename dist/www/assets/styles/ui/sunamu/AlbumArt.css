@@ -12,11 +12,20 @@
 	background-size: cover;
 	display: block;
 	border-radius: 24px;
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 16px 12px rgba(0, 0, 0, 0.2);
+	box-shadow:
+		0px 76px 72px rgba(0, 0, 0, 0.07),
+		0px 38.0371px 36.0352px rgba(0, 0, 0, 0.0532233),
+		0px 22.9118px 21.7059px rgba(0, 0, 0, 0.0456112),
+		0px 14.6831px 13.9103px rgba(0, 0, 0, 0.0399626),
+		0px 9.51638px 9.01552px rgba(0, 0, 0, 0.035),
+		0px 5.99045px 5.67517px rgba(0, 0, 0, 0.0300374),
+		0px 3.44189px 3.26074px rgba(0, 0, 0, 0.0243888),
+		0px 1.51486px 1.43513px rgba(0, 0, 0, 0.0167767);
 	width: 75vmin;
 	height: 75vmin;
 	max-width: 32rem;
 	max-height: 32rem;
+	transition: ease .5s background-image;
 }
 
 .playback-controls {

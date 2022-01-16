@@ -1,9 +1,9 @@
 .background {
 	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
+	top: -5vh;
+	left: -5vw;
+	width: 110vw;
+	height: 110vh;
 	z-index: -1;
 
 	background-image: var(--cover-art-url);
