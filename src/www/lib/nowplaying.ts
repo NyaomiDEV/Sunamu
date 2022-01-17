@@ -2,7 +2,7 @@ import lang from "./lang.js";
 import { putLyricsInPlace, updateActiveLyrics } from "./lyrics.js";
 import songdata from "./songdata.js";
 import { secondsToTime, isElectron } from "./util.js";
-import { updateSeekbar } from "./seekbar.js";
+import { updateSeekbarStatus, updateSeekbarTime } from "./seekbar.js";
 import { show } from "./showhide.js";
 
 const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
@@ -71,7 +71,7 @@ export function updateNowPlaying() {
 	}
 
 	// SEEKBAR
-	(document.getElementsByClassName("seekbar-bg")[0] as HTMLElement).style.display = songdata.capabilities.canSeek ? "" : "none";
+	updateSeekbarStatus();
 
 	// TIME
 	updateTime();
@@ -164,6 +164,6 @@ window.np.registerUpdateCallback((_songdata, metadataChanged) => {
 window.np.registerPositionCallback((position) => {
 	songdata.elapsed = position;
 	updateTime();
-	updateSeekbar();
+	updateSeekbarTime();
 	updateActiveLyrics();
 });

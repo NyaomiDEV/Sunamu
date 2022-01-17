@@ -146,9 +146,6 @@ async function updateSongData(update?: Update|null): Promise<boolean>{
 }
 
 export async function pollPosition() {
-	if ((songdata.status !== "Playing" && songdata.status !== "Paused") || !songdata.capabilities.canSeek)
-		return;
-
 	if (songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
 		songdata.elapsed = await (await getPlayer()).GetPosition();
 

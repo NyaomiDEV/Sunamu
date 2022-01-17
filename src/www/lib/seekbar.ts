@@ -7,29 +7,32 @@ seekbarBg.onclick = seekTo;
 
 seekbarBg.onmousedown = (e) => {
 	e.preventDefault();
-	seekbarBg.onmousemove = (e) => {
-		e.preventDefault();
-		const rect = seekbarBg.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const percentage = Math.round(x / rect.width * 100);
-		seekbar.classList.add("dragging");
-		seekbar.style.width = percentage + "%";
-	};
 
-	seekbarBg.onmouseup = (e) => {
-		seekbarBg.onmouseup = null;
-		seekbarBg.onmousemove = null;
-		seekbarBg.onmouseleave = null;
-		seekbar.classList.remove("dragging");
-		seekTo(e);
-	};
+	if(seekbarBg.classList.contains("draggable")){
+		seekbarBg.onmousemove = (e) => {
+			e.preventDefault();
+			const rect = seekbarBg.getBoundingClientRect();
+			const x = e.clientX - rect.left;
+			const percentage = Math.round(x / rect.width * 100);
+			seekbar.classList.add("dragging");
+			seekbar.style.width = percentage + "%";
+		};
 
-	seekbarBg.onmouseleave = () => {
-		seekbarBg.onmouseup = null;
-		seekbarBg.onmousemove = null;
-		seekbarBg.onmouseleave = null;
-		seekbar.classList.remove("dragging");
-	};
+		seekbarBg.onmouseup = (e) => {
+			seekbarBg.onmouseup = null;
+			seekbarBg.onmousemove = null;
+			seekbarBg.onmouseleave = null;
+			seekbar.classList.remove("dragging");
+			seekTo(e);
+		};
+
+		seekbarBg.onmouseleave = () => {
+			seekbarBg.onmouseup = null;
+			seekbarBg.onmousemove = null;
+			seekbarBg.onmouseleave = null;
+			seekbar.classList.remove("dragging");
+		};
+	}
 };
 
 function seekTo(e) {
@@ -39,9 +42,22 @@ function seekTo(e) {
 	window.np.seek(percentage);
 }
 
-export function updateSeekbar() {
+export function updateSeekbarStatus() {
+	seekbarBg.style.display = (typeof songdata.metadata.id !== "undefined") ? "" : "none";
+
+	if(songdata.capabilities.canSeek)
+		seekbarBg.classList.add("draggable");
+	else
+		seekbarBg.classList.remove("draggable");
+}
+
+export function updateSeekbarTime() {
+	if (songdata.metadata.id === "undefined")
+		return;
+
+	seekbarBg.style.display = (songdata.elapsed > 0.5 || (songdata.metadata.id && songdata.capabilities.canSeek)) ? "" : "none";
+
 	const seekbarPercent = songdata.elapsed / songdata.metadata.length * 100;
-	const seekbar = document.getElementById("seekbar")!;
 	if (!seekbar.classList.contains("dragging"))
 		document.getElementById("seekbar")!.style.width = `${seekbarPercent}%`;
 }
