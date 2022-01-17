@@ -121,7 +121,7 @@ async function updateAlbumArt(){
 function updateTime() {
 	const time = document.getElementById("time")!;
 	if(songdata.metadata.length){
-		if(typeof songdata.elapsed !== "undefined")
+		if(typeof songdata.elapsed !== "undefined" && songdata.elapsed > 0.5) // half a second rule to cut off spotify on linux lol
 			time.textContent = secondsToTime(songdata.elapsed) + " • " + secondsToTime(songdata.metadata.length);
 		else
 			time.textContent = secondsToTime(songdata.metadata.length);
