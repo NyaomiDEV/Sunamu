@@ -52,7 +52,8 @@ export const songdata = Object.assign({}, fallback) as SongData;
 
 export async function updateInfo(update?: Update) {
 	debug(1, "UpdateInfo called");
-	const metadataChanged = updateSongData(update);
+	const metadataChanged = hasMetadataChanged(songdata.metadata, update?.metadata);
+	Object.assign(songdata, update || fallback);
 	await broadcastSongData(metadataChanged);
 
 	if (metadataChanged) {
@@ -67,9 +68,61 @@ export async function updateInfo(update?: Update) {
 			broadcastSongData(false);
 			if(songdata.lyrics) broadcastLyrics();
 		}
-
-		debug(1, "UpdateInfo", songdata);
 	}
+
+	debug(1, "UpdateInfo", songdata);
+}
+
+function hasMetadataChanged(oldMetadata: Metadata, newMetadata?: Metadata): boolean {
+	if (!newMetadata)
+		return true;
+
+	let metadataChanged = false;
+
+	for (let key in oldMetadata) {
+		// skip metadata that is not worth checking because the player might report them 'asynchronously'
+		if (["artUrl", "artData", "length"].includes(key)) continue;
+
+		if (
+			!oldMetadata[key] && newMetadata[key] ||
+			(typeof oldMetadata[key] === "string" && oldMetadata[key] !== newMetadata[key]) ||
+			(Array.isArray(oldMetadata[key]) && oldMetadata[key]
+				.filter(x => !newMetadata[key].includes(x))
+				.concat(newMetadata[key].filter(x => !oldMetadata[key].includes(x))).length !== 0)
+		) {
+			metadataChanged = true;
+			break;
+		}
+	}
+
+	return metadataChanged;
+}
+
+async function pollSpotifyDetails(metadata: Metadata): Promise<SpotifyInfo | undefined> {
+	if (metadata.id) {
+		let id: string | undefined;
+
+		const spotiMatch = spotiId.exec(metadata.id);
+
+		if (spotiMatch)
+			id = spotiMatch[1];
+		else {
+			const result = await searchSpotifySong();
+
+			if (result)
+				id = result.id;
+		}
+
+		if (id) {
+			return {
+				id,
+				uri: "spotify:track:" + id,
+				url: "https://open.spotify.com/track/" + id
+			};
+		}
+	}
+
+	return undefined;
 }
 
 // ------ SONG DATA
@@ -117,67 +170,10 @@ export function deletePositionCallback(cb: (position: number) => Promise<void>) 
 	positionCallbacks.splice(positionCallbacks.indexOf(cb), 1);
 }
 
-function updateSongData(update?: Update|null): boolean{
-	// PRE CHECK IF SOMETHING HAS CHANGED ACTUALLY
-	let metadataChanged = false;
-
-	if (!update) {
-		metadataChanged = true;
-		Object.assign(songdata, fallback);
-	} else {
-		for (let key in songdata.metadata) {
-			// skip metadata that is not worth checking because the player might report them 'asynchronously'
-			if (["artUrl", "artData", "length"].includes(key)) continue;
-
-			if (
-				!songdata.metadata[key] && update.metadata[key] ||
-				(typeof songdata.metadata[key] === "string" && songdata.metadata[key] !== update.metadata[key]) ||
-				(Array.isArray(songdata.metadata[key]) && songdata.metadata[key]
-					.filter(x => !update.metadata[key].includes(x))
-					.concat(update.metadata[key].filter(x => !songdata.metadata[key].includes(x))).length !== 0)
-			) {
-				metadataChanged = true;
-				break;
-			}
-		}
-
-		Object.assign(songdata, update);
-	}
-
-	return metadataChanged;
-}
-
 export async function pollPosition() {
 	if (songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
 		songdata.elapsed = await (await getPlayer()).GetPosition();
 
 	// calls
 	await broadcastPosition();
-}
-
-async function pollSpotifyDetails(metadata: Metadata): Promise<SpotifyInfo | undefined> {
-	if (metadata.id) {
-		let id: string | undefined;
-
-		const spotiMatch = spotiId.exec(metadata.id);
-
-		if (spotiMatch)
-			id = spotiMatch[1];
-		else {
-			const result = await searchSpotifySong();
-			
-			if (result)
-				id = result.id;
-		}
-
-		if (id) {
-			return {
-				id,
-				uri: "spotify:track:" + id,
-				url: "https://open.spotify.com/track/" + id
-			};
-		}
-	}
-
-	return undefined;
 }
