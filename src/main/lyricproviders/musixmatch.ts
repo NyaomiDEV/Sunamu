@@ -1,34 +1,33 @@
-import type { Lyrics } from "../../types";
+import type { Lyrics, Metadata } from "../../types";
 
 import { URLSearchParams } from "url";
 import axios, { AxiosResponse } from "axios";
-import { songdata } from "../playbackStatus";
 import { get as getConfig, set as setConfig } from "../config";
 import { searchForUserToken } from "../integrations/mxmusertoken";
 
 const url = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get";
 
-function getQueryParams() {
+function getQueryParams(metadata: Metadata, spotifyId?: string) {
 	const params = new URLSearchParams({
 		app_id: "web-desktop-app-v1.0",
 		format: "json",
 		namespace: "lyrics_richsynched",
 		subtitle_format: "mxm",
-		q_artist: songdata.metadata.artist,
-		q_artists: songdata.metadata.artist,
-		q_track: songdata.metadata.title,
-		q_album: songdata.metadata.album,
-		q_duration: `${songdata.metadata.length}`,
+		q_artist: metadata.artist,
+		q_artists: metadata.artist,
+		q_track: metadata.title,
+		q_album: metadata.album,
+		q_duration: `${metadata.length}`,
 		usertoken: getConfig("mxmusertoken")
 	});
 
-	if (songdata.metadata.id)
-		params.append("track_spotify_id", songdata.metadata.id);
+	if (spotifyId)
+		params.append("track_spotify_id", spotifyId);
 
 	return params.toString();
 }
 
-export async function query(): Promise<Lyrics | undefined> {
+export async function query(metadata: Metadata, spotifyId?: string): Promise<Lyrics | undefined> {
 	if (!getConfig("mxmusertoken")){
 		const token = await searchForUserToken();
 		if(!token){
@@ -48,7 +47,7 @@ export async function query(): Promise<Lyrics | undefined> {
 
 	let result: AxiosResponse<any, any>;
 	try {
-		result = await axios.get(url + "?" + getQueryParams(), {
+		result = await axios.get(url + "?" + getQueryParams(metadata, spotifyId), {
 			headers: {
 				"Cookie": "x-mxm-user-id=",
 				"Authority": "apic-desktop.musixmatch.com"

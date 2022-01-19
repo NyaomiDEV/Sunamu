@@ -1,12 +1,11 @@
-import type { Lyrics } from "../../types";
+import type { Lyrics, Metadata } from "../../types";
 
 import { URLSearchParams } from "url";
 import axios, { AxiosResponse } from "axios";
-import { songdata } from "../playbackStatus";
 
 const search_url = "https://genius.com/api/search/song";
 
-export async function query(): Promise<Lyrics | undefined> {
+export async function query(metadata: Metadata): Promise<Lyrics | undefined> {
 	const reply: Lyrics = {
 		provider: "Genius",
 		synchronized: false,
@@ -15,7 +14,7 @@ export async function query(): Promise<Lyrics | undefined> {
 	};
 
 
-	const songId = await getSongURL();
+	const songId = await getSongURL(metadata);
 	if (!songId) {
 		console.error("Could not find the song on Genius!");
 		return undefined;
@@ -31,19 +30,19 @@ export async function query(): Promise<Lyrics | undefined> {
 	return reply;
 }
 
-function getSearchFields() {
+function getSearchFields(metadata: Metadata) {
 	const post_fields = new URLSearchParams({
-		q: songdata.metadata.artist + " " + songdata.metadata.title,
+		q: metadata.artist + " " + metadata.title,
 		per_page: "1"
 	});
 
 	return post_fields.toString();
 }
 
-async function getSongURL() {
+async function getSongURL(metadata: Metadata) {
 	let result: AxiosResponse<any, any>;
 	try {
-		result = await axios.get(search_url + "?" + getSearchFields());
+		result = await axios.get(search_url + "?" + getSearchFields(metadata));
 	} catch (e) {
 		console.error("Genius search request got an error!", e);
 		return undefined;

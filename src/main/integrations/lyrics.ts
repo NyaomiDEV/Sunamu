@@ -1,32 +1,21 @@
-import { songdata } from "../playbackStatus";
 import { debug } from "../";
 import { get as getLyrics, save as saveLyrics } from "./lyricsOffline";
 
 import { query as Musixmatch } from "../lyricproviders/musixmatch";
 import { query as NetEase } from "../lyricproviders/netease";
 import { query as Genius } from "../lyricproviders/genius";
-import { Lyrics } from "../../types";
+import { Lyrics, Metadata } from "../../types";
 
-let currentlyFetchingSongID: string | undefined;
-
-export async function queryLyrics() {
-	// copy the songdata variable since we run async and might have race conditions between us and the user
-	const _songdata = Object.assign({}, songdata);
-
+export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promise<Lyrics | undefined> {
 	let lyrics: Lyrics | undefined;
-	const id = computeLyricsID(_songdata);
+	const id = computeLyricsID(metadata);
 
-	if(id === currentlyFetchingSongID) return; // this is a bouncy call
-
-	// set current id to mitigate bouncy calls
-	currentlyFetchingSongID = id;
-
-	const cached = await getLyrics(currentlyFetchingSongID);
+	const cached = await getLyrics(id);
 
 	// This should only be executed inside the electron (main/renderer) process
 	if (!cached || !cached.lines.length || !cached?.synchronized) {
-		if (!cached) debug(`Cache miss for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
-		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${_songdata.metadata.artist} - ${_songdata.metadata.title}`);
+		if (!cached) debug(`Cache miss for ${metadata.artist} - ${metadata.title}`);
+		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${metadata.artist} - ${metadata.title}`);
 
 		const providers = {
 			Musixmatch,
@@ -39,7 +28,7 @@ export async function queryLyrics() {
 
 		for (const provider in providers) {
 			debug("Fetching from " + provider);
-			const _lyrics = await providers[provider]();
+			const _lyrics = await providers[provider](metadata, spotifyId);
 			if (_lyrics?.lines.length){
 				lyrics = _lyrics;
 				break;
@@ -57,14 +46,9 @@ export async function queryLyrics() {
 	if(cached && !lyrics)
 		lyrics = cached;
 
-	// update the lyrics if and only if the current playing song's ID matches
-	if (lyrics && lyrics.lines.length && id === computeLyricsID(songdata))
-		songdata.lyrics = lyrics;
-
-	// unset current id
-	currentlyFetchingSongID = undefined;
+	return lyrics;
 }
 
-function computeLyricsID(__songdata){
-	return `${__songdata.metadata.artist}:${__songdata.metadata.album}:${__songdata.metadata.title}`;
+function computeLyricsID(metadata: Metadata){
+	return `${metadata.artist}:${metadata.album}:${metadata.title}`;
 }

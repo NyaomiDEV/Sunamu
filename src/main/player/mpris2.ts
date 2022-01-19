@@ -124,7 +124,7 @@ export async function SeekPercentage(percentage: number) {
 			// eslint-disable-next-line no-undef
 			BigInt(Math.floor(Number(players[activePlayer]?.Player?.Metadata?.["mpris:length"]) * percentage))
 		);
-		//updateCallback();
+		//updateCallback(await getUpdate());
 	}
 }
 
@@ -156,9 +156,9 @@ async function deletePlayer(name: string) {
 }
 
 function registerPlayerEvents(name: string) {
-	players[name].Player.on("PropertiesChanged", (changed) => {
+	players[name].Player.on("PropertiesChanged", async (changed) => {
 		if (name === activePlayer) {
-			updateCallback();
+			updateCallback(await getUpdate());
 			return;
 		}
 
@@ -169,7 +169,7 @@ function registerPlayerEvents(name: string) {
 	players[name].Player.on("Seeked", async () => {
 		if (name === activePlayer) {
 			await new Promise(resolve => setTimeout(resolve, 250)); // wait for new metadata to get populated by media player
-			updateCallback();
+			updateCallback(await getUpdate());
 			return;
 		}
 
@@ -194,7 +194,7 @@ async function calculateActivePlayer(preferred?: string) {
 		_activePlayer = Object.keys(players)[0];
 
 	activePlayer = _activePlayer;
-	updateCallback();
+	updateCallback(await getUpdate());
 }
 
 async function parseMetadata(metadata): Promise<Metadata> {

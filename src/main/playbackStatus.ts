@@ -1,8 +1,8 @@
-import { DeepPartial, SongData, Update } from "../types";
+import { DeepPartial, Metadata, SongData, SpotifyInfo, Update } from "../types";
 import { get } from "./config";
 import getPlayer from "./player";
 import { searchSpotifySong } from "./thirdparty/spotify";
-import { getTrackInfo } from "./thirdparty/lastfm";
+import { getLFMTrackInfo } from "./thirdparty/lastfm";
 import { spotiId } from "./util";
 import { queryLyrics } from "./integrations/lyrics";
 import { debug } from ".";
@@ -50,10 +50,9 @@ const fallback: DeepPartial<SongData> = {
 
 export const songdata = Object.assign({}, fallback) as SongData;
 
-export async function updateInfo() {
+export async function updateInfo(update?: Update) {
 	debug(1, "UpdateInfo called");
-	const update = await (await getPlayer()).getUpdate();
-	const metadataChanged = await updateSongData(update);
+	const metadataChanged = updateSongData(update);
 	await broadcastSongData(metadataChanged);
 
 	if (metadataChanged) {
@@ -62,11 +61,14 @@ export async function updateInfo() {
 		songdata.spotify = undefined;
 
 		if(songdata.metadata.id){
-			debug(songdata.metadata.id);
-			await pollLastFm();
-			await pollSpotifyDetails();
-			await pollLyrics();
+			songdata.lastfm = await getLFMTrackInfo(songdata.metadata, get("lfmUsername"));
+			songdata.spotify = await pollSpotifyDetails(songdata.metadata);
+			songdata.lyrics = await queryLyrics(songdata.metadata, songdata.spotify?.id);
+			broadcastSongData(false);
+			if(songdata.lyrics) broadcastLyrics();
 		}
+
+		debug(1, "UpdateInfo", songdata);
 	}
 }
 
@@ -115,7 +117,7 @@ export function deletePositionCallback(cb: (position: number) => Promise<void>) 
 	positionCallbacks.splice(positionCallbacks.indexOf(cb), 1);
 }
 
-async function updateSongData(update?: Update|null): Promise<boolean>{
+function updateSongData(update?: Update|null): boolean{
 	// PRE CHECK IF SOMETHING HAS CHANGED ACTUALLY
 	let metadataChanged = false;
 
@@ -153,26 +155,11 @@ export async function pollPosition() {
 	await broadcastPosition();
 }
 
-async function pollLyrics() {
-	if (songdata.metadata.id)
-		await queryLyrics();
-	// This refreshes the lyrics screen
-	await broadcastSongData(false);
-	await broadcastLyrics();
-}
-
-async function pollLastFm() {
-	if (songdata.metadata.id) {
-		await getTrackInfo(get("lfmUsername"));
-		await broadcastSongData(false);
-	}
-}
-
-async function pollSpotifyDetails() {
-	if (songdata.metadata.id) {
+async function pollSpotifyDetails(metadata: Metadata): Promise<SpotifyInfo | undefined> {
+	if (metadata.id) {
 		let id: string | undefined;
 
-		const spotiMatch = spotiId.exec(songdata.metadata.id);
+		const spotiMatch = spotiId.exec(metadata.id);
 
 		if (spotiMatch)
 			id = spotiMatch[1];
@@ -184,12 +171,13 @@ async function pollSpotifyDetails() {
 		}
 
 		if (id) {
-			songdata.spotify = {
+			return {
 				id,
 				uri: "spotify:track:" + id,
 				url: "https://open.spotify.com/track/" + id
 			};
-			await broadcastSongData(false);
 		}
 	}
+
+	return undefined;
 }

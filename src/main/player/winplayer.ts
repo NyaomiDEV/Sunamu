@@ -5,7 +5,8 @@ import { basename, extname } from "path";
 let _player;
 
 export async function init(callback: Function): Promise<void>{
-	_player = new Player(callback);
+	const _cb = async () => callback(await getUpdate());
+	_player = new Player(_cb);
 }
 
 export async function getUpdate(): Promise<Update | null> {
