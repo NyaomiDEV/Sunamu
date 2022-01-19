@@ -1,5 +1,5 @@
+import { NowPlayingAPI } from "../../../types";
 import { contextBridge, ipcRenderer } from "electron";
-import { NowPlayingAPI } from "../types";
 
 const npApi: NowPlayingAPI = {
 	previous: () => ipcRenderer.send("previous"),

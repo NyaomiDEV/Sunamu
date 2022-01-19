@@ -5,6 +5,9 @@
 			"path": "./src/main"
 		},
 		{
+			"path": "./src/www/lib/npapi/tsconfig.electron.json"
+		},
+		{
 			"path": "./src/www"
 		}
 	]

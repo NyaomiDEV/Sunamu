@@ -1,6 +1,6 @@
-import { NowPlayingAPI } from "../../types";
-import { io } from "./thirdparty/socket.io.esm.min.js";
-import { isElectron } from "./util.js";
+import { NowPlayingAPI } from "../../../types";
+import { io } from "../thirdparty/socket.io.esm.min.js";
+import { isElectron } from "../util.js";
 
 if(!isElectron()){
 	const socket = io();

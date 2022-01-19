@@ -1,6 +1,6 @@
 import type { NowPlayingAPI, SongData } from "../types";
 
-import "./lib/npapi.js";
+import "./lib/npapi/browser-npapi.js";
 import "./lib/screen.js";
 
 import { updateNowPlaying } from "./lib/nowplaying.js";

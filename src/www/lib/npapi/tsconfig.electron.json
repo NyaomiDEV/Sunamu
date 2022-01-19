@@ -1,0 +1,11 @@
+{
+	"extends": "../../../../tsconfig.settings.json",
+	"files": [
+		"electron-npapi.ts"
+	],
+	"compilerOptions": {
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"outDir": "../../../../dist" /* Redirect output structure to the directory. */
+	}
+}

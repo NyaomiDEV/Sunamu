@@ -108,7 +108,7 @@ async function spawnWindow() {
 		webPreferences: {
 			contextIsolation: true,
 			nodeIntegration: false,
-			preload: resolve(__dirname, "electron-npapi.js")
+			preload: resolve(__dirname, "..", "www", "lib", "npapi", "electron-npapi.js")
 		},
 		roundedCorners: true,
 		icon: getIcon(),
