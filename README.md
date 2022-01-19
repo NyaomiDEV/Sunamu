@@ -62,9 +62,7 @@ You'd have to install the official Musixmatch Desktop App on your computer. Then
 
 ## Notable observed quirks
 
-- Spotify (official app): Their MPRIS2 implementation sucks; as such, you lose synchronized lyrics, the seekbar and the ability to seek to specific parts of a song.
-- Spotify-qt: ~~The album tag is a JSON object: Since it is nonstandard MPRIS2 implementation, the dev of that project should just follow the spec. Sunamu shows it as a JSON object to show *something relevant* at all, otherwise it'd be just `[object Object]`.~~ Fixed, however other MPRIS2 quirks apply to that project, so check [their issue tracker](https://github.com/kraxarn/spotify-qt/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc).
-- Spotifyd: While the MPRIS2 implementation is kinda okay, they still need to raise the appropriate D-Bus `PropertyChanged` event. See [their issue tracker](https://github.com/Spotifyd/spotifyd/issues/457).
+Check and contribute to the compatibility table [here](COMPATIBILITY.md).
 
 ## License
 
