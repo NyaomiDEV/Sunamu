@@ -18,14 +18,16 @@ export function updateNowPlaying() {
 			document.title = window.title;
 	}
 
-	// ARTIST
-	formatMetadata(document.getElementById("artist"), featRegex, "featuring", songdata.metadata.artist, lang.PLEASE_PLAY_SONG);
-
-	// TITLE
-	formatMetadata(document.getElementById("title"), featRegex, "featuring", songdata.metadata.title, lang.NOT_PLAYING);
-
-	// ALBUM
-	formatMetadata(document.getElementById("album"), featRegex, "featuring", songdata.metadata.album, "");
+	// ARTIST, TITLE, ALBUM
+	if(songdata.metadata.id){
+		formatMetadata(document.getElementById("artist"), featRegex, "featuring", songdata.metadata.artist, lang.UNKNOWN_ARTIST);
+		formatMetadata(document.getElementById("title"), featRegex, "featuring", songdata.metadata.title, lang.UNKNOWN_TITLE);
+		formatMetadata(document.getElementById("album"), featRegex, "featuring", songdata.metadata.album, "");
+	}else{
+		document.getElementById("artist")!.textContent = lang.PLEASE_PLAY_SONG;
+		document.getElementById("title")!.textContent = lang.NOT_PLAYING;
+		document.getElementById("album")!.textContent = "";
+	}
 
 	// DETAILS
 	document.getElementById("details")!.textContent = [
