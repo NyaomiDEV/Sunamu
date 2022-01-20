@@ -13,8 +13,10 @@ process.title = "sunamu";
 let win: BrowserWindow;
 let player: Player;
 
+// Enable GPU rasterization so it's smooth asf
+app.commandLine.appendSwitch("--enable-gpu-rasterization");
+
 if (process.platform === "linux") {
-	app.commandLine.appendSwitch("use-gl", "desktop");
 	if (process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && waylandOzone) {
 		// We are in a Wayland session, most probably
 		app.commandLine.appendSwitch("enable-features", "UseOzonePlatform");
