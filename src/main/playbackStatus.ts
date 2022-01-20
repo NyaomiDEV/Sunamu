@@ -65,9 +65,10 @@ export async function updateInfo(update?: Update) {
 			songdata.lastfm = await getLFMTrackInfo(songdata.metadata, get("lfmUsername"));
 			songdata.spotify = await pollSpotifyDetails(songdata.metadata);
 			songdata.lyrics = await queryLyrics(songdata.metadata, songdata.spotify?.id);
-			broadcastSongData(false);
-			if(songdata.lyrics) broadcastLyrics();
 		}
+
+		broadcastSongData(false);
+		if (songdata.lyrics) broadcastLyrics();
 	}
 
 	debug(1, "UpdateInfo", songdata);
