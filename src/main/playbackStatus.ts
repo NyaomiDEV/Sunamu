@@ -11,9 +11,10 @@ import { debug } from ".";
 const songdataCallbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
 const lyricsCallbacks: Array<() => Promise<void>> = [];
 // eslint-disable-next-line no-unused-vars
-const positionCallbacks: Array<(position: number) => Promise<void>> = [];
+const positionCallbacks: Array<(position: number, reportsPosition: boolean) => Promise<void>> = [];
 
-setInterval(pollPosition, 500);
+const positionPollInterval = 0.5;
+setInterval(pollPosition, positionPollInterval * 1000);
 
 const fallback: DeepPartial<SongData> = {
 	provider: undefined,
@@ -41,6 +42,7 @@ const fallback: DeepPartial<SongData> = {
 	shuffle: false,
 	volume: 0,
 	elapsed: 0,
+	reportsPosition: false,
 	app: undefined,
 	appName: undefined,
 	lyrics: undefined,
@@ -158,11 +160,11 @@ export function deleteLyricsUpdateCallback(cb: () => Promise<void>) {
 
 // ------- POSITION
 export async function broadcastPosition() {
-	for (const cb of positionCallbacks) await cb(songdata.elapsed);
+	for (const cb of positionCallbacks) await cb(songdata.elapsed, songdata.reportsPosition);
 }
 
 // eslint-disable-next-line no-unused-vars
-export function addPositionCallback(cb: (position: number) => Promise<void>) {
+export function addPositionCallback(cb: (position: number, reportsPosition: boolean) => Promise<void>) {
 	positionCallbacks.push(cb);
 }
 
@@ -172,8 +174,12 @@ export function deletePositionCallback(cb: (position: number) => Promise<void>) 
 }
 
 export async function pollPosition() {
-	if (songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length)
+	if (songdata.status === "Playing" && songdata.elapsed < songdata.metadata.length){
+		const lastPosition = songdata.elapsed;
 		songdata.elapsed = await (await getPlayer()).GetPosition();
+		if(songdata.elapsed - lastPosition !== 0)
+			songdata.reportsPosition = true;
+	}
 
 	// calls
 	await broadcastPosition();

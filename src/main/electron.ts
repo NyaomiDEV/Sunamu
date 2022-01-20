@@ -63,7 +63,7 @@ function registerElectronIpc() {
 
 	ipcMain.on("openExternal", (_e, uri) => shell.openExternal(uri));
 
-	addPositionCallback(async (position) => win.webContents.send("position", position));
+	addPositionCallback(async (position, reportsPosition) => win.webContents.send("position", position, reportsPosition));
 	addSongDataCallback(async (songdata, metadataChanged) => win.webContents.send("update", songdata, metadataChanged));
 	addLyricsUpdateCallback(async () => win.webContents.send("refreshLyrics"));
 }

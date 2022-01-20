@@ -34,3 +34,4 @@
 |Name|Status|Comments|
 |-|-|-|
 |Spotify|Perfect||
+|Groove Music|Working|Seekbar doesn't work|

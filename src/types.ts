@@ -108,6 +108,7 @@ export type Update = {
 }
 
 export type SongData = Update & {
+	reportsPosition: boolean,
 	lyrics?: Lyrics,
 	lastfm?: LastFMInfo,
 	spotify?: SpotifyInfo

@@ -52,7 +52,7 @@ function registerSocketIO(socket: Socket) {
 	socket.on("isDebugMode", (callback) => callback(debugMode));
 	socket.on("isElectronRunning", (callback) => callback(useElectron));
 
-	addPositionCallback(async (position) => { socket.emit("position", position); });
+	addPositionCallback(async (position, reportsPosition) => { socket.emit("position", position, reportsPosition); });
 	addSongDataCallback(async (songdata, metadataChanged) => { socket.emit("update", songdata, metadataChanged); });
 	addLyricsUpdateCallback(async () => { socket.emit("refreshLyrics"); });
 }

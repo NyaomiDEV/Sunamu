@@ -14,9 +14,9 @@ if(!isElectron()){
 
 		seek: (positionToSeekbar) => socket.emit("seek", positionToSeekbar),
 
-		registerPositionCallback: (callback) => socket.on("position", (position) => callback(position)),
-		registerUpdateCallback: (callback) => socket.on("update", (songdata, metadataChanged) => callback(songdata, metadataChanged)),
-		registerLyricsCallback: (callback) => socket.on("refreshLyrics", () => callback()),
+		registerPositionCallback: (callback) => socket.on("position", (...args) => callback(...args)),
+		registerUpdateCallback: (callback) => socket.on("update", (...args) => callback(...args)),
+		registerLyricsCallback: (callback) => socket.on("refreshLyrics", (...args) => callback(...args)),
 
 		getSongData: () => new Promise(resolve => socket.emit("getSongData", resolve)),
 		getConfig: () => new Promise(resolve => socket.emit("getConfig", resolve)),

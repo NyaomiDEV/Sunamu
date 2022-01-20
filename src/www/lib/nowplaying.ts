@@ -4,6 +4,7 @@ import songdata from "./songdata.js";
 import { secondsToTime, isElectron } from "./util.js";
 import { updateSeekbarStatus, updateSeekbarTime } from "./seekbar.js";
 import { show } from "./showhide.js";
+import { SongData } from "../../types.js";
 
 const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
 let artDataBlobUrl: string | undefined;
@@ -150,7 +151,7 @@ function formatMetadata(elem, regex, spanClass, data, fallback){
 }
 
 // --- REGISTER CALLBACKS
-window.np.registerUpdateCallback((_songdata, metadataChanged) => {
+window.np.registerUpdateCallback((_songdata: SongData, metadataChanged: boolean) => {
 	console.log(_songdata, metadataChanged);
 	Object.assign(songdata, _songdata);
 	if(!document.documentElement.classList.contains("static") && metadataChanged){
@@ -161,8 +162,9 @@ window.np.registerUpdateCallback((_songdata, metadataChanged) => {
 	updateNowPlaying();
 });
 
-window.np.registerPositionCallback((position) => {
+window.np.registerPositionCallback((position: number, reportsPosition: boolean) => {
 	songdata.elapsed = position;
+	songdata.reportsPosition = reportsPosition;
 	updateTime();
 	updateSeekbarTime();
 	updateActiveLyrics();

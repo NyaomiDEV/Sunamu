@@ -55,7 +55,7 @@ export function updateSeekbarTime() {
 	if (songdata.metadata.id === "undefined")
 		return;
 
-	seekbarBg.style.display = (songdata.elapsed > 0.5 || (songdata.metadata.id && songdata.capabilities.canSeek)) ? "" : "none";
+	seekbarBg.style.display = (songdata.reportsPosition || (songdata.metadata.id && songdata.capabilities.canSeek)) ? "" : "none";
 
 	const seekbarPercent = songdata.elapsed / songdata.metadata.length * 100;
 	if (!seekbar.classList.contains("dragging"))
