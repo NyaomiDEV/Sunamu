@@ -10,13 +10,13 @@ process.title = "sunamu";
 
 let player: Player;
 
-async function main() {
+async function main(): Promise<void> {
 	const instance = new Instance();
 	const haveLock = await instance.requestLock();
 
 	if(!haveLock){
 		console.error("Another instance is running!");
-		process.exit(1);
+		return process.exit(1); // for some reason I can't just process.exit because thanks Node on Windows
 	}
 
 	let _useWebserver = useWebserver;
