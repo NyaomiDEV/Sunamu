@@ -29,7 +29,7 @@
 |Lollypop|Detected|It doesn't implement the `MetadataChanged` signal|
 |Amarok|Detected|Seems to not report the song information; Reported by @KorbsStudio|
 
-## On Windows (SystemMediaControls -> WinPlayer backend)
+## On Windows (GlobalSystemMediaTransportControlsSession -> WinPlayer backend)
 
 |Name|Status|Comments|
 |-|-|-|
@@ -39,4 +39,4 @@
 |AIMP|Working|Seekbar, current position and synchronized lyrics are not working. Using [Windows 10 Media Control](https://www.aimp.ru/?do=catalog&rec_id=1097)|
 |MusicBee|Working|Seekbar, current position and synchronized lyrics are not working. Using [Windows 10 Media Control Overlay](https://getmusicbee.com/addons/plugins/98/windows-10-media-control-overlay/)|
 |Microsoft Edge|Working|Seekbar, current position and synchronized lyrics are not working. Displays as MSEdge.|
-|iTunes|Not working|It doesn't expose itself through the SystemMediaControls API.|
+|iTunes|Not working|It doesn't expose itself through the GlobalSystemMediaTransportControlsSession API.|
