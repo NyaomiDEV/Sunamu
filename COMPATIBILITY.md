@@ -18,8 +18,8 @@
 |Clementine|Perfect|Reported by @KorbsStudio|
 |Tauon Music Box|Perfect|Reported by @KorbsStudio|
 |Pithos|Perfect|Reported by @KorbsStudio|
+|GNOME Music|Working|Cover arts are not shown "at first try". Possibly, the `PropertyChanged` event is not handled well enough.|
 |QMMP|Working|Please enable the MPRIS plugin|
-|GNOME Music|Working|Doesn't seem to show cover arts properly. Reported by @KorbsStudio|
 |Spotify|Working|Seekbar, current position and synchronized lyrics are not working|
 |Spotifyd|Working|While the MPRIS2 implementation is kinda okay, they still need to raise the appropriate D-Bus `PropertyChanged` event. See [their issue tracker](https://github.com/Spotifyd/spotifyd/issues/457).|
 |Spotify-Qt|Working|The developer has an issue ticket detailing some of the caveats [here](https://github.com/kraxarn/spotify-qt/issues/4).
