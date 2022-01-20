@@ -35,3 +35,5 @@
 |-|-|-|
 |Spotify|Perfect||
 |Groove Music|Working|Seekbar doesn't work|
+|foobar2000|Working|Seekbar, current position and synchronized lyrics are not working. Using [foo_mediacontrol](https://github.com/Hual/foo_mediacontrol)|
+|AIMP|Working|Seekbar, current position and synchronized lyrics are not working. Using [Windows 10 Media Control](https://www.aimp.ru/?do=catalog&rec_id=1097)|
