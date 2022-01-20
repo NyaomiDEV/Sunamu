@@ -35,7 +35,3 @@ html.electron.widget-mode .lyrics > *,
 html.electron.widget-mode .lyrics-footer {
 	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
 }
-
-:root.electron {
-	--cover-art-url: url("../../../images/no_song.png");
-}
