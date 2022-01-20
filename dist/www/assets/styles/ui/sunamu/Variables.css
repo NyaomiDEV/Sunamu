@@ -1,5 +1,5 @@
 :root {
-	--cover-art-url: url("/assets/images/no_song.png");
+	--cover-art-url: url("../../../images/no_song.png");
 	--font-family: "Urbanist";
 }
 
