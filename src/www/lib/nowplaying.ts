@@ -154,7 +154,7 @@ function formatMetadata(elem, regex, spanClass, data, fallback){
 
 // --- REGISTER CALLBACKS
 window.np.registerUpdateCallback((_songdata: SongData, metadataChanged: boolean) => {
-	console.log(_songdata, metadataChanged);
+	console.debug(_songdata, metadataChanged);
 	Object.assign(songdata, _songdata);
 	if(!document.documentElement.classList.contains("static") && metadataChanged){
 		show(true);

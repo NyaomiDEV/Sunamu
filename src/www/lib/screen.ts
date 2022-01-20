@@ -33,7 +33,6 @@ if (isElectron())
 
 // Scenes
 const sceneName = await window.np.getScene();
-console.log("scene is", sceneName);
 
 if(sceneName && config.scenes[sceneName]){
 	const scene = config.scenes[sceneName];

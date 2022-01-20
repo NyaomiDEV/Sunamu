@@ -60,7 +60,7 @@ function registerSocketIO(socket: Socket) {
 export default async function webserverMain(){
 	player = await getPlayer();
 
-	server.listen(getConfig("webserverPort"), () => console.log("WebServer listening on port 3000"));
+	server.listen(getConfig("webserverPort"), () => console.log(`WebServer listening on port ${getConfig("webserverPort")}`));
 
 	io.on("connection", socket => {
 		registerSocketIO(socket);
