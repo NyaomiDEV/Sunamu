@@ -21,14 +21,17 @@
 	},
 	scenes: {
 		default: {
+			type: "default",
 			widgetMode: false,
 			font: "",
 		},
 		electron: {
+			type: "electron",
 			widgetMode: true,
 			font: ""
 		},
 		"obs-studio": {
+			type: "default",
 			widgetMode: true,
 			font: "",
 			nonInteractive: true,

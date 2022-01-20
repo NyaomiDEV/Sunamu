@@ -32,15 +32,8 @@ if (isElectron())
 	document.documentElement.classList.add("electron");
 
 // Scenes
-let sceneName = new URLSearchParams(location.search).get("scene");
-if(!sceneName){
-	if(window.obsstudio)
-		sceneName = "obs-studio";
-	else if(isElectron())
-		sceneName = "electron";
-	else
-		sceneName = "default";
-}
+const sceneName = await window.np.getScene();
+console.log("scene is", sceneName);
 
 if(sceneName && config.scenes[sceneName]){
 	const scene = config.scenes[sceneName];
@@ -76,7 +69,7 @@ if(sceneName && config.scenes[sceneName]){
 		document.documentElement.classList.add("no-progress");
 }
 
-if(["electron", "default"].includes(sceneName)){
+if(sceneName && ["electron", "default"].includes(sceneName)){
 	// overwrite with value reported by process arguments
 	if (await window.np.isWidgetMode())
 		document.documentElement.classList.add("widget-mode");

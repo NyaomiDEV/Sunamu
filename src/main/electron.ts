@@ -5,12 +5,12 @@ import getPlayer, { Player } from "./player";
 import { getAll as getAllConfig } from "./config";
 import { widgetModeElectron, debugMode, waylandOzone } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
-import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, songdata } from "./playbackStatus";
+import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
 import { getAppData } from "./util";
 
 process.title = "sunamu";
 
-let win: BrowserWindow;
+const openedBrowserWindows: Map<BrowserWindow, string> = new Map();
 let player: Player;
 
 // Enable GPU rasterization so it's smooth asf
@@ -22,6 +22,18 @@ if (process.platform === "linux") {
 		app.commandLine.appendSwitch("enable-features", "UseOzonePlatform");
 		app.commandLine.appendSwitch("ozone-platform", "wayland");
 	}
+}
+
+function getIcon() {
+	let icoName = "512x512.png";
+	switch (process.platform) {
+		case "win32":
+			icoName = "icon.ico";
+			break;
+		default:
+			break;
+	}
+	return resolve(__dirname, "..", "..", "assets", "icons", icoName);
 }
 
 function registerElectronIpc() {
@@ -54,58 +66,89 @@ function registerElectronIpc() {
 		return bullyGlasscordUser;
 	});
 
-	ipcMain.handle("isWidgetMode", () => widgetModeElectron);
+	ipcMain.handle("isWidgetMode", (e) => {
+		const _win = BrowserWindow.fromWebContents(e.sender);
+
+		if(!_win)
+			return false; // without browserwindow we return false, always
+
+		const scene = openedBrowserWindows.get(_win);
+		return isWidgetModeForScene(scene);
+	});
+
 	ipcMain.handle("isDebugMode", () => debugMode);
 
-	ipcMain.on("minimize", () => win.minimize());
-	ipcMain.on("close", () => {
-		win.close();
-		app.exit();
+	ipcMain.handle("getScene", (e) => {
+		const _win = BrowserWindow.fromWebContents(e.sender);
+		if(_win)
+			return openedBrowserWindows.get(_win);
+		return undefined;
+	});
+
+	ipcMain.on("minimize", (e) => {
+		const _win = BrowserWindow.fromWebContents(e.sender);
+		if(_win) _win.minimize();
+	});
+
+	ipcMain.on("close", (e) => {
+		const _win = BrowserWindow.fromWebContents(e.sender);
+		if (_win) _win.close();
+		
+		if(!BrowserWindow.getAllWindows().length)
+			app.exit();
 	});
 
 	ipcMain.on("openExternal", (_e, uri) => shell.openExternal(uri));
-
-	addPositionCallback(async (position, reportsPosition) => win.webContents.send("position", position, reportsPosition));
-	addSongDataCallback(async (songdata, metadataChanged) => win.webContents.send("update", songdata, metadataChanged));
-	addLyricsUpdateCallback(async () => win.webContents.send("refreshLyrics"));
 }
 
-function getIcon(){
-	let icoName = "512x512.png";
-	switch(process.platform){
-		case "win32":
-			icoName = "icon.ico";
-			break;
-		default:
-			break;
-	}
-	return resolve(__dirname, "..", "..", "assets", "icons", icoName);
+function isWidgetModeForScene(scene){
+	if (!scene || scene === "electron")
+		return widgetModeElectron; // assume default scene if scene is not there
+
+	return getAllConfig().scenes[scene].widgetMode;
 }
 
-async function spawnWindow() {
-	const mainWindowState = windowStateKeeper({
+function registerWindowCallbacks(win: BrowserWindow){
+	const positionCallback = async (position, reportsPosition) => win.webContents.send("position", position, reportsPosition);
+	const songDataCallback = async (songdata, metadataChanged) => win.webContents.send("update", songdata, metadataChanged);
+	const lyricsUpdateCallback = async () => win.webContents.send("refreshLyrics");
+
+	addPositionCallback(positionCallback);
+	addSongDataCallback(songDataCallback);
+	addLyricsUpdateCallback(lyricsUpdateCallback);
+
+	win.on("close", () => {
+		deletePositionCallback(positionCallback);
+		deleteSongDataCallback(songDataCallback);
+		deleteLyricsUpdateCallback(lyricsUpdateCallback);
+	});
+}
+
+async function spawnWindow(scene = "electron") {
+	const windowState = windowStateKeeper({
 		defaultWidth: 458,
-		defaultHeight: 512
+		defaultHeight: 512,
+		file: `window-state-${scene}.json`
 	});
 
-	win = new BrowserWindow({
+	const win = new BrowserWindow({
 		show: false,
 		frame: false,
-		transparent: widgetModeElectron,
-		hasShadow: !widgetModeElectron,
-		x: mainWindowState.x,
-		y: mainWindowState.y,
-		width: mainWindowState.width,
-		height: mainWindowState.height,
+		transparent: isWidgetModeForScene(scene),
+		hasShadow: !isWidgetModeForScene(scene),
+		x: windowState.x,
+		y: windowState.y,
+		width: windowState.width,
+		height: windowState.height,
 		minWidth: 458,
 		minHeight: 512,
-		backgroundColor: widgetModeElectron ? "#00000000" : "#000000",
-		maximizable: !widgetModeElectron,
-		minimizable: !widgetModeElectron,
+		backgroundColor: isWidgetModeForScene(scene) ? "#00000000" : "#000000",
+		maximizable: !isWidgetModeForScene(scene),
+		minimizable: !isWidgetModeForScene(scene),
 		resizable: true,
-		fullscreenable: !widgetModeElectron,
-		skipTaskbar: widgetModeElectron,
-		focusable: !(process.platform === "win32" && widgetModeElectron),
+		fullscreenable: !isWidgetModeForScene(scene),
+		skipTaskbar: isWidgetModeForScene(scene),
+		focusable: !(process.platform === "win32" && isWidgetModeForScene(scene)),
 		autoHideMenuBar: true,
 		webPreferences: {
 			contextIsolation: true,
@@ -114,9 +157,9 @@ async function spawnWindow() {
 		},
 		roundedCorners: true,
 		icon: getIcon(),
-		title: widgetModeElectron ? "Sunamu Widget" : "Sunamu"
+		title: isWidgetModeForScene(scene) ? "Sunamu Widget" : "Sunamu"
 	});
-	mainWindowState.manage(win);
+	windowState.manage(win);
 
 	if (debugMode) win.webContents.openDevTools();
 
@@ -125,16 +168,21 @@ async function spawnWindow() {
 		win.show();
 		if (process.platform === "win32") {
 			const win32platform = await import("./platform/win32");
-			if(widgetModeElectron) win32platform.sendOnBottom(win);
+			if(isWidgetModeForScene(scene)) win32platform.sendOnBottom(win);
 		}
 	});
+
+	registerWindowCallbacks(win);
+	return win;
 }
 
 export default async function electronMain() {
 	player = await getPlayer();
-
 	registerElectronIpc();
 
 	await app.whenReady();
-	await spawnWindow();
+	for(const scene in getAllConfig().scenes){
+		if (getAllConfig().scenes[scene].type === "electron")
+			openedBrowserWindows.set(await spawnWindow(scene), scene);
+	}
 }

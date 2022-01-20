@@ -25,6 +25,8 @@ const npApi: NowPlayingAPI = {
 	isDebugMode: () => ipcRenderer.invoke("isDebugMode"),
 	isElectronRunning: async () => true,
 
+	getScene: () => ipcRenderer.invoke("getScene"),
+
 	minimize: () => ipcRenderer.send("minimize"),
 	close: () => ipcRenderer.send("close"),
 	openExternal: (uri) => ipcRenderer.send("openExternal", uri),

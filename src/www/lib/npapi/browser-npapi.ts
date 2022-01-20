@@ -27,6 +27,17 @@ if(!isElectron()){
 		isDebugMode: () => new Promise(resolve => socket.emit("isDebugMode", resolve)),
 		isElectronRunning: () => new Promise(resolve => socket.emit("isElectronRunning", resolve)),
 
+		getScene: async () => {
+			let sceneName = new URLSearchParams(location.search).get("scene");
+			if (!sceneName) {
+				if (window.obsstudio)
+					sceneName = "obs-studio";
+				else
+					sceneName = "default";
+			}
+			return sceneName;
+		},
+
 		openExternal: (uri) => window.open(uri, "_blank"),
 	} as NowPlayingAPI;
 }

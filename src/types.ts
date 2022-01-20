@@ -23,8 +23,10 @@ export type NowPlayingAPI = {
 	shouldBullyGlasscordUser: () => Promise<boolean>,
 
 	isWidgetMode: () => Promise<boolean>,
-	isDebugMode: () => Promise<boolean>
-	isElectronRunning?: () => Promise<boolean>
+	isDebugMode: () => Promise<boolean>,
+	isElectronRunning?: () => Promise<boolean>,
+
+	getScene: () => Promise<string | undefined>,
 
 	minimize?: () => void,
 	close?: () => void,
@@ -56,6 +58,7 @@ export type DiscordPresenceConfig = {
 }
 
 export type SceneConfig = {
+	type: "default" | "electron",
 	widgetMode?: boolean,
 	font?: string,
 	nonInteractive?: boolean,

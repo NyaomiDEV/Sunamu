@@ -169,7 +169,7 @@ export function addPositionCallback(cb: (position: number, reportsPosition: bool
 }
 
 // eslint-disable-next-line no-unused-vars
-export function deletePositionCallback(cb: (position: number) => Promise<void>) {
+export function deletePositionCallback(cb: (position: number, reportsPosition: boolean) => Promise<void>) {
 	positionCallbacks.splice(positionCallbacks.indexOf(cb), 1);
 }
 
