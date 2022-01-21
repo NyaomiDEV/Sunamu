@@ -138,18 +138,17 @@ function setDisabledClass(elem, condition) {
 }
 
 function formatMetadata(elem, regex, spanClass, data, fallback){
-	let match = regex.exec(data);
-	if (match) {
+	if(!data)
+		return elem.textContent = fallback;
+
+	elem.textContent = "";
+	const pieces = data.split(regex).filter(Boolean).map(x => ({ text: x, matches: !!x.match(regex) }));
+	for(const piece of pieces){
 		const span = document.createElement("span");
-		span.classList.add(spanClass);
-		span.textContent = match[0];
-		const [start, end] = data.split(match[0]);
-		while(elem.firstChild) elem.removeChild(elem.lastChild);
-		elem.appendChild(document.createTextNode(start));
+		if(piece.matches) span.classList.add(spanClass);
+		span.textContent = piece.text;
 		elem.appendChild(span);
-		elem.appendChild(document.createTextNode(end || ""));
-	} else
-		elem.textContent = data || fallback;
+	}
 }
 
 // --- REGISTER CALLBACKS
