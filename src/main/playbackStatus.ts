@@ -69,8 +69,8 @@ export async function updateInfo(update?: Update) {
 			songdata.lyrics = await queryLyrics(songdata.metadata, songdata.spotify?.id);
 		}
 
-		broadcastSongData(false);
-		if (songdata.lyrics) broadcastLyrics();
+		await broadcastSongData(false);
+		if (songdata.lyrics) await broadcastLyrics();
 	}
 
 	debug(1, "UpdateInfo", songdata);

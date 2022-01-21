@@ -39,7 +39,7 @@ export function logToDebug(...args: any[]) {
 		
 		for(const i in args){
 			if(typeof args[i] !== "string")
-				args[i] = inspect(args[i], undefined, undefined, true);
+				args[i] = inspect(args[i], undefined, null, true);
 		}
 
 		console.log(debugString, ...args);
