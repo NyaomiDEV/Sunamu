@@ -157,7 +157,7 @@ async function spawnWindow(scene = "electron") {
 		},
 		roundedCorners: true,
 		icon: getIcon(),
-		title: isWidgetModeForScene(scene) ? "Sunamu Widget" : "Sunamu"
+		title: (isWidgetModeForScene(scene) ? "Sunamu Widget" : "Sunamu") + (scene !== "electron" ? `[${scene}]` : "")
 	});
 	windowState.manage(win);
 
