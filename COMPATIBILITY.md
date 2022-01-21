@@ -39,4 +39,7 @@
 |AIMP|Working|Seekbar, current position and synchronized lyrics are not working. Using [Windows 10 Media Control](https://www.aimp.ru/?do=catalog&rec_id=1097)|
 |MusicBee|Working|Seekbar, current position and synchronized lyrics are not working. Using [Windows 10 Media Control Overlay](https://getmusicbee.com/addons/plugins/98/windows-10-media-control-overlay/)|
 |Microsoft Edge|Working|Seekbar, current position and synchronized lyrics are not working. Displays as MSEdge.|
+|Google Chrome|Working|Seekbar, current position and synchronized lyrics are not working.|
+|VLC UWP|Working|Seekbar, current position and synchronized lyrics are not working.|
 |iTunes|Not working|It doesn't expose itself through the GlobalSystemMediaTransportControlsSession API.|
+|VLC Classic|Not working|It doesn't expose itself through the GlobalSystemMediaTransportControlsSession API.|
