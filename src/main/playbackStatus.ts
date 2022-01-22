@@ -52,28 +52,61 @@ const fallback: DeepPartial<SongData> = {
 
 export const songdata = Object.assign({}, fallback) as SongData;
 
+let updateInfoSymbol: Symbol;
+
 export async function updateInfo(update?: Update) {
-	debug(1, "UpdateInfo called");
+	// create our unique symbol
+	const currentSymbol = Symbol();
+
+	// did the metadata change?
 	const metadataChanged = hasMetadataChanged(songdata.metadata, update?.metadata);
+
+	// incrementally update the current status
 	Object.assign(songdata, update || fallback);
-	await broadcastSongData(metadataChanged);
 
 	if (metadataChanged) {
+		// we set our symbol as the global one since we're tasked with extra stuff
+		updateInfoSymbol = currentSymbol;
+
+		// we need to reset our extra songdata stuff
 		songdata.lyrics = undefined;
 		songdata.lastfm = undefined;
 		songdata.spotify = undefined;
 
-		if(songdata.metadata.id){
-			songdata.lastfm = await getLFMTrackInfo(songdata.metadata, get("lfmUsername"));
-			songdata.spotify = await pollSpotifyDetails(songdata.metadata);
-			songdata.lyrics = await queryLyrics(songdata.metadata, songdata.spotify?.id);
-		}
+		// broadcast our initial update so people won't think sunamu is laggy asf
+		await broadcastSongData(true);
+		// this also updates the lyrics to "no lyrics to show" screen
 
-		await broadcastSongData(false);
-		if (songdata.lyrics) await broadcastLyrics();
+		// we pre-emptively check our symbol to avoid consuming API calls for nothing
+		// because there's already newer stuff than us
+		if(currentSymbol !== updateInfoSymbol) return;
+
+		// if we do have an update containing an ID in it, then we assume a track is playing
+		// and therefore we can get extra information about it
+		if (!update?.metadata.id) return;
+	
+		// BEGIN OF "HUGE SUSPENSION POINT"
+		const extraMetadata: Partial<SongData> = {};
+		extraMetadata.lastfm = await getLFMTrackInfo(update.metadata, get("lfmUsername"));
+		extraMetadata.spotify = await pollSpotifyDetails(update.metadata);
+		extraMetadata.lyrics = await queryLyrics(update.metadata, extraMetadata.spotify?.id);
+		// END OF "HUGE SUSPENSION POINT"
+
+		// we now have to check our symbol to avoid updating stuff that is newer than us
+		// also, is there a way to de-dupe this?
+		if(currentSymbol !== updateInfoSymbol) return;
+
+		// now we assign the extra metadata on songdata
+		Object.assign(songdata, extraMetadata);
+
 	}
 
-	debug(1, "UpdateInfo", songdata);
+	// we broadcast the changed status
+	await broadcastSongData(false); // false means metadata didn't change (we already notified that inside the if block)
+
+	// if lyrics are there, we need to broadcast an update for them too
+	if (songdata.lyrics)
+		await broadcastLyrics();
 }
 
 function hasMetadataChanged(oldMetadata: Metadata, newMetadata?: Metadata): boolean {
