@@ -1,8 +1,10 @@
-import { toggleLyricsView } from "./util.js";
+import { toggleLyricsView } from "./lyrics.js";
 import songdata from "./songdata.js";
 
 let idleMouseTimer;
 let isBouncy = false;
+
+export let isHidden = false;
 
 export function hide() {
 	idleMouseTimer = setTimeout(() => {
@@ -17,6 +19,7 @@ export function hide() {
 		document.getElementsByClassName("playback-controls")[0].classList.add("hidden");
 		if (songdata.lyrics?.synchronized) toggleLyricsView(true);
 		isBouncy = false;
+		isHidden = true;
 	}, 2000);
 }
 
@@ -36,4 +39,5 @@ export function show(force) {
 	document.getElementsByClassName("playback-controls")[0].classList.remove("hidden");
 	if (force || songdata.lyrics?.synchronized) toggleLyricsView(false);
 	isBouncy = true;
+	isHidden = false;
 }

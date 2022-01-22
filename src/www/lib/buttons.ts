@@ -1,4 +1,5 @@
-import { fullscreen, isElectron, toggleLyricsView } from "./util.js";
+import { fullscreen, isElectron } from "./util.js";
+import { toggleLyricsView } from "./lyrics.js";
 import songdata from "./songdata.js";
 
 function bindWindowControls(){
