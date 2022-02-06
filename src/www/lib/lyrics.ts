@@ -1,7 +1,6 @@
 import lang from "./lang.js";
 import songdata from "./songdata.js";
 import owoify from "./owoify.js";
-import { isHidden } from "./showhide.js";
 
 const container = document.getElementsByClassName("lyrics")[0];
 const footer = document.getElementsByClassName("lyrics-footer")[0];
@@ -72,33 +71,19 @@ export function updateActiveLyrics() {
 	const wasActiveBefore = container.children[lineIndex]?.classList?.contains("active");
 
 	for (let i = 0; i < container.children.length; i++) {
-		if (i === lineIndex){
-			const line = container.children[i] as HTMLElement;
-			line.style.opacity = "";
-			line.style.filter = "";
+		const line = container.children[i] as HTMLElement;
+		line.classList?.remove(
+			"inactive-1",
+			"inactive-2",
+			"inactive-3",
+			"inactive-4"
+		);
+		if (i === lineIndex)
 			line.classList?.add("active");
-		}else{
-			const line = container.children[i] as HTMLElement;
-			const distance = Math.abs(i - lineIndex);
-			switch(distance){
-				case 1:
-					line.style.opacity = "0.875";
-					line.style.filter = "blur(1px)";
-					break;
-				case 2:
-					line.style.opacity = "0.75";
-					line.style.filter = "blur(2px)";
-					break;
-				case 3:
-					line.style.opacity = "0.625";
-					line.style.filter = "blur(4px)";
-					break;
-				default:
-					line.style.opacity = "0.5";
-					line.style.filter = "blur(8px)";
-					break;
-			}
+		else{
 			line.classList?.remove("active");
+			const distance = Math.min(Math.abs(i - lineIndex), 4);
+			line.classList?.add("inactive-" + distance);
 		}
 	}
 
@@ -112,7 +97,7 @@ export function updateActiveLyrics() {
 }
 
 export function toggleLyricsView(show?: boolean) {
-	if (document.documentElement.classList.contains("no-lyrics"))
+	if (document.documentElement.classList.contains("no-show-lyrics"))
 		return;
 
 	if (typeof show === "undefined")
@@ -154,6 +139,6 @@ function reCenter() {
 
 window.np.registerLyricsCallback!(() => {
 	putLyricsInPlace();
-	if (isHidden && songdata.lyrics?.synchronized)
+	if (document.documentElement.classList.contains("idle") && songdata.lyrics?.synchronized)
 		toggleLyricsView(true);
 });

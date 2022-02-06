@@ -17,11 +17,15 @@ body {
 	padding: 0;
 }
 
+html.idle body {
+	cursor: none;
+}
+
 html.widget-mode body {
 	transition: ease .2s filter;
 }
 
-html.widget-mode body.hidden {
+html.widget-mode.not-playing.idle body {
 	filter: blur(16px) opacity(0);
 }
 

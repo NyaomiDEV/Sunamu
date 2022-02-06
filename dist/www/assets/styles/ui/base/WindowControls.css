@@ -16,7 +16,7 @@
 	transition: ease .5s opacity;
 }
 
-.window-controls.hidden {
+html.idle .window-controls {
 	opacity: 0;
 }
 

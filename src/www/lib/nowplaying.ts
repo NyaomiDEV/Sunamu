@@ -6,13 +6,21 @@ import { updateSeekbarStatus, updateSeekbarTime } from "./seekbar.js";
 import { show } from "./showhide.js";
 import { SongData } from "../../types.js";
 
+const documentRoot = document.querySelector(":root") as HTMLElement;
+
 const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
 let artDataBlobUrl: string | undefined;
 
 export function updateNowPlaying() {
+	// CHECK ID
+	if(songdata.metadata.id)
+		document.documentElement.classList.remove("not-playing");
+	else
+		document.documentElement.classList.add("not-playing");
+
 	// WINDOW TITLE
 	if (!document.documentElement.classList.contains("widget-mode")){
-		if (songdata.provider)
+		if (songdata.metadata.id)
 			document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - " + window.title;
 		else
 			document.title = window.title;
@@ -36,8 +44,6 @@ export function updateNowPlaying() {
 	].filter(Boolean).join(" • ");
 
 	// CONTROLS VISIBILITY
-	(document.getElementsByClassName("playback-controls")[0] as HTMLElement).style.display = songdata.metadata.id ? "" : "none";
-
 	const playPauseBtn = document.getElementById("playpause")!;
 	const shuffleBtn = document.getElementById("shuffle")!;
 	const repeatBtn = document.getElementById("repeat")!;
@@ -85,7 +91,7 @@ export function updateNowPlaying() {
 
 async function updateAlbumArt(){
 	if (songdata.metadata.artUrl && isElectron())
-		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
+		documentRoot.style.setProperty("--cover-art-url", `url("${songdata.metadata.artUrl.split("\"").join("\\\"")}")`);
 	else if (songdata.metadata.artData?.data) {
 
 		const newArt = new Uint8Array(songdata.metadata.artData?.data);
@@ -105,7 +111,7 @@ async function updateAlbumArt(){
 				same = false;
 
 			if (same){
-				(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
+				documentRoot.style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
 				return;
 			}
 
@@ -115,10 +121,10 @@ async function updateAlbumArt(){
 
 		const newBlob = new Blob([newArt]);
 		artDataBlobUrl = (window.URL || window.webkitURL).createObjectURL(newBlob);
-		(document.querySelector(":root") as HTMLElement).style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
+		documentRoot.style.setProperty("--cover-art-url", `url("${artDataBlobUrl}")`);
 
 	} else
-		(document.querySelector(":root") as HTMLElement).style.removeProperty("--cover-art-url");
+		documentRoot.style.removeProperty("--cover-art-url");
 }
 
 function updateTime() {

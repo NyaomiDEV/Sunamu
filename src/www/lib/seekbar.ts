@@ -43,8 +43,6 @@ function seekTo(e) {
 }
 
 export function updateSeekbarStatus() {
-	seekbarBg.style.display = (typeof songdata.metadata.id !== "undefined") ? "" : "none";
-
 	if(songdata.capabilities.canSeek)
 		seekbarBg.classList.add("draggable");
 	else
@@ -52,7 +50,7 @@ export function updateSeekbarStatus() {
 }
 
 export function updateSeekbarTime() {
-	if (songdata.metadata.id === "undefined")
+	if (!songdata.metadata.id)
 		return;
 
 	seekbarBg.style.display = (songdata.reportsPosition || (songdata.metadata.id && songdata.capabilities.canSeek)) ? "" : "none";

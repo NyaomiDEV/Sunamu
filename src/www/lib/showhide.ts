@@ -4,22 +4,15 @@ import songdata from "./songdata.js";
 let idleMouseTimer;
 let isBouncy = false;
 
-export let isHidden = false;
-
 export function hide() {
 	idleMouseTimer = setTimeout(() => {
 		if (document.documentElement.classList.contains("static"))
 			return;
 
-		if (document.documentElement.classList.contains("widget-mode") && !songdata.metadata.id)
-			document.body.classList.add("hidden");
+		document.documentElement.classList.add("idle");
 
-		document.body.style.cursor = "none";
-		document.getElementsByClassName("window-controls")[0].classList.add("hidden");
-		document.getElementsByClassName("playback-controls")[0].classList.add("hidden");
 		if (songdata.lyrics?.synchronized) toggleLyricsView(true);
 		isBouncy = false;
-		isHidden = true;
 	}, 2000);
 }
 
@@ -31,13 +24,8 @@ export function show(force) {
 	
 	if (isBouncy) return;
 
-	if (document.documentElement.classList.contains("widget-mode"))
-		document.body.classList.remove("hidden");
+	document.documentElement.classList.remove("idle");
 	
-	document.body.style.cursor = "";
-	document.getElementsByClassName("window-controls")[0].classList.remove("hidden");
-	document.getElementsByClassName("playback-controls")[0].classList.remove("hidden");
 	if (force || songdata.lyrics?.synchronized) toggleLyricsView(false);
 	isBouncy = true;
-	isHidden = false;
 }

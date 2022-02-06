@@ -76,7 +76,7 @@
 	height: 2rem;
 }
 
-.playback-controls.hidden > div > * {
+html.idle .playback-controls > div > * {
 	opacity: 0;
 }
 
@@ -113,11 +113,12 @@ html.no-album-art .album-art {
 }
 
 html.no-controls .playback-controls,
-html.non-interactive .playback-controls {
+html.non-interactive .playback-controls,
+html.not-playing .playback-controls {
 	display: none;
 }
 
-html.no-lyrics #lyrics-btn {
+html.no-show-lyrics #lyrics-btn {
 	display: none;
 }
 

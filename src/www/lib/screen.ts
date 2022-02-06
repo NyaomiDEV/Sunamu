@@ -62,7 +62,7 @@ if(sceneName && config.scenes[sceneName]){
 		document.documentElement.classList.add("no-info");
 
 	if (typeof scene.showLyrics !== "undefined" && !scene.showLyrics)
-		document.documentElement.classList.add("no-lyrics");
+		document.documentElement.classList.add("no-show-lyrics");
 
 	if (typeof scene.showProgress !== "undefined" && !scene.showProgress)
 		document.documentElement.classList.add("no-progress");
