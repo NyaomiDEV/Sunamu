@@ -10,7 +10,7 @@ h1, h2, h3, h4, h5, h6, span, p {
 	font-family: var(--font-family);
 }
 
-.now-playing {
+#now-playing {
 	color: white;
 	display: flex;
 	flex-direction: row;
@@ -21,7 +21,7 @@ h1, h2, h3, h4, h5, h6, span, p {
 }
 
 @media only screen and (orientation: portrait) {
-	.now-playing {
+	#now-playing {
 		flex-direction: column;
 	}
 }

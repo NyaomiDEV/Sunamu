@@ -19,24 +19,24 @@
 
 	<!-- Window controls -->
 	<div class="window-controls">
-		<svg class="minimize">
+		<svg id="minimize">
 			<use href="assets/images/glyph.svg#minimize"></use>
 		</svg>
-		<svg class="fullscreen">
+		<svg id="fullscreen">
 			<use href="assets/images/glyph.svg#fullscreen"></use>
 		</svg>
-		<svg class="close">
+		<svg id="close">
 			<use href="assets/images/glyph.svg#close"></use>
 		</svg>
 	</div>
 
 	<!-- Main container -->
-	<div class="now-playing">
+	<div id="now-playing">
 
 		<!-- Album Art -->
 		<div class="art-container">
-			<div class="album-art"></div>
-			<div class="playback-controls">
+			<div id="album-art"></div>
+			<div id="playback-controls">
 				<div class="first-row">
 					<svg id="previous" class="material-icons"><use href="assets/images/glyph.svg#skip_previous"></use>
 					</svg>
@@ -64,11 +64,11 @@
 		<!-- Info container -->
 		<div class="info-container">
 			<!-- Metadata -->
-			<div class="metadata">
+			<div id="metadata">
 				<h1 id="title"></h1>
 				<h2 id="artist"></h2>
 				<h3 id="album"></h3>
-				<div class="seekbar-bg">
+				<div id="seekbar-bg">
 					<div id="seekbar"></div>
 				</div>
 				<div class="details-container">
@@ -78,13 +78,13 @@
 			</div>
 
 			<!-- Lyrics -->
-			<div class="lyrics hidden"></div>
+			<div id="lyrics" class="hidden"></div>
 		</div>
 
 	</div>
 
 	<!-- Lyrics copyright footer -->
-	<span class="lyrics-footer hidden"></span>
+	<span id="lyrics-copyright" class="hidden"></span>
 </body>
 
 </html>

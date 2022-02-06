@@ -20,9 +20,9 @@ if (!document.documentElement.classList.contains("widget-mode")) {
 	const listener = () => {
 		// @ts-ignore
 		if (document.fullscreenElement || document.webkitFullscreenElement)
-			document.getElementsByClassName("fullscreen")[0].firstElementChild!.setAttribute("href", "assets/images/glyph.svg#close_fullscreen");
+			document.getElementById("fullscreen")!.firstElementChild!.setAttribute("href", "assets/images/glyph.svg#close_fullscreen");
 		else
-			document.getElementsByClassName("fullscreen")[0].firstElementChild!.setAttribute("href", "assets/images/glyph.svg#fullscreen");
+			document.getElementById("fullscreen")!.firstElementChild!.setAttribute("href", "assets/images/glyph.svg#fullscreen");
 	};
 	document.addEventListener("webkitfullscreenchange", listener);
 	document.addEventListener("fullscreenchange", listener);

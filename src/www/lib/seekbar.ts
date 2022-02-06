@@ -1,7 +1,7 @@
 import songdata from "./songdata.js";
 
-const seekbarBg = document.getElementsByClassName("seekbar-bg")[0] as HTMLElement;
-const seekbar = document.getElementById("seekbar") as HTMLElement;
+const seekbarBg = document.getElementById("seekbar-bg")!;
+const seekbar = document.getElementById("seekbar")!;
 
 seekbarBg.onclick = seekTo;
 

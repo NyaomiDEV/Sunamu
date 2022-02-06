@@ -5,7 +5,7 @@
 	height: fit-content;
 }
 
-.album-art {
+#album-art {
 	background-image: var(--cover-art-url);
 	background-position: center;
 	background-repeat: no-repeat;
@@ -28,7 +28,7 @@
 	transition: ease .5s background-image;
 }
 
-.playback-controls {
+#playback-controls {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -39,7 +39,7 @@
 	opacity: 1;
 }
 
-.playback-controls .first-row > * {
+#playback-controls .first-row > * {
 	width: 1.5rem;
 	height: 1.5rem;
 	padding: 0.5rem;
@@ -48,14 +48,14 @@
 	border-radius: 2rem;
 }
 
-.playback-controls > div {
+#playback-controls > div {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
 }
 
-.playback-controls > div > * {
+#playback-controls > div > * {
 	width: 1rem;
 	height: 1rem;
 	padding: 0.5rem;
@@ -71,50 +71,50 @@
 				ease .1s transform;
 }
 
-.playback-controls .first-row > #playpause {
+#playback-controls .first-row > #playpause {
 	width: 2rem;
 	height: 2rem;
 }
 
-html.idle .playback-controls > div > * {
+html.idle #playback-controls > div > * {
 	opacity: 0;
 }
 
-.playback-controls > div > svg:hover {
+#playback-controls > div > svg:hover {
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
-.playback-controls > div > svg:active {
+#playback-controls > div > svg:active {
 	background-color: rgba(0, 0, 0, 0.75);
 }
 
-.playback-controls > div > .active {
+#playback-controls > div > .active {
 	color: black;
 	background-color: rgba(255, 255, 255, 0.25);
 }
 
-.playback-controls > div > .active:hover {
+#playback-controls > div > .active:hover {
 	color: black;
 	background-color: rgba(255, 255, 255, 0.5);
 }
 
-.playback-controls > div > .disabled {
+#playback-controls > div > .disabled {
 	color: rgba(255, 255, 255, 0.5);
 	pointer-events: none;
 }
 
-.playback-controls > div > .active.disabled {
+#playback-controls > div > .active.disabled {
 	color: rgba(0, 0, 0, 0.5);
 	pointer-events: none;
 }
 
-html.no-album-art .album-art {
+html.no-album-art #album-art {
 	display: none;
 }
 
-html.no-controls .playback-controls,
-html.non-interactive .playback-controls,
-html.not-playing .playback-controls {
+html.no-controls #playback-controls,
+html.non-interactive #playback-controls,
+html.not-playing #playback-controls {
 	display: none;
 }
 

@@ -1,4 +1,4 @@
-.metadata {
+#metadata {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -12,60 +12,60 @@
 	transition: ease .2s filter;
 }
 
-.metadata.hidden {
+#metadata.hidden {
 	filter: blur(16px) opacity(0);
 	pointer-events: none;
 }
 
-.metadata h1 {
+#metadata h1 {
 	font-weight: 700;
 	font-size: 4.5em;
 	margin: 0rem 0;
 }
 
-.metadata h2 {
+#metadata h2 {
 	font-weight: 500;
 	font-size: 3em;
 	margin: 0.25rem 0;
 }
 
-.metadata h3 {
+#metadata h3 {
 	font-weight: 400;
 	font-size: 2em;
 	margin: 0.25rem 0;
 }
 
-.metadata h4 {
+#metadata h4 {
 	font-weight: 400;
 	font-size: 1.5em;
 }
 
-.metadata h1, .metadata h2,
-.metadata h3, .metadata h4 {
+#metadata h1, #metadata h2,
+#metadata h3, #metadata h4 {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
-.metadata .details-container {
+#metadata .details-container {
 	width: 100%;
 }
 
-.metadata .featuring {
+#metadata .featuring {
 	opacity: .6;
 }
 
-.metadata .left {
+#metadata .left {
 	float: left;
 	text-align: left;
 }
 
-.metadata .right {
+#metadata .right {
 	float: right;
 	text-align: right;
 }
 
-html.widget-mode .metadata > * {
+html.widget-mode #metadata > * {
 	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
 }
 
@@ -78,29 +78,29 @@ html.no-info #details {
 }
 
 @media only screen and (orientation: portrait) {
-	.metadata {
+	#metadata {
 		align-items: center;
 	}
 
-	.metadata h1 {
+	#metadata h1 {
 		font-size: 3em;
 	}
 
-	.metadata h2 {
+	#metadata h2 {
 		font-size: 2.5em;
 	}
 
-	.metadata h3 {
+	#metadata h3 {
 		font-size: 2em;
 	}
 
-	.metadata h4 {
+	#metadata h4 {
 		font-size: 1.5em;
 	}
 
-	.metadata h1,
-	.metadata h2,
-	.metadata h3 {
+	#metadata h1,
+	#metadata h2,
+	#metadata h3 {
 		text-align: center;
 		width: 100%;
 	}

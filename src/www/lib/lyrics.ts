@@ -2,8 +2,8 @@ import lang from "./lang.js";
 import songdata from "./songdata.js";
 import owoify from "./owoify.js";
 
-const container = document.getElementsByClassName("lyrics")[0];
-const footer = document.getElementsByClassName("lyrics-footer")[0];
+const container = document.getElementById("lyrics")!;
+const copyright = document.getElementById("lyrics-copyright")!;
 const glasscordUser = await window.np.shouldBullyGlasscordUser();
 
 export function putLyricsInPlace() {
@@ -13,7 +13,7 @@ export function putLyricsInPlace() {
 	while (container.firstChild) container.removeChild(container.lastChild);
 
 	// remove text from footer
-	footer.textContent = "";
+	copyright.textContent = "";
 
 	// start checking for no lyrics
 	if (!songdata.lyrics) {
@@ -41,9 +41,9 @@ export function putLyricsInPlace() {
 	}
 
 	// we put the copyright where it is supposed to be
-	footer.textContent = `Provided by ${songdata.lyrics.provider}`;
+	copyright.textContent = `Provided by ${songdata.lyrics.provider}`;
 	if (songdata.lyrics.copyright)
-		footer.textContent += ` • ${songdata.lyrics.copyright}`;
+		copyright.textContent += ` • ${songdata.lyrics.copyright}`;
 }
 
 export function updateActiveLyrics() {
@@ -101,35 +101,35 @@ export function toggleLyricsView(show?: boolean) {
 		return;
 
 	if (typeof show === "undefined")
-		show = document.getElementsByClassName("lyrics")[0].classList.contains("hidden");
+		show = container.classList.contains("hidden");
 
 	if (show) {
-		document.getElementsByClassName("metadata")[0].classList.add("hidden");
-		document.getElementsByClassName("lyrics")[0].classList.remove("hidden");
-		document.getElementsByClassName("lyrics-footer")[0].classList.remove("hidden");
+		document.getElementById("metadata")!.classList.add("hidden");
+		container.classList.remove("hidden");
+		copyright.classList.remove("hidden");
 
 		reCenter();
 		window.onresize = () => reCenter();
 	} else {
-		document.getElementsByClassName("metadata")[0].classList.remove("hidden");
-		document.getElementsByClassName("lyrics")[0].classList.add("hidden");
-		document.getElementsByClassName("lyrics-footer")[0].classList.add("hidden");
+		document.getElementById("metadata")!.classList.remove("hidden");
+		container.classList.add("hidden");
+		copyright.classList.add("hidden");
 
 		window.onresize = null;
 	}
 }
 
 function reCenter() {
-	if (document.getElementsByClassName("lyrics")[0].children.length === 1) {
+	if (container.children.length === 1) {
 		// assuming we only have one child so it is the no lyrics child
-		document.getElementsByClassName("lyrics")[0].children[0].scrollIntoView({
+		document.getElementById("metadata")!.children[0].scrollIntoView({
 			inline: "center",
 			block: "center",
 			behavior: "auto"
 		});
 	} else {
 		// we do have lyrics so we scroll to the active one
-		document.getElementsByClassName("line active")[0]?.scrollIntoView({
+		container.getElementsByClassName("line active")[0]?.scrollIntoView({
 			inline: "center",
 			block: "center",
 			behavior: "auto"

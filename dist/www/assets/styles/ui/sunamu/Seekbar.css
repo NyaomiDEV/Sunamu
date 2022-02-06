@@ -1,4 +1,4 @@
-.seekbar-bg {
+#seekbar-bg {
 	border-radius: 0.5em;
 	margin-top: 2em;
 	width: 100%;
@@ -9,11 +9,11 @@
 	pointer-events: none;
 }
 
-.seekbar-bg.draggable {
+#seekbar-bg.draggable {
 	pointer-events: all;
 }
 
-html.not-playing .seekbar-bg {
+html.not-playing #seekbar-bg {
 	display: none;
 }
 
@@ -29,7 +29,7 @@ html.not-playing .seekbar-bg {
 	min-width: 1em;
 }
 
-.seekbar-bg:hover #seekbar {
+#seekbar-bg:hover #seekbar {
 	background-color: rgb(255, 255, 255);
 	margin: 0;
 	height: 100%;
@@ -39,11 +39,11 @@ html.not-playing .seekbar-bg {
 	transition: none;
 }
 
-html.no-progress .seekbar-bg {
+html.no-progress #seekbar-bg {
 	display: none;
 }
 
-html.non-interactive .seekbar-bg,
+html.non-interactive #seekbar-bg,
 html.non-interactive #seekbar {
 	pointer-events: none;
 }

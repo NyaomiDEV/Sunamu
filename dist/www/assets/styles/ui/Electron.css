@@ -14,7 +14,7 @@ html.electron .window-controls .close {
 	display: inline-block;
 }
 
-html.electron .now-playing > * {
+html.electron #now-playing > * {
 	-webkit-app-region: no-drag;
 }
 
@@ -22,16 +22,16 @@ html.electron.widget-mode .background {
 	-webkit-app-region: no-drag;
 }
 
-html.electron.widget-mode .album-art {
+html.electron.widget-mode #album-art {
 	-webkit-app-region: drag;
 }
 
-html.electron.widget-mode .playback-controls {
+html.electron.widget-mode #playback-controls {
 	-webkit-app-region: no-drag;
 }
 
-html.electron.widget-mode .metadata > *,
-html.electron.widget-mode .lyrics > *,
-html.electron.widget-mode .lyrics-footer {
+html.electron.widget-mode #metadata > *,
+html.electron.widget-mode #lyrics > *,
+html.electron.widget-mode #lyrics-footer {
 	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
 }

@@ -1,4 +1,4 @@
-.lyrics {
+#lyrics {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -15,19 +15,19 @@
 	scroll-behavior: smooth;
 }
 
-.lyrics.hidden {
+#lyrics.hidden {
 	filter: blur(16px) opacity(0);
 	pointer-events: none;
 }
 
-.lyrics::before, .lyrics::after {
+#lyrics::before, #lyrics::after {
 	content: "";
 	position: relative;
 	width: 100%;
 	padding-top: 2em;
 }
 
-.lyrics .line {
+#lyrics .line {
 	display: block;
 	font-weight: 500;
 	color: white;
@@ -35,25 +35,25 @@
 	margin: 0.125em;
 }
 
-.lyrics .line:empty,
-.lyrics.synchronized .line:empty {
+#lyrics .line:empty,
+#lyrics.synchronized .line:empty {
 	margin: 0.5em;
 }
 
-.lyrics.synchronized {
+#lyrics.synchronized {
 	overflow-y: hidden;
 }
 
-.lyrics.synchronized::before, .lyrics.synchronized::after {
+#lyrics.synchronized::before, #lyrics.synchronized::after {
 	padding-top: 100vh;
 }
 
-.lyrics.synchronized .line {
+#lyrics.synchronized .line {
 	color: rgba(255,255,255,0.7);
 	transition: ease .2s;
 }
 
-.lyrics.synchronized .line.active {
+#lyrics.synchronized .line.active {
 	display: block;
 	font-weight: 700;
 	color: white;
@@ -61,31 +61,31 @@
 	margin: 0.5em 0;
 }
 
-.lyrics.synchronized .line.active:empty {
+#lyrics.synchronized .line.active:empty {
 	margin: 1em;
 }
 
-.lyrics.synchronized .line.inactive-1 {
+#lyrics.synchronized .line.inactive-1 {
 	opacity: 0.875;
 	filter: blur(1px);
 }
 
-.lyrics.synchronized .line.inactive-2 {
+#lyrics.synchronized .line.inactive-2 {
 	opacity: 0.75;
 	filter: blur(2px);
 }
 
-.lyrics.synchronized .line.inactive-3 {
+#lyrics.synchronized .line.inactive-3 {
 	opacity: 0.625;
 	filter: blur(4px);
 }
 
-.lyrics.synchronized .line.inactive-4 {
+#lyrics.synchronized .line.inactive-4 {
 	opacity: 0.5;
 	filter: blur(8px);
 }
 
-.lyrics-footer {
+#lyrics-copyright {
 	display: block;
 	position: fixed;
 	bottom: 0;
@@ -100,39 +100,39 @@
 	text-overflow: ellipsis;
 }
 
-.lyrics-footer.hidden {
+#lyrics-copyright.hidden {
 	filter: blur(16px) opacity(0);
 }
 
-html.widget-mode .lyrics > *,
-html.widget-mode .lyrics-footer {
+html.widget-mode #lyrics > *,
+html.widget-mode #lyrics-copyright {
 	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
 }
 
-html.no-show-lyrics .lyrics,
-html.no-show-lyrics .lyrics-footer {
+html.no-show-lyrics #lyrics,
+html.no-show-lyrics #lyrics-copyright {
 	display: none;
 }
 
 @media only screen and (orientation: portrait) {
-	.lyrics {
+	#lyrics {
 		align-items: center;
 	}
 
-	.lyrics .line, .lyrics.synchronized .line {
+	#lyrics .line, #lyrics.synchronized .line {
 		font-size: 1.5em;
 		text-align: center;
 	}
 
-	.lyrics.synchronized::before, .lyrics.synchronized::after {
+	#lyrics.synchronized::before, #lyrics.synchronized::after {
 		padding-top: calc(50vh / 2 - 16px);
 	}
 
-	.lyrics.synchronized .line.active {
+	#lyrics.synchronized .line.active {
 		font-size: 2em;
 	}
 
-	.lyrics-footer {
+	#lyrics-copyright {
 		right: 0;
 		text-align: center;
 	}

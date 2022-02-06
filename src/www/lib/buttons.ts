@@ -4,10 +4,10 @@ import songdata from "./songdata.js";
 
 function bindWindowControls(){
 	if(isElectron()){
-		(document.getElementsByClassName("minimize")[0] as HTMLElement).onclick = () => window.np.minimize!();
-		(document.getElementsByClassName("close")[0] as HTMLElement).onclick = () => window.np.close!();
+		document.getElementById("minimize")!.onclick = () => window.np.minimize!();
+		document.getElementById("close")!.onclick = () => window.np.close!();
 	}
-	(document.getElementsByClassName("fullscreen")[0] as HTMLElement).onclick = () => fullscreen();
+	document.getElementById("fullscreen")!.onclick = () => fullscreen();
 }
 
 function bindPlaybackControls(){
