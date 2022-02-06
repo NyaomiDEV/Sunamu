@@ -87,6 +87,9 @@ export function updateNowPlaying() {
 
 	// ALBUM ART
 	updateAlbumArt();
+
+	// AND COLORS TOO
+	updateColors();
 }
 
 async function updateAlbumArt(){
@@ -125,6 +128,26 @@ async function updateAlbumArt(){
 
 	} else
 		documentRoot.style.removeProperty("--cover-art-url");
+}
+
+function updateColors(){
+	const palette = songdata.metadata.artData?.palette;
+	if(!palette){
+		documentRoot.style.removeProperty("--color-vibrant");
+		documentRoot.style.removeProperty("--color-muted");
+		documentRoot.style.removeProperty("--color-light-vibrant");
+		documentRoot.style.removeProperty("--color-light-muted");
+		documentRoot.style.removeProperty("--color-dark-vibrant");
+		documentRoot.style.removeProperty("--color-dark-muted");
+		return;
+	}
+
+	documentRoot.style.setProperty("--color-vibrant", palette.Vibrant);
+	documentRoot.style.setProperty("--color-muted", palette.Muted);
+	documentRoot.style.setProperty("--color-light-vibrant", palette.LightVibrant);
+	documentRoot.style.setProperty("--color-light-muted", palette.LightMuted);
+	documentRoot.style.setProperty("--color-dark-vibrant", palette.DarkVibrant);
+	documentRoot.style.setProperty("--color-dark-muted", palette.DarkMuted);
 }
 
 function updateTime() {

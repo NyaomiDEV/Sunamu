@@ -3,6 +3,7 @@ import { ArtData, Metadata, Update } from "../../types";
 import { readFile } from "fs/promises";
 import mime from "mime";
 import axios from "axios";
+import Vibrant from "node-vibrant";
 
 // @ts-ignore
 import dbus from "dbus-next";
@@ -218,9 +219,21 @@ async function parseMetadata(metadata): Promise<Metadata> {
 		}
 
 		if(artBuffer){
+			const palette = await (new Vibrant(artBuffer, {
+				colorCount: 16,
+				quality: 1
+			})).getPalette();
 			artData = {
 				data: artBuffer,
-				type: [mime.getType(metadata["mpris:artUrl"]) || ""]
+				type: [mime.getType(metadata["mpris:artUrl"]) || ""],
+				palette: {
+					DarkMuted: palette.DarkMuted!.hex,
+					DarkVibrant: palette.DarkVibrant!.hex,
+					LightMuted: palette.LightMuted!.hex,
+					LightVibrant: palette.LightVibrant!.hex,
+					Muted: palette.Muted!.hex,
+					Vibrant: palette.Vibrant!.hex,
+				}
 			};
 		}
 	}

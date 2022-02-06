@@ -71,9 +71,19 @@ export type SceneConfig = {
 	showExtraButtons?: boolean,
 }
 
+export type Palette = {
+	Vibrant: string,
+	Muted: string,
+	DarkVibrant: string,
+	DarkMuted: string,
+	LightVibrant: string,
+	LightMuted: string,
+}
+
 export type ArtData = {
 	type: string[],
-	data: Buffer
+	data: Buffer,
+	palette: Palette
 }
 
 export type Metadata = {
