@@ -1,17 +1,29 @@
 .background {
 	position: fixed;
-	top: -5vh;
-	left: -5vw;
-	width: 110vw;
-	height: 110vh;
-	z-index: -1;
+	top: -12.5vh;
+	left: -12.5vw;
+	width: 125vw;
+	height: 125vh;
+	z-index: -2;
 
 	background-image: var(--cover-art-url);
+	background-color: var(--color-bg);
+	background-blend-mode: multiply;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 	filter: blur(64px) brightness(50%) saturate(150%);
-	transition: ease 2s background-image;
+	transition: ease 2s background-image,
+				ease 2s background-color;
+}
+
+html.colorblock .background {
+	background-color: var(--color-bg);
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1IiBkPSJNMCAwaDMwMHYzMDBIMHoiLz48L3N2Zz4=");
+	background-blend-mode: overlay;
+	background-repeat: repeat;
+	background-size: contain;
+	filter: none;
 }
 
 html.widget-mode .background {

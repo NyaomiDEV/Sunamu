@@ -37,6 +37,7 @@ if(!isElectron()){
 			}
 			return sceneName;
 		},
+		getThemeLocationFor: (theme) => new Promise(resolve => socket.emit("getThemeLocationFor", theme, resolve)),
 
 		openExternal: (uri) => window.open(uri, "_blank"),
 	} as NowPlayingAPI;

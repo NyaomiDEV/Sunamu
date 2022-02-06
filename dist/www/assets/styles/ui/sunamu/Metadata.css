@@ -1,107 +1,142 @@
 #metadata {
-	position: absolute;
-	top: 0;
-	left: 0;
+	height: 232px;
 	width: 100%;
-	height: 100%;
-	z-index: 2;
-	color: white;
+	color: var(--color-fg);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	transition: ease .2s filter;
-}
-
-#metadata.hidden {
-	filter: blur(16px) opacity(0);
-	pointer-events: none;
-}
-
-#metadata h1 {
-	font-weight: 700;
-	font-size: 4.5em;
-	margin: 0rem 0;
-}
-
-#metadata h2 {
-	font-weight: 500;
-	font-size: 3em;
-	margin: 0.25rem 0;
-}
-
-#metadata h3 {
-	font-weight: 400;
-	font-size: 2em;
-	margin: 0.25rem 0;
-}
-
-#metadata h4 {
-	font-weight: 400;
-	font-size: 1.5em;
-}
-
-#metadata h1, #metadata h2,
-#metadata h3, #metadata h4 {
 	overflow: hidden;
+	transition: ease .2s;
+}
+
+html.idle #metadata {
+	height: 88px;
+}
+
+html.idle:not(.no-lyrics) #metadata {
+	width: 40%;
+}
+
+#metadata span {
+	overflow-x: clip;
+	overflow-y: visible;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	transition: ease .05s;
 }
 
-#metadata .details-container {
-	width: 100%;
+#title {
+	font-weight: 700;
+	font-size: 64px;
+	opacity: 1;
+}
+
+html.idle #title {
+	font-size: 48px;
+}
+
+#artist {
+	font-weight: 500;
+	font-size: 48px;
+	opacity: 0.7;
+}
+
+html.idle #artist {
+	font-size: 24px;
+}
+
+#album {
+	font-weight: 500;
+	font-size: 36px;
+	opacity: 0.7;
+}
+
+#scrobbles {
+	font-weight: 500;
+	font-size: 24px;
+	opacity: 0.5;
+}
+
+html.idle #album,
+html.idle #scrobbles {
+	font-size: 0;
+	opacity: 0;
 }
 
 #metadata .featuring {
-	opacity: .6;
-}
-
-#metadata .left {
-	float: left;
-	text-align: left;
-}
-
-#metadata .right {
-	float: right;
-	text-align: right;
+	opacity: .8;
 }
 
 html.widget-mode #metadata > * {
 	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
 }
 
-html.no-progress #time {
-	display: none;
-}
-
-html.no-info #details {
-	display: none;
-}
-
-@media only screen and (orientation: portrait) {
+/* iPad */
+@media only screen and (max-width: 1024px) {
 	#metadata {
-		align-items: center;
+		height: 160px;
 	}
 
-	#metadata h1 {
-		font-size: 3em;
+	html.idle #metadata {
+		height: 72px;
 	}
 
-	#metadata h2 {
-		font-size: 2.5em;
+	#title {
+		font-size: 48px;
 	}
 
-	#metadata h3 {
-		font-size: 2em;
+	#artist {
+		font-size: 36px;
 	}
 
-	#metadata h4 {
-		font-size: 1.5em;
+	#album {
+		font-size: 24px;
 	}
 
-	#metadata h1,
-	#metadata h2,
-	#metadata h3 {
-		text-align: center;
-		width: 100%;
+	#scrobbles {
+		font-size: 16px;
+	}
+
+	html.idle #title {
+		font-size: 36px;
+	}
+
+	html.idle #artist {
+		font-size: 24px;
+	}
+}
+
+/* iPhone */
+@media only screen and (max-width: 812px) {
+	#metadata {
+		height: 96px;
+	}
+
+	html.idle #metadata {
+		height: 40px;
+	}
+
+	#title {
+		font-size: 24px;
+	}
+
+	#artist {
+		font-size: 20px;
+	}
+
+	#album {
+		font-size: 16px;
+	}
+
+	#scrobbles {
+		font-size: 12px;
+	}
+
+	html.idle #title {
+		font-size: 20px;
+	}
+
+	html.idle #artist {
+		font-size: 16px;
 	}
 }

@@ -6,6 +6,8 @@ const container = document.getElementById("lyrics")!;
 const copyright = document.getElementById("lyrics-copyright")!;
 const glasscordUser = await window.np.shouldBullyGlasscordUser();
 
+let isContainerHovered;
+
 export function putLyricsInPlace() {
 	// remove all children of container
 	container.classList.remove("synchronized");
@@ -17,8 +19,7 @@ export function putLyricsInPlace() {
 
 	// start checking for no lyrics
 	if (!songdata.lyrics) {
-		// we exploit the synchronized flex to center the no lyrics line
-		container.classList.add("synchronized");
+		document.documentElement.classList.add("no-lyrics");
 
 		const noLyrics = document.createElement("span");
 		noLyrics.classList.add("line");
@@ -32,6 +33,8 @@ export function putLyricsInPlace() {
 		return;
 	}
 
+	document.documentElement.classList.remove("no-lyrics");
+
 	// we are good with lyrics so we push them all
 	for (const line of songdata.lyrics.lines) {
 		const elem = document.createElement("span");
@@ -40,8 +43,12 @@ export function putLyricsInPlace() {
 		container.appendChild(elem);
 	}
 
+	// we put the synchronized flag
+	if(songdata.lyrics.synchronized && songdata.reportsPosition)
+		container.classList.add("synchronized");
+
 	// we put the copyright where it is supposed to be
-	copyright.textContent = `Provided by ${songdata.lyrics.provider}`;
+	copyright.textContent = lang.LYRICS_COPYRIGHT.replace("%PROVIDER%", songdata.lyrics.provider);
 	if (songdata.lyrics.copyright)
 		copyright.textContent += ` • ${songdata.lyrics.copyright}`;
 }
@@ -72,23 +79,18 @@ export function updateActiveLyrics() {
 
 	for (let i = 0; i < container.children.length; i++) {
 		const line = container.children[i] as HTMLElement;
-		line.classList?.remove(
-			"inactive-1",
-			"inactive-2",
-			"inactive-3",
-			"inactive-4"
-		);
-		if (i === lineIndex)
+		if (i === lineIndex){
 			line.classList?.add("active");
-		else{
+			line.removeAttribute("distance");
+		}else{
 			line.classList?.remove("active");
-			const distance = Math.min(Math.abs(i - lineIndex), 4);
-			line.classList?.add("inactive-" + distance);
+			const distance = Math.min(Math.abs(i - lineIndex), 6);
+			line.setAttribute("distance", `${distance}`);
 		}
 	}
 
 	// now we bring the active into view
-	if (!wasActiveBefore) {
+	if (!wasActiveBefore && !isContainerHovered) {
 		container.children[lineIndex]?.scrollIntoView({
 			block: "center",
 			behavior: "smooth"
@@ -96,30 +98,9 @@ export function updateActiveLyrics() {
 	}
 }
 
-export function toggleLyricsView(show?: boolean) {
-	if (document.documentElement.classList.contains("no-show-lyrics"))
-		return;
+export function reCenter() {
+	if(isContainerHovered) return;
 
-	if (typeof show === "undefined")
-		show = container.classList.contains("hidden");
-
-	if (show) {
-		document.getElementById("metadata")!.classList.add("hidden");
-		container.classList.remove("hidden");
-		copyright.classList.remove("hidden");
-
-		reCenter();
-		window.onresize = () => reCenter();
-	} else {
-		document.getElementById("metadata")!.classList.remove("hidden");
-		container.classList.add("hidden");
-		copyright.classList.add("hidden");
-
-		window.onresize = null;
-	}
-}
-
-function reCenter() {
 	if (container.children.length === 1) {
 		// assuming we only have one child so it is the no lyrics child
 		document.getElementById("metadata")!.children[0].scrollIntoView({
@@ -137,8 +118,12 @@ function reCenter() {
 	}
 }
 
+container.addEventListener("mouseenter", () => isContainerHovered = true);
+container.addEventListener("mouseleave", () => {
+	isContainerHovered = false;
+	reCenter();
+});
+
 window.np.registerLyricsCallback!(() => {
 	putLyricsInPlace();
-	if (document.documentElement.classList.contains("idle") && songdata.lyrics?.synchronized)
-		toggleLyricsView(true);
 });

@@ -1,49 +1,108 @@
-#seekbar-bg {
-	border-radius: 0.5em;
-	margin-top: 2em;
-	width: 100%;
-	background-color: rgba(255, 255, 255, 0.50);
-	display: flex;
-	height: 1em;
-	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3), 0 5px 16px rgba(0, 0, 0, 0.2);
+html.no-progress .seekbar-container,
+html.not-playing .seekbar-container,
+html.not-reporting-position .seekbar-container {
+	display: none;
+}
+
+html.non-interactive #seekbar {
 	pointer-events: none;
 }
 
-#seekbar-bg.draggable {
-	pointer-events: all;
+.seekbar-container {
+	width: 100%;
+	height: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 8px 0;
+	gap: 8px;
+	transition: ease .2s;
 }
 
-html.not-playing #seekbar-bg {
-	display: none;
+html.idle .seekbar-container {
+	height: 0;
+	opacity: 0;
+	margin: 0;
+}
+
+#time-elapsed, #time-total {
+	font-size: 16px;
+	width: 48px;
+	color: var(--color-fg);
+	text-align: center;
 }
 
 #seekbar {
-	border-radius: 0.5em;
-	background-color: rgba(255, 255, 255, 0.8);
-	height: 0.5em;
-	margin: 0.25em;
-	transition: linear .2s width,
-				ease .25s margin,
-				ease .25s height,
-				ease .25s background-color;
-	min-width: 1em;
+	position: relative;
+	width: 100%;
+	height: 8px;
+	pointer-events: none;
 }
 
-#seekbar-bg:hover #seekbar {
-	background-color: rgb(255, 255, 255);
-	margin: 0;
+#seekbar-bg {
+	position: absolute;
+	width: 100%;
 	height: 100%;
+	z-index: 0;
+	border-radius: 4px;
+	background-color: var(--color-fg);
+	opacity: 0.5;
+	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3), 0 5px 16px rgba(0, 0, 0, 0.2);
 }
 
-#seekbar.dragging {
+#seekbar.draggable #seekbar-bg {
+	pointer-events: auto;
+}
+
+#seekbar-fg {
+	position: absolute;
+	border-radius: 4px;
+	background-color: var(--color-fg);
+	opacity: 0.5;
+	height: 100%;
+	transition: ease .2s;
+	min-width: 4px;
+}
+
+#seekbar-ball {
+	position: absolute;
+	top: -4px;
+	background-color: var(--color-fg);
+	opacity: 0;
+	width: 0;
+	height: 0;
+	border-radius: 8px;
+	width: 16px;
+	height: 16px;
+	transform: translateX(-8px) scale(0);
+	transition: ease .2s;
+}
+
+#seekbar:hover #seekbar-fg,
+#seekbar:hover #seekbar-ball {
+	opacity: 1;
+}
+
+#seekbar:hover #seekbar-ball {
+	transform: translateX(-8px) scale(1);
+}
+
+#seekbar-fg.dragging {
 	transition: none;
 }
 
-html.no-progress #seekbar-bg {
-	display: none;
+/* iPad */
+@media only screen and (max-width: 1024px) {
+	#time-elapsed, #time-total {
+		font-size: 12px;
+		width: 36px;
+	}
 }
 
-html.non-interactive #seekbar-bg,
-html.non-interactive #seekbar {
-	pointer-events: none;
+/* iPhone */
+@media only screen and (max-width: 812px) {
+	#time-elapsed, #time-total {
+		font-size: 12px;
+		width: 36px;
+	}
 }

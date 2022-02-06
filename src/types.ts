@@ -27,6 +27,7 @@ export type NowPlayingAPI = {
 	isElectronRunning?: () => Promise<boolean>,
 
 	getScene: () => Promise<string | undefined>,
+	getThemeLocationFor: (scene: string) => Promise<string | undefined>,
 
 	minimize?: () => void,
 	close?: () => void,
@@ -61,14 +62,19 @@ export type SceneConfig = {
 	type: "default" | "electron",
 	widgetMode?: boolean,
 	font?: string,
+	theme?: string,
 	nonInteractive?: boolean,
 	static?: boolean,
 	showAlbumArt?: boolean,
 	showControls?: boolean,
 	showProgress?: boolean,
-	showInfo?: boolean,
+	showPlayingIndicator?: boolean,
 	showLyrics?: boolean,
+	lyricsBlur?: boolean,
 	showExtraButtons?: boolean,
+	colors?: boolean,
+	colorblock?: boolean
+	playerIcon?: boolean
 }
 
 export type Palette = {

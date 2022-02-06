@@ -1,20 +1,10 @@
-import { toggleLyricsView } from "./lyrics.js";
-import songdata from "./songdata.js";
-
-let idleTimeout;
-
 export function hide() {
-	idleTimeout = setTimeout(() => {
-		if (document.documentElement.classList.contains("static"))
-			return;
+	if (document.documentElement.classList.contains("static"))
+		return;
 
-		document.documentElement.classList.add("idle");
-		if (songdata.lyrics?.synchronized) toggleLyricsView(true);
-	}, 2000);
+	document.documentElement.classList.add("idle");
 }
 
-export function show(force) {
-	clearTimeout(idleTimeout);
+export function show() {
 	document.documentElement.classList.remove("idle");
-	if (force || songdata.lyrics?.synchronized) toggleLyricsView(false);
 }

@@ -26,6 +26,7 @@ const npApi: NowPlayingAPI = {
 	isElectronRunning: async () => true,
 
 	getScene: () => ipcRenderer.invoke("getScene"),
+	getThemeLocationFor: (theme) => ipcRenderer.invoke("getThemeLocationFor", theme),
 
 	minimize: () => ipcRenderer.send("minimize"),
 	close: () => ipcRenderer.send("close"),

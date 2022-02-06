@@ -24,11 +24,25 @@
 			type: "default",
 			widgetMode: false,
 			font: "",
+			theme: "default",
+			// nonInteractive: false,
+			// static: false,
+			// showAlbumArt: true,
+			// showControls: true,
+			// showProgress: true,
+			// showPlayingIndicator: true,
+			// showLyrics: true,
+			// lyricsBlur: true,
+			// showExtraButtons: true,
+			// colors: true,
+			// colorblock: false,
+			// playerIcon: true
 		},
 		electron: {
 			type: "electron",
 			widgetMode: true,
-			font: ""
+			font: "",
+			theme: "default"
 		},
 		"obs-studio": {
 			type: "default",
@@ -39,9 +53,10 @@
 			showAlbumArt: true,
 			showControls: false,
 			showProgress: false,
-			showInfo: false,
+			showPlayingIndicator: false,
 			showLyrics: false,
-			showExtraButtons: false
+			showExtraButtons: false,
+			colors: false
 		}
 	}
 }

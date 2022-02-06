@@ -8,7 +8,7 @@ Show your currently playing song in a stylish way!
 <img alt="Browser preview" src="assets/preview_browser.png" style="width: 45%; height: auto; margin: 2%" />
 <img alt="Widget preview" src="assets/preview_widget.png" style="width: 45%; height: auto; margin: 2%" />
 <img alt="OBS source preview" src="assets/preview_obs.png" style="width: 45%; height: auto; margin: 2%" />
-<img alt="Like its father, it can play Little Talks" src="assets/preview_widget_2.png" style="width: 45%; height: auto; margin: 2%" />
+<img alt="Sunamu will never gonna give you up" src="assets/preview_widget_2.png" style="width: 45%; height: auto; margin: 2%" />
 <img alt="Hey!" src="assets/preview_widget_3.png" style="width: 45%; height: auto; margin: 2%" />
 
 </div>

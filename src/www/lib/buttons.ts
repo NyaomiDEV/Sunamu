@@ -1,6 +1,6 @@
 import { fullscreen, isElectron } from "./util.js";
-import { toggleLyricsView } from "./lyrics.js";
 import songdata from "./songdata.js";
+import config from "./config.js";
 
 function bindWindowControls(){
 	if(isElectron()){
@@ -16,7 +16,6 @@ function bindPlaybackControls(){
 	document.getElementById("playpause")!.onclick = () => window.np.playPause();
 	document.getElementById("next")!.onclick = () => window.np.next();
 	document.getElementById("repeat")!.onclick = () => window.np.repeat();
-	document.getElementById("lyrics-btn")!.onclick = () => toggleLyricsView();
 
 	const lastfm = document.getElementById("lastfm")!;
 	lastfm.oncontextmenu = (e) => {
@@ -33,5 +32,11 @@ function bindPlaybackControls(){
 	spotify.onclick = () => window.np.openExternal!(songdata.spotify?.url || "");
 }
 
+function hideButtons(){
+	if(!config.spotify.clientSecret)
+		document.getElementById("spotify")!.style.display = "none";
+}
+
+hideButtons();
 bindWindowControls();
 bindPlaybackControls();

@@ -1,42 +1,44 @@
 import songdata from "./songdata.js";
 
-const seekbarBg = document.getElementById("seekbar-bg")!;
-const seekbar = document.getElementById("seekbar")!;
+const seekbarWhole = document.getElementById("seekbar")!;
+const seekbarFg = document.getElementById("seekbar-fg")!;
+const seekbarBall = document.getElementById("seekbar-ball")!;
 
-seekbarBg.onclick = seekTo;
+seekbarWhole.onclick = seekTo;
 
-seekbarBg.onmousedown = (e) => {
+seekbarWhole.onmousedown = (e) => {
 	e.preventDefault();
 
-	if(seekbarBg.classList.contains("draggable")){
-		seekbarBg.onmousemove = (e) => {
+	if(seekbarWhole.classList.contains("draggable")){
+		seekbarWhole.onmousemove = (e) => {
 			e.preventDefault();
-			const rect = seekbarBg.getBoundingClientRect();
+			const rect = seekbarWhole.getBoundingClientRect();
 			const x = e.clientX - rect.left;
 			const percentage = Math.round(x / rect.width * 100);
-			seekbar.classList.add("dragging");
-			seekbar.style.width = percentage + "%";
+			seekbarFg.classList.add("dragging");
+			seekbarFg.style.width = percentage + "%";
+			seekbarBall.style.left = percentage + "%";
 		};
 
-		seekbarBg.onmouseup = (e) => {
-			seekbarBg.onmouseup = null;
-			seekbarBg.onmousemove = null;
-			seekbarBg.onmouseleave = null;
-			seekbar.classList.remove("dragging");
+		seekbarWhole.onmouseup = (e) => {
+			seekbarWhole.onmouseup = null;
+			seekbarWhole.onmousemove = null;
+			seekbarWhole.onmouseleave = null;
+			seekbarWhole.classList.remove("dragging");
 			seekTo(e);
 		};
 
-		seekbarBg.onmouseleave = () => {
-			seekbarBg.onmouseup = null;
-			seekbarBg.onmousemove = null;
-			seekbarBg.onmouseleave = null;
-			seekbar.classList.remove("dragging");
+		seekbarWhole.onmouseleave = () => {
+			seekbarWhole.onmouseup = null;
+			seekbarWhole.onmousemove = null;
+			seekbarWhole.onmouseleave = null;
+			seekbarFg.classList.remove("dragging");
 		};
 	}
 };
 
 function seekTo(e) {
-	const rect = seekbarBg.getBoundingClientRect();
+	const rect = seekbarWhole.getBoundingClientRect();
 	const x = e.clientX - rect.left;
 	const percentage = x / rect.width;
 	window.np.seek(percentage);
@@ -44,18 +46,23 @@ function seekTo(e) {
 
 export function updateSeekbarStatus() {
 	if(songdata.capabilities.canSeek)
-		seekbarBg.classList.add("draggable");
+		seekbarWhole.classList.add("draggable");
 	else
-		seekbarBg.classList.remove("draggable");
+		seekbarWhole.classList.remove("draggable");
 }
 
 export function updateSeekbarTime() {
 	if (!songdata.metadata.id)
 		return;
 
-	seekbarBg.style.display = (songdata.reportsPosition || (songdata.metadata.id && songdata.capabilities.canSeek)) ? "" : "none";
+	if(songdata.reportsPosition)
+		document.documentElement.classList.remove("not-reporting-position");
+	else
+		document.documentElement.classList.add("not-reporting-position");
 
 	const seekbarPercent = songdata.elapsed / songdata.metadata.length * 100;
-	if (!seekbar.classList.contains("dragging"))
-		document.getElementById("seekbar")!.style.width = `${seekbarPercent}%`;
+	if (!seekbarFg.classList.contains("dragging")){
+		seekbarFg!.style.width = `${seekbarPercent}%`;
+		seekbarBall!.style.left = `${seekbarPercent}%`;
+	}
 }

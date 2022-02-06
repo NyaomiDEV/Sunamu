@@ -1,17 +1,12 @@
-.art-container {
-	position: relative;
-	margin: 1em;
-	width: fit-content;
-	height: fit-content;
-}
-
 #album-art {
+	flex-shrink: 0;
+	display: inline-block;
+	height: 232px;
 	background-image: var(--cover-art-url);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	display: block;
-	border-radius: 24px;
+	border-radius: 16px;
 	box-shadow:
 		0px 76px 72px rgba(0, 0, 0, 0.07),
 		0px 38.0371px 36.0352px rgba(0, 0, 0, 0.0532233),
@@ -21,108 +16,39 @@
 		0px 5.99045px 5.67517px rgba(0, 0, 0, 0.0300374),
 		0px 3.44189px 3.26074px rgba(0, 0, 0, 0.0243888),
 		0px 1.51486px 1.43513px rgba(0, 0, 0, 0.0167767);
-	width: 75vmin;
-	height: 75vmin;
-	max-width: 32rem;
-	max-height: 32rem;
-	transition: ease .5s background-image;
-}
-
-#playback-controls {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	position: absolute;
-	bottom: 1.5rem;
-	width: 100%;
-	opacity: 1;
-}
-
-#playback-controls .first-row > * {
-	width: 1.5rem;
-	height: 1.5rem;
-	padding: 0.5rem;
-	margin: 0.5rem;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 2rem;
-}
-
-#playback-controls > div {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-}
-
-#playback-controls > div > * {
-	width: 1rem;
-	height: 1rem;
-	padding: 0.5rem;
-	margin: 0.5rem;
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-	border-radius: 2rem;
-	color: white;
-	backdrop-filter: blur(16px) brightness(60%) saturate(200%);
-	-webkit-backdrop-filter: blur(16px) brightness(60%) saturate(200%);
-	background-color: transparent;
-	transition: ease .5s background-color,
-				ease .5s opacity,
-				ease .1s transform;
-}
-
-#playback-controls .first-row > #playpause {
-	width: 2rem;
-	height: 2rem;
-}
-
-html.idle #playback-controls > div > * {
-	opacity: 0;
-}
-
-#playback-controls > div > svg:hover {
-	background-color: rgba(0, 0, 0, 0.5);
-}
-
-#playback-controls > div > svg:active {
-	background-color: rgba(0, 0, 0, 0.75);
-}
-
-#playback-controls > div > .active {
-	color: black;
-	background-color: rgba(255, 255, 255, 0.25);
-}
-
-#playback-controls > div > .active:hover {
-	color: black;
-	background-color: rgba(255, 255, 255, 0.5);
-}
-
-#playback-controls > div > .disabled {
-	color: rgba(255, 255, 255, 0.5);
-	pointer-events: none;
-}
-
-#playback-controls > div > .active.disabled {
-	color: rgba(0, 0, 0, 0.5);
-	pointer-events: none;
+	aspect-ratio: 1;
+	transition: ease .5s background-image,
+				ease .2s;
 }
 
 html.no-album-art #album-art {
 	display: none;
 }
 
-html.no-controls #playback-controls,
-html.non-interactive #playback-controls,
-html.not-playing #playback-controls {
-	display: none;
+html.idle #album-art {
+	height: 88px;
 }
 
-html.no-show-lyrics #lyrics-btn {
-	display: none;
+/* iPad */
+@media only screen and (max-width: 1024px) {
+	#album-art {
+		height: 160px;
+		border-radius: 12px;
+	}
+
+	html.idle #album-art {
+		height: 72px;
+	}
 }
 
-html.no-extra-buttons #spotify,
-html.no-extra-buttons #lastfm {
-	display: none;
+/* iPhone */
+@media only screen and (max-width: 812px) {
+	#album-art {
+		height: 96px;
+		border-radius: 8px;
+	}
+
+	html.idle #album-art {
+		height: 40px;
+	}
 }

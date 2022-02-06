@@ -3,12 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta id="theme-color" name="theme-color" content="#009ccc" />
 	<link href="assets/styles/style.css" rel="stylesheet">
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
-	<link rel="manifest" href="/assets/favicon/site.webmanifest">
+	<link rel="manifest" href="sunamu.webmanifest">
 
 	<script src="index.js" type="module"></script>
 </head>
@@ -30,61 +31,76 @@
 		</svg>
 	</div>
 
+	<!-- Media player indicator -->
+	<div class="playing-indicator">
+		<div id="player-icon"></div>
+		<div class="text">
+			<span id="player-playing"></span>
+			<span id="player-name"></span>
+		</div>
+	</div>
+
+	<!-- Lyrics -->
+	<div class="lyrics-container">
+		<div id="lyrics"></div>
+	</div>
+
 	<!-- Main container -->
 	<div id="now-playing">
 
-		<!-- Album Art -->
-		<div class="art-container">
+		<div class="info-container">
+			<!-- Album Art -->
 			<div id="album-art"></div>
-			<div id="playback-controls">
-				<div class="first-row">
-					<svg id="previous" class="material-icons"><use href="assets/images/glyph.svg#skip_previous"></use>
-					</svg>
-					<svg id="playpause" class="material-icons"><use href="assets/images/glyph.svg#play_arrow"></use>
-					</svg>
-					<svg id="next" class="material-icons"><use href="assets/images/glyph.svg#skip_next"></use>
-					</svg>
-				</div>
-				<div class="second-row">
-					<svg id="shuffle"><use href="assets/images/glyph.svg#shuffle"></use>
-					</svg>
-					<svg id="lyrics-btn"><use href="assets/images/glyph.svg#mic"></use>
-					</svg>
-					<svg id="repeat"><use href="assets/images/glyph.svg#repeat"></use>
-					</svg>
-					<svg id="lastfm"><use href="assets/images/glyph.svg#lastfm"></use>
-					</svg>
-					<svg id="spotify">
-						<use href="assets/images/glyph.svg#spotify"></use>
-					</svg>
-				</div>
+		
+			<!-- Metadata -->
+			<div id="metadata">
+				<span id="artist"></span>
+				<span id="title"></span>
+				<span id="album"></span>
+				<span id="scrobbles"></span>
 			</div>
 		</div>
 
-		<!-- Info container -->
-		<div class="info-container">
-			<!-- Metadata -->
-			<div id="metadata">
-				<h1 id="title"></h1>
-				<h2 id="artist"></h2>
-				<h3 id="album"></h3>
-				<div id="seekbar-bg">
-					<div id="seekbar"></div>
-				</div>
-				<div class="details-container">
-					<h4 class="left" id="details"></h4>
-					<h4 class="right" id="time"></h4>
-				</div>
+		<!-- Seekbar -->
+		<div class="seekbar-container">
+			<span id="time-elapsed"></span>
+			<div id="seekbar">
+				<div id="seekbar-bg"></div>
+				<div id="seekbar-fg"></div>
+				<div id="seekbar-ball"></div>
 			</div>
+			<span id="time-total"></span>
+		</div>
 
-			<!-- Lyrics -->
-			<div id="lyrics" class="hidden"></div>
+		<!-- Playback controls -->
+		<div id="playback-controls">
+			<svg id="lastfm">
+				<use href="assets/images/glyph.svg#lastfm"></use>
+			</svg>
+			<svg id="shuffle">
+				<use href="assets/images/glyph.svg#shuffle"></use>
+			</svg>
+			<svg id="previous">
+				<use href="assets/images/glyph.svg#skip_previous"></use>
+			</svg>
+			<svg id="playpause">
+				<use href="assets/images/glyph.svg#play_arrow"></use>
+			</svg>
+			<svg id="next">
+				<use href="assets/images/glyph.svg#skip_next"></use>
+			</svg>
+			<svg id="repeat">
+				<use href="assets/images/glyph.svg#repeat"></use>
+			</svg>
+			<svg id="spotify">
+				<use href="assets/images/glyph.svg#spotify"></use>
+			</svg>
 		</div>
 
 	</div>
 
 	<!-- Lyrics copyright footer -->
-	<span id="lyrics-copyright" class="hidden"></span>
+	<span id="lyrics-copyright"></span>
 </body>
 
 </html>

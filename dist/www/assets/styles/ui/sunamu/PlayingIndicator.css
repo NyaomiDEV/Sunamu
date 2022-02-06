@@ -1,0 +1,111 @@
+html.no-playing-indicator .playing-indicator,
+html.widget-mode .playing-indicator {
+	display: none;
+}
+
+html.no-player-icon #player-icon {
+	display: none;
+}
+
+.playing-indicator {
+	position: absolute;
+	top: 56px;
+	left: 56px;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	justify-items: center;
+	transition: ease .2s;
+}
+
+html.idle .playing-indicator,
+html.not-playing .playing-indicator {
+	opacity: 0;
+}
+
+.playing-indicator .text {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+#player-icon {
+	width: 72px;
+	aspect-ratio: 1;
+	background-color: var(--color-fg);
+	opacity: 1;
+	mask-size: cover;
+	-webkit-mask-size: cover;
+	mask-image: var(--app-icon);
+	-webkit-mask-image: var(--app-icon);
+}
+
+#player-playing {
+	color: var(--color-fg);
+	opacity: 0.5;
+	text-transform: uppercase;
+	font-weight: 500;
+	font-size: 24px;
+}
+
+#player-name {
+	color: var(--color-fg);
+	font-weight: bold;
+	font-size: 36px;
+}
+
+/* iPad */
+@media only screen and (max-width: 1024px) {
+	.playing-indicator {
+		top: 40px;
+		left: 40px;
+	}
+
+	#player-icon {
+		width: 48px;
+	}
+
+	#player-playing {
+		font-size: 16px;
+	}
+
+	#player-name {
+		font-size: 24px;
+	}
+}
+
+/* iPhone */
+@media only screen and (max-width: 812px) {
+	.playing-indicator {
+		top: 24px;
+		left: 24px;
+	}
+
+	#player-icon {
+		width: 24px;
+	}
+
+	#player-playing {
+		font-size: 12px;
+	}
+
+	#player-name {
+		font-size: 16px;
+	}
+}
+
+@media only screen and (orientation: portrait) {
+	.playing-indicator {
+		width: 100vw;
+		left: 0;
+		justify-content: center;
+	}
+
+	.playing-indicator .text {
+		align-items: center;
+	}
+
+	#player-icon {
+		display: none;
+	}
+}

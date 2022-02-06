@@ -1,5 +1,5 @@
 import { stat } from "fs/promises";
-import { resolve } from "path";
+import path from "path";
 import getPlayer, { Player } from "./player";
 import { get as getConfig, getAll as getAllConfig } from "./config";
 import { widgetMode, debugMode, useElectron } from "./appStatus";
@@ -9,11 +9,20 @@ import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { Server as StaticServer } from "node-static";
 import { addLyricsUpdateCallback, addSongDataCallback, songdata, addPositionCallback } from "./playbackStatus";
+import { getThemeLocation, getThemesDirectory } from "./themes";
 
 let player: Player;
 
-const file = new StaticServer(resolve(__dirname, "..", "www"), { indexFile: "index.htm", cache: 0 });
-const server = createServer((req, res) => file.serve(req, res));
+const file = new StaticServer(path.resolve(__dirname, "..", "www"), { indexFile: "index.htm", cache: 0 });
+const themes = new StaticServer(getThemesDirectory(), {	cache: 0 });
+const server = createServer((req, res) => {
+	if(req.url!.startsWith("/themes/")){
+		req.url = req.url!.replace("/themes/", "/");
+		themes.serve(req, res);
+		return;
+	}
+	file.serve(req, res);
+});
 
 export const io = new Server(server);
 
@@ -34,12 +43,12 @@ function registerSocketIO(socket: Socket) {
 
 	socket.on("shouldBullyGlasscordUser", async (callback) => {
 		let bullyGlasscordUser = false;
-		const gcPath = resolve(getAppData(), "glasscord");
+		const gcPath = path.resolve(getAppData(), "glasscord");
 
 		try {
 			await stat(gcPath);
 			bullyGlasscordUser = true;
-			await stat(resolve(gcPath, "DONTBULLYME"));
+			await stat(path.resolve(gcPath, "DONTBULLYME"));
 			bullyGlasscordUser = false;
 		} catch (_) {
 			//...
@@ -51,6 +60,14 @@ function registerSocketIO(socket: Socket) {
 	socket.on("isWidgetMode", (callback) => callback(widgetMode));
 	socket.on("isDebugMode", (callback) => callback(debugMode));
 	socket.on("isElectronRunning", (callback) => callback(useElectron));
+
+	socket.on("getThemeLocationFor", async (theme, callback) => {
+		const themeLocation = await getThemeLocation(theme);
+		if(!themeLocation)
+			return callback();
+
+		callback("/themes/" + path.relative(getThemesDirectory(), themeLocation).split("\\").join("/"));
+	});
 
 	addPositionCallback(async (position, reportsPosition) => { socket.emit("position", position, reportsPosition); });
 	addSongDataCallback(async (songdata, metadataChanged) => { socket.emit("update", songdata, metadataChanged); });

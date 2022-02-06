@@ -1,20 +1,16 @@
-html.electron .background {
+html.electron:not(.fullscreen) .background {
 	-webkit-app-region: drag;
 }
 
-html.electron .window-controls {
-	-webkit-app-region: no-drag;
-}
-
-html.electron .window-controls .minimize {
+html.electron .window-controls #minimize,
+html.electron .window-controls #close {
 	display: inline-block;
 }
 
-html.electron .window-controls .close {
-	display: inline-block;
-}
-
-html.electron #now-playing > * {
+html.electron .window-controls,
+html.electron #now-playing,
+html.electron #lyrics,
+html.electron #lyrics-copyright {
 	-webkit-app-region: no-drag;
 }
 
@@ -22,16 +18,6 @@ html.electron.widget-mode .background {
 	-webkit-app-region: no-drag;
 }
 
-html.electron.widget-mode #album-art {
+html.electron.widget-mode:not(.fullscreen) #album-art {
 	-webkit-app-region: drag;
-}
-
-html.electron.widget-mode #playback-controls {
-	-webkit-app-region: no-drag;
-}
-
-html.electron.widget-mode #metadata > *,
-html.electron.widget-mode #lyrics > *,
-html.electron.widget-mode #lyrics-footer {
-	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
 }

@@ -1,0 +1,75 @@
+html.no-controls #playback-controls,
+html.non-interactive #playback-controls,
+html.not-playing #playback-controls {
+	display: none;
+}
+
+html.no-show-lyrics #lyrics-btn {
+	display: none;
+}
+
+html.no-extra-buttons #spotify,
+html.no-extra-buttons #lastfm {
+	display: none;
+}
+
+#playback-controls {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 40px;
+	margin: 8px 0;
+	gap: 16px;
+	transition: ease .2s;
+}
+
+html.idle #playback-controls {
+	opacity: 0;
+	margin: 0;
+	height: 0;
+}
+
+#playback-controls svg {
+	width: 24px;
+	height: 24px;
+	aspect-ratio: 1;
+	padding: 4px;
+	border-radius: 24px;
+	color: var(--color-fg);
+	background-color: transparent;
+	transition: ease .2s;
+	pointer-events: all;
+}
+
+#playback-controls #playpause {
+	padding: 8px;
+}
+
+#playback-controls svg:hover {
+	color: var(--color-bg);
+	background-color: var(--color-fg);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#playback-controls svg:active {
+	color: var(--color-bg);
+	background-color: var(--color-fg);
+	filter: saturate(2);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#playback-controls svg.active {
+	filter: saturate(2);
+}
+
+#playback-controls svg.active:hover {
+	filter: saturate(3);
+}
+
+#playback-controls svg.disabled {
+	opacity: 0.5;
+	filter: saturate(.5);
+	pointer-events: none;
+}

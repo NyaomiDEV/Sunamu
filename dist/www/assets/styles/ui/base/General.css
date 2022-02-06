@@ -4,8 +4,12 @@ html {
 	margin: 0;
 	padding: 0;
 	user-select: none;
-	scrollbar-color: rgba(255,255,255,.5) transparent;
+	scrollbar-color: var(--color-fg) transparent;
 	scrollbar-width: 4px;
+}
+
+html.idle {
+	cursor: none;
 }
 
 html.widget-mode {
@@ -26,7 +30,7 @@ html.widget-mode body {
 }
 
 html.widget-mode.not-playing.idle body {
-	filter: blur(16px) opacity(0);
+	filter: opacity(0);
 }
 
 a:-webkit-any-link {
@@ -42,30 +46,6 @@ a:-webkit-any-link {
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: rgba(255,255,255,.5);
+	background-color: var(--color-fg);
 	border-radius: 2px;
-}
-
-html.resolution-qvga {
-	font-size: 4px;
-}
-
-html.resolution-vga {
-	font-size: 6px;
-}
-
-html.resolution-xga {
-	font-size: 8px;
-}
-
-html.resolution-fhd {
-	font-size: 12px;
-}
-
-html.resolution-qhd {
-	font-size: 16px;
-}
-
-html.resolution-4k {
-	font-size: 24px;
 }

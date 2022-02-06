@@ -1,28 +1,6 @@
 import config from "./config.js";
 import { isElectron } from "./util.js";
 
-// Set resolution
-const map = {
-	qvga: 320,
-	vga: 480,
-	xga: 720,
-	fhd: 1080,
-	qhd: 1440,
-	"4k": 2160
-};
-
-let resolution = Object.keys(map)[0];
-
-// compute smallest
-const minLength = Math.min(screen.width, screen.height);
-
-for(const key in map){
-	if(minLength >= map[key])
-		resolution = key;
-}
-
-document.documentElement.classList.add("resolution-" + resolution);
-
 // OBS Studio
 if (window.obsstudio)
 	document.documentElement.classList.add("obs-studio");
@@ -48,6 +26,17 @@ if(sceneName && config.scenes[sceneName]){
 
 	if (scene.nonInteractive) document.documentElement.classList.add("non-interactive");
 	if (scene.static) document.documentElement.classList.add("static");
+	if (scene.colorblock) document.documentElement.classList.add("colorblock");
+
+	if (scene.theme && scene.theme !== "default"){
+		const themeLocation = await window.np.getThemeLocationFor(scene.theme);
+		if(themeLocation){
+			const styleNode = document.createElement("link");
+			styleNode.rel = "stylesheet";
+			styleNode.href = themeLocation;
+			document.head.appendChild(styleNode);
+		}
+	}
 
 	if (typeof scene.showAlbumArt !== "undefined" && !scene.showAlbumArt)
 		document.documentElement.classList.add("no-album-art");
@@ -58,14 +47,23 @@ if(sceneName && config.scenes[sceneName]){
 	if (typeof scene.showExtraButtons !== "undefined" && !scene.showExtraButtons)
 		document.documentElement.classList.add("no-extra-buttons");
 
-	if (typeof scene.showInfo !== "undefined" && !scene.showInfo)
-		document.documentElement.classList.add("no-info");
+	if (typeof scene.showPlayingIndicator !== "undefined" && !scene.showPlayingIndicator)
+		document.documentElement.classList.add("no-playing-indicator");
 
 	if (typeof scene.showLyrics !== "undefined" && !scene.showLyrics)
 		document.documentElement.classList.add("no-show-lyrics");
 
 	if (typeof scene.showProgress !== "undefined" && !scene.showProgress)
 		document.documentElement.classList.add("no-progress");
+
+	if (typeof scene.lyricsBlur !== "undefined" && !scene.lyricsBlur)
+		document.documentElement.classList.add("no-lyrics-blur");
+
+	if (typeof scene.playerIcon !== "undefined" && !scene.playerIcon)
+		document.documentElement.classList.add("no-player-icon");
+
+	if (typeof scene.colors !== "undefined" && !scene.colors)
+		document.documentElement.classList.add("no-colors");
 }
 
 if(sceneName && ["electron", "default"].includes(sceneName)){

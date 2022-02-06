@@ -3,8 +3,8 @@ import { putLyricsInPlace, updateActiveLyrics } from "./lyrics.js";
 import songdata from "./songdata.js";
 import { secondsToTime, isElectron } from "./util.js";
 import { updateSeekbarStatus, updateSeekbarTime } from "./seekbar.js";
-import { show } from "./showhide.js";
 import { SongData } from "../../types.js";
+import { getAppIcon } from "./appicon.js";
 
 const documentRoot = document.querySelector(":root") as HTMLElement;
 
@@ -37,11 +37,25 @@ export function updateNowPlaying() {
 		document.getElementById("album")!.textContent = "";
 	}
 
-	// DETAILS
-	document.getElementById("details")!.textContent = [
-		songdata.appName ? lang.PLAYING_ON_APP.replace("%APP%", songdata.appName) : undefined,
-		songdata.lastfm?.userplaycount ? lang.PLAY_COUNT.replace("%COUNT%", songdata.lastfm?.userplaycount) : undefined,
-	].filter(Boolean).join(" • ");
+	// SCROBBLES
+	const scrobbles = document.getElementById("scrobbles")!;
+	if (songdata.lastfm?.userplaycount) {
+		scrobbles.textContent = lang.SCROBBLE_COUNT.replace("%COUNT%", songdata.lastfm?.userplaycount);
+		scrobbles.style.display = "none";
+	} else {
+		scrobbles.textContent = "";
+		scrobbles.style.display = "";
+	}
+
+	// PLAYING INDICATOR
+	if (songdata.app){
+		const appicon = getAppIcon();
+		documentRoot.style.setProperty("--app-icon", `url("${appicon.split("\"").join("\\\"")}")`);
+	} else
+		documentRoot.style.removeProperty("--app-icon");
+
+	document.getElementById("player-playing")!.textContent = songdata.appName ? lang.PLAYING_ON_APP : "";
+	document.getElementById("player-name")!.textContent = songdata.appName || "";
 
 	// CONTROLS VISIBILITY
 	const playPauseBtn = document.getElementById("playpause")!;
@@ -59,7 +73,7 @@ export function updateNowPlaying() {
 	setDisabledClass(document.getElementById("spotify"), songdata.spotify?.url);
 
 	// CONTROLS STATUS
-	(playPauseBtn.firstChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));
+	(playPauseBtn.firstElementChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));
 
 	if (songdata.shuffle) shuffleBtn.classList.add("active");
 	else shuffleBtn.classList.remove("active");
@@ -67,15 +81,15 @@ export function updateNowPlaying() {
 	switch (songdata.loop) {
 		default:
 			repeatBtn.classList.remove("active");
-			(repeatBtn.firstChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#repeat");
+			(repeatBtn.firstElementChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#repeat");
 			break;
 		case "Track":
 			repeatBtn.classList.add("active");
-			(repeatBtn.firstChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#repeat_one");
+			(repeatBtn.firstElementChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#repeat_one");
 			break;
 		case "Playlist":
 			repeatBtn.classList.add("active");
-			(repeatBtn.firstChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#repeat");
+			(repeatBtn.firstElementChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#repeat");
 			break;
 	}
 
@@ -132,33 +146,40 @@ async function updateAlbumArt(){
 
 function updateColors(){
 	const palette = songdata.metadata.artData?.palette;
-	if(!palette){
+	if(palette){
+		document.documentElement.classList.remove("no-palette");
+		documentRoot.style.setProperty("--color-vibrant", palette.Vibrant);
+		documentRoot.style.setProperty("--color-muted", palette.Muted);
+		documentRoot.style.setProperty("--color-light-vibrant", palette.LightVibrant);
+		documentRoot.style.setProperty("--color-light-muted", palette.LightMuted);
+		documentRoot.style.setProperty("--color-dark-vibrant", palette.DarkVibrant);
+		documentRoot.style.setProperty("--color-dark-muted", palette.DarkMuted);
+	}else{
+		document.documentElement.classList.add("no-palette");
 		documentRoot.style.removeProperty("--color-vibrant");
 		documentRoot.style.removeProperty("--color-muted");
 		documentRoot.style.removeProperty("--color-light-vibrant");
 		documentRoot.style.removeProperty("--color-light-muted");
 		documentRoot.style.removeProperty("--color-dark-vibrant");
 		documentRoot.style.removeProperty("--color-dark-muted");
-		return;
 	}
 
-	documentRoot.style.setProperty("--color-vibrant", palette.Vibrant);
-	documentRoot.style.setProperty("--color-muted", palette.Muted);
-	documentRoot.style.setProperty("--color-light-vibrant", palette.LightVibrant);
-	documentRoot.style.setProperty("--color-light-muted", palette.LightMuted);
-	documentRoot.style.setProperty("--color-dark-vibrant", palette.DarkVibrant);
-	documentRoot.style.setProperty("--color-dark-muted", palette.DarkMuted);
+	(document.getElementById("theme-color")! as HTMLMetaElement).content = window.getComputedStyle(documentRoot).getPropertyValue("--color-bg").trim();
 }
 
 function updateTime() {
-	const time = document.getElementById("time")!;
-	if(songdata.metadata.length){
-		if(typeof songdata.elapsed !== "undefined" && songdata.elapsed > 0.5) // half a second rule to cut off spotify on linux lol
-			time.textContent = secondsToTime(songdata.elapsed) + " • " + secondsToTime(songdata.metadata.length);
-		else
-			time.textContent = secondsToTime(songdata.metadata.length);
-	}else
-		time.textContent = "";
+	const timeElapsed = document.getElementById("time-elapsed")!;
+	const timeTotal = document.getElementById("time-total")!;
+
+	if(songdata.metadata.length)
+		timeTotal.textContent = secondsToTime(songdata.metadata.length);
+	else
+		timeTotal.textContent = "00:00";
+
+	if(songdata.elapsed)
+		timeElapsed.textContent = secondsToTime(songdata.elapsed);
+	else
+		timeElapsed.textContent = "00:00";
 }
 
 function setDisabledClass(elem, condition) {
@@ -185,11 +206,8 @@ window.np.registerUpdateCallback((_songdata: SongData, metadataChanged: boolean)
 	console.debug(_songdata, metadataChanged);
 	for (const prop of Object.getOwnPropertyNames(songdata)) delete songdata[prop];
 	Object.assign(songdata, _songdata);
-	if (metadataChanged) {
-		if (!document.documentElement.classList.contains("static"))
-			show(true);
+	if (metadataChanged)
 		putLyricsInPlace();
-	}
 
 	updateNowPlaying();
 });

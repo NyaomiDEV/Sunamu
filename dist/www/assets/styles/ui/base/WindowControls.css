@@ -1,43 +1,50 @@
 .window-controls {
 	position: fixed;
-	top: 1.5rem;
-	right: 1.5rem;
+	top: 56px;
+	right: 56px;
 	z-index: 5;
-
-	width: fit-content;
-	height: fit-content;
-
-	padding: 0.25rem 0.5rem;
-	background-color: #FFFFFF40;
-	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
-	border-radius: 1.5rem;
-
+	display: flex;
+	gap: 8px;
 	opacity: 1;
-	transition: ease .5s opacity;
+	transition: ease .2s;
 }
 
 html.idle .window-controls {
 	opacity: 0;
 }
 
-.window-controls > * {
-	color: white;
-	display: inline-block;
-	margin: 0 0.25rem;
-	width: 1.5rem;
-	height: 1.5rem;
+.window-controls * {
+	width: 24px;
+	height: 24px;
+	color: var(--color-fg);
 	cursor: default;
 }
 
-.window-controls .minimize {
+#minimize {
 	display: none;
 }
 
-.window-controls .close {
+#close {
 	display: none;
 }
 
 html.widget-mode .window-controls,
 html.non-interactive .window-controls {
 	display: none;
+}
+
+/* iPad */
+@media only screen and (max-width: 1024px) {
+	.window-controls {
+		top: 40px;
+		right: 40px;
+	}
+}
+
+/* iPhone */
+@media only screen and (max-width: 812px) {
+	.window-controls {
+		top: 24px;
+		right: 24px;
+	}
 }

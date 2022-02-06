@@ -1,7 +1,7 @@
 {
   "name": "sunamu",
   "description": "Beautiful Now Playing widget for the desktop, the web and streaming software",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "main": "dist/main/index.js",
   "license": "MPL-2.0",
   "private": true,

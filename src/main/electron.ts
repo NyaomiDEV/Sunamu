@@ -7,6 +7,7 @@ import { widgetModeElectron, debugMode, waylandOzone } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
 import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
 import { getAppData } from "./util";
+import { getThemeLocation } from "./themes";
 
 process.title = "sunamu";
 
@@ -84,6 +85,8 @@ function registerElectronIpc() {
 			return openedBrowserWindows.get(_win);
 		return undefined;
 	});
+
+	ipcMain.handle("getThemeLocationFor", (_e, theme) => getThemeLocation(theme));
 
 	ipcMain.on("minimize", (e) => {
 		const _win = BrowserWindow.fromWebContents(e.sender);

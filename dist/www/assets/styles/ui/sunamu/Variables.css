@@ -1,4 +1,26 @@
 :root {
-	--cover-art-url: url("../../../images/no_song.png");
+	/* Traverse to the root and back because FUCKING WEBKIT I HATE YOU APPLE */
+	--cover-art-url: url("../../../../assets/images/no_song.svg");
+	--app-icon: url("../../../../assets/images/apps/default.svg");
+
 	--font-family: "Urbanist";
+
+	--color-muted: rgb(2, 117, 151);
+	--color-vibrant: rgb(4, 196, 252);
+
+	--color-light-muted: rgb(3, 148, 150);
+	--color-light-vibrant: rgb(123, 251, 252);
+
+	--color-dark-muted: rgb(2, 117, 151);
+	--color-dark-vibrant: rgb(2, 102, 131);
+
+	--color-fg: var(--color-light-vibrant);
+	--color-bg: var(--color-dark-vibrant);
+}
+
+html.no-colors,
+html.no-palette,
+html.not-playing {
+	--color-fg: white;
+	--color-bg: rgba(0, 0, 0, 0.5);
 }

@@ -5,23 +5,10 @@
 @import url("Metadata.css");
 @import url("Seekbar.css");
 @import url("Lyrics.css");
+@import url("PlayingIndicator.css");
+@import url("PlaybackControls.css");
+@import url("NowPlaying.css");
 
 h1, h2, h3, h4, h5, h6, span, p {
 	font-family: var(--font-family);
-}
-
-#now-playing {
-	color: white;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	width: 100vw;
-	height: 100vh;
-}
-
-@media only screen and (orientation: portrait) {
-	#now-playing {
-		flex-direction: column;
-	}
 }

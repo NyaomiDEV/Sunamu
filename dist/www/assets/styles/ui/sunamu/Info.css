@@ -1,14 +1,25 @@
 .info-container {
-	position: relative;
-	width: 40vw;
-	min-width: 50rem;
-	height: 75vh;
-	max-height: 32rem;
-	margin: 1em;
+	width: 100%;
+	display: flex;
+	gap: 24px;
+	margin: 8px 0;
+	transition: ease .2s;
 }
 
-@media only screen and (orientation: portrait) {
-	.media-container {
-		height: 25vh;
+html.idle .info-container {
+	margin: 0;
+}
+
+/* iPad */
+@media only screen and (max-width: 1024px) {
+	.info-container {
+		gap: 16px;
+	}
+}
+
+/* iPhone */
+@media only screen and (max-width: 812px) {
+	.info-container {
+		gap: 8px;
 	}
 }
