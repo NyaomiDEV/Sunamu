@@ -202,17 +202,26 @@ async function parseMetadata(metadata): Promise<Metadata> {
 	let artData: ArtData | undefined;
 
 	if (metadata["mpris:artUrl"]){
-		let artBuffer: Buffer | undefined;
+		let artBuffer: Buffer | undefined, artType: string | undefined;
 
 		const artUrl = new URL(metadata["mpris:artUrl"]);
-
 		try{
-			if (artUrl.protocol === "file:")
-				artBuffer = await readFile(artUrl.pathname);
-			else {
-				const response = await axios.get<ArrayBuffer>(artUrl.href, {responseType: "arraybuffer"});
-				if (response.status === 200)
-					artBuffer = Buffer.from(response.data);
+			switch(artUrl.protocol){
+				case "file:":
+					artBuffer = await readFile(artUrl.pathname);
+					break;
+				case "data:":
+					const mime = artUrl.pathname.slice(0, artUrl.pathname.indexOf(",")).split(";");
+					const data = artUrl.pathname.slice(artUrl.pathname.indexOf(","));
+
+					artBuffer = Buffer.from(data, "base64");
+					artType = mime[0];
+					break;
+				default:
+					const response = await axios.get<ArrayBuffer>(artUrl.href, { responseType: "arraybuffer" });
+					if (response.status === 200)
+						artBuffer = Buffer.from(response.data);
+					break;
 			}
 		}catch(e){
 			//...
@@ -225,7 +234,7 @@ async function parseMetadata(metadata): Promise<Metadata> {
 			})).getPalette();
 			artData = {
 				data: artBuffer,
-				type: [mime.getType(metadata["mpris:artUrl"]) || ""],
+				type: [artType || mime.getType(metadata["mpris:artUrl"]) || ""],
 				palette: {
 					DarkMuted: palette.DarkMuted!.hex,
 					DarkVibrant: palette.DarkVibrant!.hex,
