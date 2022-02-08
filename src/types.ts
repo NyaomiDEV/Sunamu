@@ -83,7 +83,7 @@ export type Palette = {
 export type ArtData = {
 	type: string[],
 	data: Buffer,
-	palette: Palette
+	palette?: Palette
 }
 
 export type Metadata = {

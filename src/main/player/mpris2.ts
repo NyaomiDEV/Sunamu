@@ -228,22 +228,27 @@ async function parseMetadata(metadata): Promise<Metadata> {
 		}
 
 		if(artBuffer){
-			const palette = await (new Vibrant(artBuffer, {
-				colorCount: 16,
-				quality: 1
-			})).getPalette();
 			artData = {
 				data: artBuffer,
 				type: [artType || mime.getType(metadata["mpris:artUrl"]) || ""],
-				palette: {
+			};
+
+			try{
+				const palette = await (new Vibrant(artBuffer, {
+					colorCount: 16,
+					quality: 1
+				})).getPalette();
+				artData.palette = {
 					DarkMuted: palette.DarkMuted!.hex,
 					DarkVibrant: palette.DarkVibrant!.hex,
 					LightMuted: palette.LightMuted!.hex,
 					LightVibrant: palette.LightVibrant!.hex,
 					Muted: palette.Muted!.hex,
 					Vibrant: palette.Vibrant!.hex,
-				}
-			};
+				};
+			} catch (_) {
+				debug("Couldn't compute palette for image");
+			}
 		}
 	}
 
