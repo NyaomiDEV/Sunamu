@@ -59,7 +59,7 @@ export function updateActiveLyrics() {
 
 	// we get the active one
 	let lineIndex = songdata.lyrics.lines.length - 1;
-	for (let i = 0; i < songdata.lyrics.lines.length; i++) {
+	for (let i = -1; i < songdata.lyrics.lines.length; i++) {
 		// @ts-ignore
 		if (songdata.elapsed < songdata.lyrics.lines[i + 1]?.time) {
 			lineIndex = i;

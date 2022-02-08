@@ -212,6 +212,8 @@ export async function pollPosition() {
 		songdata.elapsed = await (await getPlayer()).GetPosition();
 		if(songdata.elapsed - lastPosition !== 0)
 			songdata.reportsPosition = true;
+		else
+			songdata.reportsPosition = false;
 	}
 
 	// calls

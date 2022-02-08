@@ -1,18 +1,17 @@
 import { show, hide } from "./showhide.js";
 
 // ON LOAD
-if(!document.documentElement.classList.contains("static")){
-	if (document.readyState !== "loading") {
-		document.body.onmousemove = show;
-		document.body.ontouchmove = show;
+if (!document.documentElement.classList.contains("static")) {
+	const events = () => {
+		document.body.addEventListener("mouseenter", show);
+		document.body.addEventListener("mouseleave", hide);
 		hide();
-	} else {
-		document.addEventListener("DOMContentLoaded", () => {
-			document.body.onmousemove = show;
-			document.body.ontouchmove = show;
-			hide();
-		});
-	}
+	};
+
+	if (document.readyState === "loading")
+		document.addEventListener("DOMContentLoaded", events);
+	else
+		events();
 }
 
 if (!document.documentElement.classList.contains("widget-mode")) {

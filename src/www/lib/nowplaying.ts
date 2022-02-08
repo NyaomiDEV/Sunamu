@@ -185,8 +185,9 @@ window.np.registerUpdateCallback((_songdata: SongData, metadataChanged: boolean)
 	console.debug(_songdata, metadataChanged);
 	for (const prop of Object.getOwnPropertyNames(songdata)) delete songdata[prop];
 	Object.assign(songdata, _songdata);
-	if(!document.documentElement.classList.contains("static") && metadataChanged){
-		show(true);
+	if (metadataChanged) {
+		if (!document.documentElement.classList.contains("static"))
+			show(true);
 		putLyricsInPlace();
 	}
 
