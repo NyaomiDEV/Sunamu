@@ -18,12 +18,12 @@
 |Clementine|Perfect|Reported by @KorbsStudio|
 |Tauon Music Box|Perfect|Reported by @KorbsStudio|
 |Pithos|Perfect|Reported by @KorbsStudio|
+|Sonixd|Perfect||
 |GNOME Music|Working|Cover arts are not shown "at first try". Possibly, the `PropertiesChanged` event is not handled well enough.|
 |QMMP|Working|Please enable the MPRIS plugin|
 |Spotify|Working|Seekbar, current position and synchronized lyrics are not working|
 |Spotifyd|Working|While the MPRIS2 implementation is kinda okay, they still need to raise the appropriate D-Bus `PropertiesChanged` event. See [their issue tracker](https://github.com/Spotifyd/spotifyd/issues/457).|
 |Spotify-Qt|Working|The developer has an issue ticket detailing some of the caveats [here](https://github.com/kraxarn/spotify-qt/issues/4).
-|Sonixd|Working|Seekbar, current position and synchronized lyrics are not working|
 |MPV|Working|With the [mpv-mpris](https://github.com/hoyon/mpv-mpris) plugin|
 |Plasma Browser Integration|Working|It all depends on the website, really|
 |Lollypop|Detected|It doesn't implement the `PropertiesChanged` signal|
