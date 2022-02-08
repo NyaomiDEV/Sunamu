@@ -1,7 +1,6 @@
 import { Update } from "../../types";
 // @ts-ignore
 import Player from "winplayer-node";
-import { basename, extname } from "path";
 import Vibrant from "node-vibrant";
 
 import { debug } from "..";
@@ -17,10 +16,6 @@ export async function getUpdate(): Promise<Update | null> {
 	const update: Update = await _player.getUpdate();
 
 	if(update !== null){
-		// Remove the trailing extension on app names
-		if (update.app === update.appName) // Win32 app or otherwise app without registered AUMID
-			update.appName = basename(update.appName, extname(update.appName));
-
 		if (update.metadata.artData) {
 			try {
 				const palette = await (new Vibrant(update.metadata.artData.data, {
