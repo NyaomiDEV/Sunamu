@@ -246,8 +246,8 @@ async function parseMetadata(metadata): Promise<Metadata> {
 					Muted: palette.Muted!.hex,
 					Vibrant: palette.Vibrant!.hex,
 				};
-			} catch (_) {
-				debug("Couldn't compute palette for image");
+			} catch (e) {
+				debug("Couldn't compute palette for image", e);
 			}
 		}
 	}

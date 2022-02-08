@@ -32,8 +32,8 @@ export async function getUpdate(): Promise<Update | null> {
 						Vibrant: palette.Vibrant!.hex,
 					};
 				}
-			} catch (_) {
-				debug("Couldn't compute palette for image");
+			} catch (e) {
+				debug("Couldn't compute palette for image", e);
 			}
 		}
 	}
