@@ -14,7 +14,7 @@
     "url": "https://github.com/NyaomiDEV/Sunamu.git"
   },
   "scripts": {
-    "lint": "eslint src/ www/lib/ --ext .ts,.js",
+    "lint": "eslint src/ --ext .ts",
     "compile": "tsc -b",
     "clean": "rm dist/types*; rm -rf dist/main; rm -rf dist/www/lib; rm -rf dist/www/index.{js,d.ts,d.ts.map}; rm -rf targets",
     "install-deps": "electron-builder install-app-deps",
