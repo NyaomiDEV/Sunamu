@@ -37,6 +37,7 @@
     "@types/node": "^16",
     "@types/node-static": "^0.7.7",
     "@types/obs-studio": "^2.16.0",
+    "@types/sharp": "^0.29.5",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "electron": "^16.0.0",
@@ -56,6 +57,7 @@
     "node-static": "^0.7.11",
     "node-vibrant": "^3.2.1-alpha.1",
     "register-scheme": "NyaomiDEV/node-register-scheme",
+    "sharp": "^0.30.0",
     "socket.io": "^4.4.0",
     "yargs": "^17.2.1"
   },

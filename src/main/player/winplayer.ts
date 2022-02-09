@@ -4,6 +4,7 @@ import Player from "winplayer-node";
 import Vibrant from "node-vibrant";
 
 import { debug } from "..";
+import sharp from "sharp";
 
 let _player;
 
@@ -18,7 +19,11 @@ export async function getUpdate(): Promise<Update | null> {
 	if(update !== null){
 		if (update.metadata.artData) {
 			try {
-				const palette = await (new Vibrant(update.metadata.artData.data, {
+				const palettebuffer = await sharp(update.metadata.artData.data)
+					.resize(512, 512, { withoutEnlargement: true })
+					.png()
+					.toBuffer();
+				const palette = await (new Vibrant(palettebuffer, {
 					colorCount: 16,
 					quality: 1
 				})).getPalette();

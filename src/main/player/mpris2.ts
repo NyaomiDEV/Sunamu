@@ -11,6 +11,7 @@ import dbus from "dbus-next";
 import { getPlayer, getPlayerNames } from "mpris-for-dummies";
 // @ts-ignore
 import MediaPlayer2 from "mpris-for-dummies/lib/MediaPlayer2";
+import sharp from "sharp";
 
 let players: { [key: string]: MediaPlayer2 } = {};
 let activePlayer: string | undefined;
@@ -209,18 +210,21 @@ async function parseMetadata(metadata): Promise<Metadata> {
 			switch(artUrl.protocol){
 				case "file:":
 					artBuffer = await readFile(artUrl.pathname);
+					artType = mime.getType(artUrl.pathname) ?? undefined;
 					break;
 				case "data:":
-					const mime = artUrl.pathname.slice(0, artUrl.pathname.indexOf(",")).split(";");
+					const _mime = artUrl.pathname.slice(0, artUrl.pathname.indexOf(",")).split(";");
 					const data = artUrl.pathname.slice(artUrl.pathname.indexOf(","));
 
 					artBuffer = Buffer.from(data, "base64");
-					artType = mime[0];
+					artType = _mime[0];
 					break;
 				default:
 					const response = await axios.get<ArrayBuffer>(artUrl.href, { responseType: "arraybuffer" });
-					if (response.status === 200)
+					if (response.status === 200){
 						artBuffer = Buffer.from(response.data);
+						artType = response.headers["content-type"];
+					}
 					break;
 			}
 		}catch(e){
@@ -230,11 +234,15 @@ async function parseMetadata(metadata): Promise<Metadata> {
 		if(artBuffer){
 			artData = {
 				data: artBuffer,
-				type: [artType || mime.getType(metadata["mpris:artUrl"]) || ""],
+				type: [artType || "application/octet-stream"],
 			};
 
 			try{
-				const palette = await (new Vibrant(artBuffer, {
+				const palettebuffer = await sharp(artBuffer)
+					.resize(512, 512, {withoutEnlargement: true})
+					.png()
+					.toBuffer();
+				const palette = await (new Vibrant(palettebuffer, {
 					colorCount: 16,
 					quality: 1
 				})).getPalette();
