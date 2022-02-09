@@ -8,6 +8,7 @@ node_modules
 /targets/
 /yarn-*.log
 /.env
+/test.js
 
 # just in case someone runs makepkg directly
 /aur/sunamu*/*
