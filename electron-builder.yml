@@ -21,10 +21,13 @@ files:
   - "!test.js"
   - "!README.md"
   - "!tsconfig.json"
+  - "!tsconfig.settings.json"
   - "!assets/{preview*.png,kwin-widget-rule.kwinrule}"
   - "!aur/*"
   - "!.github/*"
   - "!.vscode/*"
+  - "!.env"
+  - "!.nvmrc"
 linux:
   target:
   - AppImage
