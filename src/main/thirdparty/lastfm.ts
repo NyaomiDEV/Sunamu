@@ -6,6 +6,8 @@ import axios from "axios";
 import { URLSearchParams } from "url";
 import { LastFMInfo, Metadata } from "../../types";
 
+import { debug } from "..";
+
 // limited, do we?
 const apiKey = "fd35d621eee8c53c1130c12b2d53d7fb";
 const root = "https://ws.audioscrobbler.com/2.0/";
@@ -20,14 +22,20 @@ function queryString(options){
 	return params.toString();
 }
 
-export async function queryLastFM(methodName, options){
+export async function queryLastFM(methodName, options): Promise<any | undefined>{
 	const allOptions = {
 		method: methodName,
 		...options
 	};
 
-	const result = await axios.get(root + "?" + queryString(allOptions));
-	return result.data;
+	try{
+		const result = await axios.get(root + "?" + queryString(allOptions));
+		return result.data;
+	}catch(e){
+		debug(`LastFM query for ${methodName} got an error`, e);
+	}
+
+	return undefined;
 }
 
 export async function getLFMTrackInfo(metadata: Metadata, forUsername: string): Promise<LastFMInfo | undefined>{
@@ -42,6 +50,6 @@ export async function getLFMTrackInfo(metadata: Metadata, forUsername: string): 
 	if(forUsername) opts.username = forUsername;
 
 	const result = await queryLastFM("track.getInfo", opts);
-	if(result.track) return result.track;
+	if(result?.track) return result.track;
 	return undefined;
 }

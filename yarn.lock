@@ -2565,8 +2565,8 @@ mkdirp@^0.5.1, mkdirp@^0.5.4:
     minimist "^1.2.5"
 
 mpris-for-dummies@NyaomiDEV/mpris-for-dummies:
-  version "0.0.7"
-  resolved "https://codeload.github.com/NyaomiDEV/mpris-for-dummies/tar.gz/802b3f2477edd84843e38ae29ba50455e54461d6"
+  version "0.0.9"
+  resolved "https://codeload.github.com/NyaomiDEV/mpris-for-dummies/tar.gz/33c6a32321a2bfab2bd64e0c43ef5c0184bb308f"
   dependencies:
     dbus-next "^0.8.2"
 

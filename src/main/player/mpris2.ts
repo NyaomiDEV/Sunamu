@@ -152,6 +152,7 @@ async function addPlayer(name: string) {
 }
 
 async function deletePlayer(name: string) {
+	players[name].destruct();
 	delete players[name];
 	await calculateActivePlayer();
 	debug("Removed player", name);
@@ -220,10 +221,14 @@ async function parseMetadata(metadata): Promise<Metadata> {
 					artType = _mime[0];
 					break;
 				default:
-					const response = await axios.get<ArrayBuffer>(artUrl.href, { responseType: "arraybuffer" });
-					if (response.status === 200){
-						artBuffer = Buffer.from(response.data);
-						artType = response.headers["content-type"];
+					try{
+						const response = await axios.get<ArrayBuffer>(artUrl.href, { responseType: "arraybuffer" });
+						if (response.status === 200) {
+							artBuffer = Buffer.from(response.data);
+							artType = response.headers["content-type"];
+						}
+					}catch(e){
+						debug("MPRIS2 cover art retrieval for artData failed with error", e);
 					}
 					break;
 			}
