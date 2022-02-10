@@ -25,11 +25,17 @@
     "start:node": "yarn run:node",
     "run": "yarn compile && electron .",
     "run:node": "yarn compile && node .",
-    "build": "yarn compile && electron-builder --linux",
-    "build:dir": "yarn compile && electron-builder --dir",
-    "build:win": "yarn compile && electron-builder --windows",
-    "release": "yarn clean && yarn compile && electron-builder --linux --armv7l --arm64 --ia32 --x64 --publish always; yarn install-deps",
-    "release:win": "yarn clean && yarn compile && electron-builder --windows --arm64 --ia32 --x64 --publish always; yarn install-deps"
+    "build:prepare:sharp": "cd node_modules/sharp && rm -rf vendor && node install/libvips && node install/dll-copy",
+    "build:prepare:sharp:compile": "cd node_modules/sharp && rm -rf vendor && rm -rf build && node install/can-compile && node-gyp rebuild && node install/dll-copy",
+    "build": "yarn compile && yarn build:prepare:sharp && electron-builder --linux",
+    "build:dir": "yarn compile && yarn build:prepare:sharp && electron-builder --dir",
+    "build:win": "yarn compile && yarn build:prepare:sharp && electron-builder --windows",
+    "release": "yarn clean && yarn compile && yarn release:x64 && yarn release:arm64; yarn install-deps",
+    "release:x64": "npm_config_arch=x64 yarn build:prepare:sharp && electron-builder --linux --x64 --publish always",
+    "release:arm64": "npm_config_arch=arm64 yarn build:prepare:sharp && electron-builder --linux --arm64 --publish always",
+    "release:win": "yarn clean && yarn compile && yarn release:win:x64 && yarn release:win:ia32; yarn install-deps",
+    "release:win:x64": "npm_config_arch=x64 yarn build:prepare:sharp && electron-builder --windows --x64 --publish always",
+    "release:win:ia32": "npm_config_arch=ia32 yarn build:prepare:sharp && electron-builder --windows --ia32 --publish always"
   },
   "devDependencies": {
     "@types/discord-rpc": "^4.0.0",
@@ -56,7 +62,7 @@
     "mime": "^3.0.0",
     "node-static": "^0.7.11",
     "node-vibrant": "^3.2.1-alpha.1",
-    "sharp": "^0.30.0",
+    "sharp": "^0.30.1",
     "socket.io": "^4.4.0",
     "yargs": "^17.2.1"
   },
