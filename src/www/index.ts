@@ -15,16 +15,19 @@ declare global {
 	// eslint-disable-next-line no-unused-vars
 	interface Window {
 		title: string,
-		np: NowPlayingAPI;
-		getNowPlaying?: () => SongData
+		np: NowPlayingAPI,
+		getNowPlaying?: () => SongData,
+		detectedLanguage?: string,
 	}
 }
 
 window.title = "Sunamu" + (document.documentElement.classList.contains("widget-mode") ? " Widget" : "");
 
 // Expose debug stuff
-if(await window.np.isDebugMode())
+if(await window.np.isDebugMode()){
 	window.getNowPlaying = () => songdata;
+	window.detectedLanguage = navigator.language.split("-")[0];
+}
 
 updateNowPlaying();
 putLyricsInPlace();

@@ -35,6 +35,7 @@ export type NowPlayingAPI = {
 }
 
 export type Config = {
+	language?: string,
 	useElectron: boolean,
 	useWebserver: boolean,
 	debugMode: boolean,

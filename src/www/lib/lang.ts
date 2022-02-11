@@ -1,3 +1,5 @@
+import config from "./config.js";
+
 export const allLangs = {
 	en: {
 		NOT_PLAYING: "Not playing",
@@ -23,4 +25,4 @@ export const allLangs = {
 	}
 };
 
-export default (allLangs[navigator.language.split("-")[0]] || allLangs.en);
+export default (allLangs[config.language || navigator.language.split("-")[0]] || allLangs.en);
