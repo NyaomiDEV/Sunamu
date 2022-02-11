@@ -34,11 +34,12 @@
 |Name|Status|Comments|
 |-|-|-|
 |Spotify|Perfect||
+|Sonixd|Working|Seekbar, current position and synchronized lyrics are not working. Displays as `org.erb.sonixd`.|
 |Groove Music|Working|Seekbar doesn't work|
 |foobar2000|Working|Seekbar, current position and synchronized lyrics are not working. Using [foo_mediacontrol](https://github.com/Hual/foo_mediacontrol)|
 |AIMP|Working|Seekbar, current position and synchronized lyrics are not working. Using [Windows 10 Media Control](https://www.aimp.ru/?do=catalog&rec_id=1097)|
 |MusicBee|Working|Seekbar, current position and synchronized lyrics are not working. Using [Windows 10 Media Control Overlay](https://getmusicbee.com/addons/plugins/98/windows-10-media-control-overlay/)|
-|Microsoft Edge|Working|Seekbar, current position and synchronized lyrics are not working. Displays as MSEdge.|
+|Microsoft Edge|Working|Seekbar, current position and synchronized lyrics are not working. Displays as `MSEdge`.|
 |Google Chrome|Working|Seekbar, current position and synchronized lyrics are not working.|
 |VLC UWP|Working|Seekbar, current position and synchronized lyrics are not working.|
 |iTunes|Not working|It doesn't expose itself through the GlobalSystemMediaTransportControlsSession API.|
