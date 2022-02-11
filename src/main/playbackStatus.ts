@@ -208,9 +208,8 @@ export function deletePositionCallback(cb: (position: number, reportsPosition: b
 
 export async function pollPosition() {
 	if (songdata.status === "Playing"){
-		const lastPosition = songdata.elapsed;
 		songdata.elapsed = await (await getPlayer()).GetPosition();
-		if(songdata.elapsed - lastPosition !== 0)
+		if(songdata.elapsed > 0)
 			songdata.reportsPosition = true;
 		else
 			songdata.reportsPosition = false;
