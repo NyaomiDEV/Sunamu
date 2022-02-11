@@ -41,10 +41,10 @@ export function updateNowPlaying() {
 	const scrobbles = document.getElementById("scrobbles")!;
 	if (songdata.lastfm?.userplaycount) {
 		scrobbles.textContent = lang.SCROBBLE_COUNT.replace("%COUNT%", songdata.lastfm?.userplaycount);
-		scrobbles.style.display = "none";
+		scrobbles.style.display = "";
 	} else {
 		scrobbles.textContent = "";
-		scrobbles.style.display = "";
+		scrobbles.style.display = "none";
 	}
 
 	// PLAYING INDICATOR
