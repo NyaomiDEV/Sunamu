@@ -27,6 +27,7 @@ if(sceneName && config.scenes[sceneName]){
 	if (scene.nonInteractive) document.documentElement.classList.add("non-interactive");
 	if (scene.static) document.documentElement.classList.add("static");
 	if (scene.colorblock) document.documentElement.classList.add("colorblock");
+	if (scene.defaultColorsAreInverted) document.documentElement.classList.add("inverted-default-colors");
 
 	if (scene.theme && scene.theme !== "default"){
 		const themeLocation = await window.np.getThemeLocationFor(scene.theme);

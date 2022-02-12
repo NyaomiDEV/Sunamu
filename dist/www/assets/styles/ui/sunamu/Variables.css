@@ -24,3 +24,10 @@ html.not-playing {
 	--color-fg: white;
 	--color-bg: rgba(0, 0, 0, 0.5);
 }
+
+html.inverted-default-colors.no-colors,
+html.inverted-default-colors.no-palette,
+html.inverted-default-colors.not-playing {
+	--color-fg: black;
+	--color-bg: rgba(255, 255, 255, 0.5);
+}

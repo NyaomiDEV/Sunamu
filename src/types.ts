@@ -74,6 +74,7 @@ export type SceneConfig = {
 	lyricsBlur?: boolean,
 	showExtraButtons?: boolean,
 	colors?: boolean,
+	defaultColorsAreInverted?: boolean,
 	colorblock?: boolean
 	playerIcon?: boolean
 }
