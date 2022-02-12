@@ -9,6 +9,10 @@ if (window.obsstudio)
 if (isElectron())
 	document.documentElement.classList.add("electron");
 
+// @ts-expect-error
+if(document.fullscreenEnabled || document.webkitFullscreenEnabled)
+	document.documentElement.classList.add("supports-fullscreen");
+
 // Scenes
 const sceneName = await window.np.getScene();
 
