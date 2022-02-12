@@ -21,7 +21,7 @@ export function updateNowPlaying() {
 	// WINDOW TITLE
 	if (!document.documentElement.classList.contains("widget-mode")){
 		if (songdata.metadata.id)
-			document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - " + window.title;
+			document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title || lang.UNKNOWN_TITLE).replace("%ARTIST%", songdata.metadata.artist || lang.UNKNOWN_ARTIST) + " - " + window.title;
 		else
 			document.title = window.title;
 	}
