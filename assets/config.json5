@@ -36,7 +36,7 @@
 			// showLyrics: true,
 			// lyricsBlur: true,
 			// showExtraButtons: true,
-			// colors: true,
+			colors: false,
 			// colorblock: false,
 			// playerIcon: true
 		},
