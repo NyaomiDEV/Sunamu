@@ -36,7 +36,7 @@
 			// showLyrics: true,
 			// lyricsBlur: true,
 			// showExtraButtons: true,
-			colors: false,
+			// colors: true,
 			// defaultColorsAreInverted: false,
 			// colorblock: false,
 			// playerIcon: true
@@ -44,6 +44,7 @@
 		electron: {
 			type: "electron",
 			widgetMode: true,
+			colors: false,
 			font: "",
 			theme: "default"
 		},
