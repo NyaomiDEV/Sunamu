@@ -34,6 +34,17 @@ export const allLangs = {
 		UNKNOWN_TITLE: "Unbekannter Titel",
 		LYRICS_COPYRIGHT: "Songtexte bereitgestellt von %PROVIDER%",
 	},
+	fr: {
+		NOT_PLAYING: "Aucune musique en cours de lecture",
+		PLEASE_PLAY_SONG: "Mettez quelque chose !",
+		PLAYING_ON_APP: "Lecture sur",
+		SCROBBLE_COUNT: "Scrobblé %COUNT% fois",
+		NO_LYRICS: "Paroles non disponibles",
+		NOW_PLAYING_TITLE: "\"%TITLE%\" de %ARTIST%",
+		UNKNOWN_ARTIST: "Artiste inconnu",
+		UNKNOWN_TITLE: "Titre inconnu",
+		LYRICS_COPYRIGHT: "Paroles provenant de %PROVIDER%",
+	},
 };
 
 export default (allLangs[config.language || navigator.language.split("-")[0]] || allLangs.en);
