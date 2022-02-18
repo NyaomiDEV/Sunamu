@@ -24,6 +24,7 @@ It only supports Windows (experimental; no support given) and Linux for now. mac
 ## Features
 
 - Display what you are playing in your TV, secondary display, or (heck) around the entire house!
+- Get the Spotify link for every song you listen to!*
 - Get lyrics for your songs!
 - Get a _GOOD_ Discord Rich Presence, finally!*
 - Bragging rights for your particular taste in music!**
