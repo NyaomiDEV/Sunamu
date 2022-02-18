@@ -29,7 +29,7 @@ It only supports Windows (experimental; no support given) and Linux for now. mac
 - Get a _GOOD_ Discord Rich Presence, finally!*
 - Bragging rights for your particular taste in music!**
 
-  *To be _GOOD_ you need to get yourself a Spotify Client ID and Client Secret and link Sunamu to them; but it looks nice regardless
+  *This feature, or part of it, requires a Spotify Client ID and Client Secret.
 
   **No responsibility is taken from the Sunamu devs and contributors if you have bad taste in music
 
