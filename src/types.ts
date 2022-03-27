@@ -150,7 +150,8 @@ export type LyricsLine = {
 export type SpotifyInfo = {
 	id: string,
 	uri: string,
-	url: string
+	external_urls: { spotify: string },
+	[any: string]: any
 }
 
 export type LastFMInfo = {

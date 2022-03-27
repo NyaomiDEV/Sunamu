@@ -102,7 +102,7 @@ async function getPresence() {
 	if (songdata.spotify) {
 		activity.buttons!.push({
 			label: "Listen on Spotify",
-			url: songdata.spotify.url
+			url: songdata.spotify.external_urls.spotify
 		});
 	}
 

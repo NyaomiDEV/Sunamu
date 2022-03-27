@@ -27,9 +27,9 @@ function bindPlaybackControls(){
 	const spotify = document.getElementById("spotify")!;
 	spotify.oncontextmenu = (e) => {
 		e.preventDefault();
-		navigator.clipboard.writeText(songdata.spotify?.url || "");
+		navigator.clipboard.writeText(songdata.spotify?.external_urls.spotify || "");
 	};
-	spotify.onclick = () => window.np.openExternal!(songdata.spotify?.url || "");
+	spotify.onclick = () => window.np.openExternal!(songdata.spotify?.external_urls.spotify || "");
 }
 
 function hideButtons(){

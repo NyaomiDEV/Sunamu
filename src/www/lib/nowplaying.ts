@@ -70,7 +70,7 @@ export function updateNowPlaying() {
 	setDisabledClass(repeatBtn, songdata.capabilities.canControl);
 
 	setDisabledClass(document.getElementById("lastfm"), songdata.lastfm);
-	setDisabledClass(document.getElementById("spotify"), songdata.spotify?.url);
+	setDisabledClass(document.getElementById("spotify"), songdata.spotify);
 
 	// CONTROLS STATUS
 	(playPauseBtn.firstElementChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));

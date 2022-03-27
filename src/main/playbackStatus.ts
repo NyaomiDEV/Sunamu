@@ -136,25 +136,20 @@ function hasMetadataChanged(oldMetadata: Metadata, newMetadata?: Metadata): bool
 
 async function pollSpotifyDetails(metadata: Metadata): Promise<SpotifyInfo | undefined> {
 	if (metadata.id) {
-		let id: string | undefined;
 
 		const spotiMatch = spotiId.exec(metadata.id);
 
-		if (spotiMatch)
-			id = spotiMatch[1];
-		else {
+		if (spotiMatch){
+			return {
+				id: spotiMatch[0],
+				uri: "spotify:track:" + spotiMatch[0],
+				external_urls: { spotify: "https://open.spotify.com/track/" + spotiMatch[0] },
+			};
+		} else {
 			const result = await searchSpotifySong();
 
 			if (result)
-				id = result.id;
-		}
-
-		if (id) {
-			return {
-				id,
-				uri: "spotify:track:" + id,
-				url: "https://open.spotify.com/track/" + id
-			};
+				return result;
 		}
 	}
 
