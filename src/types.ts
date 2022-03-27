@@ -159,6 +159,17 @@ export type LastFMInfo = {
 		name: string,
 		url: string
 	}
+
+	album: {
+		artist: string,
+		title: string,
+		url: string,
+		image: {
+			"#text": string,
+			size: string
+		}[],
+
+	}
 	name: string,
 	duration: string,
 	url: string,

@@ -107,6 +107,7 @@ async function getPresence() {
 	}
 
 	if (songdata.lastfm) {
+		activity.largeImageKey = songdata.lastfm.album.image.pop()?.["#text"];
 		activity.buttons!.push({
 			label: "View on Last.fm",
 			url: songdata.lastfm.url
