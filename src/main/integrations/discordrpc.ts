@@ -100,8 +100,11 @@ async function getPresence() {
 	}
 
 	if (songdata.spotify) {
-		if (!activity.largeImageKey)
-			activity.largeImageKey = songdata.spotify.album?.images.pop()?.url;
+		if (!activity.largeImageKey){
+			const images = songdata.spotify.album?.images;
+			if(images && images.length)
+				activity.largeImageKey = images[images?.length-1]?.url;
+		}
 
 		activity.buttons!.push({
 			label: "Listen on Spotify",
@@ -110,8 +113,11 @@ async function getPresence() {
 	}
 
 	if (songdata.lastfm) {
-		if(!activity.largeImageKey)
-			activity.largeImageKey = songdata.lastfm.album.image.pop()?.["#text"];
+		if(!activity.largeImageKey){
+			const images = songdata.lastfm.album.image;
+			if (images && images.length)
+				activity.largeImageKey = images[images?.length - 1]?.["#text"];
+		}
 
 		activity.buttons!.push({
 			label: "View on Last.fm",
