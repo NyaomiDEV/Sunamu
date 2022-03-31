@@ -1,7 +1,7 @@
 import { DeepPartial, Metadata, SongData, SpotifyInfo, Update } from "../types";
 import { get } from "./config";
 import getPlayer from "./player";
-import { searchSpotifySong } from "./thirdparty/spotify";
+import { getSpotifySongFromId, searchSpotifySong } from "./thirdparty/spotify";
 import { getLFMTrackInfo } from "./thirdparty/lastfm";
 import { spotiId } from "./util";
 import { queryLyrics } from "./integrations/lyrics";
@@ -135,25 +135,19 @@ function hasMetadataChanged(oldMetadata: Metadata, newMetadata?: Metadata): bool
 }
 
 async function pollSpotifyDetails(metadata: Metadata): Promise<SpotifyInfo | undefined> {
-	if (metadata.id) {
+	if (!metadata.id) return undefined;
 
-		const spotiMatch = spotiId.exec(metadata.id);
+	const spotiMatch = spotiId.exec(metadata.id);
 
-		if (spotiMatch){
-			return {
-				id: spotiMatch[0],
-				uri: "spotify:track:" + spotiMatch[0],
-				external_urls: { spotify: "https://open.spotify.com/track/" + spotiMatch[0] },
-			};
-		} else {
-			const result = await searchSpotifySong();
-
-			if (result)
-				return result;
-		}
+	if (spotiMatch){
+		return await getSpotifySongFromId(spotiMatch[0]) || {
+			id: spotiMatch[0],
+			uri: "spotify:track:" + spotiMatch[0],
+			external_urls: { spotify: "https://open.spotify.com/track/" + spotiMatch[0] },
+		};
 	}
 
-	return undefined;
+	return await searchSpotifySong() || undefined;
 }
 
 // ------ SONG DATA
