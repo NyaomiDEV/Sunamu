@@ -87,8 +87,8 @@ export async function updateInfo(update?: Update) {
 	
 		// BEGIN OF "HUGE SUSPENSION POINT"
 		const extraMetadata: Partial<SongData> = {};
-		extraMetadata.lastfm = await getLFMTrackInfo(update.metadata, get("lfmUsername"));
 		extraMetadata.spotify = await pollSpotifyDetails(update.metadata);
+		extraMetadata.lastfm = await getLFMTrackInfo(update.metadata, get("lfmUsername"));
 		extraMetadata.lyrics = await queryLyrics(update.metadata, extraMetadata.spotify?.id);
 		// END OF "HUGE SUSPENSION POINT"
 
