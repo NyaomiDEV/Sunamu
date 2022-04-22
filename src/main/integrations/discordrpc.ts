@@ -114,7 +114,7 @@ async function getPresence() {
 
 	if (songdata.lastfm) {
 		if(!activity.largeImageKey){
-			const images = songdata.lastfm.album.image;
+			const images = songdata.lastfm.album?.image;
 			if (images?.length)
 				activity.largeImageKey = images[images?.length - 1]?.["#text"];
 		}
