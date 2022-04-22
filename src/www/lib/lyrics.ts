@@ -86,9 +86,9 @@ export function updateActiveLyrics() {
 
 	// we get the active word
 	let wordIndex = -1;
-	if (config.karaoke && songdata.lyrics.lines[lineIndex].karaoke?.length){
-		wordIndex = songdata.lyrics.lines[lineIndex].karaoke!.length - 1;
-		for (let i = -1; i < songdata.lyrics.lines[lineIndex].karaoke!.length; i++) {
+	if (config.karaoke && songdata.lyrics.lines[lineIndex]?.karaoke?.length){
+		wordIndex = songdata.lyrics.lines[lineIndex]!.karaoke!.length - 1;
+		for (let i = -1; i < songdata.lyrics.lines[lineIndex]!.karaoke!.length; i++) {
 			// @ts-ignore
 			if (songdata.elapsed < songdata.lyrics.lines[lineIndex].karaoke[i + 1]?.start) {
 				wordIndex = i;
