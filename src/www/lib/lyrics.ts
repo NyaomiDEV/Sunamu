@@ -1,6 +1,7 @@
 import lang from "./lang.js";
 import songdata from "./songdata.js";
 import owoify from "./owoify.js";
+import config from "./config.js";
 
 const container = document.getElementById("lyrics")!;
 const copyright = document.getElementById("lyrics-copyright")!;
@@ -40,7 +41,7 @@ export function putLyricsInPlace() {
 		const elem = document.createElement("span");
 		elem.classList.add("line");
 
-		if(line.karaoke?.length) {
+		if(config.karaoke && line.karaoke?.length) {
 			for(const verse of line.karaoke){
 				const span = document.createElement("span");
 				span.classList.add("word");
@@ -85,7 +86,7 @@ export function updateActiveLyrics() {
 
 	// we get the active word
 	let wordIndex = -1;
-	if (songdata.lyrics.lines[lineIndex].karaoke?.length){
+	if (config.karaoke && songdata.lyrics.lines[lineIndex].karaoke?.length){
 		wordIndex = songdata.lyrics.lines[lineIndex].karaoke!.length - 1;
 		for (let i = -1; i < songdata.lyrics.lines[lineIndex].karaoke!.length; i++) {
 			// @ts-ignore
@@ -102,20 +103,30 @@ export function updateActiveLyrics() {
 	for (let i = 0; i < container.children.length; i++) {
 		const line = container.children[i] as HTMLElement;
 		if (i === lineIndex){
-			for (let i = 0; i < line.children.length; i++) {
-				const word = line.children[i] as HTMLElement;
-				if(i <= wordIndex)
-					word.classList?.add("active");
-				else
-					word.classList?.remove("active");
+
+			if(config.karaoke){
+				for (let i = 0; i < line.children.length; i++) {
+					const word = line.children[i] as HTMLElement;
+					if(i <= wordIndex)
+						word.classList?.add("active");
+					else
+						word.classList?.remove("active");
+				}
 			}
+
 			line.removeAttribute("distance");
 			line.classList?.add("active");
 		}else{
 			const distance = Math.min(Math.abs(i - lineIndex), 6);
 			line.setAttribute("distance", `${distance}`);
 			line.classList?.remove("active");
-			[...line.children].forEach(x => x.classList.remove("active"));
+
+			if(config.karaoke){
+				for (let i = 0; i < line.children.length; i++) {
+					const word = line.children[i] as HTMLElement;
+					word.classList?.remove("active");
+				}
+			}
 		}
 	}
 

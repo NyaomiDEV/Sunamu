@@ -13,6 +13,9 @@
 	waylandOzone: true,
 	// How often to poll for track position?
 	positionPollInterval: 0.2,
+	// Do you want the karaoke feature to be on?
+	// It looks better with small poll intervals (<=0.2s), but they make Sunamu perform worse overall on weak setups
+	karaoke: true,
 	// Specify your Last.FM username here to get the fancy play count in the details section
 	lfmUsername: "",
 	// Specify your Spotify Developer Client ID and Secret here to get the Spotify URL for the playing tracks
