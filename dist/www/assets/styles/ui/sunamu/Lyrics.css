@@ -59,6 +59,14 @@ html.no-playing-indicator .lyrics-container {
 	margin: 8px;
 }
 
+#lyrics .line .translation,
+#lyrics.synchronized .line .translation {
+	margin: 2px;
+	font-size: 75%;
+	opacity: 0.5;
+	display: block;
+}
+
 #lyrics.synchronized,
 html.non-interactive #lyrics.synchronized:hover {
 	overflow-y: hidden;
@@ -90,13 +98,6 @@ html.non-interactive #lyrics.synchronized:hover {
 
 #lyrics.synchronized .line.active .word.active {
 	opacity: 1;
-}
-
-#lyrics.synchronized .line .translation {
-	margin: 2px;
-	font-size: 75%;
-	opacity: 0.5;
-	display: block;
 }
 
 #lyrics.synchronized .line.active .translation {
