@@ -84,7 +84,7 @@ html.non-interactive #lyrics.synchronized:hover {
 }
 
 #lyrics.synchronized .line.active .word {
-	opacity: 0.5;
+	opacity: 0.6;
 	transition: ease .2s opacity;
 }
 
