@@ -1,4 +1,4 @@
-import type { LrcFile, LyricsKaraokeVerse } from "../../types";
+import type { LrcFile, LyricsKaraokeVerse, LyricsLine } from "../../types";
 
 const howATimestampLooks = /\[(\d+:\d+\.?\d+)\]|\[(\d+?),(\d+)\]/g;
 const howALyricsLineLooks = /((?:\[\d+:\d+\.?\d+\]|\[\d+,\d+\])+)(.*)/;
@@ -58,11 +58,16 @@ export function parseLrc(data: string): LrcFile{
 		const lyrdata = howALyricsLineLooks.exec(line);
 		if(lyrdata){
 			for(const timestamp of extractTime(lyrdata[1])){
-				result.lines.push({
+				const resultLine: LyricsLine = {
 					text: lyrdata[2].replace(/\(\d+,\d+\)/g, "").replace(/\s+/g, " "),
 					time: timestamp,
 					karaoke: extractKaraoke(lyrdata[2], timestamp)
-				});
+				};
+
+				if(!resultLine.karaoke?.length)
+					delete resultLine.karaoke;
+				
+				result.lines.push(resultLine);
 			}
 		}else{
 			const [ key, value ] = extractMetadataLine(line);
