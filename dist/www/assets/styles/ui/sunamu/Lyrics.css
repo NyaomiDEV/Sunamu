@@ -83,6 +83,15 @@ html.non-interactive #lyrics.synchronized:hover {
 	margin: 16px 0;
 }
 
+#lyrics.synchronized .line.active .word {
+	opacity: 0.5;
+	transition: ease .2s opacity;
+}
+
+#lyrics.synchronized .line.active .word.active {
+	opacity: 1;
+}
+
 #lyrics.synchronized .line.active:empty {
 	margin: 8px;
 }
