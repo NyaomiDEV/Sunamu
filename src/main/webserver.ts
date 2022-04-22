@@ -11,6 +11,8 @@ import { Server as StaticServer } from "node-static";
 import { addLyricsUpdateCallback, addSongDataCallback, songdata, addPositionCallback } from "./playbackStatus";
 import { getThemeLocation, getThemesDirectory } from "./themes";
 
+import { debug } from ".";
+
 let player: Player;
 
 const file = new StaticServer(path.resolve(__dirname, "..", "www"), { indexFile: "index.htm", cache: 0 });
@@ -77,7 +79,7 @@ function registerSocketIO(socket: Socket) {
 export default async function webserverMain(){
 	player = await getPlayer();
 
-	server.listen(getConfig("webserverPort"), () => console.log(`WebServer listening on port ${getConfig("webserverPort")}`));
+	server.listen(getConfig("webserverPort"), () => debug(`WebServer listening on port ${getConfig("webserverPort")}`));
 
 	io.on("connection", socket => {
 		registerSocketIO(socket);
