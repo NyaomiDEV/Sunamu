@@ -51,7 +51,8 @@ function getSearchFields(metadata: Metadata){
 function getLyricFields(songId){
 	const lyric_fields = new URLSearchParams({
 		id: songId,
-		lv: "-1"
+		lv: "-1",
+		kv: "-1"
 	});
 
 	return lyric_fields.toString();
@@ -78,5 +79,5 @@ async function getLyricsFromSongId(songId){
 		return undefined;
 	}
 
-	return result.data.lrc?.lyric;
+	return result.data.klyric?.lyric || result.data.lrc?.lyric;
 }
