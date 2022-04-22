@@ -5,26 +5,23 @@ import axios, { AxiosResponse } from "axios";
 import { get as getConfig, set as setConfig } from "../config";
 import { searchForUserToken } from "../integrations/mxmusertoken";
 
-const url = "https://apic-desktop.musixmatch.com/ws/1.1/";
+async function queryMusixmatch(method: string, params: URLSearchParams): Promise<any | undefined> {
+	const url = "https://apic-desktop.musixmatch.com/ws/1.1/";
 
-function getLyricsQueryParams(metadata: Metadata, spotifyId?: string) {
-	const params = new URLSearchParams({
-		app_id: "web-desktop-app-v1.0",
-		format: "json",
-		namespace: "lyrics_richsynched",
-		subtitle_format: "mxm",
-		q_artist: metadata.artist,
-		q_artists: metadata.artist,
-		q_track: metadata.title,
-		q_album: metadata.album,
-		q_duration: `${metadata.length}`,
-		usertoken: getConfig("mxmusertoken")
-	});
+	let result: AxiosResponse<any, any>;
+	try {
+		result = await axios.get(url + method + "?" + params.toString(), {
+			headers: {
+				"Cookie": "x-mxm-user-id=",
+				"Authority": "apic-desktop.musixmatch.com",
+			}
+		});
+	} catch (e) {
+		console.error(`Musixmatch token request for method ${method} errored out!`, e);
+		return undefined;
+	}
 
-	if (spotifyId)
-		params.append("track_spotify_id", spotifyId);
-
-	return params.toString();
+	return result.data;
 }
 
 async function getToken(){
@@ -33,23 +30,13 @@ async function getToken(){
 		t: Math.random().toString(36).replace(/[^a-z]+/g, "").slice(2, 10)
 	});
 
-	let result: AxiosResponse<any, any>;
-	try{
-		result = await axios.get(url + "token.get?" + tokenQueryParams.toString(), {
-			headers: {
-				"Cookie": "x-mxm-user-id=",
-				"Authority": "apic-desktop.musixmatch.com",
-			}
-		});
-	}catch(e){
-		console.error("Musixmatch token request errored out!", e);
-		return undefined;
+	const result = await queryMusixmatch("token.get", tokenQueryParams);
+	if(result) {
+		const token = result.message.body.user_token;
+		if (token.length && token !== "UpgradeOnlyUpgradeOnlyUpgradeOnlyUpgradeOnly")
+			return token;
 	}
 
-	const token = result.data.message.body.user_token;
-	if (token.length && token !== "UpgradeOnlyUpgradeOnlyUpgradeOnlyUpgradeOnly")
-		return token;
-	
 	console.error("Musixmatch token request did not get us any token!");
 	return undefined;
 }
@@ -72,37 +59,60 @@ export async function query(metadata: Metadata, spotifyId?: string): Promise<Lyr
 		lines: []
 	};
 
-	let result: AxiosResponse<any, any>;
-	try {
-		result = await axios.get(url + "macro.subtitles.get?" + getLyricsQueryParams(metadata, spotifyId), {
-			headers: {
-				"Cookie": "x-mxm-user-id=",
-				"Authority": "apic-desktop.musixmatch.com"
-			}
-		});
-	} catch (e) {
-		console.error("Musixmatch request got an error!", e);
-		return undefined;
-	}
+	const queryParams = new URLSearchParams({
+		app_id: "web-desktop-app-v1.0",
+		format: "json",
+		namespace: "lyrics_richsynched",
+		optional_calls: "track.richsync",
+		subtitle_format: "mxm",
+		q_artist: metadata.artist,
+		q_artists: metadata.artist,
+		q_track: metadata.title,
+		q_album: metadata.album,
+		q_duration: `${metadata.length}`,
+		f_subtitle_length: `${metadata.length}`,
+		f_subtitle_length_max_deviation: "40",
+		usertoken: getConfig("mxmusertoken")
+	});
 
-	const synchronizedLyrics = result.data.message?.body?.macro_calls?.["track.subtitles.get"]?.message;
+	if (spotifyId)
+		queryParams.append("track_spotify_id", spotifyId);
+
+	const result = await queryMusixmatch("macro.subtitles.get", queryParams);
+
+	const karaokeLyrics = result.message?.body?.macro_calls?.["track.richsync.get"]?.message;
+	const karaoke = karaokeLyrics?.body?.richsync;
+
+	const synchronizedLyrics = result.message?.body?.macro_calls?.["track.subtitles.get"]?.message;
 	const subtitle = synchronizedLyrics?.body?.subtitle_list?.[0]?.subtitle;
 
-	const unsynchronizedLyrics = result.data.message?.body?.macro_calls?.["track.lyrics.get"]?.message;
+	const unsynchronizedLyrics = result.message?.body?.macro_calls?.["track.lyrics.get"]?.message;
 	const lyrics = unsynchronizedLyrics?.body?.lyrics;
 
-	if (subtitle?.subtitle_body) {
-		reply.lines = JSON.parse(subtitle?.subtitle_body).map(v => ({ text: v.text, time: v.time.total }));
-		reply.copyright = subtitle?.lyrics_copyright?.trim().split("\n").join(" • ");
+	if (karaoke?.richsync_body) {
+		reply.lines = JSON.parse(karaoke.richsync_body).map(v => ({
+			text: v.x,
+			time: v.ts,
+			karaoke: v.l.map(x => ({
+				text: x.c,
+				start: v.ts + x.o
+			}))
+		}));
+		reply.copyright = karaoke.lyrics_copyright?.trim().split("\n").join(" • ");
+	} else if (subtitle?.subtitle_body) {
+		reply.lines = JSON.parse(subtitle.subtitle_body).map(v => ({ text: v.text, time: v.time.total }));
+		reply.copyright = subtitle.lyrics_copyright?.trim().split("\n").join(" • ");
 	}
 	else if (lyrics?.lyrics_body) {
 		reply.synchronized = false;
-		reply.lines = lyrics?.lyrics_body.split("\n").map(x => ({ text: x }));
-		reply.copyright = lyrics?.lyrics_copyright?.trim().split("\n").join(" • ");
+		reply.lines = lyrics.lyrics_body.split("\n").map(x => ({ text: x }));
+		reply.copyright = lyrics.lyrics_copyright?.trim().split("\n").join(" • ");
 	} else {
 		console.error(
 			"Musixmatch request didn't get us any lyrics!",
-			result.data.message?.header,
+			result.message?.header,
+			karaokeLyrics?.header || null,
+			karaoke || null,
 			synchronizedLyrics?.header || null,
 			subtitle || null,
 			unsynchronizedLyrics?.header || null,

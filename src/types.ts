@@ -145,7 +145,13 @@ export type Lyrics = {
 
 export type LyricsLine = {
 	text: string,
-	time?: number
+	time?: number,
+	karaoke?: LyricsKaraokeVerse[]
+}
+
+export type LyricsKaraokeVerse = {
+	text: string,
+	start: number
 }
 
 export type SpotifyInfo = {
