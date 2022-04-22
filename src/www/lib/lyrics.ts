@@ -50,6 +50,14 @@ export function putLyricsInPlace() {
 			}
 		} else
 			elem.textContent = glasscordUser ? owoify(line.text) : line.text; // y'all deserve it
+		
+		if(config.translations && line.translation){
+			const translation = document.createElement("span");
+			translation.classList.add("translation");
+			translation.textContent = glasscordUser ? owoify(line.translation) : line.translation; // y'all deserve it
+			elem.appendChild(translation);
+		}
+
 		container.appendChild(elem);
 	}
 
@@ -107,10 +115,13 @@ export function updateActiveLyrics() {
 			if(config.karaoke){
 				for (let i = 0; i < line.children.length; i++) {
 					const word = line.children[i] as HTMLElement;
-					if(i <= wordIndex)
-						word.classList?.add("active");
-					else
-						word.classList?.remove("active");
+					if(i <= wordIndex){
+						if (word.classList?.contains("word"))
+							word.classList?.add("active");
+					}else{
+						if (word.classList?.contains("word"))
+							word.classList?.remove("active");
+					}
 				}
 			}
 
@@ -124,7 +135,8 @@ export function updateActiveLyrics() {
 			if(config.karaoke){
 				for (let i = 0; i < line.children.length; i++) {
 					const word = line.children[i] as HTMLElement;
-					word.classList?.remove("active");
+					if(word.classList.contains("word"))
+						word.classList?.remove("active");
 				}
 			}
 		}

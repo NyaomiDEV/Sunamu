@@ -92,6 +92,17 @@ html.non-interactive #lyrics.synchronized:hover {
 	opacity: 1;
 }
 
+#lyrics.synchronized .line .translation {
+	margin: 2px;
+	font-size: 75%;
+	opacity: 0.5;
+	display: block;
+}
+
+#lyrics.synchronized .line.active .translation {
+	margin: 4px;
+}
+
 #lyrics.synchronized .line.active:empty {
 	margin: 8px;
 }

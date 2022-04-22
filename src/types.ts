@@ -42,6 +42,8 @@ export type Config = {
 	waylandOzone: boolean,
 	positionPollInterval: number,
 	karaoke: boolean,
+	translations: boolean,
+	mxmlanguage: string,
 	lfmUsername: string,
 	mxmusertoken: string,
 	spotify: SpotifyConfig,
@@ -146,6 +148,7 @@ export type Lyrics = {
 
 export type LyricsLine = {
 	text: string,
+	translation?: string,
 	time?: number,
 	karaoke?: LyricsKaraokeVerse[]
 }
