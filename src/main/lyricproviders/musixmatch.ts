@@ -5,9 +5,9 @@ import axios, { AxiosResponse } from "axios";
 import { get as getConfig, set as setConfig } from "../config";
 import { searchForUserToken } from "../integrations/mxmusertoken";
 
-const url = "https://apic-desktop.musixmatch.com/ws/1.1/macro.subtitles.get";
+const url = "https://apic-desktop.musixmatch.com/ws/1.1/";
 
-function getQueryParams(metadata: Metadata, spotifyId?: string) {
+function getLyricsQueryParams(metadata: Metadata, spotifyId?: string) {
 	const params = new URLSearchParams({
 		app_id: "web-desktop-app-v1.0",
 		format: "json",
@@ -27,9 +27,36 @@ function getQueryParams(metadata: Metadata, spotifyId?: string) {
 	return params.toString();
 }
 
+async function getToken(){
+	const tokenQueryParams = new URLSearchParams({
+		app_id: "web-desktop-app-v1.0",
+		t: Math.random().toString(36).replace(/[^a-z]+/g, "").slice(2, 10)
+	});
+
+	let result: AxiosResponse<any, any>;
+	try{
+		result = await axios.get(url + "token.get?" + tokenQueryParams.toString(), {
+			headers: {
+				"Cookie": "x-mxm-user-id=",
+				"Authority": "apic-desktop.musixmatch.com",
+			}
+		});
+	}catch(e){
+		console.error("Musixmatch token request errored out!", e);
+		return undefined;
+	}
+
+	const token = result.data.message.body.user_token;
+	if (token.length && token !== "UpgradeOnlyUpgradeOnlyUpgradeOnlyUpgradeOnly")
+		return token;
+	
+	console.error("Musixmatch token request did not get us any token!");
+	return undefined;
+}
+
 export async function query(metadata: Metadata, spotifyId?: string): Promise<Lyrics | undefined> {
 	if (!getConfig("mxmusertoken")){
-		const token = await searchForUserToken();
+		const token = await searchForUserToken() || await getToken();
 		if(!token){
 			console.error("No Musixmatch user token found");
 			return undefined;
@@ -47,7 +74,7 @@ export async function query(metadata: Metadata, spotifyId?: string): Promise<Lyr
 
 	let result: AxiosResponse<any, any>;
 	try {
-		result = await axios.get(url + "?" + getQueryParams(metadata, spotifyId), {
+		result = await axios.get(url + "macro.subtitles.get?" + getLyricsQueryParams(metadata, spotifyId), {
 			headers: {
 				"Cookie": "x-mxm-user-id=",
 				"Authority": "apic-desktop.musixmatch.com"
