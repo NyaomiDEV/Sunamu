@@ -1,4 +1,5 @@
 import { resolve } from "path";
+import { gzip, gunzip } from "zlib";
 
 export const spotiId = /spotify:track:(.+)/;
 
@@ -22,3 +23,20 @@ export function secondsToTime(duration: number) {
 	return minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
 }
 
+export function gzipCompress(buffer: Buffer | string): Promise<Buffer> {
+	return new Promise((resolve, reject) => {
+		gzip(buffer, (error, result) => {
+			if (error) reject(error);
+			else resolve(result);
+		});
+	});
+}
+
+export function gzipDecompress(buffer: Buffer | string): Promise<Buffer> {
+	return new Promise((resolve, reject) => {
+		gunzip(buffer, (error, result) => {
+			if (error) reject(error);
+			else resolve(result);
+		});
+	});
+}

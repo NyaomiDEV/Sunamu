@@ -3,6 +3,7 @@ import { addSongDataCallback, updateInfo } from "./playbackStatus";
 import { useElectron, useWebserver } from "./appStatus";
 import { updatePresence } from "./integrations/discordrpc";
 import Instance from "./instance";
+import { convertUncompressed } from "./integrations/lyricsOffline";
 
 export { logToDebug as debug } from "./logger";
 
@@ -41,6 +42,8 @@ async function main(): Promise<void> {
 	addSongDataCallback(async () => {
 		updatePresence();
 	});
+
+	await convertUncompressed();
 }
 
 main();
