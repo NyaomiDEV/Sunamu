@@ -13,8 +13,7 @@ const lyricsCallbacks: Array<() => Promise<void>> = [];
 // eslint-disable-next-line no-unused-vars
 const positionCallbacks: Array<(position: number, reportsPosition: boolean) => Promise<void>> = [];
 
-const positionPollInterval = 0.5;
-setInterval(pollPosition, positionPollInterval * 1000);
+setInterval(pollPosition, get("positionPollInterval") * 1000);
 
 const fallback: DeepPartial<SongData> = {
 	provider: undefined,

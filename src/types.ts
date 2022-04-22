@@ -40,6 +40,7 @@ export type Config = {
 	useWebserver: boolean,
 	debugMode: boolean,
 	waylandOzone: boolean,
+	positionPollInterval: number,
 	lfmUsername: string,
 	mxmusertoken: string,
 	spotify: SpotifyConfig,

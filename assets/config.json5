@@ -8,6 +8,8 @@
 	debugMode: false,
 	// Do you want to use the Ozone Wayland Platform? (Linux only)
 	waylandOzone: true,
+	// How often to poll for track position?
+	positionPollInterval: 0.5,
 	// Specify your Last.FM username here to get the fancy play count in the details section
 	lfmUsername: "",
 	// Specify your Spotify Developer Client ID and Secret here to get the Spotify URL for the playing tracks
