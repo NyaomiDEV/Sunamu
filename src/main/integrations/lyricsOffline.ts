@@ -1,9 +1,11 @@
-import { mkdir, readdir, readFile, rm, writeFile } from "fs/promises";
+import { mkdir, readdir, readFile, rm, stat, writeFile } from "fs/promises";
 import { extname, resolve } from "path";
 import { createHash } from "crypto";
 import JSON5 from "json5";
 import { Lyrics } from "../../types";
 import { getAppData, gzipCompress, gzipDecompress } from "../util";
+
+import type { Stats } from "fs";
 
 const lyrPath = resolve(getAppData(), "sunamu", "Lyrics Cache");
 
@@ -53,9 +55,20 @@ export async function convertUncompressed(): Promise<void>{
 	const lyrics = await readdir(lyrPath);
 	for(const file of lyrics){
 		if(extname(file) === ".gz") continue;
-		
+
 		const path = resolve(lyrPath, file);
 		await writeFile(path + ".gz", await gzipCompress(await readFile(path)));
 		await rm(path);
 	}
+}
+
+export async function statCachePath(): Promise<Map<string, Stats>>{
+	const lyrics = await readdir(lyrPath);
+	const stats = new Map<string, Stats>();
+	for (const file of lyrics) {
+		const path = resolve(lyrPath, file);
+		stats.set(file, await stat(path));
+	}
+
+	return stats;
 }
