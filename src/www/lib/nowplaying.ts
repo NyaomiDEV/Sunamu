@@ -148,12 +148,12 @@ function updateColors(){
 	const palette = songdata.metadata.artData?.palette;
 	if(palette){
 		document.documentElement.classList.remove("no-palette");
-		documentRoot.style.setProperty("--color-vibrant", palette.Vibrant);
-		documentRoot.style.setProperty("--color-muted", palette.Muted);
-		documentRoot.style.setProperty("--color-light-vibrant", palette.LightVibrant);
-		documentRoot.style.setProperty("--color-light-muted", palette.LightMuted);
-		documentRoot.style.setProperty("--color-dark-vibrant", palette.DarkVibrant);
-		documentRoot.style.setProperty("--color-dark-muted", palette.DarkMuted);
+		documentRoot.style.setProperty("--color-vibrant", palette.Vibrant || null);
+		documentRoot.style.setProperty("--color-muted", palette.Muted || null);
+		documentRoot.style.setProperty("--color-light-vibrant", palette.LightVibrant || null);
+		documentRoot.style.setProperty("--color-light-muted", palette.LightMuted || null);
+		documentRoot.style.setProperty("--color-dark-vibrant", palette.DarkVibrant || null);
+		documentRoot.style.setProperty("--color-dark-muted", palette.DarkMuted || null);
 	}else{
 		document.documentElement.classList.add("no-palette");
 		documentRoot.style.removeProperty("--color-vibrant");

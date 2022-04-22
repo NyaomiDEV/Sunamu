@@ -29,12 +29,12 @@ export async function getUpdate(): Promise<Update | null> {
 				})).getPalette();
 				if (palette) {
 					update.metadata.artData.palette = {
-						DarkMuted: palette.DarkMuted!.hex,
-						DarkVibrant: palette.DarkVibrant!.hex,
-						LightMuted: palette.LightMuted!.hex,
-						LightVibrant: palette.LightVibrant!.hex,
-						Muted: palette.Muted!.hex,
-						Vibrant: palette.Vibrant!.hex,
+						DarkMuted: palette.DarkMuted?.hex,
+						DarkVibrant: palette.DarkVibrant?.hex,
+						LightMuted: palette.LightMuted?.hex,
+						LightVibrant: palette.LightVibrant?.hex,
+						Muted: palette.Muted?.hex,
+						Vibrant: palette.Vibrant?.hex,
 					};
 				}
 			} catch (e) {

@@ -252,12 +252,12 @@ async function parseMetadata(metadata): Promise<Metadata> {
 					quality: 1
 				})).getPalette();
 				artData.palette = {
-					DarkMuted: palette.DarkMuted!.hex,
-					DarkVibrant: palette.DarkVibrant!.hex,
-					LightMuted: palette.LightMuted!.hex,
-					LightVibrant: palette.LightVibrant!.hex,
-					Muted: palette.Muted!.hex,
-					Vibrant: palette.Vibrant!.hex,
+					DarkMuted: palette.DarkMuted?.hex,
+					DarkVibrant: palette.DarkVibrant?.hex,
+					LightMuted: palette.LightMuted?.hex,
+					LightVibrant: palette.LightVibrant?.hex,
+					Muted: palette.Muted?.hex,
+					Vibrant: palette.Vibrant?.hex,
 				};
 			} catch (e) {
 				debug("Couldn't compute palette for image", e);

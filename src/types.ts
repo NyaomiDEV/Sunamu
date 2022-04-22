@@ -84,12 +84,12 @@ export type SceneConfig = {
 }
 
 export type Palette = {
-	Vibrant: string,
-	Muted: string,
-	DarkVibrant: string,
-	DarkMuted: string,
-	LightVibrant: string,
-	LightMuted: string,
+	Vibrant?: string,
+	Muted?: string,
+	DarkVibrant?: string,
+	DarkMuted?: string,
+	LightVibrant?: string,
+	LightMuted?: string,
 }
 
 export type ArtData = {
