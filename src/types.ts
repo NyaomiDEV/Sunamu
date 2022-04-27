@@ -12,6 +12,7 @@ export type NowPlayingAPI = {
 	repeat: () => void,
 
 	seek: (positionToSeekbar: number) => void,
+	setPosition: (position: number) => void,
 
 	registerPositionCallback: (callback: Function) => void,
 	registerUpdateCallback: (callback: Function) => void,
@@ -76,6 +77,7 @@ export type SceneConfig = {
 	showPlayingIndicator?: boolean,
 	showLyrics?: boolean,
 	lyricsBlur?: boolean,
+	clickableLyrics?: boolean,
 	showExtraButtons?: boolean,
 	colors?: boolean,
 	defaultColorsAreInverted?: boolean,

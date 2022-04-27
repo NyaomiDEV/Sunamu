@@ -4,16 +4,17 @@ import { Update } from "../../types";
 const fallback: Player = {
 	init: async (_callback: Function) => undefined,
 	getUpdate: async () => null,
-	Play: () => undefined,
-	Pause: () => undefined,
-	PlayPause: () => undefined,
-	Stop: () => undefined,
-	Next: () => undefined,
-	Previous: () => undefined,
+	Play: async () => undefined,
+	Pause: async () => undefined,
+	PlayPause: async () => undefined,
+	Stop: async () => undefined,
+	Next: async () => undefined,
+	Previous: async () => undefined,
 	Shuffle: () => undefined,
 	Repeat: () => undefined,
-	Seek: (_offset: number) => undefined,
-	SeekPercentage: (_percentage: number) => undefined,
+	Seek: async (_offset: number) => undefined,
+	SeekPercentage: async (_percentage: number) => undefined,
+	SetPosition: async (_position: number) => undefined,
 	GetPosition: async () => 0,
 };
 
@@ -44,18 +45,19 @@ export interface Player {
 	init(callback: Function): Promise<void>
 	getUpdate(): Promise<Update | null>
 
-	Play(): void
-	Pause(): void
-	PlayPause(): void
-	Stop(): void
+	Play(): Promise<void>
+	Pause(): Promise<void>
+	PlayPause(): Promise<void>
+	Stop(): Promise<void>
 
-	Next(): void
-	Previous(): void
+	Next(): Promise<void>
+	Previous(): Promise<void>
 
 	Shuffle(): void
 	Repeat(): void
 
-	Seek(offset: number): void
-	SeekPercentage(percentage: number): void
+	Seek(offset: number): Promise<void>
+	SeekPercentage(percentage: number): Promise<void>
 	GetPosition(): Promise<number>
+	SetPosition(position): Promise<void>
 }

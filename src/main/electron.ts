@@ -46,9 +46,10 @@ function registerElectronIpc() {
 	ipcMain.on("repeat", () => player.Repeat());
 
 	ipcMain.on("seek", (_e, perc) => player.SeekPercentage(perc));
-	ipcMain.handle("getPosition", async () => player.GetPosition());
+	ipcMain.handle("getPosition", async () => await player.GetPosition());
+	ipcMain.on("setPosition", (_e, position) => player.SetPosition(position));
 
-	ipcMain.handle("getSongData", async () => songdata);
+	ipcMain.handle("getSongData", () => songdata);
 	ipcMain.handle("getConfig", () => getAllConfig());
 
 	ipcMain.handle("shouldBullyGlasscordUser", async () => {

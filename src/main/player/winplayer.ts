@@ -86,6 +86,10 @@ export function SeekPercentage(percentage: number) {
 	return _player.SeekPercentage(percentage);
 }
 
+export function SetPosition() {
+	return _player.SetPosition();
+}
+
 export function GetPosition() {
 	return _player.GetPosition();
 }

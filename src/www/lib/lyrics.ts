@@ -44,8 +44,18 @@ export function putLyricsInPlace() {
 		if(config.karaoke && line.karaoke?.length) {
 			for(const verse of line.karaoke){
 				const span = document.createElement("span");
-				span.classList.add("word");
 				span.textContent = glasscordUser ? owoify(verse.text) : verse.text; // y'all deserve it
+
+				if(verse.text.trim().length){
+					span.classList.add("word");
+
+					if (
+						!document.documentElement.classList.contains("no-clickable-lyrics") &&
+						!document.documentElement.classList.contains("non-interactive")
+					)
+						span.addEventListener("click", () => window.np.setPosition(verse.start));
+				}
+
 				elem.appendChild(span);
 			}
 		} else
@@ -58,6 +68,13 @@ export function putLyricsInPlace() {
 			elem.appendChild(translation);
 		}
 
+		if (
+			!document.documentElement.classList.contains("no-clickable-lyrics") &&
+			!document.documentElement.classList.contains("non-interactive") &&
+			line.time
+		)
+			elem.addEventListener("click", () => window.np.setPosition(line.time!));
+		
 		container.appendChild(elem);
 	}
 

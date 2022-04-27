@@ -39,8 +39,9 @@ function registerSocketIO(socket: Socket) {
 
 	socket.on("seek", (perc) => player.SeekPercentage(perc));
 	socket.on("getPosition", async (callback) => callback(await player.GetPosition()));
+	socket.on("setPosition", (position) => player.SetPosition(position));
 
-	socket.on("getSongData", async (callback) => callback(songdata));
+	socket.on("getSongData", (callback) => callback(songdata));
 	socket.on("getConfig", (callback) => callback(getAllConfig()));
 
 	socket.on("shouldBullyGlasscordUser", async (callback) => {

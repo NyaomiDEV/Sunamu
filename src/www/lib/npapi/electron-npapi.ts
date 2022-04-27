@@ -10,6 +10,7 @@ const npApi: NowPlayingAPI = {
 	repeat: () => ipcRenderer.send("repeat"),
 
 	seek: (positionToSeekbar) => ipcRenderer.send("seek", positionToSeekbar),
+	setPosition: (position) => ipcRenderer.send("setPosition", position),
 
 	registerPositionCallback: (callback) => ipcRenderer.on("position", (_e, ...args) => callback(...args)),
 	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, ...args) => callback(...args)),

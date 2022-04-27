@@ -47,6 +47,7 @@
 			// showPlayingIndicator: true,
 			// showLyrics: true,
 			// lyricsBlur: true,
+			// clickableLyrics: true,
 			// showExtraButtons: true,
 			// colors: true,
 			// defaultColorsAreInverted: false,

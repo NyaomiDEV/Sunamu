@@ -69,6 +69,9 @@ if(sceneName && config.scenes[sceneName]){
 
 	if (typeof scene.colors !== "undefined" && !scene.colors)
 		document.documentElement.classList.add("no-colors");
+
+	if (typeof scene.clickableLyrics !== "undefined" && !scene.clickableLyrics)
+		document.documentElement.classList.add("no-clickable-lyrics");
 }
 
 if(sceneName && ["electron", "default"].includes(sceneName)){

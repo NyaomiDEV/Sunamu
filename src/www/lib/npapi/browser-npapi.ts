@@ -13,6 +13,7 @@ if(!isElectron()){
 		repeat: () => socket.emit("repeat"),
 
 		seek: (positionToSeekbar) => socket.emit("seek", positionToSeekbar),
+		setPosition: (position) => socket.emit("setPosition", position),
 
 		registerPositionCallback: (callback) => socket.on("position", (...args) => callback(...args)),
 		registerUpdateCallback: (callback) => socket.on("update", (...args) => callback(...args)),
