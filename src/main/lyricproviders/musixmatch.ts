@@ -50,7 +50,7 @@ async function queryMusixmatch(method: string, params?: any, shouldUseToken = tr
 }
 
 async function getToken(){
-	const result = await queryMusixmatch("token.get");
+	const result = await queryMusixmatch("token.get", {}, false);
 	if(result) {
 		const token = result.message.body.user_token;
 		if (token.length && token !== "UpgradeOnlyUpgradeOnlyUpgradeOnlyUpgradeOnly")
