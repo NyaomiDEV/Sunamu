@@ -19,7 +19,7 @@ Sunamu (pronounced as it is written) is a fancy music controller whose only purp
 
 _It effectively is the WAY TOO COMPLEX successor of MPRISLyrics, a project I made back when synchronized lyrics on Linux was a niche thing to have._
 
-It only supports Windows (experimental; no support given) and Linux for now. macOS support is not planned. Pull request, someone?
+It only supports Windows and Linux for now. macOS support is not planned. Pull request, someone?
 
 ## Features
 
@@ -37,7 +37,7 @@ It only supports Windows (experimental; no support given) and Linux for now. mac
 
 ### Windows / Linux
 
-Get the latest release from the [Releases](https://github.com/AryToNeX/Sunamu/releases/latest) section.
+Get the latest release from the [Releases](https://github.com/NyaomiDEV/Sunamu/releases/latest) section.
 
 On Windows, you can choose between the installer and the ZIP file (portable app).
 
