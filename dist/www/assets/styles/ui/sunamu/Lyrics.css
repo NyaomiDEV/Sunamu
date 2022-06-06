@@ -55,8 +55,8 @@ html.no-playing-indicator .lyrics-container {
 	text-align: center;
 }
 
-#lyrics .line:empty,
-#lyrics.synchronized .line:empty {
+#lyrics .line.empty,
+#lyrics.synchronized .line.empty {
 	margin: 8px;
 }
 
@@ -144,8 +144,17 @@ html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line .word:h
 	margin: 4px;
 }
 
-#lyrics.synchronized .line.active:empty {
+#lyrics.synchronized .line.active.empty {
 	margin: 8px;
+	overflow: visible;
+}
+
+#lyrics.synchronized .line.active.empty .empty-progress {
+	width: calc((1 - var(--waitTime)) * 70vw);
+	opacity: calc(1 - var(--waitTime));
+	height: 2px;
+	background-color: var(--color-fg);
+	transition: 0.2s linear;
 }
 
 #lyrics.synchronized .line[distance="1"] {

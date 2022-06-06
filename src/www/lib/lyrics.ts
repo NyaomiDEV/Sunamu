@@ -12,8 +12,8 @@ let isContainerHovered;
 export function putLyricsInPlace() {
 	// remove all children of container
 	container.classList.remove("synchronized");
-	// @ts-ignore
-	while (container.firstChild) container.removeChild(container.lastChild);
+
+	while (container.firstChild) container.removeChild(container.lastChild!);
 
 	// remove text from footer
 	copyright.textContent = "";
@@ -40,6 +40,9 @@ export function putLyricsInPlace() {
 	for (const line of songdata.lyrics.lines) {
 		const elem = document.createElement("span");
 		elem.classList.add("line");
+
+		if(!line.text.length)
+			elem.classList.add("empty");
 
 		if(config.karaoke && line.karaoke?.length) {
 			for(const verse of line.karaoke){
@@ -142,12 +145,29 @@ export function updateActiveLyrics() {
 				}
 			}
 
+			if(line.classList.contains("empty")){
+				// determine empty progress
+				let emptyProgress;
+				emptyProgress = [...line.children].find(x => x.classList.contains("empty-progress"));
+				if(!emptyProgress){
+					emptyProgress = document.createElement("div");
+					emptyProgress.classList.add("empty-progress");
+					line.appendChild(emptyProgress);
+				}
+
+				const percentageToGo = (songdata.elapsed - songdata.lyrics.lines[i].time!) / ((songdata.lyrics.lines[i + 1].time || songdata.metadata.length) - songdata.lyrics.lines[i].time!);
+				emptyProgress.style.setProperty("--waitTime", `${percentageToGo}`);
+			}
+
 			line.removeAttribute("distance");
 			line.classList?.add("active");
 		}else{
 			const distance = Math.min(Math.abs(i - lineIndex), 6);
 			line.setAttribute("distance", `${distance}`);
 			line.classList?.remove("active");
+
+			if(line.classList.contains("empty"))
+				while (line.firstChild) line.removeChild(line.lastChild!);
 
 			if(config.karaoke){
 				for (let i = 0; i < line.children.length; i++) {
