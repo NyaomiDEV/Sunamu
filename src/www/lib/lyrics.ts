@@ -55,8 +55,12 @@ export function putLyricsInPlace() {
 					if (
 						!document.documentElement.classList.contains("no-clickable-lyrics") &&
 						!document.documentElement.classList.contains("non-interactive")
-					)
-						span.addEventListener("click", () => window.np.setPosition(verse.start));
+					){
+						span.addEventListener("click", event => {
+							event.stopPropagation();
+							window.np.setPosition(verse.start);
+						});
+					}
 				}
 
 				elem.appendChild(span);
@@ -75,8 +79,12 @@ export function putLyricsInPlace() {
 			!document.documentElement.classList.contains("no-clickable-lyrics") &&
 			!document.documentElement.classList.contains("non-interactive") &&
 			line.time
-		)
-			elem.addEventListener("click", () => window.np.setPosition(line.time!));
+		){
+			elem.addEventListener("click", event => {
+				event.stopPropagation();
+				window.np.setPosition(line.time!);
+			});
+		}
 		
 		container.appendChild(elem);
 	}
