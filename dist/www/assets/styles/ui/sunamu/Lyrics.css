@@ -67,8 +67,8 @@ html.no-playing-indicator .lyrics-container {
 
 #lyrics .line .translation,
 #lyrics.synchronized .line .translation {
-	margin: 2px;
-	font-size: 75%;
+	margin: 4px 0;
+	font-size: 36px;
 	opacity: 0.5;
 	display: block;
 }
@@ -88,6 +88,9 @@ html.non-interactive #lyrics.synchronized:hover {
 	transition: ease .2s;
 	border-radius: 16px;
 	padding: 4px 8px;
+	font-size: 48px;
+	margin: 4px 0;
+	transform: scale(0.75);
 }
 
 html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line::before,
@@ -122,8 +125,7 @@ html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .word::before
 	font-weight: 700;
 	color: var(--color-fg);
 	opacity: 1;
-	font-size: 48px;
-	margin: 16px 0;
+	transform: scale(1);
 }
 
 html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line:hover::before,
@@ -140,21 +142,20 @@ html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line .word:h
 	opacity: 1;
 }
 
-#lyrics.synchronized .line.active .translation {
-	margin: 4px;
-}
-
 #lyrics.synchronized .line.active.empty {
-	margin: 8px;
 	overflow: visible;
 }
 
-#lyrics.synchronized .line.active.empty .empty-progress {
+#lyrics.synchronized .line.empty .empty-progress {
 	width: calc((1 - var(--waitTime)) * 70vw);
-	opacity: calc(1 - var(--waitTime));
+	opacity: 0;
 	height: 2px;
 	background-color: var(--color-fg);
 	transition: 0.2s linear;
+}
+
+#lyrics.synchronized .line.active.empty .empty-progress {
+	opacity: calc(1 - var(--waitTime));
 }
 
 #lyrics.synchronized .line[distance="1"] {
@@ -183,7 +184,7 @@ html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line .word:h
 }
 
 #lyrics.synchronized .line[distance="6"] {
-	opacity: 0.09;
+	opacity: 0;
 	filter: blur(8px);
 }
 
@@ -253,13 +254,17 @@ html.no-show-lyrics #lyrics-copyright {
 		font-size: 24px;
 	}
 
-	#lyrics.synchronized .line.active {
+	#lyrics.synchronized .line {
 		font-size: 36px;
-		margin: 12px 0;
 	}
 
 	#lyrics::before, #lyrics::after {
 		padding-top: calc(50vh / 2 - 16px);
+	}
+
+	#lyrics .line .translation,
+	#lyrics.synchronized .line .translation {
+		font-size: 24px;
 	}
 
 	#lyrics-copyright {
@@ -283,9 +288,13 @@ html.no-show-lyrics #lyrics-copyright {
 		font-size: 20px;
 	}
 
-	#lyrics.synchronized .line.active {
+	#lyrics.synchronized .line {
 		font-size: 24px;
-		margin: 8px 0;
+	}
+
+	#lyrics .line .translation,
+	#lyrics.synchronized .line .translation {
+		font-size: 16px;
 	}
 
 	#lyrics::before, #lyrics::after {
