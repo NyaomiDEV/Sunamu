@@ -15,7 +15,7 @@ const openedBrowserWindows: Map<BrowserWindow, string> = new Map();
 let player: Player;
 
 // Enable GPU rasterization so it's smooth asf
-app.commandLine.appendSwitch("--enable-gpu-rasterization");
+app.commandLine.appendSwitch("enable-gpu-rasterization");
 
 if (process.platform === "linux") {
 	if (process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && waylandOzone) {

@@ -169,7 +169,7 @@ export function updateActiveLyrics() {
 			line.removeAttribute("distance");
 			line.classList?.add("active");
 		}else{
-			const distance = Math.min(Math.abs(i - lineIndex), 6);
+			const distance = Math.max(-6, Math.min(i - lineIndex, 6));
 			line.setAttribute("distance", `${distance}`);
 			line.classList?.remove("active");
 
