@@ -41,49 +41,54 @@ export function putLyricsInPlace() {
 		const elem = document.createElement("span");
 		elem.classList.add("line");
 
-		if(!line.text.length)
-			elem.classList.add("empty");
+		if (line.text.length) {
+			if (config.karaoke && line.karaoke?.length) {
+				for (const verse of line.karaoke) {
+					const span = document.createElement("span");
+					span.textContent = glasscordUser ? owoify(verse.text) : verse.text; // y'all deserve it
 
-		if(config.karaoke && line.karaoke?.length) {
-			for(const verse of line.karaoke){
-				const span = document.createElement("span");
-				span.textContent = glasscordUser ? owoify(verse.text) : verse.text; // y'all deserve it
+					if (verse.text.trim().length) {
+						span.classList.add("word");
 
-				if(verse.text.trim().length){
-					span.classList.add("word");
-
-					if (
-						!document.documentElement.classList.contains("no-clickable-lyrics") &&
-						!document.documentElement.classList.contains("non-interactive")
-					){
-						span.addEventListener("click", event => {
-							event.stopPropagation();
-							window.np.setPosition(verse.start);
-						});
+						if (
+							!document.documentElement.classList.contains("no-clickable-lyrics") &&
+							!document.documentElement.classList.contains("non-interactive")
+						) {
+							span.addEventListener("click", event => {
+								event.stopPropagation();
+								window.np.setPosition(verse.start);
+							});
+						}
 					}
+
+					elem.appendChild(span);
 				}
+			} else
+				elem.textContent = glasscordUser ? owoify(line.text) : line.text; // y'all deserve it
 
-				elem.appendChild(span);
+			if (config.translations && line.translation) {
+				const translation = document.createElement("span");
+				translation.classList.add("translation");
+				translation.textContent = glasscordUser ? owoify(line.translation) : line.translation; // y'all deserve it
+				elem.appendChild(translation);
 			}
-		} else
-			elem.textContent = glasscordUser ? owoify(line.text) : line.text; // y'all deserve it
-		
-		if(config.translations && line.translation){
-			const translation = document.createElement("span");
-			translation.classList.add("translation");
-			translation.textContent = glasscordUser ? owoify(line.translation) : line.translation; // y'all deserve it
-			elem.appendChild(translation);
-		}
 
-		if (
-			!document.documentElement.classList.contains("no-clickable-lyrics") &&
-			!document.documentElement.classList.contains("non-interactive") &&
-			line.time
-		){
-			elem.addEventListener("click", event => {
-				event.stopPropagation();
-				window.np.setPosition(line.time!);
-			});
+			if (
+				!document.documentElement.classList.contains("no-clickable-lyrics") &&
+				!document.documentElement.classList.contains("non-interactive") &&
+				line.time
+			) {
+				elem.addEventListener("click", event => {
+					event.stopPropagation();
+					window.np.setPosition(line.time!);
+				});
+			}
+
+		} else {
+			elem.classList.add("empty");
+			const emptyProgress = document.createElement("div");
+			emptyProgress.classList.add("empty-progress");
+			elem.appendChild(emptyProgress);
 		}
 		
 		container.appendChild(elem);
@@ -155,13 +160,7 @@ export function updateActiveLyrics() {
 
 			if(line.classList.contains("empty")){
 				// determine empty progress
-				let emptyProgress;
-				emptyProgress = [...line.children].find(x => x.classList.contains("empty-progress"));
-				if(!emptyProgress){
-					emptyProgress = document.createElement("div");
-					emptyProgress.classList.add("empty-progress");
-					line.appendChild(emptyProgress);
-				}
+				const emptyProgress = [...line.children].find(x => x.classList.contains("empty-progress")) as HTMLElement;
 
 				const percentageToGo = (songdata.elapsed - songdata.lyrics.lines[i].time!) / ((songdata.lyrics.lines[i + 1].time || songdata.metadata.length) - songdata.lyrics.lines[i].time!);
 				emptyProgress.style.setProperty("--waitTime", `${percentageToGo}`);
@@ -173,9 +172,6 @@ export function updateActiveLyrics() {
 			const distance = Math.min(Math.abs(i - lineIndex), 6);
 			line.setAttribute("distance", `${distance}`);
 			line.classList?.remove("active");
-
-			if(line.classList.contains("empty"))
-				while (line.firstChild) line.removeChild(line.lastChild!);
 
 			if(config.karaoke){
 				for (let i = 0; i < line.children.length; i++) {

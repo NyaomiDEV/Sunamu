@@ -93,6 +93,10 @@ html.non-interactive #lyrics.synchronized:hover {
 	transform: scale(0.75);
 }
 
+#lyrics.synchronized .line.empty {
+	transform: scale(1);
+}
+
 html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line::before,
 html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .word::before {
 	position: absolute;
@@ -147,7 +151,7 @@ html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line .word:h
 }
 
 #lyrics.synchronized .line.empty .empty-progress {
-	width: calc((1 - var(--waitTime)) * 70vw);
+	width: 70vw;
 	opacity: 0;
 	height: 2px;
 	background-color: var(--color-fg);
@@ -155,6 +159,7 @@ html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line .word:h
 }
 
 #lyrics.synchronized .line.active.empty .empty-progress {
+	width: calc((1 - var(--waitTime)) * 70vw);
 	opacity: calc(1 - var(--waitTime));
 }
 
