@@ -3,7 +3,7 @@ import { putLyricsInPlace, updateActiveLyrics } from "./lyrics.js";
 import songdata from "./songdata.js";
 import { secondsToTime, isElectron } from "./util.js";
 import { updateSeekbarStatus, updateSeekbarTime } from "./seekbar.js";
-import { SongData } from "../../types.js";
+import { Position, SongData } from "../../types.js";
 import { getAppIcon } from "./appicon.js";
 
 const documentRoot = document.querySelector(":root") as HTMLElement;
@@ -176,10 +176,19 @@ function updateTime() {
 	else
 		timeTotal.textContent = "00:00";
 
-	if(songdata.elapsed)
-		timeElapsed.textContent = secondsToTime(songdata.elapsed);
+	if(songdata.elapsed.howMuch)
+		timeElapsed.textContent = secondsToTime(songdata.elapsed.howMuch);
 	else
 		timeElapsed.textContent = "00:00";
+}
+
+function timePoll(){
+	if(songdata.status !== "Playing")
+		return;
+
+	updateTime();
+	updateSeekbarTime();
+	updateActiveLyrics();
 }
 
 function setDisabledClass(elem, condition) {
@@ -210,11 +219,13 @@ window.np.registerUpdateCallback((_songdata: SongData, metadataChanged: boolean)
 		putLyricsInPlace();
 
 	updateNowPlaying();
+	setInterval(timePoll, 50);
 });
 
-window.np.registerPositionCallback((position: number, reportsPosition: boolean) => {
+window.np.registerPositionCallback((position: Position, reportsPosition: boolean) => {
 	songdata.elapsed = position;
 	songdata.reportsPosition = reportsPosition;
+
 	updateTime();
 	updateSeekbarTime();
 	updateActiveLyrics();

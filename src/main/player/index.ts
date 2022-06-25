@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Update } from "../../types";
+import { Position, Update } from "../../types";
 
 const fallback: Player = {
 	init: async (_callback: Function) => undefined,
@@ -15,7 +15,7 @@ const fallback: Player = {
 	Seek: async (_offset: number) => undefined,
 	SeekPercentage: async (_percentage: number) => undefined,
 	SetPosition: async (_position: number) => undefined,
-	GetPosition: async () => 0,
+	GetPosition: async () => ({howMuch: 0, when: new Date(0)}),
 };
 
 let player: Player;
@@ -58,6 +58,6 @@ export interface Player {
 
 	Seek(offset: number): Promise<void>
 	SeekPercentage(percentage: number): Promise<void>
-	GetPosition(): Promise<number>
-	SetPosition(position): Promise<void>
+	GetPosition(): Promise<Position>
+	SetPosition(position: number): Promise<void>
 }

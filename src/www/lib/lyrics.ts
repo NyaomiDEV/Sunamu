@@ -115,11 +115,16 @@ export function updateActiveLyrics() {
 	
 	container.classList.add("synchronized");
 
+	// we compute the estimated elapsed time
+	const elapsed = songdata.status === "Playing" ?
+		songdata.elapsed.howMuch + Math.max(0, (new Date().getTime() - songdata.elapsed.when.getTime()) / 1000) :
+		songdata.elapsed.howMuch;
+
 	// we get the active line
 	let lineIndex = songdata.lyrics.lines.length - 1;
 	for (let i = -1; i < songdata.lyrics.lines.length; i++) {
 		// @ts-ignore
-		if (songdata.elapsed < songdata.lyrics.lines[i + 1]?.time) {
+		if (elapsed < songdata.lyrics.lines[i + 1]?.time) {
 			lineIndex = i;
 			break;
 		}
@@ -131,7 +136,7 @@ export function updateActiveLyrics() {
 		wordIndex = songdata.lyrics.lines[lineIndex]?.karaoke!.length - 1;
 		for (let i = -1; i < songdata.lyrics.lines[lineIndex]?.karaoke!.length; i++) {
 			// @ts-ignore
-			if (songdata.elapsed < songdata.lyrics.lines[lineIndex].karaoke[i + 1]?.start) {
+			if (elapsed < songdata.lyrics.lines[lineIndex].karaoke[i + 1]?.start) {
 				wordIndex = i;
 				break;
 			}
@@ -162,7 +167,7 @@ export function updateActiveLyrics() {
 				// determine empty progress
 				const emptyProgress = [...line.children].find(x => x.classList.contains("empty-progress")) as HTMLElement;
 
-				const percentageToGo = (songdata.elapsed - songdata.lyrics.lines[i].time!) / ((songdata.lyrics.lines[i + 1]?.time || songdata.metadata.length) - songdata.lyrics.lines[i].time!);
+				const percentageToGo = (elapsed - songdata.lyrics.lines[i].time!) / ((songdata.lyrics.lines[i + 1]?.time || songdata.metadata.length) - songdata.lyrics.lines[i].time!);
 				emptyProgress.style.setProperty("--waitTime", `${percentageToGo}`);
 			}
 

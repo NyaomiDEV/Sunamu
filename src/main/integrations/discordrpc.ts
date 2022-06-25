@@ -80,7 +80,7 @@ async function getPresence() {
 		return;
 
 	const now = Date.now();
-	const start = Math.round(now - (songdata.elapsed * 1000));
+	const start = Math.round(now - (songdata.elapsed.howMuch * 1000));
 	const end = Math.round(start + (songdata.metadata.length * 1000));
 
 	const activity: Presence = { // everything must be two characters long at least

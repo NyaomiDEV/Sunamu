@@ -55,7 +55,10 @@ export async function getUpdate(): Promise<Update | null> {
 			loop: players[activePlayer].Player.LoopStatus || "None",
 			shuffle: players[activePlayer].Player.Shuffle || false,
 			volume: players[activePlayer].Player.Volume || 0,
-			elapsed: Number(await players[activePlayer].Player.GetPosition()) / 1000000,
+			elapsed: {
+				howMuch: Number(await players[activePlayer].Player.GetPosition()) / 1000000,
+				when: new Date()
+			},
 			app: activePlayer,
 			appName: players[activePlayer].Identity || ""
 		};
@@ -141,11 +144,15 @@ export async function SetPosition(position: number) {
 }
 
 export async function GetPosition() {
+	let _pos = 0;
 	if (activePlayer){
 		const pos = await players[activePlayer]?.Player?.GetPosition?.();
-		return Number(pos) / 1000000;
+		_pos = Number(pos) / 1000000;
 	}
-	return 0;
+	return {
+		howMuch: _pos,
+		when: new Date()
+	};
 }
 
 // UTILS

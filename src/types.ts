@@ -130,9 +130,14 @@ export type Update = {
 	loop: string,
 	shuffle: boolean,
 	volume: number,
-	elapsed: number,
+	elapsed: Position,
 	app: string,
 	appName: string
+}
+
+export type Position = {
+	howMuch: number,
+	when: Date
 }
 
 export type SongData = Update & {

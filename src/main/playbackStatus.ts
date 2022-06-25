@@ -1,4 +1,4 @@
-import { DeepPartial, Metadata, SongData, SpotifyInfo, Update } from "../types";
+import { DeepPartial, Metadata, Position, SongData, SpotifyInfo, Update } from "../types";
 import { get } from "./config";
 import getPlayer from "./player";
 import { getSpotifySongFromId, searchSpotifySong } from "./thirdparty/spotify";
@@ -11,7 +11,7 @@ import { debug } from ".";
 const songdataCallbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
 const lyricsCallbacks: Array<() => Promise<void>> = [];
 // eslint-disable-next-line no-unused-vars
-const positionCallbacks: Array<(position: number, reportsPosition: boolean) => Promise<void>> = [];
+const positionCallbacks: Array<(position: Position, reportsPosition: boolean) => Promise<void>> = [];
 
 setInterval(pollPosition, get("positionPollInterval") * 1000);
 
@@ -40,7 +40,10 @@ const fallback: DeepPartial<SongData> = {
 	loop: "None",
 	shuffle: false,
 	volume: 0,
-	elapsed: 0,
+	elapsed: {
+		howMuch: 0,
+		when: new Date(0)
+	},
 	reportsPosition: false,
 	app: undefined,
 	appName: undefined,
@@ -185,19 +188,19 @@ export async function broadcastPosition() {
 }
 
 // eslint-disable-next-line no-unused-vars
-export function addPositionCallback(cb: (position: number, reportsPosition: boolean) => Promise<void>) {
+export function addPositionCallback(cb: (position: Position, reportsPosition: boolean) => Promise<void>) {
 	positionCallbacks.push(cb);
 }
 
 // eslint-disable-next-line no-unused-vars
-export function deletePositionCallback(cb: (position: number, reportsPosition: boolean) => Promise<void>) {
+export function deletePositionCallback(cb: (position: Position, reportsPosition: boolean) => Promise<void>) {
 	positionCallbacks.splice(positionCallbacks.indexOf(cb), 1);
 }
 
 export async function pollPosition() {
 	if (songdata.status === "Playing"){
 		songdata.elapsed = await (await getPlayer()).GetPosition();
-		if(songdata.elapsed > 0)
+		if(songdata.elapsed.howMuch > 0)
 			songdata.reportsPosition = true;
 		else
 			songdata.reportsPosition = false;
