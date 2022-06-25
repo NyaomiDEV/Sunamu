@@ -29,3 +29,26 @@ export function isElectron(): boolean{
 	if (navigator.userAgent.toLowerCase().indexOf(" electron/") > -1) return true;
 	return false;
 }
+
+export function debounce(callback: Function, time: number, leading: boolean = false, ...args: any[]): Promise<any> {
+	let timer: number | undefined;
+	return new Promise((resolve, reject) => {
+		try{
+			if (leading) {
+				if (!timer)
+					resolve(callback(...args));
+			}
+
+			window.clearTimeout(timer);
+
+			timer = window.setTimeout(() => { 
+				if(leading)
+					timer = undefined;
+				else
+					resolve(callback(...args));
+			}, time);
+		}catch(e){
+			reject(e);
+		}
+	});
+}
