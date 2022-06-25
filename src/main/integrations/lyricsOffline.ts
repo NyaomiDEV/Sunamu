@@ -65,6 +65,11 @@ export async function convertUncompressed(): Promise<void>{
 export async function statCachePath(): Promise<Map<string, Stats>>{
 	const lyrics = await readdir(lyrPath);
 	const stats = new Map<string, Stats>();
+
+	stats[Symbol.iterator] = function* statsIterator() {
+		yield* [...this.entries()].sort((a, b) => b[1].atimeMs - a[1].atimeMs);
+	};
+
 	for (const file of lyrics) {
 		const path = resolve(lyrPath, file);
 		stats.set(file, await stat(path));
