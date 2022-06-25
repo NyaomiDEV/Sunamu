@@ -117,7 +117,7 @@ export function updateActiveLyrics() {
 
 	// we compute the estimated elapsed time
 	const elapsed = songdata.status === "Playing" ?
-		songdata.elapsed.howMuch + Math.max(0, (new Date().getTime() - songdata.elapsed.when.getTime()) / 1000) :
+		songdata.elapsed.howMuch + Math.max(0, (new Date().getTime() - new Date(songdata.elapsed.when).getTime()) / 1000) :
 		songdata.elapsed.howMuch;
 
 	// we get the active line
