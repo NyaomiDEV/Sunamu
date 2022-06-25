@@ -81,7 +81,8 @@ export type SceneConfig = {
 	showExtraButtons?: boolean,
 	colors?: boolean,
 	defaultColorsAreInverted?: boolean,
-	colorblock?: boolean
+	colorblock?: boolean,
+	bgAnimation?: boolean,
 	playerIcon?: boolean
 }
 

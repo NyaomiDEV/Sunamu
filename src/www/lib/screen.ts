@@ -43,6 +43,9 @@ if(sceneName && config.scenes[sceneName]){
 		}
 	}
 
+	if (typeof scene.bgAnimation !== "undefined" && !scene.bgAnimation)
+		document.documentElement.classList.add("no-bg-animation");
+
 	if (typeof scene.showAlbumArt !== "undefined" && !scene.showAlbumArt)
 		document.documentElement.classList.add("no-album-art");
 
