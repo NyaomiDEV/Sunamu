@@ -15,8 +15,8 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 
 	const cached = await getLyrics(id);
 
-	// This should only be executed inside the electron (main/renderer) process
-	if (!cached || !cached.lines.length || !cached?.synchronized) {
+	// This should only be executed inside the electron (main) process
+	if (!cached || !cached.lines!.length || !cached?.synchronized) {
 		if (!cached) debug(`Cache miss for ${metadata.artist} - ${metadata.title}`);
 		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${metadata.artist} - ${metadata.title}`);
 
@@ -49,7 +49,7 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 	if(cached && !lyrics)
 		lyrics = cached;
 
-	return lyrics;
+	return lyrics || { unavailable: true };
 }
 
 function computeLyricsID(metadata: Metadata){

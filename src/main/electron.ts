@@ -52,22 +52,6 @@ function registerElectronIpc() {
 	ipcMain.handle("getSongData", () => songdata);
 	ipcMain.handle("getConfig", () => getAllConfig());
 
-	ipcMain.handle("shouldBullyGlasscordUser", async () => {
-		let bullyGlasscordUser = false;
-		const gcPath = resolve(getAppData(), "glasscord");
-
-		try {
-			await stat(gcPath);
-			bullyGlasscordUser = true;
-			await stat(resolve(gcPath, "DONTBULLYME"));
-			bullyGlasscordUser = false;
-		} catch (_) {
-			//...
-		}
-
-		return bullyGlasscordUser;
-	});
-
 	ipcMain.handle("isWidgetMode", (e) => {
 		const _win = BrowserWindow.fromWebContents(e.sender);
 

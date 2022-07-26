@@ -1,11 +1,9 @@
 import lang from "./lang.js";
 import songdata from "./songdata.js";
-import owoify from "./owoify.js";
 import config from "./config.js";
 
 const container = document.getElementById("lyrics")!;
 const copyright = document.getElementById("lyrics-copyright")!;
-const glasscordUser = await window.np.shouldBullyGlasscordUser();
 
 let isContainerHovered;
 
@@ -18,8 +16,24 @@ export function putLyricsInPlace() {
 	// remove text from footer
 	copyright.textContent = "";
 
-	// start checking for no lyrics
-	if (!songdata.lyrics) {
+	// loading lyrics
+	if (!songdata.lyrics){
+		document.documentElement.classList.add("no-lyrics");
+
+		const loading = document.createElement("span");
+		loading.classList.add("line");
+		loading.textContent = lang.LOADING_LYRICS;
+		container.appendChild(loading);
+		loading.scrollIntoView({
+			inline: "center",
+			block: "center",
+			behavior: "smooth"
+		});
+		return;
+	}
+
+	// no lyrics
+	if (songdata.lyrics.unavailable) {
 		document.documentElement.classList.add("no-lyrics");
 
 		const noLyrics = document.createElement("span");
@@ -34,10 +48,11 @@ export function putLyricsInPlace() {
 		return;
 	}
 
+	// lyrics!
 	document.documentElement.classList.remove("no-lyrics");
 
 	// we are good with lyrics so we push them all
-	for (const line of songdata.lyrics.lines) {
+	for (const line of songdata.lyrics.lines!) {
 		const elem = document.createElement("span");
 		elem.classList.add("line");
 
@@ -45,7 +60,7 @@ export function putLyricsInPlace() {
 			if (config.karaoke && line.karaoke?.length) {
 				for (const verse of line.karaoke) {
 					const span = document.createElement("span");
-					span.textContent = glasscordUser ? owoify(verse.text) : verse.text; // y'all deserve it
+					span.textContent = verse.text;
 
 					if (verse.text.trim().length) {
 						span.classList.add("word");
@@ -64,12 +79,12 @@ export function putLyricsInPlace() {
 					elem.appendChild(span);
 				}
 			} else
-				elem.textContent = glasscordUser ? owoify(line.text) : line.text; // y'all deserve it
+				elem.textContent = line.text;
 
 			if (config.translations && line.translation) {
 				const translation = document.createElement("span");
 				translation.classList.add("translation");
-				translation.textContent = glasscordUser ? owoify(line.translation) : line.translation; // y'all deserve it
+				translation.textContent = line.translation;
 				elem.appendChild(translation);
 			}
 
@@ -121,8 +136,8 @@ export function updateActiveLyrics() {
 		songdata.elapsed.howMuch;
 
 	// we get the active line
-	let lineIndex = songdata.lyrics.lines.length - 1;
-	for (let i = -1; i < songdata.lyrics.lines.length; i++) {
+	let lineIndex = songdata.lyrics.lines!.length - 1;
+	for (let i = -1; i < songdata.lyrics.lines!.length; i++) {
 		// @ts-ignore
 		if (elapsed < songdata.lyrics.lines[i + 1]?.time) {
 			lineIndex = i;
@@ -132,9 +147,9 @@ export function updateActiveLyrics() {
 
 	// we get the active word
 	let wordIndex = -1;
-	if (config.karaoke && songdata.lyrics.lines[lineIndex]?.karaoke?.length){
-		wordIndex = songdata.lyrics.lines[lineIndex]?.karaoke!.length - 1;
-		for (let i = -1; i < songdata.lyrics.lines[lineIndex]?.karaoke!.length; i++) {
+	if (config.karaoke && songdata.lyrics.lines![lineIndex]?.karaoke?.length){
+		wordIndex = songdata.lyrics.lines![lineIndex]?.karaoke!.length - 1;
+		for (let i = -1; i < songdata.lyrics.lines![lineIndex]?.karaoke!.length; i++) {
 			// @ts-ignore
 			if (elapsed < songdata.lyrics.lines[lineIndex].karaoke[i + 1]?.start) {
 				wordIndex = i;
@@ -167,7 +182,7 @@ export function updateActiveLyrics() {
 				// determine empty progress
 				const emptyProgress = [...line.children].find(x => x.classList.contains("empty-progress")) as HTMLElement;
 
-				const percentageToGo = (elapsed - songdata.lyrics.lines[i].time!) / ((songdata.lyrics.lines[i + 1]?.time || songdata.metadata.length) - songdata.lyrics.lines[i].time!);
+				const percentageToGo = (elapsed - songdata.lyrics.lines![i].time!) / ((songdata.lyrics.lines![i + 1]?.time || songdata.metadata.length) - songdata.lyrics.lines![i].time!);
 				emptyProgress.style.setProperty("--waitTime", `${percentageToGo}`);
 			}
 

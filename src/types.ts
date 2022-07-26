@@ -21,8 +21,6 @@ export type NowPlayingAPI = {
 	getSongData: () => Promise<SongData>,
 	getConfig: () => Promise<Config>,
 
-	shouldBullyGlasscordUser: () => Promise<boolean>,
-
 	isWidgetMode: () => Promise<boolean>,
 	isDebugMode: () => Promise<boolean>,
 	isElectronRunning?: () => Promise<boolean>,
@@ -150,10 +148,11 @@ export type SongData = Update & {
 }
 
 export type Lyrics = {
-	provider: string,
-	synchronized: boolean,
-	lines: LyricsLine[],
-	copyright?: string
+	provider?: string,
+	synchronized?: boolean,
+	lines?: LyricsLine[],
+	copyright?: string,
+	unavailable?: boolean
 }
 
 export type LyricsLine = {

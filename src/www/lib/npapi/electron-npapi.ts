@@ -20,8 +20,6 @@ const npApi: NowPlayingAPI = {
 
 	getConfig: () => ipcRenderer.invoke("getConfig"),
 
-	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),
-
 	isWidgetMode: () => ipcRenderer.invoke("isWidgetMode"),
 	isDebugMode: () => ipcRenderer.invoke("isDebugMode"),
 	isElectronRunning: async () => true,

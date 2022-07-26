@@ -44,22 +44,6 @@ function registerSocketIO(socket: Socket) {
 	socket.on("getSongData", (callback) => callback(songdata));
 	socket.on("getConfig", (callback) => callback(getAllConfig()));
 
-	socket.on("shouldBullyGlasscordUser", async (callback) => {
-		let bullyGlasscordUser = false;
-		const gcPath = path.resolve(getAppData(), "glasscord");
-
-		try {
-			await stat(gcPath);
-			bullyGlasscordUser = true;
-			await stat(path.resolve(gcPath, "DONTBULLYME"));
-			bullyGlasscordUser = false;
-		} catch (_) {
-			//...
-		}
-
-		callback(bullyGlasscordUser);
-	});
-
 	socket.on("isWidgetMode", (callback) => callback(widgetMode));
 	socket.on("isDebugMode", (callback) => callback(debugMode));
 	socket.on("isElectronRunning", (callback) => callback(useElectron));
