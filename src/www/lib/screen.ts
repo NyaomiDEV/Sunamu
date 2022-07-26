@@ -33,6 +33,11 @@ if(sceneName && config.scenes[sceneName]){
 	if (scene.colorblock) document.documentElement.classList.add("colorblock");
 	if (scene.defaultColorsAreInverted) document.documentElement.classList.add("inverted-default-colors");
 
+	if (scene.forceIdle) {
+		document.documentElement.classList.add("idle");
+		document.documentElement.classList.add("force-idle");
+	}
+	
 	if (scene.theme && scene.theme !== "default"){
 		const themeLocation = await window.np.getThemeLocationFor(scene.theme);
 		if(themeLocation){
@@ -60,6 +65,9 @@ if(sceneName && config.scenes[sceneName]){
 
 	if (typeof scene.showLyrics !== "undefined" && !scene.showLyrics)
 		document.documentElement.classList.add("no-show-lyrics");
+
+	if (typeof scene.showScrobbles !== "undefined" && !scene.showScrobbles)
+		document.documentElement.classList.add("no-show-scrobbles");
 
 	if (typeof scene.showProgress !== "undefined" && !scene.showProgress)
 		document.documentElement.classList.add("no-progress");

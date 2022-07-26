@@ -63,6 +63,10 @@ html.idle #scrobbles {
 	opacity: 0;
 }
 
+html.no-show-scrobbles #scrobbles {
+	display: none;
+}
+
 #metadata .featuring {
 	opacity: .8;
 }

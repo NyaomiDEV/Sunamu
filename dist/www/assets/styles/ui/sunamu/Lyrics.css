@@ -97,8 +97,10 @@ html.non-interactive #lyrics.synchronized:hover {
 	transform: scale(1);
 }
 
-html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line::before,
-html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .word::before {
+html:not(.no-clickable-lyrics) #lyrics.synchronized .line::before,
+html:not(.no-clickable-lyrics) #lyrics.synchronized .word::before,
+html:not(.non-interactive) #lyrics.synchronized .line::before,
+html:not(.non-interactive) #lyrics.synchronized .word::before {
 	position: absolute;
 	content: "";
 	content-visibility: none;
@@ -114,13 +116,15 @@ html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .word::before
 	transition: ease .2s opacity;
 }
 
-html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line::before {
+html:not(.no-clickable-lyrics) #lyrics.synchronized .line::before,
+html:not(.non-interactive) #lyrics.synchronized .line::before {
 	box-sizing: border-box;
 	top: 0px;
 	left: 0px;
 }
 
-html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .word::before {
+html:not(.no-clickable-lyrics) #lyrics.synchronized .word::before,
+html:not(.non-interactive) #lyrics.synchronized .word::before {
 	box-sizing: content-box;
 }
 
@@ -131,8 +135,10 @@ html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .word::before
 	transform: scale(1);
 }
 
-html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line:hover::before,
-html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line .word:hover::before {
+html:not(.no-clickable-lyrics) #lyrics.synchronized .line:hover::before,
+html:not(.no-clickable-lyrics) #lyrics.synchronized .line .word:hover::before,
+html:not(.non-interactive)  #lyrics.synchronized .line:hover::before,
+html:not(.non-interactive) #lyrics.synchronized .line .word:hover::before {
 	opacity: 0.5;
 }
 
@@ -196,71 +202,71 @@ html:not(no-clickable-lyrics.non-interactive) #lyrics.synchronized .line .word:h
 	filter: blur(16px);
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="-6"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-6"] {
 	transform: scale(0.75) translateY(-48px);
 	transition: .2s ease,
 				.8s ease transform;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="-5"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-5"] {
 	transform: scale(0.75) translateY(-40px);
 	transition: .2s ease,
 				.7s ease transform;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="-4"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-4"] {
 	transform: scale(0.75) translateY(-32px);
 	transition: .2s ease,
 				.6s ease transform;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="-3"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-3"] {
 	transform: scale(0.75) translateY(-24px);
 	transition: .2s ease,
 				.5s ease transform;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="-2"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-2"] {
 	transform: scale(0.75) translateY(-16px);
 	transition: .2s ease,
 				.4s ease transform;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="-1"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-1"] {
 	transform: scale(0.75) translateY(-8px);
 	transition: .3s ease;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="1"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="1"] {
 	transform: scale(0.75) translateY(8px);
 	transition: .3s ease;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="2"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="2"] {
 	transform: scale(0.75) translateY(16px);
 	transition: .2s ease,
 				.4s ease transform;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="3"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="3"] {
 	transform: scale(0.75) translateY(24px);
 	transition: .2s ease,
 				.5s ease transform;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="4"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="4"] {
 	transform: scale(0.75) translateY(32px);
 	transition: .2s ease,
 				.6s ease transform;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="5"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="5"] {
 	transform: scale(0.75) translateY(40px);
 	transition: .2s ease,
 				.7s ease transform;
 }
 
-#lyrics.synchronized:not(:hover) .line[distance="6"] {
+html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="6"] {
 	transform: scale(0.75) translateY(48px);
 	transition: .2s ease,
 				.8s ease transform;
@@ -281,18 +287,18 @@ html.no-lyrics-blur #lyrics.synchronized .line[distance="6"] {
 	filter: none;
 }
 
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="-6"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="-5"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="-4"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="-3"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="-2"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="-1"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="1"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="2"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="3"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="4"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="5"],
-html:not(non-interactive) #lyrics.synchronized:hover .line[distance="6"] {
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="-6"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="-5"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="-4"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="-3"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="-2"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="-1"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="1"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="2"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="3"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="4"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="5"],
+html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="6"] {
 	opacity: 1;
 	filter: blur(0px);
 }
