@@ -75,17 +75,21 @@ export async function updateInfo(update?: Update) {
 		songdata.lastfm = undefined;
 		songdata.spotify = undefined;
 
+		// Quick fix (do it better later): if there's no song playing, there's no lyrics.
+		if (!update?.metadata.id)
+			songdata.lyrics = { unavailable: true };
+
 		// broadcast our initial update so people won't think sunamu is laggy asf
 		await broadcastSongData(true);
-		// this also updates the lyrics to "no lyrics to show" screen
-
-		// we pre-emptively check our symbol to avoid consuming API calls for nothing
-		// because there's already newer stuff than us
-		if(currentSymbol !== updateInfoSymbol) return;
+		// this also updates the lyrics to whatever screen is suitable
 
 		// if we do have an update containing an ID in it, then we assume a track is playing
 		// and therefore we can get extra information about it
 		if (!update?.metadata.id) return;
+
+		// we pre-emptively check our symbol to avoid consuming API calls for nothing
+		// because there's already newer stuff than us
+		if(currentSymbol !== updateInfoSymbol) return;
 	
 		// BEGIN OF "HUGE SUSPENSION POINT"
 		const extraMetadata: Partial<SongData> = {};
@@ -107,7 +111,7 @@ export async function updateInfo(update?: Update) {
 	await broadcastSongData(false); // false means metadata didn't change (we already notified that inside the if block)
 
 	// if lyrics are there, we need to broadcast an update for them too
-	if (metadataChanged && songdata.lyrics)
+	if (metadataChanged && !songdata.lyrics?.unavailable)
 		await broadcastLyrics();
 }
 
