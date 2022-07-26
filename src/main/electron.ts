@@ -7,8 +7,6 @@ import windowStateKeeper from "electron-window-state";
 import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
 import { getThemeLocation } from "./themes";
 
-process.title = "sunamu";
-
 const openedBrowserWindows: Map<BrowserWindow, string> = new Map();
 let player: Player;
 
