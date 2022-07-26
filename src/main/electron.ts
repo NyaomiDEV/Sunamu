@@ -1,12 +1,10 @@
 import { app, BrowserWindow, ipcMain, shell } from "electron";
-import { stat } from "fs/promises";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
 import { getAll as getAllConfig } from "./config";
 import { widgetModeElectron, debugMode, waylandOzone } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
 import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
-import { getAppData } from "./util";
 import { getThemeLocation } from "./themes";
 
 process.title = "sunamu";

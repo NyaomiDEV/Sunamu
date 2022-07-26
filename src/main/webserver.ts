@@ -1,9 +1,7 @@
-import { stat } from "fs/promises";
 import path from "path";
 import getPlayer, { Player } from "./player";
 import { get as getConfig, getAll as getAllConfig } from "./config";
 import { widgetMode, debugMode, useElectron } from "./appStatus";
-import { getAppData } from "./util";
 
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
