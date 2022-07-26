@@ -8,7 +8,7 @@ import { Lyrics, Metadata } from "../../types";
 
 export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promise<Lyrics | undefined> {
 	if (!metadata.artist || !metadata.title) // there can't be lyrics without at least those two fields
-		return;
+		return { unavailable: true };
 	
 	let lyrics: Lyrics | undefined;
 	const id = computeLyricsID(metadata);

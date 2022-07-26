@@ -47,7 +47,7 @@ const fallback: DeepPartial<SongData> = {
 	reportsPosition: false,
 	app: undefined,
 	appName: undefined,
-	lyrics: undefined,
+	lyrics: { unavailable: true },
 	lastfm: undefined,
 	spotify: undefined
 };
