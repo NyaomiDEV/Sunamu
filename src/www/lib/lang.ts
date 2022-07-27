@@ -32,6 +32,7 @@ export const allLangs = {
 		SCROBBLE_COUNT: "%COUNT% mal abgespielt",
 		LOADING_LYRICS: "Songtexte werden geladen", // Google translated, please review
 		NO_LYRICS: "Keine Songtexte verfügbar",
+		LOADING_LYRICS: "Songtexte werden geladen", // Google translated, please review
 		NOW_PLAYING_TITLE: "\"%TITLE%\" von %ARTIST%",
 		UNKNOWN_ARTIST: "Unbekannter Künstler",
 		UNKNOWN_TITLE: "Unbekannter Titel",
@@ -48,6 +49,18 @@ export const allLangs = {
 		UNKNOWN_ARTIST: "Artiste inconnu",
 		UNKNOWN_TITLE: "Titre inconnu",
 		LYRICS_COPYRIGHT: "Paroles provenant de %PROVIDER%",
+	},
+		nl: {
+		NOT_PLAYING: "Er wordt niets afgespeeld",
+		PLEASE_PLAY_SONG: "Speel een nummer af",
+		PLAYING_ON_APP: "Wordt afgespeeld in",
+		SCROBBLE_COUNT: "%COUNT% keer gescrobbeld",
+		LOADING_LYRICS: "Bezig met laden van songtekst…", 
+		NO_LYRICS: "Er is geen songtekst beschikbaar",
+		NOW_PLAYING_TITLE: "\"%TITLE%\" van %ARTIST%",
+		UNKNOWN_ARTIST: "Onbekende artiest",
+		UNKNOWN_TITLE: "Onbekende titel",
+		LYRICS_COPYRIGHT: "Songtekst afkomstig van %PROVIDER%",
 	},
 };
 
