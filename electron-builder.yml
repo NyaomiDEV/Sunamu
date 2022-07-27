@@ -69,7 +69,7 @@ rpm:
    - nss
    - at-spi2-core
    - libuuid
-   - libvips
+   - vips
 pacman:
   depends:
    - gtk3
