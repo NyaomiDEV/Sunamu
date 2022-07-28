@@ -114,7 +114,7 @@ export function putLyricsInPlace() {
 		container.classList.add("synchronized");
 
 	// we put the copyright where it is supposed to be
-	copyright.textContent = lang.LYRICS_COPYRIGHT.replace("%PROVIDER%", songdata.lyrics.provider);
+	copyright.textContent = lang.LYRICS_COPYRIGHT.replace("%PROVIDER%", songdata.lyrics.provider!);
 	if (songdata.lyrics.copyright)
 		copyright.textContent += ` • ${songdata.lyrics.copyright}`;
 }
