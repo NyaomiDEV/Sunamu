@@ -293,6 +293,7 @@ async function parseMetadata(metadata): Promise<Metadata> {
 		artUrl: metadata["mpris:artUrl"],
 		artData: artData || undefined,
 		count: metadata["xesam:useCount"] || undefined,
+		lyrics: metadata["xesam:asText"] || undefined,
 		id: metadata["mpris:trackid"]
 	};
 }

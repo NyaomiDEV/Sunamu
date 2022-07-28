@@ -128,6 +128,7 @@ export type Metadata = {
 	artData?: ArtData,
 	length: number,
 	count?: number,
+	lyrics?: string,
 	id: string
 }
 
