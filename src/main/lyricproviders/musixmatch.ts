@@ -4,6 +4,7 @@ import { URLSearchParams } from "url";
 import axios, { AxiosResponse } from "axios";
 import { get as getConfig, set as setConfig } from "../config";
 import { searchForUserToken } from "../integrations/mxmusertoken";
+import { getOSLocale } from "../util";
 
 async function queryMusixmatch(method: string, params?: any, shouldUseToken = true): Promise<any | undefined> {
 
@@ -153,7 +154,7 @@ async function queryTranslation(trackId: string){
 		part: "user",
 		track_id: trackId,
 		translation_fields_set: "minimal",
-		selected_language: getConfig("mxmlanguage") || getConfig("language") || "en",
+		selected_language: getConfig("mxmlanguage") || getConfig("language") || getOSLocale()[0] || "en",
 	};
 
 	const result = await queryMusixmatch("crowd.track.translations.get", queryParams);

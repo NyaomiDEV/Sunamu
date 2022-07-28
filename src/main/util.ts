@@ -53,3 +53,7 @@ export function humanDimensionToBytes(dimension: string): number {
 
 	return Number(number) * Math.pow(1000, sizes.indexOf(weight)); // IEC standard
 }
+
+export function getOSLocale(){
+	return Intl.DateTimeFormat().resolvedOptions().locale.split("-");
+}
