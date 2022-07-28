@@ -5,6 +5,7 @@ import { secondsToTime, isElectron } from "./util.js";
 import { updateSeekbarStatus, updateSeekbarTime } from "./seekbar.js";
 import { Position, SongData } from "../../types.js";
 import { getAppIcon } from "./appicon.js";
+import config from "./config.js";
 
 const documentRoot = document.querySelector(":root") as HTMLElement;
 
@@ -185,7 +186,7 @@ function updateTime() {
 		timeElapsed.textContent = "00:00";
 }
 
-function timePoll(){
+function positionUpdate(){
 	if(songdata.status !== "Playing")
 		return;
 
@@ -222,7 +223,7 @@ window.np.registerUpdateCallback((_songdata: SongData, metadataChanged: boolean)
 		putLyricsInPlace();
 
 	updateNowPlaying();
-	setInterval(timePoll, 50);
+	setInterval(positionUpdate, config.positionUpdateInterval * 1000);
 });
 
 window.np.registerPositionCallback((position: Position, reportsPosition: boolean) => {

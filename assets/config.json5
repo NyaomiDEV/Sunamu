@@ -11,10 +11,12 @@
 	debugMode: false,
 	// Do you want to use the Ozone Wayland Platform? (Linux only)
 	waylandOzone: true,
-	// How often to poll for track position?
+	// How often to poll for track position? (in seconds)
 	positionPollInterval: 0.2,
-	// Do you want the karaoke feature to be on?
-	// It looks better with small poll intervals (<=0.2s), but they make Sunamu perform worse overall on weak setups.
+	// How often to update the track position internally? (in seconds)
+	// This can improve lyrics timing if you're using a very long polling interval to not overload your system.
+	positionUpdateInterval: 0.05,
+	// Do you want Sunamu to be in karaoke mode?
 	karaoke: true,
 	// Do you want the lyrics to be translated? (Musixmatch only)
 	translations: true,

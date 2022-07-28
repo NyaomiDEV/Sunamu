@@ -56,6 +56,7 @@ export type Config = {
 	debugMode: boolean,
 	waylandOzone: boolean,
 	positionPollInterval: number,
+	positionUpdateInterval: number,
 	karaoke: boolean,
 	translations: boolean,
 	mxmlanguage: string,
