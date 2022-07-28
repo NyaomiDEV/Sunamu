@@ -3,7 +3,7 @@ import { extname, resolve } from "path";
 import { createHash } from "crypto";
 import JSON5 from "json5";
 import { Lyrics } from "../../types";
-import { getAppData, gzipCompress, gzipDecompress } from "../util";
+import { getAppData, gzipCompress, gzipDecompress, humanDimensionToBytes } from "../util";
 import { get as getConfig } from "../config";
 import { debug } from "..";
 
@@ -81,6 +81,8 @@ async function statCachePath(): Promise<Map<string, Stats>>{
 }
 
 async function trimPathTo(targetSize: number): Promise<any> {
+	debug("Target lyrics cache size in bytes:", targetSize);
+
 	const currentStats = [...await statCachePath()];
 	const cacheSize = currentStats.map(x => x[1].size).reduce((_prev, _cur) => _prev + _cur, 0);
 
@@ -112,8 +114,8 @@ export async function manageLyricsCache(){
 	const cacheSize = [...cacheStats].map(x => x[1].size).reduce((_prev, _cur) => _prev + _cur, 0);
 	debug("Current lyrics cache size in bytes:", cacheSize);
 
-	const targetSize = getConfig("targetLyricsCacheSize");
+	const targetSize = humanDimensionToBytes(getConfig("targetLyricsCacheSize"));
 
-	if(targetSize.length && Number(targetSize) > 0) 
+	if(targetSize && Number(targetSize) > 0) 
 		await trimPathTo(targetSize);
 }

@@ -1,6 +1,7 @@
 {
-	// Uncomment this to set a language other than the detected (system) one.
-	// language: "en",
+	// Set Sunamu's language. If empty, it will detect the system language and use that.
+	// Currently supported languages: en, it, de, fr, nl
+	language: "en",
 	// Would you want to use Electron to display Sunamu as a stand alone application?
 	useElectron: true,
 	// Would you like to spawn a local web server that makes Sunamu accessible through web browsers on your network?
@@ -21,9 +22,9 @@
 	// Do you want the lyrics to be translated? (Musixmatch only)
 	translations: true,
 	// Specify the language you want to use for your Musixmatch translated lyrics.
-	// If it is not set, it will default to the one set in the "language" field.
-	// If that one is not set either, it will default to the detected (system) one.
-	// mxmlanguage: "en",
+	// If it is empty, it will default to the one set in the "language" field.
+	// If that one is not set either, it will default to the system language.
+	mxmlanguage: "",
 	// Specify your Musixmatch User Token.
 	// Sunamu will automatically generate it if you don't have your own.
 	mxmusertoken: "",
