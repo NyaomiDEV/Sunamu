@@ -29,6 +29,7 @@ export default async function getPlayer(){
 				break;
 			case "win32":
 				let winplayer = await import("./winplayer");
+				// @ts-ignore
 				player = Object.assign({}, winplayer);
 				break;
 			default:
