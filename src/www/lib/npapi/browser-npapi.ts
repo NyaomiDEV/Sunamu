@@ -18,6 +18,7 @@ if(!isElectron()){
 		registerPositionCallback: (callback) => socket.on("position", (...args) => callback(...args)),
 		registerUpdateCallback: (callback) => socket.on("update", (...args) => callback(...args)),
 		registerLyricsCallback: (callback) => socket.on("refreshLyrics", (...args) => callback(...args)),
+		registerConfigChangedCallback: (callback) => socket.on("configChanged", (...args) => callback(...args)),
 
 		getSongData: () => new Promise(resolve => socket.emit("getSongData", resolve)),
 		getConfig: () => new Promise(resolve => socket.emit("getConfig", resolve)),

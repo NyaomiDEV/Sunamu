@@ -1,6 +1,6 @@
 import { Config } from "../types";
 import JSON5 from "json5";
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { copyFileSync, mkdirSync, readFileSync, watchFile, writeFileSync } from "fs";
 import { resolve } from "path";
 import { getAppData } from "./util";
 
@@ -8,10 +8,21 @@ const configPath = resolve(getAppData(), "sunamu", "config.json5");
 const defaultConfigPath = resolve(__dirname, "..", "..", "assets", "config.json5");
 
 const defaultConfig: Config = JSON5.parse(readFileSync(defaultConfigPath, "utf8"));
-const config: Config = getUserConfig();
+let config: Config = getUserConfig();
+
+const configChangedCallbacks: Array<() => Promise<void>> = [];
 
 if (compareAndUpdate(defaultConfig, config))
 	save();
+
+watchFile(configPath, () => {
+	config = getUserConfig();
+
+	if (compareAndUpdate(defaultConfig, config))
+		save();
+
+	broadcastConfigChanged();
+});
 
 function getUserConfig() {
 	try {
@@ -64,4 +75,18 @@ export function getAll(): Config {
 export function set(name: string, value: any){
 	config[name] = value;
 	save(false);
+}
+
+export async function broadcastConfigChanged() {
+	for (const cb of configChangedCallbacks) await cb();
+}
+
+// eslint-disable-next-line no-unused-vars
+export function addConfigChangedCallback(cb: () => Promise<void>) {
+	configChangedCallbacks.push(cb);
+}
+
+// eslint-disable-next-line no-unused-vars
+export function deleteConfigChangedCallback(cb: () => Promise<void>) {
+	configChangedCallbacks.splice(configChangedCallbacks.indexOf(cb), 1);
 }

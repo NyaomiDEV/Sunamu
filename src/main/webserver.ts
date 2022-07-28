@@ -1,12 +1,12 @@
 import path from "path";
 import getPlayer, { Player } from "./player";
-import { get as getConfig, getAll as getAllConfig } from "./config";
+import { addConfigChangedCallback, deleteConfigChangedCallback, get as getConfig, getAll as getAllConfig } from "./config";
 import { widgetMode, debugMode, useElectron } from "./appStatus";
 
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { Server as StaticServer } from "node-static";
-import { addLyricsUpdateCallback, addSongDataCallback, songdata, addPositionCallback } from "./playbackStatus";
+import { addLyricsUpdateCallback, addSongDataCallback, songdata, addPositionCallback, deletePositionCallback, deleteSongDataCallback, deleteLyricsUpdateCallback } from "./playbackStatus";
 import { getThemeLocation, getThemesDirectory } from "./themes";
 
 import { debug } from ".";
@@ -26,7 +26,7 @@ const server = createServer((req, res) => {
 
 export const io = new Server(server);
 
-function registerSocketIO(socket: Socket) {
+function registerIpc(socket: Socket) {
 
 	socket.on("previous", () => player.Previous());
 	socket.on("playPause", () => player.PlayPause());
@@ -53,10 +53,25 @@ function registerSocketIO(socket: Socket) {
 
 		callback("/themes/" + path.relative(getThemesDirectory(), themeLocation).split("\\").join("/"));
 	});
+}
 
-	addPositionCallback(async (position, reportsPosition) => { socket.emit("position", position, reportsPosition); });
-	addSongDataCallback(async (songdata, metadataChanged) => { socket.emit("update", songdata, metadataChanged); });
-	addLyricsUpdateCallback(async () => { socket.emit("refreshLyrics"); });
+function registerWindowCallbacks(socket) {
+	const positionCallback = async (position, reportsPosition) => { socket.emit("position", position, reportsPosition); };
+	const songDataCallback = async (songdata, metadataChanged) => { socket.emit("update", songdata, metadataChanged); };
+	const lyricsUpdateCallback = async () => { socket.emit("refreshLyrics"); };
+	const configChangedCallback = async () => { socket.emit("configChanged"); };
+
+	addPositionCallback(positionCallback);
+	addSongDataCallback(songDataCallback);
+	addLyricsUpdateCallback(lyricsUpdateCallback);
+	addConfigChangedCallback(configChangedCallback);
+
+	socket.once("disconnect", () => {
+		deletePositionCallback(positionCallback);
+		deleteSongDataCallback(songDataCallback);
+		deleteLyricsUpdateCallback(lyricsUpdateCallback);
+		deleteConfigChangedCallback(configChangedCallback);
+	});
 }
 
 export default async function webserverMain(){
@@ -65,6 +80,7 @@ export default async function webserverMain(){
 	server.listen(getConfig("webserverPort"), () => debug(`WebServer listening on port ${getConfig("webserverPort")}`));
 
 	io.on("connection", socket => {
-		registerSocketIO(socket);
+		registerIpc(socket);
+		registerWindowCallbacks(socket);
 	});
 }

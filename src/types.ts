@@ -17,6 +17,7 @@ export type NowPlayingAPI = {
 	registerPositionCallback: (callback: Function) => void,
 	registerUpdateCallback: (callback: Function) => void,
 	registerLyricsCallback: (callback: Function) => void,
+	registerConfigChangedCallback: (callback: Function) => void,
 
 	getSongData: () => Promise<SongData>,
 	getConfig: () => Promise<Config>,
