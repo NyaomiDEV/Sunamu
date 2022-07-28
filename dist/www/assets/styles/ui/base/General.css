@@ -8,7 +8,7 @@ html {
 	scrollbar-width: 4px;
 }
 
-html.idle {
+html.idle:not(.force-idle) {
 	cursor: none;
 }
 
@@ -21,7 +21,7 @@ body {
 	padding: 0;
 }
 
-html.idle body {
+html.idle:not(.force-idle) body {
 	cursor: none;
 }
 

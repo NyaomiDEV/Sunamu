@@ -27,7 +27,6 @@ const server = createServer((req, res) => {
 export const io = new Server(server);
 
 function registerIpc(socket: Socket) {
-
 	socket.on("previous", () => player.Previous());
 	socket.on("playPause", () => player.PlayPause());
 	socket.on("next", () => player.Next());
