@@ -1,6 +1,7 @@
+import { LanguageData } from "../../types.js";
 import config from "./config.js";
 
-export const allLangs = {
+export const allLangs: LanguageData = {
 	en: {
 		NOT_PLAYING: "Not playing",
 		PLEASE_PLAY_SONG: "Please play something",

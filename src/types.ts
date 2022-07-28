@@ -33,6 +33,21 @@ export type NowPlayingAPI = {
 	openExternal: (uri: string) => void,
 }
 
+export type Language = {
+	NOT_PLAYING: string
+	PLEASE_PLAY_SONG: string
+	PLAYING_ON_APP: string
+	SCROBBLE_COUNT: string
+	LOADING_LYRICS: string
+	NO_LYRICS: string
+	NOW_PLAYING_TITLE: string
+	UNKNOWN_ARTIST: string
+	UNKNOWN_TITLE: string
+	LYRICS_COPYRIGHT: string
+}
+
+export type LanguageData = { [x: string]: Language }
+
 export type Config = {
 	language?: string,
 	useElectron: boolean,
