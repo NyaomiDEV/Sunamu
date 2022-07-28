@@ -4,6 +4,8 @@ import { createHash } from "crypto";
 import JSON5 from "json5";
 import { Lyrics } from "../../types";
 import { getAppData, gzipCompress, gzipDecompress } from "../util";
+import { get as getConfig } from "../config";
+import { debug } from "..";
 
 import type { Stats } from "fs";
 
@@ -51,7 +53,7 @@ export async function remove(id: string): Promise<boolean>{
 	}
 }
 
-export async function convertUncompressed(): Promise<void>{
+async function convertUncompressed(): Promise<void>{
 	const lyrics = await readdir(lyrPath);
 	for(const file of lyrics){
 		if(extname(file) === ".gz") continue;
@@ -62,12 +64,12 @@ export async function convertUncompressed(): Promise<void>{
 	}
 }
 
-export async function statCachePath(): Promise<Map<string, Stats>>{
+async function statCachePath(): Promise<Map<string, Stats>>{
 	const lyrics = await readdir(lyrPath);
 	const stats = new Map<string, Stats>();
 
 	stats[Symbol.iterator] = function* statsIterator() {
-		yield* [...this.entries()].sort((a, b) => b[1].atimeMs - a[1].atimeMs);
+		yield* [...this.entries()].sort((a, b) => a[1].atimeMs - b[1].atimeMs);
 	};
 
 	for (const file of lyrics) {
@@ -76,4 +78,42 @@ export async function statCachePath(): Promise<Map<string, Stats>>{
 	}
 
 	return stats;
+}
+
+async function trimPathTo(targetSize: number): Promise<any> {
+	const currentStats = [...await statCachePath()];
+	const cacheSize = currentStats.map(x => x[1].size).reduce((_prev, _cur) => _prev + _cur, 0);
+
+	let filesRemoved = 0;
+	let bytesFreed = 0;
+
+	while(cacheSize - bytesFreed > targetSize){
+		const pair = currentStats.shift();
+		if(!pair)
+			break;
+
+		await rm(resolve(lyrPath, pair[0]));
+		bytesFreed += pair[1].size;
+		filesRemoved++;
+	}
+
+	debug("Deleted", filesRemoved, "old lyrics for a total of", bytesFreed, "bytes");
+	debug("New lyrics cache size in bytes:", cacheSize - bytesFreed);
+
+	return [filesRemoved, bytesFreed, cacheSize - bytesFreed];
+}
+
+export async function manageLyricsCache(){
+	await convertUncompressed(); // just to be sure
+
+	const cacheStats = await statCachePath();
+	debug("Total cached lyrics:", cacheStats.size);
+
+	const cacheSize = [...cacheStats].map(x => x[1].size).reduce((_prev, _cur) => _prev + _cur, 0);
+	debug("Current lyrics cache size in bytes:", cacheSize);
+
+	const targetSize = getConfig("targetLyricsCacheSize");
+
+	if(targetSize.length) 
+		await trimPathTo(targetSize);
 }

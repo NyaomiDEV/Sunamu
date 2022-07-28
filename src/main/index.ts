@@ -3,9 +3,8 @@ import { addSongDataCallback, updateInfo } from "./playbackStatus";
 import { useElectron, useWebserver } from "./appStatus";
 import { updatePresence } from "./integrations/discordrpc";
 import Instance from "./instance";
-import { convertUncompressed, statCachePath } from "./integrations/lyricsOffline";
+import { manageLyricsCache } from "./integrations/lyricsOffline";
 
-import { logToDebug } from "./logger";
 export { logToDebug as debug } from "./logger";
 
 process.title = "sunamu";
@@ -45,14 +44,7 @@ async function main(): Promise<void> {
 	});
 
 	// Lyrics cache management
-	await convertUncompressed();
-
-	const cacheStats = await statCachePath();
-	logToDebug("Total cached lyrics:", cacheStats.size);
-
-	let cacheSize = 0;
-	for (let file of cacheStats.values()) cacheSize += file.size;
-	logToDebug("Current lyrics cache size in bytes:", cacheSize);
+	await manageLyricsCache();
 }
 
 main();

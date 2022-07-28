@@ -40,3 +40,16 @@ export function gzipDecompress(buffer: Buffer | string): Promise<Buffer> {
 		});
 	});
 }
+
+export function humanDimensionToBytes(dimension: string): number {
+	const sizes = ["B", "K", "M", "G", "T", "P", "E", "Z", "Y"];
+
+	const match = dimension.toUpperCase().match(/(\d+[,.]?\d*)([BKMGTPEZY]?)/);
+
+	if(!match || !match[1]) return NaN;
+	
+	let [ , number, weight ] = match;
+	if(!weight) weight = "B";
+
+	return Number(number) * Math.pow(1000, sizes.indexOf(weight)); // IEC standard
+}

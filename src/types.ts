@@ -63,6 +63,7 @@ export type Config = {
 	mxmusertoken: string,
 	spotify: SpotifyConfig,
 	discordRpc: DiscordPresenceConfig,
+	targetLyricsCacheSize?: string,
 	scenes: {
 		[sceneName: string]: SceneConfig
 	},
