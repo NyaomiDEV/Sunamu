@@ -57,10 +57,6 @@ Do you want to give it a read? [Here it is!](assets/config.json5)
 
 Just launch it and preferably put it in fullscreen!
 
-## How-to: Lyrics from Musixmatch
-
-You'd have to install the official Musixmatch Desktop App on your computer. Then launch it once; login is not really required. Sunamu will automatically configure itself based on your Musixmatch Desktop installation.
-
 ## Notable observed quirks
 
 Check and contribute to the compatibility table [here](COMPATIBILITY.md).
