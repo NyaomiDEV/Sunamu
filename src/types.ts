@@ -80,26 +80,26 @@ export type DiscordPresenceConfig = {
 
 export type SceneConfig = {
 	type: "default" | "electron",
-	widgetMode?: boolean,
 	font?: string,
 	theme?: string,
+	colors?: boolean,
+	defaultColorsAreInverted?: boolean,
+	colorblock?: boolean,
+	bgAnimation?: boolean,
+	widgetMode?: boolean,
+	showPlayingIndicator?: boolean,
+	playerIcon?: boolean,
 	nonInteractive?: boolean,
 	static?: boolean,
 	forceIdle?: boolean,
 	showAlbumArt?: boolean,
 	showControls?: boolean,
+	showExtraButtons?: boolean,
 	showProgress?: boolean,
-	showPlayingIndicator?: boolean,
-	showLyrics?: boolean,
 	showScrobbles?: boolean,
+	showLyrics?: boolean,
 	lyricsBlur?: boolean,
 	clickableLyrics?: boolean,
-	showExtraButtons?: boolean,
-	colors?: boolean,
-	defaultColorsAreInverted?: boolean,
-	colorblock?: boolean,
-	bgAnimation?: boolean,
-	playerIcon?: boolean
 }
 
 export type Palette = {

@@ -1,5 +1,5 @@
 import { Config } from "../types";
-import JSON5 from "json5";
+import { evaluate, patch } from "golden-fleece";
 import { copyFileSync, mkdirSync, readFileSync, watchFile, writeFileSync } from "fs";
 import { resolve } from "path";
 import { getAppData } from "./util";
@@ -7,7 +7,7 @@ import { getAppData } from "./util";
 const configPath = resolve(getAppData(), "sunamu", "config.json5");
 const defaultConfigPath = resolve(__dirname, "..", "..", "assets", "config.json5");
 
-const defaultConfig: Config = JSON5.parse(readFileSync(defaultConfigPath, "utf8"));
+const defaultConfig: Config = evaluate(readFileSync(defaultConfigPath, "utf8"));
 let config: Config = getUserConfig();
 
 const configChangedCallbacks: Array<() => Promise<void>> = [];
@@ -26,7 +26,7 @@ watchFile(configPath, () => {
 
 function getUserConfig() {
 	try {
-		return JSON5.parse(readFileSync(configPath, "utf8"));
+		return evaluate(readFileSync(configPath, "utf8"));
 	} catch (_) {
 		save(false, defaultConfig);
 		return defaultConfig;
@@ -61,7 +61,7 @@ export function save(backup: boolean = true, configToSave = config) {
 			now.getSeconds().toString().padStart(2, "0");
 		copyFileSync(configPath, configPath + ".backup-" + date);
 	}
-	writeFileSync(configPath, JSON5.stringify(configToSave, undefined, 2));
+	writeFileSync(configPath, patch(readFileSync(configPath, "utf8"), configToSave));
 }
 
 export function get(name: string) {

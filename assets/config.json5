@@ -34,45 +34,90 @@
 		blacklist: []
 	},
 	scenes: {
+		// The following is just an example! Leave it as is
+		_example: {
+			// The scene type: "default" (served over the web) or "electron" (a new Electron window is spawned for it)
+			type: "default",
+			// If you want to specify a custom font override, you can do so here
+			font: "Urbanist",
+			// CSS Theme to use.
+			// Those are to be placed in <Sunamu's config folder>/themes/<theme name>/
+			// and the theme entrypoint MUST be called "style.css".
+			// "default" uses the default theme.
+			theme: "default",
+			// Whether or not the interface should be colorful
+			// (colored with the album art's dominant colors)
+			colors: true,
+			// Whether or not the default interface colors should be inverted
+			// (when colors: false or when there's no color palette to be extracted)
+			// so that the text is black and the background is white.
+			// Use this combined with widget mode if you are using light backgrounds on your desktop.
+			defaultColorsAreInverted: false,
+			// Whether or not to show a solid color as background (extracted from the cover art)
+			colorblock: false,
+			// Whether or not to animate the cover art background
+			bgAnimation: true,
+			// Do you want this Sunamu scene to behave like a widget?
+			// No window controls, no "Playing on <player>", just controls and lyrics over transparent background.
+			// NOTE: Custom themes can modify the behaviour of the widget mode or not support it at all.
+			widgetMode: true,
+			// Whether or not to show the playing indicator at the top right (or top center) of the screen.
+			// Note that this is disabled by default if you're using the widget mode and it cannot be turned on separately.
+			showPlayingIndicator: true,
+			// Whether or not to show the player icon, if supported, next to the playing indicator.
+			playerIcon: true,
+			// Disable ALL (mouse / touch) interactions on Sunamu?
+			nonInteractive: false,
+			// Disable the idle animation?
+			// If this is set to true, idling will NOT collapse the media control panel
+			static: false,
+			// Now, the exact opposite of what's above
+			// If this is set to true, no matter what you do but the media control panel will ALWAYS be collapsed
+			// BUT the mouse pointer will remain on display!
+			// If you set both to true, forceIdle will win.
+			forceIdle: false,
+			// Whether or not the album art should be displayed.
+			showAlbumArt: true,
+			// Whether or not ALL the controls (play / pause / next / previous etc. PLUS lastfm / spotify buttons) should be displayed.
+			// It only affects the collapsed media control panel.
+			showControls: true,
+			// Whether or not to show the LastFM and Spotify buttons in the controls row.
+			showExtraButtons: true,
+			// Whether or not the progress bar should be displayed.
+			// It only affects the collapsed media control panel.
+			showProgress: true,
+			// Whether or not to show the played count under the track title.
+			// It only affects the collapsed media control panel.
+			showScrobbles: true,
+			// Whether or not to show lyrics
+			showLyrics: true,
+			// Whether or not to use the blur effect on the verses
+			lyricsBlur: true,
+			// Whether or not clicking on a verse or word should skip to that point in the track
+			clickableLyrics: true
+		},
 		default: {
 			type: "default",
-			widgetMode: false,
-			font: "",
-			theme: "default",
-			// nonInteractive: false,
-			// static: false,
-			// showAlbumArt: true,
-			// showControls: true,
-			// showProgress: true,
-			// showPlayingIndicator: true,
-			// showLyrics: true,
-			// lyricsBlur: true,
-			// clickableLyrics: true,
-			// showExtraButtons: true,
-			// colors: true,
-			// defaultColorsAreInverted: false,
-			// colorblock: false,
-			// playerIcon: true
+			theme: "default"
 		},
 		electron: {
 			type: "electron",
 			widgetMode: true,
 			colors: false,
-			font: "",
-			theme: "default"
+			// If you want a minimal music controller just uncomment the following lines.
+			// (OMG!Ubuntu! blog post readers, I am talking to you)
+			//showExtraButtons: false,
+			//showLyrics: false,
 		},
 		"obs-studio": {
 			type: "default",
 			widgetMode: true,
-			font: "",
 			nonInteractive: true,
 			static: true,
-			showAlbumArt: true,
 			showControls: false,
 			showProgress: false,
-			showPlayingIndicator: false,
+			showScrobbles: false,
 			showLyrics: false,
-			showExtraButtons: false,
 			colors: false
 		}
 	}
