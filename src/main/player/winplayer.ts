@@ -91,8 +91,5 @@ export function SetPosition(position: number) {
 }
 
 export async function GetPosition() {
-	return {
-		howMuch: _player.GetPosition(),
-		when: new Date()
-	};
+	return _player.GetPosition();
 }
