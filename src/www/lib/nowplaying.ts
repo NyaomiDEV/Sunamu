@@ -42,6 +42,9 @@ export function updateNowPlaying() {
 	if (songdata.lastfm?.userplaycount) {
 		scrobbles.textContent = lang.SCROBBLE_COUNT.replace("%COUNT%", songdata.lastfm?.userplaycount);
 		scrobbles.style.display = "";
+	} else if (songdata.metadata.count) {
+		scrobbles.textContent = lang.SCROBBLE_COUNT.replace("%COUNT%", songdata.metadata.count.toString());
+		scrobbles.style.display = "";
 	} else {
 		scrobbles.textContent = "";
 		scrobbles.style.display = "none";

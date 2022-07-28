@@ -127,6 +127,7 @@ export type Metadata = {
 	artUrl?: string,
 	artData?: ArtData,
 	length: number,
+	count?: number,
 	id: string
 }
 

@@ -292,6 +292,7 @@ async function parseMetadata(metadata): Promise<Metadata> {
 		length: Number(metadata["mpris:length"] || 0) / 1000000,
 		artUrl: metadata["mpris:artUrl"],
 		artData: artData || undefined,
+		count: metadata["xesam:useCount"] || undefined,
 		id: metadata["mpris:trackid"]
 	};
 }
