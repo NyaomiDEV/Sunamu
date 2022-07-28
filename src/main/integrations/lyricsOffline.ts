@@ -114,6 +114,6 @@ export async function manageLyricsCache(){
 
 	const targetSize = getConfig("targetLyricsCacheSize");
 
-	if(targetSize.length) 
+	if(targetSize.length && Number(targetSize) > 0) 
 		await trimPathTo(targetSize);
 }

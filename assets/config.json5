@@ -19,14 +19,19 @@
 	// Do you want the lyrics to be translated? (Musixmatch only)
 	translations: true,
 	// Specify the language you want to use for your Musixmatch translated lyrics.
-	mxmlanguage: "en",
+	// If it is not set, it will default to the one set in the "language" field.
+	// If that one is not set either, it will default to the detected (system) one.
+	// mxmlanguage: "en",
+	// Specify your Musixmatch User Token.
+	// Sunamu will automatically generate it if you don't have your own.
+	mxmusertoken: "",
 	// Specify the target lyrics cache folder size.
 	// Less frequently shown lyrics will be purged to maintain the cache folder inside the target size.
 	// Note that the operation only occurs once when Sunamu starts up, so it is possible for the cache folder to grow up in size
 	// when Sunamu is opened and downloading new lyrics.
 	// You can use abbreviations such as "10M" for 10 Megabytes and "1G" for 1 Gigabyte. No abbreviation such as "2000" counts as 2000 bytes.
 	// Multiple-byte units are calculated following the IEC standard, so 1 Kilobyte = 1000 bytes and so on.
-	// You can comment this value to never "trim" the lyrics cache, however this is not recommended.
+	// You can set this value to an empty string or to zero to never "trim" the lyrics cache, however this is not recommended.
 	targetLyricsCacheSize: "10M",
 	// Specify your Last.FM username here to get the fancy play count in the details section.
 	lfmUsername: "",
