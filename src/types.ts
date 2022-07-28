@@ -12,15 +12,15 @@ export type NowPlayingAPI = {
 	repeat: () => void,
 
 	seek: (positionToSeekbar: number) => void,
+	setPosition: (position: number) => void,
 
 	registerPositionCallback: (callback: Function) => void,
 	registerUpdateCallback: (callback: Function) => void,
 	registerLyricsCallback: (callback: Function) => void,
+	registerConfigChangedCallback: (callback: Function) => void,
 
 	getSongData: () => Promise<SongData>,
 	getConfig: () => Promise<Config>,
-
-	shouldBullyGlasscordUser: () => Promise<boolean>,
 
 	isWidgetMode: () => Promise<boolean>,
 	isDebugMode: () => Promise<boolean>,
@@ -34,16 +34,37 @@ export type NowPlayingAPI = {
 	openExternal: (uri: string) => void,
 }
 
+export type Language = {
+	NOT_PLAYING: string
+	PLEASE_PLAY_SONG: string
+	PLAYING_ON_APP: string
+	SCROBBLE_COUNT: string
+	LOADING_LYRICS: string
+	NO_LYRICS: string
+	NOW_PLAYING_TITLE: string
+	UNKNOWN_ARTIST: string
+	UNKNOWN_TITLE: string
+	LYRICS_COPYRIGHT: string
+}
+
+export type LanguageData = { [x: string]: Language }
+
 export type Config = {
 	language?: string,
 	useElectron: boolean,
 	useWebserver: boolean,
 	debugMode: boolean,
 	waylandOzone: boolean,
+	positionPollInterval: number,
+	positionUpdateInterval: number,
+	karaoke: boolean,
+	translations: boolean,
+	mxmlanguage: string,
 	lfmUsername: string,
 	mxmusertoken: string,
 	spotify: SpotifyConfig,
 	discordRpc: DiscordPresenceConfig,
+	targetLyricsCacheSize?: string,
 	scenes: {
 		[sceneName: string]: SceneConfig
 	},
@@ -61,30 +82,35 @@ export type DiscordPresenceConfig = {
 
 export type SceneConfig = {
 	type: "default" | "electron",
-	widgetMode?: boolean,
 	font?: string,
 	theme?: string,
+	colors?: boolean,
+	defaultColorsAreInverted?: boolean,
+	colorblock?: boolean,
+	bgAnimation?: boolean,
+	widgetMode?: boolean,
+	showPlayingIndicator?: boolean,
+	playerIcon?: boolean,
 	nonInteractive?: boolean,
 	static?: boolean,
+	forceIdle?: boolean,
 	showAlbumArt?: boolean,
 	showControls?: boolean,
+	showExtraButtons?: boolean,
 	showProgress?: boolean,
-	showPlayingIndicator?: boolean,
+	showScrobbles?: boolean,
 	showLyrics?: boolean,
 	lyricsBlur?: boolean,
-	showExtraButtons?: boolean,
-	colors?: boolean,
-	colorblock?: boolean
-	playerIcon?: boolean
+	clickableLyrics?: boolean,
 }
 
 export type Palette = {
-	Vibrant: string,
-	Muted: string,
-	DarkVibrant: string,
-	DarkMuted: string,
-	LightVibrant: string,
-	LightMuted: string,
+	Vibrant?: string,
+	Muted?: string,
+	DarkVibrant?: string,
+	DarkMuted?: string,
+	LightVibrant?: string,
+	LightMuted?: string,
 }
 
 export type ArtData = {
@@ -103,6 +129,8 @@ export type Metadata = {
 	artUrl?: string,
 	artData?: ArtData,
 	length: number,
+	count?: number,
+	lyrics?: string,
 	id: string
 }
 
@@ -122,9 +150,14 @@ export type Update = {
 	loop: string,
 	shuffle: boolean,
 	volume: number,
-	elapsed: number,
+	elapsed: Position,
 	app: string,
 	appName: string
+}
+
+export type Position = {
+	howMuch: number,
+	when: Date
 }
 
 export type SongData = Update & {
@@ -135,27 +168,111 @@ export type SongData = Update & {
 }
 
 export type Lyrics = {
-	provider: string,
-	synchronized: boolean,
-	lines: LyricsLine[],
-	copyright?: string
+	provider?: string,
+	synchronized?: boolean,
+	lines?: LyricsLine[],
+	copyright?: string,
+	unavailable?: boolean
 }
 
 export type LyricsLine = {
 	text: string,
-	time?: number
+	translation?: string,
+	time?: number,
+	karaoke?: LyricsKaraokeVerse[]
+}
+
+export type LyricsKaraokeVerse = {
+	text: string,
+	start: number
 }
 
 export type SpotifyInfo = {
+	album?: {
+		album_type: string,
+		total_tracks: number,
+		available_markets: string[],
+		external_urls: { spotify: string },
+		href: string,
+		id: string,
+		images: {
+			url: string,
+			width: number,
+			height: number
+		}[],
+		name: string,
+		release_date: string,
+		release_date_precision: string,
+		restrictions?: { reason: string },
+		type: string,
+		uri: string,
+		album_group?: string,
+		artists?: {
+			external_urls: { spotify: string },
+			href: string,
+			id: string,
+			name: string,
+			type: string,
+			uri: string
+		}[]
+	},
+	artists?: {
+		external_urls: { spotify: string },
+		followers: {
+			href: string,
+			total: number
+		},
+		genres: string[],
+		href: string,
+		id: string,
+		images: {
+			url: string,
+			width: number,
+			height: number
+		}[],
+		name: string,
+		popularity: number,
+		type: string,
+		uri: string
+	}[],
+	available_markets?: string[],
+	disc_number?: number,
+	duration_ms?: number,
+	explicit?: boolean,
+	external_ids?: {
+		isrc: string,
+		ean: string,
+		upc: string
+	},
+	external_urls: { spotify: string },
+	href?: string,
 	id: string,
+	is_playable?: boolean,
+	restrictions?: { reason: string },
+	name?: string,
+	popularity?: number,
+	preview_url?: string,
+	track_number?: number,
+	type?: string,
 	uri: string,
-	url: string
+	is_local?: boolean
 }
 
 export type LastFMInfo = {
 	artist: {
 		name: string,
 		url: string
+	}
+
+	album: {
+		artist: string,
+		title: string,
+		url: string,
+		image: {
+			"#text": string,
+			size: string
+		}[],
+
 	}
 	name: string,
 	duration: string,

@@ -6,5 +6,8 @@ export function hide() {
 }
 
 export function show() {
+	if (document.documentElement.classList.contains("force-idle"))
+		return;
+
 	document.documentElement.classList.remove("idle");
 }

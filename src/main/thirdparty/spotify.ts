@@ -3,6 +3,7 @@ import { getAll as config } from "../config";
 import { debug } from "../";
 import axios from "axios";
 import { URLSearchParams } from "url";
+import { SpotifyInfo } from "../../types";
 
 const root = "https://api.spotify.com/v1/";
 let authorization = {
@@ -11,7 +12,7 @@ let authorization = {
 	expiration: 0
 };
 
-async function checkLogin() {
+async function checkLogin(): Promise<boolean> {
 	if (!config().spotify.clientID || !config().spotify.clientSecret){
 		debug("No Spotify app credentials in config file");
 		return false;
@@ -44,8 +45,8 @@ async function checkLogin() {
 	return false;
 }
 
-async function searchPrecise() {
-	if (!await checkLogin()) return false;
+async function searchPrecise(): Promise<SpotifyInfo | undefined> {
+	if (!await checkLogin()) return undefined;
 
 	try{
 		const result = await axios({
@@ -68,11 +69,11 @@ async function searchPrecise() {
 
 
 	console.error("Cannot search song on Spotify");
-	return false;
+	return undefined;
 }
 
-async function searchNotSoPrecise() {
-	if (!await checkLogin()) return false;
+async function searchNotSoPrecise(): Promise<SpotifyInfo | undefined> {
+	if (!await checkLogin()) return undefined;
 
 	try{
 		const result = await axios({
@@ -95,12 +96,33 @@ async function searchNotSoPrecise() {
 
 
 	console.error("Cannot search song on Spotify");
-	return false;
+	return undefined;
 }
 
+export async function getSpotifySongFromId(id: string): Promise<SpotifyInfo | undefined> {
+	if (!await checkLogin()) return undefined;
 
-export async function searchSpotifySong() {
-	if (!songdata.metadata.id) return false;
+	try {
+		const result = await axios({
+			url: root + "tracks/" + id,
+			headers: {
+				"Authorization": `${authorization.token_type} ${authorization.access_token}`
+			}
+		});
 
-	return await searchPrecise() || await searchNotSoPrecise() || false;
+		if (result.status === 200)
+			return result.data || undefined;
+	} catch (e) {
+		debug("Spotify track get errored out", e);
+	}
+
+
+	console.error("Cannot get song details on Spotify");
+	return undefined;
+}
+
+export async function searchSpotifySong(): Promise<SpotifyInfo | undefined> {
+	if (!songdata.metadata.id) return undefined;
+
+	return await searchPrecise() || await searchNotSoPrecise() || undefined;
 }

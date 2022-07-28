@@ -80,13 +80,13 @@ async function getPresence() {
 		return;
 
 	const now = Date.now();
-	const start = Math.round(now - (songdata.elapsed * 1000));
+	const start = Math.round(now - (songdata.elapsed.howMuch * 1000));
 	const end = Math.round(start + (songdata.metadata.length * 1000));
 
 	const activity: Presence = { // everything must be two characters long at least
 		details: `"${songdata.metadata.title}"`,
 		state: `By ${songdata.metadata.artist}`,
-		largeImageKey: "app_large",
+		largeImageKey: undefined,
 		largeImageText: `"${songdata.metadata.album}"`,
 		smallImageKey: songdata.status.toLowerCase(),
 		smallImageText: `${songdata.status} (${secondsToTime(songdata.metadata.length)})`,
@@ -100,18 +100,33 @@ async function getPresence() {
 	}
 
 	if (songdata.spotify) {
+		if (!activity.largeImageKey){
+			const images = songdata.spotify.album?.images;
+			if(images?.length)
+				activity.largeImageKey = images[images?.length-1]?.url;
+		}
+
 		activity.buttons!.push({
 			label: "Listen on Spotify",
-			url: songdata.spotify.url
+			url: songdata.spotify.external_urls.spotify
 		});
 	}
 
 	if (songdata.lastfm) {
+		if(!activity.largeImageKey){
+			const images = songdata.lastfm.album?.image;
+			if (images?.length)
+				activity.largeImageKey = images[images?.length - 1]?.["#text"];
+		}
+
 		activity.buttons!.push({
 			label: "View on Last.fm",
 			url: songdata.lastfm.url
 		});
 	}
+
+	if (!activity.largeImageKey)
+		activity.largeImageKey = "app_large";
 
 	if (!activity.buttons!.length)
 		delete activity.buttons;

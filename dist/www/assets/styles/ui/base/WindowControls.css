@@ -20,12 +20,14 @@ html.idle .window-controls {
 	cursor: default;
 }
 
-#minimize {
+#fullscreen,
+#minimize,
+#close {
 	display: none;
 }
 
-#close {
-	display: none;
+html.supports-fullscreen #fullscreen {
+	display: block;
 }
 
 html.widget-mode .window-controls,

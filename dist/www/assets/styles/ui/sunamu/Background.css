@@ -6,15 +6,60 @@
 	height: 125vh;
 	z-index: -2;
 
+	background-blend-mode: multiply;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	filter: none;
+	isolation: isolate;
+
+	transition: ease 2s background-image,
+				ease 2s background-color;
+
+}
+
+html:not(.colorblock):not(.widget-mode) .background::before,
+html:not(.colorblock):not(.widget-mode) .background::after {
+	content: "";
+
+	position: absolute;
+	width: 200vmax;
+	height: 200vmax;
+	z-index: -1;
+	aspect-ratio: 1;
+
 	background-image: var(--cover-art-url);
 	background-color: var(--color-bg);
 	background-blend-mode: multiply;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	filter: blur(64px) brightness(50%) saturate(150%);
+
+	filter: blur(180px) brightness(50%) saturate(150%);
+	mix-blend-mode: exclusion;
+
+	animation: bgAnim 60s ease-in-out infinite;
 	transition: ease 2s background-image,
-				ease 2s background-color;
+		ease 2s background-color;
+}
+
+html:not(.colorblock):not(.widget-mode) .background::before {
+	top: 0;
+	left: 0;
+}
+
+html:not(.colorblock):not(.widget-mode) .background::after {
+	bottom: 0;
+	right: 0;
+
+	animation-direction: reverse;
+	animation-delay: 10s;
+}
+
+html.no-bg-animation .background {
+	background-color: var(--color-bg);
+	background-image: var(--cover-art-url);
+	filter: blur(64px) brightness(50%) saturate(150%);
 }
 
 html.colorblock .background {
@@ -28,4 +73,14 @@ html.colorblock .background {
 
 html.widget-mode .background {
 	display: none;
+}
+
+@keyframes bgAnim {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
 }

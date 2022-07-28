@@ -6,8 +6,9 @@ export const argv = yargs(hideBin(process.argv)).argv;
 
 export const widgetModeElectron = checkFunctionality(getConfig("scenes").electron.widgetMode, "widget-electron");
 export const widgetMode = checkFunctionality(getConfig("scenes").default.widgetMode, "widget");
-export const debugMode = checkFunctionality(getConfig("debugMode"), "debug");
+export const debugMode = checkFunctionality(getConfig("debugMode"), "sunamu-debug");
 export const waylandOzone = checkFunctionality(getConfig("waylandOzone"), "wayland-ozone");
+export const consolidateConfig = checkFunctionality(false, "consolidate-config");
 
 export const useElectron = checkFunctionality(getConfig("useElectron"), "electron");
 export const useWebserver = checkFunctionality(getConfig("useWebserver"), "webserver");

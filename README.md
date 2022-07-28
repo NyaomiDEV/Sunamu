@@ -19,16 +19,17 @@ Sunamu (pronounced as it is written) is a fancy music controller whose only purp
 
 _It effectively is the WAY TOO COMPLEX successor of MPRISLyrics, a project I made back when synchronized lyrics on Linux was a niche thing to have._
 
-It only supports Windows (experimental; no support given) and Linux for now. macOS support is not planned. Pull request, someone?
+It only supports Windows and Linux for now. macOS support is not planned. Pull request, someone?
 
 ## Features
 
 - Display what you are playing in your TV, secondary display, or (heck) around the entire house!
+- Get the Spotify link for every song you listen to!*
 - Get lyrics for your songs!
 - Get a _GOOD_ Discord Rich Presence, finally!*
 - Bragging rights for your particular taste in music!**
 
-  *To be _GOOD_ you need to get yourself a Spotify Client ID and Client Secret and link Sunamu to them; but it looks nice regardless
+  *This feature, or part of it, requires a Spotify Client ID and Client Secret.
 
   **No responsibility is taken from the Sunamu devs and contributors if you have bad taste in music
 
@@ -36,7 +37,7 @@ It only supports Windows (experimental; no support given) and Linux for now. mac
 
 ### Windows / Linux
 
-Get the latest release from the [Releases](https://github.com/AryToNeX/Sunamu/releases/latest) section.
+Get the latest release from the [Releases](https://github.com/NyaomiDEV/Sunamu/releases/latest) section.
 
 On Windows, you can choose between the installer and the ZIP file (portable app).
 
@@ -55,10 +56,6 @@ Do you want to give it a read? [Here it is!](assets/config.json5)
 ## Usage
 
 Just launch it and preferably put it in fullscreen!
-
-## How-to: Lyrics from Musixmatch
-
-You'd have to install the official Musixmatch Desktop App on your computer. Then launch it once; login is not really required. Sunamu will automatically configure itself based on your Musixmatch Desktop installation.
 
 ## Notable observed quirks
 

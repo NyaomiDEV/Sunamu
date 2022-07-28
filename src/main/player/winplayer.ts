@@ -1,12 +1,13 @@
-import { Update } from "../../types";
+import { ArtData, Update } from "../../types";
+
 // @ts-ignore
-import Player from "winplayer-node";
+import Player, { Player as IPlayer } from "winplayer-node";
 import Vibrant from "node-vibrant";
 
 import { debug } from "..";
 import sharp from "sharp";
 
-let _player;
+let _player: IPlayer;
 
 export async function init(callback: Function): Promise<void>{
 	const _cb = async () => callback(await getUpdate());
@@ -14,7 +15,7 @@ export async function init(callback: Function): Promise<void>{
 }
 
 export async function getUpdate(): Promise<Update | null> {
-	const update: Update = await _player.getUpdate();
+	const update = await _player.getUpdate();
 
 	if(update !== null){
 		if (update.metadata.artData) {
@@ -28,13 +29,14 @@ export async function getUpdate(): Promise<Update | null> {
 					quality: 1
 				})).getPalette();
 				if (palette) {
-					update.metadata.artData.palette = {
-						DarkMuted: palette.DarkMuted!.hex,
-						DarkVibrant: palette.DarkVibrant!.hex,
-						LightMuted: palette.LightMuted!.hex,
-						LightVibrant: palette.LightVibrant!.hex,
-						Muted: palette.Muted!.hex,
-						Vibrant: palette.Vibrant!.hex,
+
+					(update.metadata.artData as ArtData).palette = {
+						DarkMuted: palette.DarkMuted?.hex,
+						DarkVibrant: palette.DarkVibrant?.hex,
+						LightMuted: palette.LightMuted?.hex,
+						LightVibrant: palette.LightVibrant?.hex,
+						Muted: palette.Muted?.hex,
+						Vibrant: palette.Vibrant?.hex,
 					};
 				}
 			} catch (e) {
@@ -86,6 +88,10 @@ export function SeekPercentage(percentage: number) {
 	return _player.SeekPercentage(percentage);
 }
 
-export function GetPosition() {
+export function SetPosition(position: number) {
+	return _player.SetPosition(position);
+}
+
+export async function GetPosition() {
 	return _player.GetPosition();
 }

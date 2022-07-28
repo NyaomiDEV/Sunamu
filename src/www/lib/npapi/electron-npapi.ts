@@ -10,16 +10,16 @@ const npApi: NowPlayingAPI = {
 	repeat: () => ipcRenderer.send("repeat"),
 
 	seek: (positionToSeekbar) => ipcRenderer.send("seek", positionToSeekbar),
+	setPosition: (position) => ipcRenderer.send("setPosition", position),
 
 	registerPositionCallback: (callback) => ipcRenderer.on("position", (_e, ...args) => callback(...args)),
 	registerUpdateCallback: (callback) => ipcRenderer.on("update", (_e, ...args) => callback(...args)),
 	registerLyricsCallback: (callback) => ipcRenderer.on("refreshLyrics", (_e, ...args) => callback(...args)),
+	registerConfigChangedCallback: (callback) => ipcRenderer.on("configChanged", (_e, ...args) => callback(...args)),
 
 	getSongData: () => ipcRenderer.invoke("getSongData"),
 
 	getConfig: () => ipcRenderer.invoke("getConfig"),
-
-	shouldBullyGlasscordUser: () => ipcRenderer.invoke("shouldBullyGlasscordUser"),
 
 	isWidgetMode: () => ipcRenderer.invoke("isWidgetMode"),
 	isDebugMode: () => ipcRenderer.invoke("isDebugMode"),

@@ -1,7 +1,7 @@
-import { DeepPartial, Metadata, SongData, SpotifyInfo, Update } from "../types";
+import { DeepPartial, Metadata, Position, SongData, SpotifyInfo, Update } from "../types";
 import { get } from "./config";
 import getPlayer from "./player";
-import { searchSpotifySong } from "./thirdparty/spotify";
+import { getSpotifySongFromId, searchSpotifySong } from "./thirdparty/spotify";
 import { getLFMTrackInfo } from "./thirdparty/lastfm";
 import { spotiId } from "./util";
 import { queryLyrics } from "./integrations/lyrics";
@@ -11,10 +11,9 @@ import { debug } from ".";
 const songdataCallbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
 const lyricsCallbacks: Array<() => Promise<void>> = [];
 // eslint-disable-next-line no-unused-vars
-const positionCallbacks: Array<(position: number, reportsPosition: boolean) => Promise<void>> = [];
+const positionCallbacks: Array<(position: Position, reportsPosition: boolean) => Promise<void>> = [];
 
-const positionPollInterval = 0.5;
-setInterval(pollPosition, positionPollInterval * 1000);
+setInterval(pollPosition, get("positionPollInterval") * 1000);
 
 const fallback: DeepPartial<SongData> = {
 	provider: undefined,
@@ -41,11 +40,14 @@ const fallback: DeepPartial<SongData> = {
 	loop: "None",
 	shuffle: false,
 	volume: 0,
-	elapsed: 0,
+	elapsed: {
+		howMuch: 0,
+		when: new Date(0)
+	},
 	reportsPosition: false,
 	app: undefined,
 	appName: undefined,
-	lyrics: undefined,
+	lyrics: { unavailable: true },
 	lastfm: undefined,
 	spotify: undefined
 };
@@ -73,22 +75,26 @@ export async function updateInfo(update?: Update) {
 		songdata.lastfm = undefined;
 		songdata.spotify = undefined;
 
+		// Quick fix (do it better later): if there's no song playing, there's no lyrics.
+		if (!update?.metadata.id)
+			songdata.lyrics = { unavailable: true };
+
 		// broadcast our initial update so people won't think sunamu is laggy asf
 		await broadcastSongData(true);
-		// this also updates the lyrics to "no lyrics to show" screen
-
-		// we pre-emptively check our symbol to avoid consuming API calls for nothing
-		// because there's already newer stuff than us
-		if(currentSymbol !== updateInfoSymbol) return;
+		// this also updates the lyrics to whatever screen is suitable
 
 		// if we do have an update containing an ID in it, then we assume a track is playing
 		// and therefore we can get extra information about it
 		if (!update?.metadata.id) return;
+
+		// we pre-emptively check our symbol to avoid consuming API calls for nothing
+		// because there's already newer stuff than us
+		if(currentSymbol !== updateInfoSymbol) return;
 	
 		// BEGIN OF "HUGE SUSPENSION POINT"
 		const extraMetadata: Partial<SongData> = {};
-		extraMetadata.lastfm = await getLFMTrackInfo(update.metadata, get("lfmUsername"));
 		extraMetadata.spotify = await pollSpotifyDetails(update.metadata);
+		extraMetadata.lastfm = await getLFMTrackInfo(update.metadata, get("lfmUsername"));
 		extraMetadata.lyrics = await queryLyrics(update.metadata, extraMetadata.spotify?.id);
 		// END OF "HUGE SUSPENSION POINT"
 
@@ -105,7 +111,7 @@ export async function updateInfo(update?: Update) {
 	await broadcastSongData(false); // false means metadata didn't change (we already notified that inside the if block)
 
 	// if lyrics are there, we need to broadcast an update for them too
-	if (metadataChanged && songdata.lyrics)
+	if (metadataChanged && !songdata.lyrics?.unavailable)
 		await broadcastLyrics();
 }
 
@@ -135,30 +141,19 @@ function hasMetadataChanged(oldMetadata: Metadata, newMetadata?: Metadata): bool
 }
 
 async function pollSpotifyDetails(metadata: Metadata): Promise<SpotifyInfo | undefined> {
-	if (metadata.id) {
-		let id: string | undefined;
+	if (!metadata.id) return undefined;
 
-		const spotiMatch = spotiId.exec(metadata.id);
+	const spotiMatch = spotiId.exec(metadata.id);
 
-		if (spotiMatch)
-			id = spotiMatch[1];
-		else {
-			const result = await searchSpotifySong();
-
-			if (result)
-				id = result.id;
-		}
-
-		if (id) {
-			return {
-				id,
-				uri: "spotify:track:" + id,
-				url: "https://open.spotify.com/track/" + id
-			};
-		}
+	if (spotiMatch){
+		return await getSpotifySongFromId(spotiMatch[0]) || {
+			id: spotiMatch[0],
+			uri: "spotify:track:" + spotiMatch[0],
+			external_urls: { spotify: "https://open.spotify.com/track/" + spotiMatch[0] },
+		};
 	}
 
-	return undefined;
+	return await searchSpotifySong() || undefined;
 }
 
 // ------ SONG DATA
@@ -197,19 +192,19 @@ export async function broadcastPosition() {
 }
 
 // eslint-disable-next-line no-unused-vars
-export function addPositionCallback(cb: (position: number, reportsPosition: boolean) => Promise<void>) {
+export function addPositionCallback(cb: (position: Position, reportsPosition: boolean) => Promise<void>) {
 	positionCallbacks.push(cb);
 }
 
 // eslint-disable-next-line no-unused-vars
-export function deletePositionCallback(cb: (position: number, reportsPosition: boolean) => Promise<void>) {
+export function deletePositionCallback(cb: (position: Position, reportsPosition: boolean) => Promise<void>) {
 	positionCallbacks.splice(positionCallbacks.indexOf(cb), 1);
 }
 
 export async function pollPosition() {
 	if (songdata.status === "Playing"){
 		songdata.elapsed = await (await getPlayer()).GetPosition();
-		if(songdata.elapsed > 0)
+		if(songdata.elapsed.howMuch > 0)
 			songdata.reportsPosition = true;
 		else
 			songdata.reportsPosition = false;

@@ -1,8 +1,10 @@
 import getPlayer, { Player } from "./player";
 import { addSongDataCallback, updateInfo } from "./playbackStatus";
-import { useElectron, useWebserver } from "./appStatus";
+import { consolidateConfig, useElectron, useWebserver } from "./appStatus";
 import { updatePresence } from "./integrations/discordrpc";
 import Instance from "./instance";
+import { manageLyricsCache } from "./integrations/lyricsOffline";
+import { consolidateToDefaultConfig } from "./config";
 
 export { logToDebug as debug } from "./logger";
 
@@ -18,6 +20,9 @@ async function main(): Promise<void> {
 		console.error("Another instance is running!");
 		return process.exit(1); // for some reason I can't just process.exit because thanks Node on Windows
 	}
+
+	if(consolidateConfig)
+		consolidateToDefaultConfig();
 
 	let _useWebserver = useWebserver;
 	player = await getPlayer();
@@ -41,6 +46,9 @@ async function main(): Promise<void> {
 	addSongDataCallback(async () => {
 		updatePresence();
 	});
+
+	// Lyrics cache management
+	await manageLyricsCache();
 }
 
 main();

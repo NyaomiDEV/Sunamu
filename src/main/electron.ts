@@ -1,21 +1,17 @@
 import { app, BrowserWindow, ipcMain, shell } from "electron";
-import { stat } from "fs/promises";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
-import { getAll as getAllConfig } from "./config";
+import { addConfigChangedCallback, deleteConfigChangedCallback, getAll as getAllConfig } from "./config";
 import { widgetModeElectron, debugMode, waylandOzone } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
 import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
-import { getAppData } from "./util";
 import { getThemeLocation } from "./themes";
-
-process.title = "sunamu";
 
 const openedBrowserWindows: Map<BrowserWindow, string> = new Map();
 let player: Player;
 
 // Enable GPU rasterization so it's smooth asf
-app.commandLine.appendSwitch("--enable-gpu-rasterization");
+app.commandLine.appendSwitch("enable-gpu-rasterization");
 
 if (process.platform === "linux") {
 	if (process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && waylandOzone) {
@@ -37,7 +33,7 @@ function getIcon() {
 	return resolve(__dirname, "..", "..", "assets", "icons", icoName);
 }
 
-function registerElectronIpc() {
+function registerIpc() {
 	ipcMain.on("previous", () => player.Previous());
 	ipcMain.on("playPause", () => player.PlayPause());
 	ipcMain.on("next", () => player.Next());
@@ -46,26 +42,11 @@ function registerElectronIpc() {
 	ipcMain.on("repeat", () => player.Repeat());
 
 	ipcMain.on("seek", (_e, perc) => player.SeekPercentage(perc));
-	ipcMain.handle("getPosition", async () => player.GetPosition());
+	ipcMain.handle("getPosition", async () => await player.GetPosition());
+	ipcMain.on("setPosition", (_e, position) => player.SetPosition(position));
 
-	ipcMain.handle("getSongData", async () => songdata);
+	ipcMain.handle("getSongData", () => songdata);
 	ipcMain.handle("getConfig", () => getAllConfig());
-
-	ipcMain.handle("shouldBullyGlasscordUser", async () => {
-		let bullyGlasscordUser = false;
-		const gcPath = resolve(getAppData(), "glasscord");
-
-		try {
-			await stat(gcPath);
-			bullyGlasscordUser = true;
-			await stat(resolve(gcPath, "DONTBULLYME"));
-			bullyGlasscordUser = false;
-		} catch (_) {
-			//...
-		}
-
-		return bullyGlasscordUser;
-	});
 
 	ipcMain.handle("isWidgetMode", (e) => {
 		const _win = BrowserWindow.fromWebContents(e.sender);
@@ -115,15 +96,18 @@ function registerWindowCallbacks(win: BrowserWindow){
 	const positionCallback = async (position, reportsPosition) => win.webContents.send("position", position, reportsPosition);
 	const songDataCallback = async (songdata, metadataChanged) => win.webContents.send("update", songdata, metadataChanged);
 	const lyricsUpdateCallback = async () => win.webContents.send("refreshLyrics");
+	const configChangedCallback = async () => win.webContents.send("configChanged");
 
 	addPositionCallback(positionCallback);
 	addSongDataCallback(songDataCallback);
 	addLyricsUpdateCallback(lyricsUpdateCallback);
+	addConfigChangedCallback(configChangedCallback);
 
-	win.on("close", () => {
+	win.once("close", () => {
 		deletePositionCallback(positionCallback);
 		deleteSongDataCallback(songDataCallback);
 		deleteLyricsUpdateCallback(lyricsUpdateCallback);
+		deleteConfigChangedCallback(configChangedCallback);
 	});
 }
 
@@ -181,7 +165,7 @@ async function spawnWindow(scene = "electron") {
 
 export default async function electronMain() {
 	player = await getPlayer();
-	registerElectronIpc();
+	registerIpc();
 
 	await app.whenReady();
 	for(const scene in getAllConfig().scenes){

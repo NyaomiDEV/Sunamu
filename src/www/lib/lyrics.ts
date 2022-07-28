@@ -1,24 +1,39 @@
 import lang from "./lang.js";
 import songdata from "./songdata.js";
-import owoify from "./owoify.js";
+import config from "./config.js";
 
 const container = document.getElementById("lyrics")!;
 const copyright = document.getElementById("lyrics-copyright")!;
-const glasscordUser = await window.np.shouldBullyGlasscordUser();
 
 let isContainerHovered;
 
 export function putLyricsInPlace() {
 	// remove all children of container
 	container.classList.remove("synchronized");
-	// @ts-ignore
-	while (container.firstChild) container.removeChild(container.lastChild);
+
+	while (container.firstChild) container.removeChild(container.lastChild!);
 
 	// remove text from footer
 	copyright.textContent = "";
 
-	// start checking for no lyrics
-	if (!songdata.lyrics) {
+	// loading lyrics
+	if (!songdata.lyrics){
+		document.documentElement.classList.add("no-lyrics");
+
+		const loading = document.createElement("span");
+		loading.classList.add("line");
+		loading.textContent = lang.LOADING_LYRICS;
+		container.appendChild(loading);
+		loading.scrollIntoView({
+			inline: "center",
+			block: "center",
+			behavior: "smooth"
+		});
+		return;
+	}
+
+	// no lyrics
+	if (songdata.lyrics.unavailable) {
 		document.documentElement.classList.add("no-lyrics");
 
 		const noLyrics = document.createElement("span");
@@ -33,13 +48,64 @@ export function putLyricsInPlace() {
 		return;
 	}
 
+	// lyrics!
 	document.documentElement.classList.remove("no-lyrics");
 
 	// we are good with lyrics so we push them all
-	for (const line of songdata.lyrics.lines) {
+	for (const line of songdata.lyrics.lines!) {
 		const elem = document.createElement("span");
 		elem.classList.add("line");
-		elem.textContent = glasscordUser ? owoify(line.text) : line.text; // y'all deserve it
+
+		if (line.text.length) {
+			if (config.karaoke && line.karaoke?.length) {
+				for (const verse of line.karaoke) {
+					const span = document.createElement("span");
+					span.textContent = verse.text;
+
+					if (verse.text.trim().length) {
+						span.classList.add("word");
+
+						if (
+							!document.documentElement.classList.contains("no-clickable-lyrics") &&
+							!document.documentElement.classList.contains("non-interactive")
+						) {
+							span.addEventListener("click", event => {
+								event.stopPropagation();
+								window.np.setPosition(verse.start);
+							});
+						}
+					}
+
+					elem.appendChild(span);
+				}
+			} else
+				elem.textContent = line.text;
+
+			if (config.translations && line.translation) {
+				const translation = document.createElement("span");
+				translation.classList.add("translation");
+				translation.textContent = line.translation;
+				elem.appendChild(translation);
+			}
+
+			if (
+				!document.documentElement.classList.contains("no-clickable-lyrics") &&
+				!document.documentElement.classList.contains("non-interactive") &&
+				line.time
+			) {
+				elem.addEventListener("click", event => {
+					event.stopPropagation();
+					window.np.setPosition(line.time!);
+				});
+			}
+
+		} else {
+			elem.classList.add("empty");
+			const emptyProgress = document.createElement("div");
+			emptyProgress.classList.add("empty-progress");
+			elem.appendChild(emptyProgress);
+		}
+		
 		container.appendChild(elem);
 	}
 
@@ -48,7 +114,7 @@ export function putLyricsInPlace() {
 		container.classList.add("synchronized");
 
 	// we put the copyright where it is supposed to be
-	copyright.textContent = lang.LYRICS_COPYRIGHT.replace("%PROVIDER%", songdata.lyrics.provider);
+	copyright.textContent = lang.LYRICS_COPYRIGHT.replace("%PROVIDER%", songdata.lyrics.provider!);
 	if (songdata.lyrics.copyright)
 		copyright.textContent += ` • ${songdata.lyrics.copyright}`;
 }
@@ -64,13 +130,31 @@ export function updateActiveLyrics() {
 	
 	container.classList.add("synchronized");
 
-	// we get the active one
-	let lineIndex = songdata.lyrics.lines.length - 1;
-	for (let i = -1; i < songdata.lyrics.lines.length; i++) {
+	// we compute the estimated elapsed time
+	const elapsed = songdata.status === "Playing" ?
+		songdata.elapsed.howMuch + Math.max(0, (new Date().getTime() - new Date(songdata.elapsed.when).getTime()) / 1000) :
+		songdata.elapsed.howMuch;
+
+	// we get the active line
+	let lineIndex = songdata.lyrics.lines!.length - 1;
+	for (let i = -1; i < songdata.lyrics.lines!.length; i++) {
 		// @ts-ignore
-		if (songdata.elapsed < songdata.lyrics.lines[i + 1]?.time) {
+		if (elapsed < songdata.lyrics.lines[i + 1]?.time) {
 			lineIndex = i;
 			break;
+		}
+	}
+
+	// we get the active word
+	let wordIndex = -1;
+	if (config.karaoke && songdata.lyrics.lines![lineIndex]?.karaoke?.length){
+		wordIndex = songdata.lyrics.lines![lineIndex]?.karaoke!.length - 1;
+		for (let i = -1; i < songdata.lyrics.lines![lineIndex]?.karaoke!.length; i++) {
+			// @ts-ignore
+			if (elapsed < songdata.lyrics.lines[lineIndex].karaoke[i + 1]?.start) {
+				wordIndex = i;
+				break;
+			}
 		}
 	}
 
@@ -80,12 +164,42 @@ export function updateActiveLyrics() {
 	for (let i = 0; i < container.children.length; i++) {
 		const line = container.children[i] as HTMLElement;
 		if (i === lineIndex){
-			line.classList?.add("active");
+
+			if(config.karaoke){
+				for (let i = 0; i < line.children.length; i++) {
+					const word = line.children[i] as HTMLElement;
+					if(i <= wordIndex){
+						if (word.classList?.contains("word"))
+							word.classList?.add("active");
+					}else{
+						if (word.classList?.contains("word"))
+							word.classList?.remove("active");
+					}
+				}
+			}
+
+			if(line.classList.contains("empty")){
+				// determine empty progress
+				const emptyProgress = [...line.children].find(x => x.classList.contains("empty-progress")) as HTMLElement;
+
+				const percentageToGo = (elapsed - songdata.lyrics.lines![i].time!) / ((songdata.lyrics.lines![i + 1]?.time || songdata.metadata.length) - songdata.lyrics.lines![i].time!);
+				emptyProgress.style.setProperty("--waitTime", `${percentageToGo}`);
+			}
+
 			line.removeAttribute("distance");
+			line.classList?.add("active");
 		}else{
-			line.classList?.remove("active");
-			const distance = Math.min(Math.abs(i - lineIndex), 6);
+			const distance = Math.max(-6, Math.min(i - lineIndex, 6));
 			line.setAttribute("distance", `${distance}`);
+			line.classList?.remove("active");
+
+			if(config.karaoke){
+				for (let i = 0; i < line.children.length; i++) {
+					const word = line.children[i] as HTMLElement;
+					if(word.classList.contains("word"))
+						word.classList?.remove("active");
+				}
+			}
 		}
 	}
 

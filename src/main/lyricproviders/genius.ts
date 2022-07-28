@@ -2,6 +2,7 @@ import type { Lyrics, Metadata } from "../../types";
 
 import { URLSearchParams } from "url";
 import axios, { AxiosResponse } from "axios";
+import { JSDOM } from "jsdom";
 
 const search_url = "https://genius.com/api/search/song";
 
@@ -59,44 +60,13 @@ async function getLyricsFromGenius(url) {
 		console.error("Genius lyrics request got an error!", e);
 		return undefined;
 	}
-	
-	let lyricsSections = result.data?.match(/<div class="lyrics">(.+?)<\/div>/s);
-	if(lyricsSections?.[1]){
-		const template = document.createElement("div");
-		template.innerHTML = lyricsSections?.[1];
-		return template.textContent!.trim();
-	}
 
-	lyricsSections = result.data?.match(/<div class="Lyrics__Container.+?>.+?<\/div>/sg);
-	if (lyricsSections) {
-		let lyricsInner = "";
-		for (const section of lyricsSections) {
-			const fragment = section.match(/<div class="Lyrics__Container.+?>(.+?)<\/div>/s);
-			if (fragment) lyricsInner += fragment[1];
-		}
-		const template = document.createElement("div");
-		template.innerHTML = lyricsInner;
-		return getLyrics(template);
-	}
+	const dom = new JSDOM(result.data.split("<br/>").join("\n"));
 
-	lyricsSections = result.data?.match(/<div data-scrolltrigger-pin="true" class="Lyrics__Container.+?>.+?<\/div>/sg);
-	if (lyricsSections) {
-		let lyricsInner = "";
-		for (const section of lyricsSections) {
-			const fragment = section.match(/<div data-scrolltrigger-pin="true" class="Lyrics__Container.+?>(.+?)<\/div>/s);
-			if (fragment) lyricsInner += fragment[1];
-		}
-		const template = document.createElement("div");
-		template.innerHTML = lyricsInner;
-		return getLyrics(template);
-	}
+	const lyricsDiv = dom.window.document.querySelector("div.lyrics");
+	if(lyricsDiv)
+		return lyricsDiv.textContent?.trim();
 
-	return undefined;
-}
-
-function getLyrics(template){
-	function flattener(nodelist){
-		return nodelist.map(x => x.childNodes.length ? flattener([...x.childNodes]) : x).flat();
-	}
-	return flattener([...template.childNodes]).flat().map(x => x.tagName === "BR" ? "\n" : x.textContent).join("").trim();
+	const lyricsSections = [...dom.window.document.querySelectorAll("div[class^=Lyrics__Container]").values()].map(x => x.textContent);
+	return lyricsSections.join("\n");
 }

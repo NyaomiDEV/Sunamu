@@ -3,8 +3,9 @@ import { putLyricsInPlace, updateActiveLyrics } from "./lyrics.js";
 import songdata from "./songdata.js";
 import { secondsToTime, isElectron } from "./util.js";
 import { updateSeekbarStatus, updateSeekbarTime } from "./seekbar.js";
-import { SongData } from "../../types.js";
+import { Position, SongData } from "../../types.js";
 import { getAppIcon } from "./appicon.js";
+import config from "./config.js";
 
 const documentRoot = document.querySelector(":root") as HTMLElement;
 
@@ -21,7 +22,7 @@ export function updateNowPlaying() {
 	// WINDOW TITLE
 	if (!document.documentElement.classList.contains("widget-mode")){
 		if (songdata.metadata.id)
-			document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title).replace("%ARTIST%", songdata.metadata.artist) + " - " + window.title;
+			document.title = lang.NOW_PLAYING_TITLE.replace("%TITLE%", songdata.metadata.title || lang.UNKNOWN_TITLE).replace("%ARTIST%", songdata.metadata.artist || lang.UNKNOWN_ARTIST) + " - " + window.title;
 		else
 			document.title = window.title;
 	}
@@ -41,6 +42,9 @@ export function updateNowPlaying() {
 	const scrobbles = document.getElementById("scrobbles")!;
 	if (songdata.lastfm?.userplaycount) {
 		scrobbles.textContent = lang.SCROBBLE_COUNT.replace("%COUNT%", songdata.lastfm?.userplaycount);
+		scrobbles.style.display = "";
+	} else if (songdata.metadata.count) {
+		scrobbles.textContent = lang.SCROBBLE_COUNT.replace("%COUNT%", songdata.metadata.count.toString());
 		scrobbles.style.display = "";
 	} else {
 		scrobbles.textContent = "";
@@ -70,7 +74,7 @@ export function updateNowPlaying() {
 	setDisabledClass(repeatBtn, songdata.capabilities.canControl);
 
 	setDisabledClass(document.getElementById("lastfm"), songdata.lastfm);
-	setDisabledClass(document.getElementById("spotify"), songdata.spotify?.url);
+	setDisabledClass(document.getElementById("spotify"), songdata.spotify);
 
 	// CONTROLS STATUS
 	(playPauseBtn.firstElementChild! as HTMLElement).setAttribute("href", "assets/images/glyph.svg#" + (songdata.status === "Playing" ? "pause" : "play_arrow"));
@@ -148,12 +152,12 @@ function updateColors(){
 	const palette = songdata.metadata.artData?.palette;
 	if(palette){
 		document.documentElement.classList.remove("no-palette");
-		documentRoot.style.setProperty("--color-vibrant", palette.Vibrant);
-		documentRoot.style.setProperty("--color-muted", palette.Muted);
-		documentRoot.style.setProperty("--color-light-vibrant", palette.LightVibrant);
-		documentRoot.style.setProperty("--color-light-muted", palette.LightMuted);
-		documentRoot.style.setProperty("--color-dark-vibrant", palette.DarkVibrant);
-		documentRoot.style.setProperty("--color-dark-muted", palette.DarkMuted);
+		documentRoot.style.setProperty("--color-vibrant", palette.Vibrant || null);
+		documentRoot.style.setProperty("--color-muted", palette.Muted || null);
+		documentRoot.style.setProperty("--color-light-vibrant", palette.LightVibrant || null);
+		documentRoot.style.setProperty("--color-light-muted", palette.LightMuted || null);
+		documentRoot.style.setProperty("--color-dark-vibrant", palette.DarkVibrant || null);
+		documentRoot.style.setProperty("--color-dark-muted", palette.DarkMuted || null);
 	}else{
 		document.documentElement.classList.add("no-palette");
 		documentRoot.style.removeProperty("--color-vibrant");
@@ -176,10 +180,19 @@ function updateTime() {
 	else
 		timeTotal.textContent = "00:00";
 
-	if(songdata.elapsed)
-		timeElapsed.textContent = secondsToTime(songdata.elapsed);
+	if(songdata.elapsed.howMuch)
+		timeElapsed.textContent = secondsToTime(songdata.elapsed.howMuch);
 	else
 		timeElapsed.textContent = "00:00";
+}
+
+function positionUpdate(){
+	if(songdata.status !== "Playing")
+		return;
+
+	updateTime();
+	updateSeekbarTime();
+	updateActiveLyrics();
 }
 
 function setDisabledClass(elem, condition) {
@@ -210,11 +223,13 @@ window.np.registerUpdateCallback((_songdata: SongData, metadataChanged: boolean)
 		putLyricsInPlace();
 
 	updateNowPlaying();
+	setInterval(positionUpdate, config.positionUpdateInterval * 1000);
 });
 
-window.np.registerPositionCallback((position: number, reportsPosition: boolean) => {
+window.np.registerPositionCallback((position: Position, reportsPosition: boolean) => {
 	songdata.elapsed = position;
 	songdata.reportsPosition = reportsPosition;
+
 	updateTime();
 	updateSeekbarTime();
 	updateActiveLyrics();

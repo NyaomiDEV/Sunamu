@@ -1,21 +1,32 @@
 import { Config } from "../types";
-import JSON5 from "json5";
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { evaluate, patch } from "golden-fleece";
+import { copyFileSync, mkdirSync, readFileSync, watchFile, writeFileSync } from "fs";
 import { resolve } from "path";
 import { getAppData } from "./util";
 
 const configPath = resolve(getAppData(), "sunamu", "config.json5");
 const defaultConfigPath = resolve(__dirname, "..", "..", "assets", "config.json5");
 
-const defaultConfig: Config = JSON5.parse(readFileSync(defaultConfigPath, "utf8"));
-const config: Config = getUserConfig();
+const defaultConfig: Config = evaluate(readFileSync(defaultConfigPath, "utf8"));
+let config: Config = getUserConfig();
+
+const configChangedCallbacks: Array<() => Promise<void>> = [];
 
 if (compareAndUpdate(defaultConfig, config))
 	save();
 
+watchFile(configPath, () => {
+	config = getUserConfig();
+
+	if (compareAndUpdate(defaultConfig, config))
+		save();
+
+	broadcastConfigChanged();
+});
+
 function getUserConfig() {
 	try {
-		return JSON5.parse(readFileSync(configPath, "utf8"));
+		return evaluate(readFileSync(configPath, "utf8"));
 	} catch (_) {
 		save(false, defaultConfig);
 		return defaultConfig;
@@ -50,7 +61,11 @@ export function save(backup: boolean = true, configToSave = config) {
 			now.getSeconds().toString().padStart(2, "0");
 		copyFileSync(configPath, configPath + ".backup-" + date);
 	}
-	writeFileSync(configPath, JSON5.stringify(configToSave, undefined, 2));
+	writeFileSync(configPath, patch(readFileSync(configPath, "utf8"), configToSave));
+}
+
+export function consolidateToDefaultConfig(){
+	return writeFileSync(configPath, patch(readFileSync(defaultConfigPath, "utf8"), config));
 }
 
 export function get(name: string) {
@@ -64,4 +79,18 @@ export function getAll(): Config {
 export function set(name: string, value: any){
 	config[name] = value;
 	save(false);
+}
+
+export async function broadcastConfigChanged() {
+	for (const cb of configChangedCallbacks) await cb();
+}
+
+// eslint-disable-next-line no-unused-vars
+export function addConfigChangedCallback(cb: () => Promise<void>) {
+	configChangedCallbacks.push(cb);
+}
+
+// eslint-disable-next-line no-unused-vars
+export function deleteConfigChangedCallback(cb: () => Promise<void>) {
+	configChangedCallbacks.splice(configChangedCallbacks.indexOf(cb), 1);
 }

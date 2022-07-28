@@ -1,5 +1,6 @@
 import { reCenter } from "./lyrics.js";
 import { show, hide } from "./showhide.js";
+import { debounce } from "./util.js";
 
 let delayedHideTimeout;
 
@@ -44,7 +45,7 @@ function showHideListener_fullscreen(){
 
 // ON RESIZE
 window.addEventListener("resize", () => {
-	reCenter();
+	debounce(reCenter, 500);
 });
 
 // ON LOAD

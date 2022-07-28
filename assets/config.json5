@@ -1,63 +1,138 @@
 {
-	// Uncomment this to set a language other than the detected (system) one
-	// language: "en",
+	// Set Sunamu's language. If empty, it will detect the system language and use that.
+	// Currently supported languages: en, it, de, fr, nl
+	language: "en",
+	// Would you want to use Electron to display Sunamu as a stand alone application?
 	useElectron: true,
+	// Would you like to spawn a local web server that makes Sunamu accessible through web browsers on your network?
 	useWebserver: true,
+	// If the option above is true, the option below can be used to define the port where the web server will listen.
 	webserverPort: 3000,
 	// Do you want to run Sunamu in debug mode?
 	debugMode: false,
 	// Do you want to use the Ozone Wayland Platform? (Linux only)
 	waylandOzone: true,
-	// Specify your Last.FM username here to get the fancy play count in the details section
+	// How often to poll for track position? (in seconds)
+	positionPollInterval: 0.2,
+	// How often to update the track position internally? (in seconds)
+	// This can improve lyrics timing if you're using a very long polling interval to not overload your system.
+	positionUpdateInterval: 0.05,
+	// Do you want Sunamu to be in karaoke mode?
+	karaoke: true,
+	// Do you want the lyrics to be translated? (Musixmatch only)
+	translations: true,
+	// Specify the language you want to use for your Musixmatch translated lyrics.
+	// If it is empty, it will default to the one set in the "language" field.
+	// If that one is not set either, it will default to the system language.
+	mxmlanguage: "",
+	// Specify your Musixmatch User Token.
+	// Sunamu will automatically generate it if you don't have your own.
+	mxmusertoken: "",
+	// Specify the target lyrics cache folder size.
+	// Less frequently shown lyrics will be purged to maintain the cache folder inside the target size.
+	// Note that the operation only occurs once when Sunamu starts up, so it is possible for the cache folder to grow up in size
+	// when Sunamu is opened and downloading new lyrics.
+	// You can use abbreviations such as "10M" for 10 Megabytes and "1G" for 1 Gigabyte. No abbreviation such as "2000" counts as 2000 bytes.
+	// Multiple-byte units are calculated following the IEC standard, so 1 Kilobyte = 1000 bytes and so on.
+	// You can set this value to an empty string or to zero to never "trim" the lyrics cache, however this is not recommended.
+	targetLyricsCacheSize: "10M",
+	// Specify your Last.FM username here to get the fancy play count in the details section.
 	lfmUsername: "",
-	// Specify your Spotify Developer Client ID and Secret here to get the Spotify URL for the playing tracks
+	// Specify your Spotify Developer Client ID and Secret here to get the Spotify URL for the playing tracks.
 	spotify: {
 		clientID: "",
 		clientSecret: "" 
 	},
 	discordRpc: {
-		// Specify if you want your Discord Presence to show what you are playing
+		// Specify if you want your Discord Presence to show what you are playing.
 		enabled: true,
-		// Probably blacklist your browser here lol (unless you do want to show it)
+		// Blacklist some apps (such as your browser) from ever showing in the Rich Presence.
 		blacklist: []
 	},
 	scenes: {
+		// The following is just an example! Leave it as is.
+		_example: {
+			// The scene type: "default" (served over the web) or "electron" (a new Electron window is spawned for it.)
+			type: "default",
+			// If you want to specify a custom font override, you can do so here.
+			font: "Urbanist",
+			// CSS Theme to use.
+			// Those are to be placed in <Sunamu's config folder>/themes/<theme name>/
+			// and the theme entrypoint MUST be called "style.css".
+			// "default" uses the default theme.
+			theme: "default",
+			// Whether or not the interface should be colorful.
+			// (colored with the album art's dominant colors)
+			colors: true,
+			// Whether or not the default interface colors should be inverted so that the text is black and the background is white.
+			// (when colors: false or when there's no color palette to be extracted)
+			// Use this combined with widget mode if you are using light backgrounds on your desktop.
+			defaultColorsAreInverted: false,
+			// Whether or not to show a solid color as background (extracted from the cover art.)
+			colorblock: false,
+			// Whether or not to animate the cover art background.
+			bgAnimation: true,
+			// Do you want this Sunamu scene to behave like a widget?
+			// No window controls, no "Playing on <player>", just controls and lyrics over transparent background.
+			// NOTE: Custom themes can modify the behaviour of the widget mode or not support it at all.
+			widgetMode: true,
+			// Whether or not to show the playing indicator at the top right (or top center) of the screen.
+			// Note that this is disabled by default if you're using the widget mode and it cannot be turned on separately.
+			showPlayingIndicator: true,
+			// Whether or not to show the player icon, if supported, next to the playing indicator.
+			playerIcon: true,
+			// Disable ALL (mouse / touch) interactions on Sunamu?
+			nonInteractive: false,
+			// Disable the idle animation?
+			// If this is set to true, idling will NOT collapse the media control panel.
+			static: false,
+			// Now, the exact opposite of what's above.
+			// If this is set to true, no matter what you do but the media control panel will ALWAYS be collapsed.
+			// BUT the mouse pointer will remain on display!
+			// If you set both to true, forceIdle will win.
+			forceIdle: false,
+			// Whether or not the album art should be displayed.
+			showAlbumArt: true,
+			// Whether or not ALL the controls (play / pause / next / previous etc. PLUS lastfm / spotify buttons) should be displayed.
+			// It only affects the collapsed media control panel.
+			showControls: true,
+			// Whether or not to show the LastFM and Spotify buttons in the controls row.
+			showExtraButtons: true,
+			// Whether or not the progress bar should be displayed.
+			// It only affects the collapsed media control panel.
+			showProgress: true,
+			// Whether or not to show the played count under the track title.
+			// It only affects the collapsed media control panel.
+			showScrobbles: true,
+			// Whether or not to show lyrics.
+			showLyrics: true,
+			// Whether or not to use the blur effect on the verses.
+			lyricsBlur: true,
+			// Whether or not clicking on a verse or word should skip to that point in the track.
+			clickableLyrics: true
+		},
 		default: {
 			type: "default",
-			widgetMode: false,
-			font: "",
-			theme: "default",
-			// nonInteractive: false,
-			// static: false,
-			// showAlbumArt: true,
-			// showControls: true,
-			// showProgress: true,
-			// showPlayingIndicator: true,
-			// showLyrics: true,
-			// lyricsBlur: true,
-			// showExtraButtons: true,
-			// colors: true,
-			// colorblock: false,
-			// playerIcon: true
+			theme: "default"
 		},
 		electron: {
 			type: "electron",
 			widgetMode: true,
-			font: "",
-			theme: "default"
+			colors: false,
+			// If you want a minimal music controller just uncomment the following lines.
+			// (OMG!Ubuntu! blog post readers, I am talking to you)
+			// showExtraButtons: false,
+			// showLyrics: false,
 		},
 		"obs-studio": {
 			type: "default",
 			widgetMode: true,
-			font: "",
 			nonInteractive: true,
 			static: true,
-			showAlbumArt: true,
 			showControls: false,
 			showProgress: false,
-			showPlayingIndicator: false,
+			showScrobbles: false,
 			showLyrics: false,
-			showExtraButtons: false,
 			colors: false
 		}
 	}

@@ -2,9 +2,9 @@ html.electron:not(.fullscreen) .background {
 	-webkit-app-region: drag;
 }
 
-html.electron .window-controls #minimize,
-html.electron .window-controls #close {
-	display: inline-block;
+html.electron #minimize,
+html.electron #close {
+	display: block;
 }
 
 html.electron .window-controls,

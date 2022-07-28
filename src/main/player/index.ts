@@ -1,20 +1,21 @@
 /* eslint-disable no-unused-vars */
-import { Update } from "../../types";
+import { Position, Update } from "../../types";
 
 const fallback: Player = {
 	init: async (_callback: Function) => undefined,
 	getUpdate: async () => null,
-	Play: () => undefined,
-	Pause: () => undefined,
-	PlayPause: () => undefined,
-	Stop: () => undefined,
-	Next: () => undefined,
-	Previous: () => undefined,
+	Play: async () => undefined,
+	Pause: async () => undefined,
+	PlayPause: async () => undefined,
+	Stop: async () => undefined,
+	Next: async () => undefined,
+	Previous: async () => undefined,
 	Shuffle: () => undefined,
 	Repeat: () => undefined,
-	Seek: (_offset: number) => undefined,
-	SeekPercentage: (_percentage: number) => undefined,
-	GetPosition: async () => 0,
+	Seek: async (_offset: number) => undefined,
+	SeekPercentage: async (_percentage: number) => undefined,
+	SetPosition: async (_position: number) => undefined,
+	GetPosition: async () => ({howMuch: 0, when: new Date(0)}),
 };
 
 let player: Player;
@@ -28,6 +29,7 @@ export default async function getPlayer(){
 				break;
 			case "win32":
 				let winplayer = await import("./winplayer");
+				// @ts-ignore
 				player = Object.assign({}, winplayer);
 				break;
 			default:
@@ -44,18 +46,19 @@ export interface Player {
 	init(callback: Function): Promise<void>
 	getUpdate(): Promise<Update | null>
 
-	Play(): void
-	Pause(): void
-	PlayPause(): void
-	Stop(): void
+	Play(): Promise<void>
+	Pause(): Promise<void>
+	PlayPause(): Promise<void>
+	Stop(): Promise<void>
 
-	Next(): void
-	Previous(): void
+	Next(): Promise<void>
+	Previous(): Promise<void>
 
 	Shuffle(): void
 	Repeat(): void
 
-	Seek(offset: number): void
-	SeekPercentage(percentage: number): void
-	GetPosition(): Promise<number>
+	Seek(offset: number): Promise<void>
+	SeekPercentage(percentage: number): Promise<void>
+	GetPosition(): Promise<Position>
+	SetPosition(position: number): Promise<void>
 }

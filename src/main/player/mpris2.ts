@@ -55,7 +55,10 @@ export async function getUpdate(): Promise<Update | null> {
 			loop: players[activePlayer].Player.LoopStatus || "None",
 			shuffle: players[activePlayer].Player.Shuffle || false,
 			volume: players[activePlayer].Player.Volume || 0,
-			elapsed: Number(await players[activePlayer].Player.GetPosition()) / 1000000,
+			elapsed: {
+				howMuch: Number(await players[activePlayer].Player.GetPosition()) / 1000000,
+				when: new Date()
+			},
 			app: activePlayer,
 			appName: players[activePlayer].Identity || ""
 		};
@@ -66,30 +69,30 @@ export async function getUpdate(): Promise<Update | null> {
 }
 
 export async function Play() {
-	if (activePlayer) players[activePlayer]?.Player?.Play?.();
+	if (activePlayer) await players[activePlayer]?.Player?.Play?.();
 }
 
 export async function Pause() {
-	if (activePlayer) players[activePlayer]?.Player?.Pause?.();
+	if (activePlayer) await players[activePlayer]?.Player?.Pause?.();
 }
 
 export async function PlayPause(){
-	if (activePlayer) players[activePlayer]?.Player?.PlayPause?.();
+	if (activePlayer) await players[activePlayer]?.Player?.PlayPause?.();
 }
 
 export async function Stop(){
-	if (activePlayer) players[activePlayer]?.Player?.Stop?.();
+	if (activePlayer) await players[activePlayer]?.Player?.Stop?.();
 }
 
 export async function Next() {
-	if (activePlayer) players[activePlayer]?.Player?.Next?.();
+	if (activePlayer) await players[activePlayer]?.Player?.Next?.();
 }
 
 export async function Previous() {
-	if (activePlayer) players[activePlayer]?.Player?.Previous?.();
+	if (activePlayer) await players[activePlayer]?.Player?.Previous?.();
 }
 
-export async function Shuffle() {
+export function Shuffle() {
 	if (activePlayer) {
 		if (players[activePlayer]?.Player?.Shuffle)
 			players[activePlayer].Player.Shuffle = false;
@@ -98,7 +101,7 @@ export async function Shuffle() {
 	}
 }
 
-export async function Repeat() {
+export function Repeat() {
 	if (activePlayer) {
 		switch(players[activePlayer]?.Player?.LoopStatus){
 			case "None":
@@ -116,7 +119,7 @@ export async function Repeat() {
 }
 
 export async function Seek(offset: number) {
-	if (activePlayer) players[activePlayer]?.Player?.Seek?.(offset);
+	if (activePlayer) await players[activePlayer]?.Player?.Seek?.(offset);
 }
 
 export async function SeekPercentage(percentage: number) {
@@ -130,12 +133,26 @@ export async function SeekPercentage(percentage: number) {
 	}
 }
 
+export async function SetPosition(position: number) {
+	if (activePlayer){
+		await players[activePlayer]?.Player?.SetPosition(
+			players[activePlayer]?.Player?.Metadata?.["mpris:trackid"],
+			// eslint-disable-next-line no-undef
+			BigInt(position * 1000000)
+		);
+	}
+}
+
 export async function GetPosition() {
+	let _pos = 0;
 	if (activePlayer){
 		const pos = await players[activePlayer]?.Player?.GetPosition?.();
-		return Number(pos) / 1000000;
+		_pos = Number(pos) / 1000000;
 	}
-	return 0;
+	return {
+		howMuch: _pos,
+		when: new Date()
+	};
 }
 
 // UTILS
@@ -252,12 +269,12 @@ async function parseMetadata(metadata): Promise<Metadata> {
 					quality: 1
 				})).getPalette();
 				artData.palette = {
-					DarkMuted: palette.DarkMuted!.hex,
-					DarkVibrant: palette.DarkVibrant!.hex,
-					LightMuted: palette.LightMuted!.hex,
-					LightVibrant: palette.LightVibrant!.hex,
-					Muted: palette.Muted!.hex,
-					Vibrant: palette.Vibrant!.hex,
+					DarkMuted: palette.DarkMuted?.hex,
+					DarkVibrant: palette.DarkVibrant?.hex,
+					LightMuted: palette.LightMuted?.hex,
+					LightVibrant: palette.LightVibrant?.hex,
+					Muted: palette.Muted?.hex,
+					Vibrant: palette.Vibrant?.hex,
 				};
 			} catch (e) {
 				debug("Couldn't compute palette for image", e);
@@ -275,6 +292,8 @@ async function parseMetadata(metadata): Promise<Metadata> {
 		length: Number(metadata["mpris:length"] || 0) / 1000000,
 		artUrl: metadata["mpris:artUrl"],
 		artData: artData || undefined,
+		count: metadata["xesam:useCount"] || undefined,
+		lyrics: metadata["xesam:asText"] || undefined,
 		id: metadata["mpris:trackid"]
 	};
 }

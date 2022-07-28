@@ -4,16 +4,20 @@ import { get as getLyrics, save as saveLyrics } from "./lyricsOffline";
 import { query as Musixmatch } from "../lyricproviders/musixmatch";
 import { query as NetEase } from "../lyricproviders/netease";
 import { query as Genius } from "../lyricproviders/genius";
-import { Lyrics, Metadata } from "../../types";
+import { query as MetadataQuery } from "../lyricproviders/metadata";
+import type { Lyrics, Metadata } from "../../types";
 
 export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promise<Lyrics | undefined> {
+	if (!metadata.artist || !metadata.title) // there can't be lyrics without at least those two fields
+		return { unavailable: true };
+	
 	let lyrics: Lyrics | undefined;
 	const id = computeLyricsID(metadata);
 
 	const cached = await getLyrics(id);
 
-	// This should only be executed inside the electron (main/renderer) process
-	if (!cached || !cached.lines.length || !cached?.synchronized) {
+	// This should only be executed inside the electron (main) process
+	if (!cached || !cached.lines!.length || !cached?.synchronized) {
 		if (!cached) debug(`Cache miss for ${metadata.artist} - ${metadata.title}`);
 		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${metadata.artist} - ${metadata.title}`);
 
@@ -22,9 +26,13 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 			NetEase
 		};
 
-		// if cached then we could assume it is unsync and genius can only provide unsync
-		// @ts-ignore
-		if (!cached) providers.Genius = Genius;
+		// if cached then we could assume it is unsync
+		if (!cached) {
+			Object.assign(providers, {
+				Genius,
+				MetadataQuery
+			});
+		}
 
 		for (const provider in providers) {
 			debug("Fetching from " + provider);
@@ -46,7 +54,7 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 	if(cached && !lyrics)
 		lyrics = cached;
 
-	return lyrics;
+	return lyrics || { unavailable: true };
 }
 
 function computeLyricsID(metadata: Metadata){
