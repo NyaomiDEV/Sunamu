@@ -1,6 +1,6 @@
 {
 	// Set Sunamu's language. If empty, it will detect the system language and use that.
-	// Currently supported languages: en, it, de, fr, nl, es
+	// Currently supported languages: en, it, de, fr, nl, es, zh-tw
 	language: "en",
 	// Would you want to use Electron to display Sunamu as a stand alone application?
 	useElectron: true,

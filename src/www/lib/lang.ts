@@ -74,6 +74,18 @@ export const allLangs: LanguageData = {
 			UNKNOWN_TITLE: "Título desconocido",
 			LYRICS_COPYRIGHT: "Letras proporcionadas por %PROVIDER%",
   },
+	"zh-tw": {
+		NOT_PLAYING: "目前沒有在播放的音樂",
+		PLEASE_PLAY_SONG: "請播放一些音樂",
+		PLAYING_ON_APP: "在",
+		SCROBBLE_COUNT: "Scrobbled %COUNT% times",
+		LOADING_LYRICS: "讀取歌詞中",
+		NO_LYRICS: "沒有可用的歌詞",
+		NOW_PLAYING_TITLE: "\"%TITLE%\" - %ARTIST%",
+		UNKNOWN_ARTIST: "未知藝術家",
+		UNKNOWN_TITLE: "未知標題",
+		LYRICS_COPYRIGHT: "歌詞提供：%PROVIDER%",
+	},
 };
 
 export default (allLangs[config.language || navigator.language.split("-")[0]] || allLangs.en);
