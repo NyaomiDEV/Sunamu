@@ -11,7 +11,7 @@ async function importLanguage(name: string){
 
 export default (
 	await importLanguage(config.language) ||
-	await importLanguage(navigator.language) ||
-	await importLanguage(navigator.language.split("-")[0]) ||
+	await importLanguage(navigator.language.toLowerCase()) ||
+	await importLanguage(navigator.language.toLowerCase().split("-")[0]) ||
 	await importLanguage("en")
 );
