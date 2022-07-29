@@ -112,8 +112,8 @@ export async function updateInfo(update?: Update) {
 	// we broadcast the changed status
 	await broadcastSongData(false); // false means metadata didn't change (we already notified that inside the if block)
 
-	// if lyrics are there, we need to broadcast an update for them too
-	if (metadataChanged && !songdata.lyrics?.unavailable)
+	// we need to broadcast an update for lyrics (unconditional) too
+	if (metadataChanged)
 		await broadcastLyrics();
 }
 
