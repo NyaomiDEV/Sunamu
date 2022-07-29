@@ -34,6 +34,7 @@ asarUnpack:
   - "./node_modules/sharp/build/**/*"
 linux:
   target:
+    - flatpak
     - AppImage
     - deb
     - rpm
@@ -82,6 +83,33 @@ pacman:
     - minizip
     - re2
     - snappy
+flatpak:
+  license: "LICENSE"
+  runtime: "org.freedesktop.Platform"
+  runtimeVersion: "21.08"
+  sdk: "org.freedesktop.Sdk"
+  base: "org.electronjs.Electron2.BaseApp"
+  baseVersion: "21.08"
+  useWaylandFlags: false # Configurable in Sunamu Config
+  finishArgs:
+    # Wayland/X11 Rendering
+    - "--socket=wayland"
+    - "--socket=x11"
+    - "--share=ipc"
+    # OpenGL
+    - "--device=dri"
+    # Audio output
+    - "--socket=pulseaudio"
+    # Directory access
+    - "--filesystem=xdg-config/sunamu:create"
+    # Cover art locations for Clementine, Strawberry, etc.
+    - "--filesystem=/tmp:ro"
+    # Cover art locations for VLC media player, Lollypop, etc.
+    - "--filesystem=xdg-cache:ro"
+    # Allow communication with network
+    - "--share=network"
+    # Talk to media players
+    - "--talk-name=org.mpris.MediaPlayer2.*"
 win:
   target:
     - nsis
