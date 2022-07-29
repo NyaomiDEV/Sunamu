@@ -55,7 +55,10 @@ function registerIpc() {
 			return false; // without browserwindow we return false, always
 
 		const scene = openedBrowserWindows.get(_win);
-		return isWidgetModeForScene(scene);
+		if(scene)
+			return isWidgetModeForScene(scene);
+
+		return false;
 	});
 
 	ipcMain.handle("isDebugMode", () => debugMode);
@@ -85,11 +88,18 @@ function registerIpc() {
 	ipcMain.on("openExternal", (_e, uri) => shell.openExternal(uri));
 }
 
-function isWidgetModeForScene(scene){
+function isWidgetModeForScene(scene: string){
 	if (!scene || scene === "electron")
 		return widgetModeElectron; // assume default scene if scene is not there
 
 	return getAllConfig().scenes[scene].widgetMode;
+}
+
+function willSceneShowLyrics(scene: string){
+	if (typeof getAllConfig().scenes[scene].showLyrics !== "undefined")
+		return getAllConfig().scenes[scene].showLyrics;
+
+	return true;
 }
 
 function registerWindowCallbacks(win: BrowserWindow){
@@ -128,8 +138,8 @@ async function spawnWindow(scene = "electron") {
 		width: windowState.width,
 		height: windowState.height,
 		minWidth: 458,
-		minHeight: getAllConfig().scenes[scene].showLyrics ? 512 : 424,
-		maxHeight: getAllConfig().scenes[scene].showLyrics ? undefined : 548,
+		minHeight: willSceneShowLyrics(scene) ? 512 : 424,
+		maxHeight: willSceneShowLyrics(scene) ? undefined : 548,
 		backgroundColor: isWidgetModeForScene(scene) ? "#00000000" : "#000000",
 		maximizable: !isWidgetModeForScene(scene),
 		minimizable: !isWidgetModeForScene(scene),

@@ -137,7 +137,10 @@ export async function query(metadata: Metadata, spotifyId?: string): Promise<Lyr
 		if(translations){
 			for (const line in reply.lines) {
 				for (const translationLine of translations) {
-					if (reply.lines[line].text.trim() === translationLine.translation.matched_line.trim())
+					if (
+						reply.lines[line].text.toLowerCase().trim() === translationLine.translation.matched_line.toLowerCase().trim() ||
+						reply.lines[line].text.toLowerCase().trim() === translationLine.translation.subtitle_matched_line.toLowerCase().trim()
+					)
 						reply.lines[line].translation = translationLine.translation.description.trim();
 				}
 			}
