@@ -35,6 +35,10 @@ html.non-interactive .window-controls {
 	display: none;
 }
 
+html.no-show-lyrics #fullscreen {
+	display: none;
+}
+
 /* iPad */
 @media only screen and (max-width: 1024px) {
 	.window-controls {

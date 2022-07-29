@@ -105,6 +105,7 @@
 			// It only affects the collapsed media control panel.
 			showScrobbles: true,
 			// Whether or not to show lyrics.
+			// If this is set to false, then "static" is forced to be true.
 			showLyrics: true,
 			// Whether or not to use the blur effect on the verses.
 			lyricsBlur: true,

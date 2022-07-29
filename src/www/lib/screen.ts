@@ -63,8 +63,10 @@ if(sceneName && config.scenes[sceneName]){
 	if (typeof scene.showPlayingIndicator !== "undefined" && !scene.showPlayingIndicator)
 		document.documentElement.classList.add("no-playing-indicator");
 
-	if (typeof scene.showLyrics !== "undefined" && !scene.showLyrics)
+	if (typeof scene.showLyrics !== "undefined" && !scene.showLyrics){
 		document.documentElement.classList.add("no-show-lyrics");
+		document.documentElement.classList.add("static"); // force it to be true
+	}
 
 	if (typeof scene.showScrobbles !== "undefined" && !scene.showScrobbles)
 		document.documentElement.classList.add("no-show-scrobbles");
