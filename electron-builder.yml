@@ -34,11 +34,11 @@ asarUnpack:
   - "./node_modules/sharp/build/**/*"
 linux:
   target:
-  - AppImage
-  - deb
-  - rpm
-  - pacman
-  - tar.xz
+    - AppImage
+    - deb
+    - rpm
+    - pacman
+    - tar.xz
   maintainer: Naomi Calabretta
   vendor: Naomi Calabretta
   executableName: Sunamu
@@ -51,41 +51,40 @@ linux:
     - github
 deb:
   depends:
-   - libgtk-3-0
-   - libnotify4
-   - libxss1
-   - libxtst6
-   - libnss3
-   - libatspi2.0-0
-   - libuuid1
-   - libvips
+    - libgtk-3-0
+    - libnotify4
+    - libxss1
+    - libxtst6
+    - libnss3
+    - libatspi2.0-0
+    - libuuid1
+    - libvips
 rpm:
   depends:
-   - /bin/sh
-   - gtk3
-   - libnotify
-   - libXScrnSaver
-   - libXtst
-   - nss
-   - at-spi2-core
-   - libuuid
-   - vips
+    - /bin/sh
+    - gtk3
+    - libnotify
+    - libXScrnSaver
+    - libXtst
+    - nss
+    - at-spi2-core
+    - libuuid
+    - vips
   fpm: ["--rpm-rpmbuild-define=_build_id_links none"]
 pacman:
   depends:
-   - gtk3
-   - nss
-   - libvips
-   - c-ares
-   - libxslt
-   - libevent
-   - minizip
-   - re2
-   - snappy
+    - gtk3
+    - nss
+    - libvips
+    - c-ares
+    - libxslt
+    - libevent
+    - minizip
+    - re2
+    - snappy
 win:
   target:
-  - nsis
-  - zip
+    - nsis
+    - zip
   icon: assets/icons/icon.ico
   legalTrademarks: Copyright © 2021 Naomi Calabretta
-  
