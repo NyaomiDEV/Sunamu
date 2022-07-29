@@ -70,6 +70,7 @@ rpm:
    - at-spi2-core
    - libuuid
    - vips
+  fpm: ["--rpm-rpmbuild-define=_build_id_links none"]
 pacman:
   depends:
    - gtk3
