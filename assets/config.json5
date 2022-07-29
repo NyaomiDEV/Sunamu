@@ -13,7 +13,7 @@
 	// Do you want to use the Ozone Wayland Platform? (Linux only)
 	waylandOzone: true,
 	// How often to poll for track position? (in seconds)
-	positionPollInterval: 0.2,
+	positionPollInterval: 1,
 	// How often to update the track position internally? (in seconds)
 	// This can improve lyrics timing if you're using a very long polling interval to not overload your system.
 	positionUpdateInterval: 0.05,

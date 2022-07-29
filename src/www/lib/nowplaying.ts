@@ -12,6 +12,8 @@ const documentRoot = document.querySelector(":root") as HTMLElement;
 const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
 let artDataBlobUrl: string | undefined;
 
+let positionUpdateInterval;
+
 export function updateNowPlaying() {
 	// CHECK ID
 	if(songdata.metadata.id)
@@ -100,9 +102,6 @@ export function updateNowPlaying() {
 	// SEEKBAR
 	updateSeekbarStatus();
 
-	// TIME
-	updateTime();
-
 	// ALBUM ART
 	updateAlbumArt();
 
@@ -171,7 +170,7 @@ function updateColors(){
 	(document.getElementById("theme-color")! as HTMLMetaElement).content = window.getComputedStyle(documentRoot).getPropertyValue("--color-bg").trim();
 }
 
-function updateTime() {
+function updateTime(elapsed: number) {
 	const timeElapsed = document.getElementById("time-elapsed")!;
 	const timeTotal = document.getElementById("time-total")!;
 
@@ -180,19 +179,21 @@ function updateTime() {
 	else
 		timeTotal.textContent = "00:00";
 
-	if(songdata.elapsed.howMuch)
-		timeElapsed.textContent = secondsToTime(songdata.elapsed.howMuch);
+	if(elapsed)
+		timeElapsed.textContent = secondsToTime(elapsed);
 	else
 		timeElapsed.textContent = "00:00";
 }
 
 function positionUpdate(){
-	if(songdata.status !== "Playing")
-		return;
+	// we compute the estimated elapsed time
+	const elapsed = songdata.status === "Playing"
+		? songdata.elapsed.howMuch + Math.max(0, (new Date().getTime() - new Date(songdata.elapsed.when).getTime()) / 1000)
+		: songdata.elapsed.howMuch;
 
-	updateTime();
-	updateSeekbarTime();
-	updateActiveLyrics();
+	updateTime(elapsed);
+	updateSeekbarTime(elapsed);
+	updateActiveLyrics(elapsed);
 }
 
 function setDisabledClass(elem, condition) {
@@ -223,14 +224,21 @@ window.np.registerUpdateCallback((_songdata: SongData, metadataChanged: boolean)
 		putLyricsInPlace();
 
 	updateNowPlaying();
-	setInterval(positionUpdate, config.positionUpdateInterval * 1000);
+
+	if(songdata.status === "Playing"){
+		if(!positionUpdateInterval)
+			positionUpdateInterval = setInterval(positionUpdate, config.positionUpdateInterval * 1000);
+	}
+	else{
+		clearInterval(positionUpdateInterval);
+		positionUpdateInterval = undefined;
+	}
+
 });
 
 window.np.registerPositionCallback((position: Position, reportsPosition: boolean) => {
 	songdata.elapsed = position;
 	songdata.reportsPosition = reportsPosition;
 
-	updateTime();
-	updateSeekbarTime();
-	updateActiveLyrics();
+	positionUpdate();
 });
