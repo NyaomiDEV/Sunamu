@@ -1,9 +1,8 @@
 <img alt="Logo" src="assets/icons/icon.svg" width="128px" height="128px" align="left"/>
+<a href="https://discord.gg/cnkMUu9Z7b"><img alt="Chat on Discord" align="right" src="https://img.shields.io/discord/1002639896600645732?color=blue&label=Chat%20on%20Discord&logo=discord&logoColor=white&style=for-the-badge"></a>
 
 # Sunamu (スナム)
 Show your currently playing song in a stylish way!
-
-[![Chat on Discord](https://img.shields.io/discord/1002639896600645732?color=blue&label=Chat%20on%20Discord&logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/cnkMUu9Z7b)
 
 <div style="display: flex; justify-items: space-between; flex-wrap: wrap; width: 100%">
 <img alt="Lyrics preview" src="assets/preview_lyrics.png" style="width: 45%; height: auto; margin: 2%" />
