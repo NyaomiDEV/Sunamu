@@ -75,7 +75,7 @@ export const allLangs: LanguageData = {
 			LYRICS_COPYRIGHT: "Letras proporcionadas por %PROVIDER%",
   },
 	"zh-tw": {
-		NOT_PLAYING: "目前沒有在播放的音樂",
+		NOT_PLAYING: "目前沒有正在播放的音樂",
 		PLEASE_PLAY_SONG: "請播放一些音樂",
 		PLAYING_ON_APP: "在",
 		SCROBBLE_COUNT: "Scrobbled %COUNT% times",
