@@ -3,6 +3,8 @@
 # Sunamu (スナム)
 Show your currently playing song in a stylish way!
 
+[![Chat on Discord](https://img.shields.io/discord/1002639896600645732?color=blue&label=Chat%20on%20Discord&logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/cnkMUu9Z7b)
+
 <div style="display: flex; justify-items: space-between; flex-wrap: wrap; width: 100%">
 <img alt="Lyrics preview" src="assets/preview_lyrics.png" style="width: 45%; height: auto; margin: 2%" />
 <img alt="Browser preview" src="assets/preview_browser.png" style="width: 45%; height: auto; margin: 2%" />
