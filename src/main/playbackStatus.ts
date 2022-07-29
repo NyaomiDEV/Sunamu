@@ -71,13 +71,12 @@ export async function updateInfo(update?: Update) {
 		updateInfoSymbol = currentSymbol;
 
 		// we need to reset our extra songdata stuff
-		songdata.lyrics = undefined;
+		songdata.lyrics = update?.metadata.id
+			? undefined
+			: { unavailable: true };
+
 		songdata.lastfm = undefined;
 		songdata.spotify = undefined;
-
-		// Quick fix (do it better later): if there's no song playing, there's no lyrics.
-		if (!update?.metadata.id)
-			songdata.lyrics = { unavailable: true };
 
 		// broadcast our initial update so people won't think sunamu is laggy asf
 		await broadcastSongData(true);
@@ -106,6 +105,9 @@ export async function updateInfo(update?: Update) {
 		Object.assign(songdata, extraMetadata);
 
 	}
+
+	// adjust reportsPosition prop from update
+	songdata.reportsPosition = songdata.elapsed.howMuch > 0;
 
 	// we broadcast the changed status
 	await broadcastSongData(false); // false means metadata didn't change (we already notified that inside the if block)
@@ -204,10 +206,7 @@ export function deletePositionCallback(cb: (position: Position, reportsPosition:
 export async function pollPosition() {
 	if (songdata.status === "Playing"){
 		songdata.elapsed = await (await getPlayer()).GetPosition();
-		if(songdata.elapsed.howMuch > 0)
-			songdata.reportsPosition = true;
-		else
-			songdata.reportsPosition = false;
+		songdata.reportsPosition = songdata.elapsed.howMuch > 0;
 	}
 
 	// calls
