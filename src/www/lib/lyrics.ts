@@ -1,4 +1,4 @@
-import lang from "./lang.js";
+import lang from "./lang/index.js";
 import songdata from "./songdata.js";
 import config from "./config.js";
 

@@ -50,7 +50,7 @@ export type Language = {
 export type LanguageData = { [x: string]: Language }
 
 export type Config = {
-	language?: string,
+	language: string,
 	useElectron: boolean,
 	useWebserver: boolean,
 	debugMode: boolean,
