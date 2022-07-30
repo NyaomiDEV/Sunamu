@@ -98,14 +98,29 @@ flatpak:
     - "--share=ipc"
     # OpenGL
     - "--device=dri"
-    # Audio output
-    - "--socket=pulseaudio"
     # Directory access
-    - "--filesystem=xdg-config/sunamu:create"
+    # Discord IPC
+    - "--filesystem=xdg-run/discord-ipc-0"
+    - "--filesystem=xdg-run/discord-ipc-1"
+    - "--filesystem=xdg-run/discord-ipc-2"
+    - "--filesystem=xdg-run/discord-ipc-3"
+    - "--filesystem=xdg-run/discord-ipc-4"
+    - "--filesystem=xdg-run/discord-ipc-5"
+    - "--filesystem=xdg-run/discord-ipc-6"
+    - "--filesystem=xdg-run/discord-ipc-7"
+    - "--filesystem=xdg-run/discord-ipc-8"
+    - "--filesystem=xdg-run/discord-ipc-9"
     # Cover art locations for Clementine, Strawberry, etc.
     - "--filesystem=/tmp:ro"
     # Cover art locations for VLC media player, Lollypop, etc.
     - "--filesystem=xdg-cache:ro"
+    # Cover art locations for Clementine, Strawberry, etc. on Flatpak
+    - "--filesystem=xdg-run/app:ro"
+    # Cover art locations for GNOME Music on Flatpak, and possibly more
+    - "--filesystem=~/.var/app:ro"
+    # Restore RW for sunamu's Flatpak folders
+    - "--filesystem=xdg-run/app/xyz.nyaomi.sunamu"
+    - "--filesystem=~/.var/app/xyz.nyaomi.sunamu"
     # Allow communication with network
     - "--share=network"
     # Talk to media players
