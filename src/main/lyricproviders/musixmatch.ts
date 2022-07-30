@@ -7,18 +7,21 @@ import { getOSLocale } from "../util";
 
 async function queryMusixmatch(method: string, params?: any, shouldUseToken = true): Promise<any | undefined> {
 
-	// Get a token from the usual places
-	const token = getConfig("mxmusertoken") || await getToken() || undefined;
-	
-	// If we still haven't got one, then exit if we're not actually requesting that the call has no token attached
-	if (!token && shouldUseToken) {
-		console.error("No Musixmatch user token found");
-		return undefined;
-	}
+	let token;
+	if (shouldUseToken){
+		// Get a token from the usual place
+		token = getConfig("mxmusertoken") || await getToken() || undefined;
 
-	// If we don't have one in the config and we now have one, then set whatever we have in it 
-	if(!getConfig("mxmusertoken") && token)
-		setConfig("mxmusertoken", token);
+		// If we still haven't got one, then exit if we're not actually requesting that the call has no token attached
+		if(!token){
+			console.error("No Musixmatch user token found");
+			return undefined;
+		}
+
+		// If we don't have one in the config and we now have one, then set whatever we have in it 
+		if (!getConfig("mxmusertoken") && token)
+			setConfig("mxmusertoken", token);
+	}
 
 	const url = "https://apic-desktop.musixmatch.com/ws/1.1/";
 
