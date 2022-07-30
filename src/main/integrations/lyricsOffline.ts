@@ -54,36 +54,45 @@ export async function remove(id: string): Promise<boolean>{
 }
 
 async function convertUncompressed(): Promise<void>{
-	const lyrics = await readdir(lyrPath);
-	for(const file of lyrics){
-		if(extname(file) === ".gz") continue;
+	try{
+		const lyrics = await readdir(lyrPath);
+		for (const file of lyrics) {
+			if (extname(file) === ".gz") continue;
 
-		const path = resolve(lyrPath, file);
-		await writeFile(path + ".gz", await gzipCompress(await readFile(path)));
-		await rm(path);
+			const path = resolve(lyrPath, file);
+			await writeFile(path + ".gz", await gzipCompress(await readFile(path)));
+			await rm(path);
+		}
+	} catch(_){
+		debug("Cannot convert uncompressed lyrics; probably the cache path does not exist.");
 	}
 }
 
-async function statCachePath(): Promise<Map<string, Stats>>{
-	const lyrics = await readdir(lyrPath);
-	const stats = new Map<string, Stats>();
+async function statCachePath(): Promise<Map<string, Stats> | undefined>{
+	try{
+		const lyrics = await readdir(lyrPath);
+		const stats = new Map<string, Stats>();
 
-	stats[Symbol.iterator] = function* statsIterator() {
-		yield* [...this.entries()].sort((a, b) => a[1].atimeMs - b[1].atimeMs);
-	};
+		stats[Symbol.iterator] = function* statsIterator() {
+			yield* [...this.entries()].sort((a, b) => a[1].atimeMs - b[1].atimeMs);
+		};
 
-	for (const file of lyrics) {
-		const path = resolve(lyrPath, file);
-		stats.set(file, await stat(path));
+		for (const file of lyrics) {
+			const path = resolve(lyrPath, file);
+			stats.set(file, await stat(path));
+		}
+
+		return stats;
+	}catch(_){
+		debug("Cannot stat lyrics cache path; probably it does not exist.");
+		return undefined;
 	}
-
-	return stats;
 }
 
 async function trimPathTo(targetSize: number): Promise<any> {
 	debug("Target lyrics cache size in bytes:", targetSize);
 
-	const currentStats = [...await statCachePath()];
+	const currentStats = [...await statCachePath() || []];
 	const cacheSize = currentStats.map(x => x[1].size).reduce((_prev, _cur) => _prev + _cur, 0);
 
 	let filesRemoved = 0;
@@ -109,6 +118,10 @@ export async function manageLyricsCache(){
 	await convertUncompressed(); // just to be sure
 
 	const cacheStats = await statCachePath();
+
+	if(!cacheStats)
+		return;
+
 	debug("Total cached lyrics:", cacheStats.size);
 
 	const cacheSize = [...cacheStats].map(x => x[1].size).reduce((_prev, _cur) => _prev + _cur, 0);
