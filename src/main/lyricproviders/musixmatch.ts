@@ -3,13 +3,12 @@ import type { Lyrics, Metadata } from "../../types";
 import { URLSearchParams } from "url";
 import axios, { AxiosResponse } from "axios";
 import { get as getConfig, set as setConfig } from "../config";
-import { searchForUserToken } from "../integrations/mxmusertoken";
 import { getOSLocale } from "../util";
 
 async function queryMusixmatch(method: string, params?: any, shouldUseToken = true): Promise<any | undefined> {
 
 	// Get a token from the usual places
-	const token = getConfig("mxmusertoken") || await searchForUserToken() || await getToken() || undefined;
+	const token = getConfig("mxmusertoken") || await getToken() || undefined;
 	
 	// If we still haven't got one, then exit if we're not actually requesting that the call has no token attached
 	if (!token && shouldUseToken) {
