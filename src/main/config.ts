@@ -61,7 +61,11 @@ export function save(backup: boolean = true, configToSave = config) {
 			now.getSeconds().toString().padStart(2, "0");
 		copyFileSync(configPath, configPath + ".backup-" + date);
 	}
-	writeFileSync(configPath, patch(readFileSync(configPath, "utf8"), configToSave));
+	try{
+		writeFileSync(configPath, patch(readFileSync(configPath, "utf8"), configToSave));
+	}catch(_){
+		writeFileSync(configPath, patch(readFileSync(defaultConfigPath, "utf8"), configToSave));
+	}
 }
 
 export function consolidateToDefaultConfig(){
