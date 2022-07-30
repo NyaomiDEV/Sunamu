@@ -42,7 +42,7 @@ Get the latest release from the [Releases](https://github.com/NyaomiDEV/Sunamu/r
 
 On Windows, you can choose between the installer and the ZIP file (portable app).
 
-On Linux, the AppImage is recommended since it runs basically everywhere (but also RedHat, Debian and Arch packages are provided.)
+On Linux, the AppImage is recommended since it runs basically everywhere (but also Flatpak, Fedora/RedHat, Debian and Arch packages are provided.)
 
 ### Arch Linux
 
@@ -50,7 +50,12 @@ On Linux, the AppImage is recommended since it runs basically everywhere (but al
 
 ## Configuration
 
-Sunamu's configuration file is located in `~/.config/sunamu/config.json5`. You can use it to enable or disable features, and there are a LOT of them!
+Sunamu's configuration file is located in:
+- Linux: Usually `~/.config/sunamu/config.json5` (`$XDG_CONFIG_HOME/sunamu/config.json5`);
+- Linux Flatpak: `~/.var/app/xyz.nyaomi.sunamu/config/sunamu/config.json5`;
+- Windows: `%APPDATA%\sunamu\config.json5`.
+
+You can use it to enable or disable features, and there are a LOT of them!
 
 Do you want to give it a read? [Here it is!](assets/config.json5)
 
