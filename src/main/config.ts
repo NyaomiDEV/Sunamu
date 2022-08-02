@@ -12,16 +12,17 @@ let config: Config = getUserConfig();
 
 const configChangedCallbacks: Array<() => Promise<void>> = [];
 
-if (compareAndUpdate(defaultConfig, config))
+if (compare(config, defaultConfig, true))
 	save();
 
 watchFile(configPath, () => {
-	config = getUserConfig();
+	const _config = getUserConfig();
 
-	if (compareAndUpdate(defaultConfig, config))
-		save();
+	if (compare(config, _config, false)){
+		config = _config;
+		broadcastConfigChanged();
+	}
 
-	broadcastConfigChanged();
 });
 
 function getUserConfig() {
@@ -33,17 +34,18 @@ function getUserConfig() {
 	}
 }
 
-function compareAndUpdate(obj1: any, obj2: any): boolean {
+function compare(a: any, b: any, update: boolean = false): boolean {
 	let changed = false;
-	for (const key in obj1) {
-		if (typeof obj1[key] !== typeof obj2[key] || Array.isArray(obj1[key]) !== Array.isArray(obj2[key])) {
-			obj2[key] = obj1[key];
+	for (const key in b) {
+		if (typeof b[key] !== typeof a[key] || Array.isArray(b[key]) !== Array.isArray(a[key])) {
+			if(update)
+				a[key] = b[key];
 			changed = true;
 			continue;
 		}
 
-		if (typeof obj1[key] === "object" && !Array.isArray(obj1[key]))
-			changed = compareAndUpdate(obj1[key], obj2[key]) || changed;
+		if (typeof b[key] === "object" && !Array.isArray(b[key]))
+			changed = compare(a[key], b[key], update) || changed;
 	}
 
 	return changed;
@@ -72,15 +74,15 @@ export function consolidateToDefaultConfig(){
 	return writeFileSync(configPath, patch(readFileSync(defaultConfigPath, "utf8"), config));
 }
 
-export function get(name: string) {
-	return config[name] || undefined;
+export function get<T = any>(name: string): T {
+	return config[name];
 }
 
 export function getAll(): Config {
 	return Object.assign({}, config);
 }
 
-export function set(name: string, value: any){
+export function set<T = any>(name: string, value: T){
 	config[name] = value;
 	save(false);
 }

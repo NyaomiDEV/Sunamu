@@ -1,9 +1,9 @@
 import { songdata } from "../playbackStatus";
-import { getAll as config } from "../config";
+import { get as getConfig } from "../config";
 import { debug } from "../";
 import axios from "axios";
 import { URLSearchParams } from "url";
-import { SpotifyInfo } from "../../types";
+import { SpotifyConfig, SpotifyInfo } from "../../types";
 
 const root = "https://api.spotify.com/v1/";
 let authorization = {
@@ -13,7 +13,7 @@ let authorization = {
 };
 
 async function checkLogin(): Promise<boolean> {
-	if (!config().spotify.clientID || !config().spotify.clientSecret){
+	if (!getConfig<SpotifyConfig>("spotify").clientID || !getConfig<SpotifyConfig>("spotify").clientSecret){
 		debug("No Spotify app credentials in config file");
 		return false;
 	}
@@ -24,7 +24,7 @@ async function checkLogin(): Promise<boolean> {
 		const result = await axios({
 			url: "https://accounts.spotify.com/api/token",
 			headers: {
-				"Authorization": `Basic ${Buffer.from(`${config().spotify.clientID}:${config().spotify.clientSecret}`).toString("base64")}`,
+				"Authorization": `Basic ${Buffer.from(`${getConfig<SpotifyConfig>("spotify").clientID}:${getConfig<SpotifyConfig>("spotify").clientSecret}`).toString("base64")}`,
 				"Content-Type": "application/x-www-form-urlencoded"
 			},
 			method: "post",

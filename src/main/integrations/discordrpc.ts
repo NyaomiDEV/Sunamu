@@ -2,7 +2,7 @@ import RPC, { Client, Presence } from "discord-rpc";
 import { DiscordPresenceConfig } from "../../types";
 import { debug } from "../";
 import { checkFunctionality } from "../appStatus";
-import { get as getConfig } from "../config";
+import { addConfigChangedCallback, get as getConfig } from "../config";
 import { songdata } from "../playbackStatus";
 import { secondsToTime } from "../util";
 
@@ -10,10 +10,14 @@ const clientId = "908012408008736779";
 let rpc: Client | undefined;
 let loginPromise: Promise<unknown> | undefined;
 
-const config: DiscordPresenceConfig = getPresenceConfig();
+let config: DiscordPresenceConfig = getPresenceConfig();
+
+addConfigChangedCallback(async () => {
+	config = getPresenceConfig();
+});
 
 function getPresenceConfig() {
-	const settings: DiscordPresenceConfig = Object.assign({}, getConfig("discordRpc"));
+	const settings: DiscordPresenceConfig = Object.assign({}, getConfig<DiscordPresenceConfig>("discordRpc"));
 	settings.enabled = checkFunctionality(settings.enabled, "discord-rpc");
 	return settings;
 }
