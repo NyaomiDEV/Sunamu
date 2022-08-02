@@ -51,19 +51,19 @@ html.idle #artist {
 	opacity: 0.7;
 }
 
-#scrobbles {
+#play-count-info {
 	font-weight: 500;
 	font-size: 24px;
 	opacity: 0.5;
 }
 
 html.idle #album,
-html.idle #scrobbles {
+html.idle #play-count-info {
 	font-size: 0;
 	opacity: 0;
 }
 
-html.no-show-scrobbles #scrobbles {
+html.no-show-play-count-info #play-count-info {
 	display: none;
 }
 
@@ -97,7 +97,7 @@ html.widget-mode #metadata > * {
 		font-size: 24px;
 	}
 
-	#scrobbles {
+	#play-count-info {
 		font-size: 16px;
 	}
 
@@ -132,7 +132,7 @@ html.widget-mode #metadata > * {
 		font-size: 16px;
 	}
 
-	#scrobbles {
+	#play-count-info {
 		font-size: 12px;
 	}
 

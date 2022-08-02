@@ -40,18 +40,22 @@ export function updateNowPlaying() {
 		document.getElementById("album")!.textContent = "";
 	}
 
-	// SCROBBLES
-	const scrobbles = document.getElementById("scrobbles")!;
-	if (songdata.lastfm?.userplaycount) {
-		scrobbles.textContent = lang.SCROBBLE_COUNT.replace("%COUNT%", songdata.lastfm?.userplaycount);
-		scrobbles.style.display = "";
-	} else if (songdata.metadata.count) {
-		scrobbles.textContent = lang.SCROBBLE_COUNT.replace("%COUNT%", songdata.metadata.count.toString());
-		scrobbles.style.display = "";
-	} else {
-		scrobbles.textContent = "";
-		scrobbles.style.display = "none";
-	}
+	// PLAY COUNT INFO
+	const playCountInfo = document.getElementById("play-count-info")!;
+	let _playCountInfoArray: string[] = [];
+
+	if (songdata.metadata.count)
+		_playCountInfoArray.push(lang.PLAY_COUNT.replace("%COUNT%", songdata.metadata.count.toString()));
+
+	if (songdata.lastfm?.userplaycount)
+		_playCountInfoArray.push(lang.SCROBBLE_COUNT.replace("%COUNT%", songdata.lastfm?.userplaycount));
+
+	playCountInfo.textContent = _playCountInfoArray.join(" • ");
+
+	if(playCountInfo.textContent.length)
+		playCountInfo.style.display = "";
+	else
+		playCountInfo.style.display = "none";
 
 	// PLAYING INDICATOR
 	if (songdata.app){

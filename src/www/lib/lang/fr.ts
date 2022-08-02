@@ -4,7 +4,8 @@ export default {
 	NOT_PLAYING: "Aucune musique en cours de lecture",
 	PLEASE_PLAY_SONG: "Mettez quelque chose !",
 	PLAYING_ON_APP: "Lecture sur",
-	SCROBBLE_COUNT: "Scrobblé %COUNT% fois",
+	PLAY_COUNT: "Lecturé %COUNT% fois", // Please translate me properly
+	SCROBBLE_COUNT: "%COUNT% scrobbles", // If there's a localized version, use it (Scrobbles as in Last.FM)
 	LOADING_LYRICS: "Chargement des paroles", // Google translated, please review
 	NO_LYRICS: "Paroles non disponibles",
 	NOW_PLAYING_TITLE: "\"%TITLE%\" de %ARTIST%",

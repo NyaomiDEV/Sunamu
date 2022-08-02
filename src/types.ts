@@ -38,6 +38,7 @@ export type Language = {
 	NOT_PLAYING: string
 	PLEASE_PLAY_SONG: string
 	PLAYING_ON_APP: string
+	PLAY_COUNT: string
 	SCROBBLE_COUNT: string
 	LOADING_LYRICS: string
 	NO_LYRICS: string
@@ -98,7 +99,7 @@ export type SceneConfig = {
 	showControls?: boolean,
 	showExtraButtons?: boolean,
 	showProgress?: boolean,
-	showScrobbles?: boolean,
+	showPlayCountInfo?: boolean,
 	showLyrics?: boolean,
 	lyricsBlur?: boolean,
 	clickableLyrics?: boolean,

@@ -68,8 +68,8 @@ if(sceneName && config.scenes[sceneName]){
 		document.documentElement.classList.add("static"); // force it to be true
 	}
 
-	if (typeof scene.showScrobbles !== "undefined" && !scene.showScrobbles)
-		document.documentElement.classList.add("no-show-scrobbles");
+	if (typeof scene.showPlayCountInfo !== "undefined" && !scene.showPlayCountInfo)
+		document.documentElement.classList.add("no-show-play-count-info");
 
 	if (typeof scene.showProgress !== "undefined" && !scene.showProgress)
 		document.documentElement.classList.add("no-progress");

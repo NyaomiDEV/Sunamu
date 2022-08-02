@@ -103,7 +103,7 @@
 			showProgress: true,
 			// Whether or not to show the played count under the track title.
 			// It only affects the collapsed media control panel.
-			showScrobbles: true,
+			showPlayCountInfo: true,
 			// Whether or not to show lyrics.
 			// If this is set to false, then "static" is forced to be true.
 			showLyrics: true,
@@ -132,7 +132,7 @@
 			static: true,
 			showControls: false,
 			showProgress: false,
-			showScrobbles: false,
+			showPlayCountInfo: false,
 			showLyrics: false,
 			colors: false
 		}
