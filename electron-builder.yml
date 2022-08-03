@@ -32,8 +32,12 @@ asar: true
 asarUnpack:
   - "./node_modules/sharp/vendor/**/*"
   - "./node_modules/sharp/build/**/*"
-  - "./node_modules/abstract-socket/build/**/*"
   - "./node_modules/register-scheme/build/**/*"
+  # Linux specific
+  - "./node_modules/abstract-socket/build/**/*"
+  # Windows specific
+  - "./node_modules/windowtoolbox/build/**/*"
+  - "./node_modules/winplayer-node/build/**/*"
 linux:
   target:
     - flatpak
