@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
 import { addConfigChangedCallback, deleteConfigChangedCallback, getAll as getAllConfig } from "./config";
-import { widgetModeElectron, debugMode, waylandOzone } from "./appStatus";
+import { widgetModeElectron, debugMode } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
 import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
 import { getThemeLocation } from "./themes";
@@ -12,14 +12,6 @@ let player: Player;
 
 // Enable GPU rasterization so it's smooth asf
 app.commandLine.appendSwitch("enable-gpu-rasterization");
-
-if (process.platform === "linux") {
-	if (process.env.WAYLAND_DISPLAY && process.env.XDG_SESSION_TYPE === "wayland" && waylandOzone) {
-		// We are in a Wayland session, most probably
-		app.commandLine.appendSwitch("enable-features", "UseOzonePlatform");
-		app.commandLine.appendSwitch("ozone-platform", "wayland");
-	}
-}
 
 function getIcon() {
 	let icoName = "512x512.png";

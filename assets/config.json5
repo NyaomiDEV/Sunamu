@@ -10,8 +10,6 @@
 	webserverPort: 3000,
 	// Do you want to run Sunamu in debug mode?
 	debugMode: false,
-	// Do you want to use the Ozone Wayland Platform? (Linux only)
-	waylandOzone: true,
 	// How often to poll for track position? (in seconds)
 	positionPollInterval: 1,
 	// How often to update the track position internally? (in seconds)

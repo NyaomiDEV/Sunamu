@@ -55,7 +55,6 @@ export type Config = {
 	useElectron: boolean,
 	useWebserver: boolean,
 	debugMode: boolean,
-	waylandOzone: boolean,
 	positionPollInterval: number,
 	positionUpdateInterval: number,
 	karaoke: boolean,
