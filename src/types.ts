@@ -95,6 +95,7 @@ export type SceneConfig = {
 	nonInteractive?: boolean,
 	static?: boolean,
 	forceIdle?: boolean,
+	showInfoContainer?: boolean,
 	showAlbumArt?: boolean,
 	showControls?: boolean,
 	showExtraButtons?: boolean,

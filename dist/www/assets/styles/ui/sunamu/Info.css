@@ -10,6 +10,10 @@ html.idle .info-container {
 	margin: 0;
 }
 
+html.no-info-container .info-container {
+	display: none;
+}
+
 /* iPad */
 @media only screen and (max-width: 1024px) {
 	.info-container {

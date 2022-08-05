@@ -51,6 +51,9 @@ if(sceneName && config.scenes[sceneName]){
 	if (typeof scene.bgAnimation !== "undefined" && !scene.bgAnimation)
 		document.documentElement.classList.add("no-bg-animation");
 
+	if (typeof scene.showInfoContainer !== "undefined" && !scene.showInfoContainer)
+		document.documentElement.classList.add("no-info-container");
+
 	if (typeof scene.showAlbumArt !== "undefined" && !scene.showAlbumArt)
 		document.documentElement.classList.add("no-album-art");
 

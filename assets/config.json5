@@ -91,6 +91,8 @@
 			// BUT the mouse pointer will remain on display!
 			// If you set both to true, forceIdle will win.
 			forceIdle: false,
+			// Whether or not the info container (album art and metadata) should be displayed.
+			showInfoContainer: true,
 			// Whether or not the album art should be displayed.
 			showAlbumArt: true,
 			// Whether or not ALL the controls (play / pause / next / previous etc. PLUS lastfm / spotify buttons) should be displayed.
