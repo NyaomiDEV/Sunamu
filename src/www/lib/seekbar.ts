@@ -60,7 +60,7 @@ export function updateSeekbarTime(elapsed: number) {
 	else
 		document.documentElement.classList.add("not-reporting-position");
 
-	const seekbarPercent = elapsed / songdata.metadata.length * 100;
+	const seekbarPercent = Math.max(0, Math.min(100, elapsed / songdata.metadata.length * 100));
 	if (!seekbarFg.classList.contains("dragging")){
 		seekbarFg!.style.width = `${seekbarPercent}%`;
 		seekbarBall!.style.left = `${seekbarPercent}%`;
