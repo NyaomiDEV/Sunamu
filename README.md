@@ -38,6 +38,8 @@ It only supports Windows and Linux for now. macOS support is not planned. Pull r
 
 ### Windows / Linux
 
+#### NOTE: Windows builds are provided but they are highly experimental and reported issues will not be fixed unless they also happen for the same reason on Linux. When reporting any issues you have to state that you are on Windows, since Sunamu works differently there and I am not able to support your platform of choice in official capacity.
+
 Get the latest release from the [Releases](https://github.com/NyaomiDEV/Sunamu/releases/latest) section.
 
 On Windows, you can choose between the installer and the ZIP file (portable app).
