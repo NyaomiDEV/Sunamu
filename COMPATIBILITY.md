@@ -28,6 +28,7 @@
 |Plasma Browser Integration|Working|It all depends on the website, really|
 |Lollypop|Detected|It doesn't implement the `PropertiesChanged` signal|
 |Amarok|Detected|Seems to not report the song information; Reported by @KorbsStudio|
+|Amberol|Detected|Non-compliant MPRIS2 implementation. Sunamu cannot support players not reporting `mpris:trackId`|
 
 ## On Windows (GlobalSystemMediaTransportControlsSession -> WinPlayer backend)
 
