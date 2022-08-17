@@ -184,7 +184,7 @@ function updateTime(elapsed: number) {
 		timeTotal.textContent = "00:00";
 
 	if(elapsed)
-		timeElapsed.textContent = secondsToTime(elapsed);
+		timeElapsed.textContent = secondsToTime(Math.min(elapsed, songdata.metadata.length));
 	else
 		timeElapsed.textContent = "00:00";
 }
