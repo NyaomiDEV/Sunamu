@@ -29,6 +29,7 @@
 |Lollypop|Detected|It doesn't implement the `PropertiesChanged` signal|
 |Amarok|Detected|Seems to not report the song information; Reported by @KorbsStudio|
 |Amberol|Detected|Non-compliant MPRIS2 implementation. Sunamu cannot support players not reporting `mpris:trackId`|
+|tidal-hifi|Not working||
 
 ## On Windows (GlobalSystemMediaTransportControlsSession -> WinPlayer backend)
 
