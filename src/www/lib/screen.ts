@@ -32,6 +32,7 @@ if(sceneName && config.scenes[sceneName]){
 	if (scene.static) document.documentElement.classList.add("static");
 	if (scene.colorblock) document.documentElement.classList.add("colorblock");
 	if (scene.defaultColorsAreInverted) document.documentElement.classList.add("inverted-default-colors");
+	if (scene.hideWhenNotPlaying) document.documentElement.classList.add("hide-when-not-playing");
 
 	if (scene.forceIdle) {
 		document.documentElement.classList.add("idle");

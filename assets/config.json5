@@ -1,7 +1,7 @@
 {
 	// Set Sunamu's language. If empty, it will detect the system language and use that.
 	// Currently supported languages: en, it, de, fr, nl, es, zh-tw, zh-cn
-	language: "en",
+	language: "",
 	// Would you want to use Electron to display Sunamu as a stand alone application?
 	useElectron: true,
 	// Would you like to spawn a local web server that makes Sunamu accessible through web browsers on your network?
@@ -74,6 +74,10 @@
 			// No window controls, no "Playing on <player>", just controls and lyrics over transparent background.
 			// NOTE: Custom themes can modify the behaviour of the widget mode or not support it at all.
 			widgetMode: true,
+			// Whether or not Sunamu should forcefully hide itself the moment nothing is playing.
+			// Note that this will FORCEFULLY hide Sunamu when nothing is playing, so only use it
+			// for non-interactive widgets / displays!
+			hideWhenNotPlaying: false,
 			// Whether or not to show the playing indicator at the top right (or top center) of the screen.
 			// Note that this is disabled by default if you're using the widget mode and it cannot be turned on separately.
 			showPlayingIndicator: true,
@@ -128,6 +132,7 @@
 		"obs-studio": {
 			type: "default",
 			widgetMode: true,
+			hideWhenNotPlaying: true,
 			nonInteractive: true,
 			static: true,
 			showControls: false,

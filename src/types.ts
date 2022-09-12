@@ -89,6 +89,7 @@ export type SceneConfig = {
 	colorblock?: boolean,
 	bgAnimation?: boolean,
 	widgetMode?: boolean,
+	hideWhenNotPlaying?: boolean,
 	showPlayingIndicator?: boolean,
 	playerIcon?: boolean,
 	nonInteractive?: boolean,

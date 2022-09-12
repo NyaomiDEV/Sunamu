@@ -29,7 +29,8 @@ html.widget-mode body {
 	transition: ease .2s filter;
 }
 
-html.widget-mode.not-playing.idle body {
+html.widget-mode.not-playing.idle body,
+html.widget-mode.not-playing.hide-when-not-playing body {
 	filter: opacity(0);
 }
 
