@@ -64,6 +64,7 @@ export type Config = {
 	mxmusertoken: string,
 	spotify: SpotifyConfig,
 	discordRpc: DiscordPresenceConfig,
+	lyrics_provider: LyricsProviderConfig,
 	targetLyricsCacheSize?: string,
 	scenes: {
 		[sceneName: string]: SceneConfig
@@ -73,6 +74,13 @@ export type Config = {
 export type SpotifyConfig = {
 	clientID: string,
 	clientSecret: string
+}
+
+export type LyricsProviderConfig = {
+	genius:boolean,
+	musixmatch:boolean,
+	netease:boolean,
+	metadata:boolean
 }
 
 export type DiscordPresenceConfig = {
