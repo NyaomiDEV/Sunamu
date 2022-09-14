@@ -26,6 +26,8 @@
 	// Specify your Musixmatch User Token.
 	// Sunamu will automatically generate it if you don't have your own.
 	mxmusertoken: "",
+	// Specifically change the lyrics provider.
+	// Can be useful if you are having issue with speicific lyrics providers. (consistently providing unreliable lyrics or other reasons)
 	lyrics_provider: {
 		genius:true,
 		musixmatch:true,
