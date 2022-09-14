@@ -23,7 +23,7 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 		if (!cached) debug(`Cache miss for ${metadata.artist} - ${metadata.title}`);
 		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${metadata.artist} - ${metadata.title}`);
 
-		let providers ={}
+		let providers ={};
 		if(Config.lyrics_provider.musixmatch){ 
 			Object.assign(providers, Musixmatch)
 		}
