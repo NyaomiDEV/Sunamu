@@ -26,6 +26,12 @@
 	// Specify your Musixmatch User Token.
 	// Sunamu will automatically generate it if you don't have your own.
 	mxmusertoken: "",
+	lyrics_provider: {
+		genius:true,
+		musixmatch:true,
+		netease:true,
+		metadata:true
+	},
 	// Specify the target lyrics cache folder size.
 	// Less frequently shown lyrics will be purged to maintain the cache folder inside the target size.
 	// Note that the operation only occurs once when Sunamu starts up, so it is possible for the cache folder to grow up in size
