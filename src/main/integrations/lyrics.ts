@@ -24,18 +24,18 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 
 		const Config = get_config();
 		let providers: any = {};
-		if(Config.lyricsProvider.musixmatch)
+		if(Config.lyricsProvider.Musixmatch)
 			providers.Musixmatch = Musixmatch;
 
-		if(Config.lyricsProvider.netease) 
+		if(Config.lyricsProvider.NetEase) 
 			providers.NetEase = NetEase;
 
 		// if cached then we could assume it is unsync
 		if (!cached) {
-			if(Config.lyricsProvider.genius)
+			if(Config.lyricsProvider.Genius)
 				providers.Genius = Genius;
 
-			if(Config.lyricsProvider.metadata)
+			if(Config.lyricsProvider.Metadata)
 				providers.Metadata = MetadataQuery;
 		}
 
