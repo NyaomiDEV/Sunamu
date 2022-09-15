@@ -4,11 +4,18 @@ import { get as getLyrics, save as saveLyrics } from "./lyricsOffline";
 import { query as Musixmatch } from "../lyricproviders/musixmatch";
 import { query as NetEase } from "../lyricproviders/netease";
 import { query as Genius } from "../lyricproviders/genius";
-import { query as MetadataQuery } from "../lyricproviders/metadata";
-import type { Lyrics, Metadata } from "../../types";
+import { query as Metadata } from "../lyricproviders/metadata";
+import type { Lyrics, Metadata as MetadataType } from "../../types";
 import { getAll as getConfig } from "../config";
 
-export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promise<Lyrics | undefined> {
+const providerList = {
+	Musixmatch,
+	NetEase,
+	Genius,
+	Metadata
+};
+
+export async function queryLyrics(metadata: MetadataType, spotifyId?: string): Promise<Lyrics | undefined> {
 	if (!metadata.artist || !metadata.title) // there can't be lyrics without at least those two fields
 		return { unavailable: true };
 	
@@ -22,26 +29,19 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 		if (!cached) debug(`Cache miss for ${metadata.artist} - ${metadata.title}`);
 		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${metadata.artist} - ${metadata.title}`);
 
-		const Config = getConfig();
-		let providers: any = {};
-		if(Config.lyricsProvider.Musixmatch)
-			providers.Musixmatch = Musixmatch;
+		const configProviders = getConfig().lyricsProviders;
 
-		if(Config.lyricsProvider.NetEase) 
-			providers.NetEase = NetEase;
+		for (const provider in configProviders) {
+			// if it's disabled just skip it
+			if(!configProviders[provider])
+				continue;
 
-		// if cached then we could assume it is unsync
-		if (!cached) {
-			if(Config.lyricsProvider.Genius)
-				providers.Genius = Genius;
+			// if cached then we could assume it is unsync
+			if(!cached && ["Genius", "Metadata"].includes(provider))
+				continue;
 
-			if(Config.lyricsProvider.Metadata)
-				providers.Metadata = MetadataQuery;
-		}
-
-		for (const provider in providers) {
 			debug("Fetching from " + provider);
-			const _lyrics = await providers[provider](metadata, spotifyId);
+			const _lyrics = await providerList[provider](metadata, spotifyId);
 			if (_lyrics?.lines.length){
 				lyrics = _lyrics;
 				break;
@@ -62,6 +62,6 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 	return lyrics || { unavailable: true };
 }
 
-function computeLyricsID(metadata: Metadata){
+function computeLyricsID(metadata: MetadataType){
 	return `${metadata.artist}:${metadata.album}:${metadata.title}`;
 }

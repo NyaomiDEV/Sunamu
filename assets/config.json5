@@ -48,9 +48,9 @@
 		blacklist: []
 	},
 	// Sunamu makes use of online and offline services to get lyrics.
-	// Their priority order is outlined here, top to bottom. You cannot modify the order.
+	// Their priority order is outlined here, top to bottom. You can also modify the order here.
 	// If you're having problems with some services, you can disable them here.
-	lyricsProvider: {
+	lyricsProviders: {
 		Musixmatch: true,
 		NetEase: true,
 		Genius: true,
