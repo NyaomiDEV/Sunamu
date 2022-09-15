@@ -23,21 +23,20 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 		if (!cached) debug(`Cache miss for ${metadata.artist} - ${metadata.title}`);
 		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${metadata.artist} - ${metadata.title}`);
 
-		let providers ={};
-		if(Config.lyrics_provider.musixmatch){ 
-			Object.assign(providers, Musixmatch)
-		}
-		if(Config.lyrics_provider.netease){ 
-			Object.assign(providers, NetEase)
-		}
+		let providers: any = {};
+		if(Config.lyricsProvider.musixmatch)
+			providers.Musixmatch = Musixmatch;
+
+		if(Config.lyricsProvider.netease) 
+			providers.NetEase = NetEase;
+
 		// if cached then we could assume it is unsync
 		if (!cached) {
-			if(Config.lyrics_provider.genius){ 
-				Object.assign(providers, Genius)
-			}
-			if(Config.lyrics_provider.metadata){ 
-				Object.assign(providers, MetadataQuery)
-			}
+			if(Config.lyricsProvider.genius)
+				providers.Genius = Genius;
+
+			if(Config.lyricsProvider.metadata)
+				providers.Metadata = MetadataQuery;
 		}
 
 		for (const provider in providers) {

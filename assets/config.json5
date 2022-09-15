@@ -28,11 +28,11 @@
 	mxmusertoken: "",
 	// Specifically change the lyrics provider.
 	// Can be useful if you are having issue with speicific lyrics providers. (consistently providing unreliable lyrics or other reasons)
-	lyrics_provider: {
-		genius:true,
-		musixmatch:true,
-		netease:true,
-		metadata:true
+	lyricsProvider: {
+		genius: true,
+		musixmatch: true,
+		netease: true,
+		metadata: true
 	},
 	// Specify the target lyrics cache folder size.
 	// Less frequently shown lyrics will be purged to maintain the cache folder inside the target size.
