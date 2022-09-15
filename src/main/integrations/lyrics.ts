@@ -6,7 +6,7 @@ import { query as NetEase } from "../lyricproviders/netease";
 import { query as Genius } from "../lyricproviders/genius";
 import { query as MetadataQuery } from "../lyricproviders/metadata";
 import type { Lyrics, Metadata } from "../../types";
-import {getAll as get_config} from "../config.js";
+import {getAll as get_config} from "../config";
 
 export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promise<Lyrics | undefined> {
 	if (!metadata.artist || !metadata.title) // there can't be lyrics without at least those two fields
