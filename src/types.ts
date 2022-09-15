@@ -77,10 +77,10 @@ export type SpotifyConfig = {
 }
 
 export type LyricsProviderConfig = {
-	genius: boolean,
-	musixmatch: boolean,
-	netease: boolean,
-	metadata: boolean
+	Musixmatch: boolean,
+	NetEase: boolean,
+	Genius: boolean,
+	Metadata: boolean
 }
 
 export type DiscordPresenceConfig = {
