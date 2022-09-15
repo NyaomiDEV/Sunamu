@@ -12,7 +12,6 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 	if (!metadata.artist || !metadata.title) // there can't be lyrics without at least those two fields
 		return { unavailable: true };
 	
-	const Config = get_config();
 	let lyrics: Lyrics | undefined;
 	const id = computeLyricsID(metadata);
 
@@ -23,6 +22,7 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 		if (!cached) debug(`Cache miss for ${metadata.artist} - ${metadata.title}`);
 		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${metadata.artist} - ${metadata.title}`);
 
+		const Config = get_config();
 		let providers: any = {};
 		if(Config.lyricsProvider.musixmatch)
 			providers.Musixmatch = Musixmatch;
