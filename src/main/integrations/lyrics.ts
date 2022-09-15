@@ -6,6 +6,7 @@ import { query as NetEase } from "../lyricproviders/netease";
 import { query as Genius } from "../lyricproviders/genius";
 import { query as MetadataQuery } from "../lyricproviders/metadata";
 import type { Lyrics, Metadata } from "../../types";
+import { getAll as getConfig } from "../config";
 
 export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promise<Lyrics | undefined> {
 	if (!metadata.artist || !metadata.title) // there can't be lyrics without at least those two fields
@@ -21,17 +22,21 @@ export async function queryLyrics(metadata: Metadata, spotifyId?: string): Promi
 		if (!cached) debug(`Cache miss for ${metadata.artist} - ${metadata.title}`);
 		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${metadata.artist} - ${metadata.title}`);
 
-		const providers = {
-			Musixmatch,
-			NetEase
-		};
+		const Config = getConfig();
+		let providers: any = {};
+		if(Config.lyricsProvider.Musixmatch)
+			providers.Musixmatch = Musixmatch;
+
+		if(Config.lyricsProvider.NetEase) 
+			providers.NetEase = NetEase;
 
 		// if cached then we could assume it is unsync
 		if (!cached) {
-			Object.assign(providers, {
-				Genius,
-				MetadataQuery
-			});
+			if(Config.lyricsProvider.Genius)
+				providers.Genius = Genius;
+
+			if(Config.lyricsProvider.Metadata)
+				providers.Metadata = MetadataQuery;
 		}
 
 		for (const provider in providers) {

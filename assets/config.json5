@@ -47,6 +47,15 @@
 		// Blacklist some apps (such as your browser) from ever showing in the Rich Presence.
 		blacklist: []
 	},
+	// Sunamu makes use of online and offline services to get lyrics.
+	// Their priority order is outlined here, top to bottom. You cannot modify the order.
+	// If you're having problems with some services, you can disable them here.
+	lyricsProvider: {
+		Musixmatch: true,
+		NetEase: true,
+		Genius: true,
+		Metadata: true
+	},
 	scenes: {
 		// The following is just an example! Leave it as is.
 		_example: {
