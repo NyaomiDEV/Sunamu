@@ -26,13 +26,6 @@
 	// Specify your Musixmatch User Token.
 	// Sunamu will automatically generate it if you don't have your own.
 	mxmusertoken: "",
-	// Are you not liking lyrics from a specific source? You can disable it here.
-	lyricsProvider: {
-		genius: true,
-		musixmatch: true,
-		netease: true,
-		metadata: true
-	},
 	// Specify the target lyrics cache folder size.
 	// Less frequently shown lyrics will be purged to maintain the cache folder inside the target size.
 	// Note that the operation only occurs once when Sunamu starts up, so it is possible for the cache folder to grow up in size
@@ -53,6 +46,15 @@
 		enabled: true,
 		// Blacklist some apps (such as your browser) from ever showing in the Rich Presence.
 		blacklist: []
+	},
+	// Sunamu makes use of online and offline services to get lyrics.
+	// Their priority order is outlined here, top to bottom. You cannot modify the order.
+	// If you're having problems with some services, you can disable them here.
+	lyricsProvider: {
+		Musixmatch: true,
+		NetEase: true,
+		Genius: true,
+		Metadata: true
 	},
 	scenes: {
 		// The following is just an example! Leave it as is.
