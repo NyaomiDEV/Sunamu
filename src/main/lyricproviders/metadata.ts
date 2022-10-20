@@ -1,4 +1,5 @@
 import type { Lyrics, Metadata } from "../../types";
+import { parseLrc } from "./lrc";
 
 export async function query(metadata: Metadata): Promise<Lyrics | undefined> {
 	const reply: Lyrics = {
@@ -14,6 +15,12 @@ export async function query(metadata: Metadata): Promise<Lyrics | undefined> {
 		return undefined;
 	}
 
-	reply.lines = lyrics.split("\n").map(x => ({ text: x }));
+	const parsedLrc = parseLrc(lyrics).lines;
+	if(parsedLrc.length){
+		reply.synchronized = true;
+		reply.lines = parsedLrc;
+	} else
+		reply.lines = lyrics.split("\n").map(x => ({ text: x }));
+
 	return reply;
 }
