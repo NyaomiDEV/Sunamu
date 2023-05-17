@@ -171,105 +171,103 @@ html:not(.non-interactive) #lyrics.synchronized .line .word:hover::before {
 #lyrics.synchronized .line[distance="-1"],
 #lyrics.synchronized .line[distance="1"] {
 	opacity: 0.7;
+	filter: blur(2px);
 }
 
 #lyrics.synchronized .line[distance="-2"],
 #lyrics.synchronized .line[distance="2"] {
 	opacity: 0.56;
+	filter: blur(4px);
 }
 
 #lyrics.synchronized .line[distance="-3"],
 #lyrics.synchronized .line[distance="3"] {
 	opacity: 0.42;
-	filter: blur(2px);
+	filter: blur(8px);
 }
 
 #lyrics.synchronized .line[distance="-4"],
 #lyrics.synchronized .line[distance="4"] {
 	opacity: 0.27;
-	filter: blur(4px);
+	filter: blur(16px);
 }
 
 #lyrics.synchronized .line[distance="-5"],
 #lyrics.synchronized .line[distance="5"] {
 	opacity: 0.14;
-	filter: blur(8px);
+	filter: blur(32px);
 }
 
 #lyrics.synchronized .line[distance="-6"],
 #lyrics.synchronized .line[distance="6"] {
 	opacity: 0;
-	filter: blur(16px);
+	filter: blur(32px);
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-6"] {
 	transform: scale(0.75) translateY(-48px);
-	transition: .2s ease,
-				.8s ease transform;
+	transition: .2s ease;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-5"] {
 	transform: scale(0.75) translateY(-40px);
-	transition: .2s ease,
-				.7s ease transform;
+	transition: .2s ease;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-4"] {
 	transform: scale(0.75) translateY(-32px);
-	transition: .2s ease,
-				.6s ease transform;
+	transition: .2s ease;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-3"] {
 	transform: scale(0.75) translateY(-24px);
-	transition: .2s ease,
-				.5s ease transform;
+	transition: .2s ease;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-2"] {
 	transform: scale(0.75) translateY(-16px);
-	transition: .2s ease,
-				.4s ease transform;
+	transition: .2s ease;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-1"] {
 	transform: scale(0.75) translateY(-8px);
-	transition: .3s ease;
+	transition: .2s ease;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="1"] {
-	transform: scale(0.75) translateY(8px);
-	transition: .3s ease;
+	transform: scale(0.75) translateY(24px);
+	transition: .2s ease,
+				1s ease-out transform;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="2"] {
-	transform: scale(0.75) translateY(16px);
+	transform: scale(0.75) translateY(48px);
 	transition: .2s ease,
-				.4s ease transform;
+				1.2s ease-out transform;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="3"] {
-	transform: scale(0.75) translateY(24px);
+	transform: scale(0.75) translateY(96px);
 	transition: .2s ease,
-				.5s ease transform;
+				1.4s ease-out transform;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="4"] {
-	transform: scale(0.75) translateY(32px);
+	transform: scale(0.75) translateY(192px);
 	transition: .2s ease,
-				.6s ease transform;
+				1.6s ease-out transform;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="5"] {
-	transform: scale(0.75) translateY(40px);
+	transform: scale(0.75) translateY(384px);
 	transition: .2s ease,
-				.7s ease transform;
+				1.8s ease-out transform;
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="6"] {
-	transform: scale(0.75) translateY(48px);
+	transform: scale(0.75) translateY(768px);
 	transition: .2s ease,
-				.8s ease transform;
+				2s ease-out transform;
 }
 
 html.no-lyrics-blur #lyrics.synchronized .line[distance="-6"],
