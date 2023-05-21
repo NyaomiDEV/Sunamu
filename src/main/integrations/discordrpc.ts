@@ -1,4 +1,4 @@
-import RPC, { Client, Presence } from "discord-rpc";
+import { Client, SetActivity } from "@xhayper/discord-rpc";
 import { DiscordPresenceConfig } from "../../types";
 import { debug } from "../";
 import { checkFunctionality } from "../appStatus";
@@ -30,8 +30,11 @@ async function connect(){
 	let error: boolean, client: Client;
 
 	do {
-		client = new RPC.Client({
-			transport: "ipc"
+		client = new Client({
+			clientId,
+			transport: {
+				type: "ipc"
+			}
 		});
 
 		client.once("connected", () => {
@@ -47,7 +50,7 @@ async function connect(){
 		try{
 			error = false;
 			debug("Discord RPC logging in");
-			await client.connect(clientId);
+			await client.connect();
 		}catch(_e){
 			debug(_e);
 			error = true;
@@ -72,22 +75,18 @@ export async function updatePresence() {
 		await connect();
 
 	if(!presence) {
-		rpc.clearActivity();
+		rpc.user?.clearActivity();
 		return;
 	}
 
-	return rpc.setActivity(presence);
+	return rpc.user?.setActivity(presence);
 }
 
 async function getPresence() {
 	if (!songdata || !songdata.metadata.id || config.blacklist.includes(songdata.appName))
 		return;
 
-	const now = Date.now();
-	const start = Math.round(now - (songdata.elapsed.howMuch * 1000));
-	const end = Math.round(start + (songdata.metadata.length * 1000));
-
-	const activity: Presence = { // everything must be two characters long at least
+	const activity: SetActivity = { // everything must be two characters long at least
 		details: `"${songdata.metadata.title}"`,
 		state: `By ${songdata.metadata.artist}`,
 		largeImageKey: undefined,
@@ -98,7 +97,10 @@ async function getPresence() {
 		buttons: []
 	};
 
-	if (songdata.status === "Playing") {
+	if (songdata.status === "Playing" && songdata.elapsed.howMuch) {
+		const now = Date.now();
+		const start = Math.round(now - (songdata.elapsed.howMuch * 1000));
+		const end = Math.round(start + (songdata.metadata.length * 1000));
 		activity.startTimestamp = start;
 		activity.endTimestamp = end;
 	}
