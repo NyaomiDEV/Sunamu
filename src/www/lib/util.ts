@@ -83,7 +83,6 @@ export function animateScroll(element: HTMLElement, duration: number = 500) {
 		const target = begin * (1 - timed) + goal * timed;
 
 		if (elapsed >= 1 || parent!.matches(`${parent!.nodeName}:hover`) || status.invalidated) {
-			console.log(status);
 			parent!.style.scrollBehavior = "";
 			status.completed = true;
 			return;
