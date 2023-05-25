@@ -143,7 +143,7 @@ html:not(.non-interactive) #lyrics.synchronized .line .word:hover::before {
 }
 
 #lyrics.synchronized .line.active .word {
-	background-image: linear-gradient(90deg, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.6) 50%);
+	background-image: linear-gradient(90deg, var(--color-fg) 50%, color-mix(in srgb, var(--color-fg), transparent 40%) 50%);
 	background-position-x: 100%;
 	background-size: 200% 100%;
 	background-clip: text;
@@ -330,7 +330,7 @@ html.idle #lyrics-copyright {
 
 html.widget-mode #lyrics > *,
 html.widget-mode #lyrics-copyright {
-	text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .75));
 }
 
 html.no-show-lyrics #lyrics,
