@@ -116,6 +116,17 @@ flatpak:
     - "--filesystem=xdg-run/discord-ipc-7"
     - "--filesystem=xdg-run/discord-ipc-8"
     - "--filesystem=xdg-run/discord-ipc-9"
+    # Discord IPC but Flatpak
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-0"
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-1"
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-2"
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-3"
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-4"
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-5"
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-6"
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-7"
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-8"
+    - "--filesystem=xdg-run/app/com.discordapp.Discord/discord-ipc-9"
     # Cover art locations for Clementine, Strawberry, etc.
     - "--filesystem=/tmp:ro"
     # Cover art locations for VLC media player, Lollypop, etc.
