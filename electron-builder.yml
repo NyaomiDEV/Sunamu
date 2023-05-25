@@ -92,10 +92,11 @@ pacman:
 flatpak:
   license: "LICENSE"
   runtime: "org.freedesktop.Platform"
-  runtimeVersion: "21.08"
+  runtimeVersion: "22.08"
   sdk: "org.freedesktop.Sdk"
   base: "org.electronjs.Electron2.BaseApp"
-  baseVersion: "21.08"
+  baseVersion: "22.08"
+  branch: "master"
   useWaylandFlags: false # Configurable in Sunamu Config
   finishArgs:
     # Wayland/X11 Rendering
