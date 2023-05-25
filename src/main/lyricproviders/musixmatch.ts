@@ -106,6 +106,7 @@ export async function query(metadata: Metadata, spotifyId?: string): Promise<Lyr
 		reply.lines = JSON.parse(richsync.richsync_body).map(v => ({
 			text: v.x,
 			time: v.ts,
+			duration: v.te - v.ts,
 			karaoke: v.l.map(x => ({
 				text: x.c,
 				start: v.ts + x.o

@@ -189,6 +189,7 @@ export type LyricsLine = {
 	text: string,
 	translation?: string,
 	time?: number,
+	duration?: number,
 	karaoke?: LyricsKaraokeVerse[]
 }
 

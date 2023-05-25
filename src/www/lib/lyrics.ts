@@ -52,15 +52,29 @@ export function putLyricsInPlace() {
 	document.documentElement.classList.remove("no-lyrics");
 
 	// we are good with lyrics so we push them all
-	for (const line of songdata.lyrics.lines!) {
+	for (let lineIndex = 0; lineIndex < songdata.lyrics.lines!.length; lineIndex++) {
+		const line = songdata.lyrics.lines![lineIndex];
 		const elem = document.createElement("span");
 		elem.classList.add("line");
 
 		if (line.text.length) {
 			if (config.karaoke && line.karaoke?.length) {
-				for (const verse of line.karaoke) {
+				for (let verseIndex = 0; verseIndex < line.karaoke.length; verseIndex++) {
+					const verse = line.karaoke[verseIndex];
+
+					const duration = Math.max(
+						0.1,
+						(
+							line.karaoke[verseIndex + 1]?.start ||
+							(line.duration ? line.time! + line.duration! : undefined) ||
+							songdata.lyrics.lines![lineIndex + 1]?.time! ||
+							songdata.metadata.length
+						) - verse.start
+					);
+					
 					const span = document.createElement("span");
 					span.textContent = verse.text;
+					span.style.setProperty("--word-duration", `${duration}s`);
 
 					if (verse.text.trim().length) {
 						span.classList.add("word");

@@ -143,12 +143,17 @@ html:not(.non-interactive) #lyrics.synchronized .line .word:hover::before {
 }
 
 #lyrics.synchronized .line.active .word {
-	opacity: 0.6;
-	transition: ease .2s opacity;
+	background-image: linear-gradient(90deg, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.6) 50%);
+	background-position-x: 100%;
+	background-size: 200% 100%;
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
 }
 
 #lyrics.synchronized .line.active .word.active {
-	opacity: 1;
+	background-position-x: 0%;
+	transition: var(--word-duration) ease-out background-position-x;
 }
 
 #lyrics.synchronized .line.active.empty {
