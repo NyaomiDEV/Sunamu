@@ -6,11 +6,18 @@ import { addConfigChangedCallback, get as getConfig } from "../config";
 import { songdata } from "../playbackStatus";
 import { secondsToTime } from "../util";
 
-const clientId = "908012408008736779";
-let rpc: Client | undefined;
-let loginPromise: Promise<unknown> | undefined;
-
 let config: DiscordPresenceConfig = getPresenceConfig();
+
+const clientId = "908012408008736779";
+let rpc = new Client({clientId});
+
+rpc.on("connected", () => {
+	debug("Discord RPC is connected");
+});
+
+rpc.on("disconnected", async () => {
+	debug("Discord RPC was disconnected");
+});
 
 addConfigChangedCallback(async () => {
 	config = getPresenceConfig();
@@ -22,57 +29,40 @@ function getPresenceConfig() {
 	return settings;
 }
 
-async function connect(){
-	if(loginPromise) return loginPromise;
+const connect = (() => {
+	let isConnecting = false;
 
-	let _resolve;
-	loginPromise = new Promise(resolve => {_resolve = resolve;});
-	let error: boolean, client: Client;
+	async function _connect(){
+		if (rpc.isConnected) return;
+		if (isConnecting) return;
+		isConnecting = true;
 
-	do {
-		client = new Client({
-			clientId,
-			transport: {
-				type: "ipc"
-			}
-		});
-
-		client.once("connected", () => {
-			debug("Discord RPC is connected");
-		});
-
-		// @ts-ignore
-		client.once("disconnected", async () => {
-			debug("Discord RPC was disconnected");
-			rpc = undefined;
-		});
-
-		try{
+		let error: boolean;
+		do {
 			error = false;
-			debug("Discord RPC logging in");
-			await client.connect();
-		}catch(_e){
-			debug(_e);
-			error = true;
-			client.removeAllListeners();
-			await client.destroy().catch(() => {});
-			debug("Discord RPC errored out while logging in, waiting 5 seconds before retrying");
-			await new Promise(resolve => setTimeout(resolve, 5000));
-		}
-	}while(error);
+			try {
+				debug("Discord RPC logging in");
+				await rpc.connect();
+			} catch (_e) {
+				debug(_e);
+				error = true;
+				debug("Discord RPC errored out while logging in, waiting 5 seconds before retrying");
+				await new Promise(resolve => setTimeout(resolve, 5000));
+			}
+		} while (error);
+		isConnecting = false;
+	}
 
-	rpc = client;
-	_resolve();
-	loginPromise = undefined;
-}
+	return _connect;
+})();
 
 export async function updatePresence() {
 	if (!config.enabled) return;
 
 	const presence = await getPresence();
 
-	while (!rpc)
-		await connect();
+	await connect();
+	if (!rpc.isConnected) return; // failed
 
 	if(!presence) {
 		rpc.user?.clearActivity();
