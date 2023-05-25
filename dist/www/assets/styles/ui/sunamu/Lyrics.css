@@ -176,37 +176,37 @@ html:not(.non-interactive) #lyrics.synchronized .line .word:hover::before {
 #lyrics.synchronized .line[distance="-1"],
 #lyrics.synchronized .line[distance="1"] {
 	opacity: 0.7;
-	filter: blur(2px);
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .75)) blur(2px);
 }
 
 #lyrics.synchronized .line[distance="-2"],
 #lyrics.synchronized .line[distance="2"] {
 	opacity: 0.56;
-	filter: blur(4px);
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .75)) blur(4px);
 }
 
 #lyrics.synchronized .line[distance="-3"],
 #lyrics.synchronized .line[distance="3"] {
 	opacity: 0.42;
-	filter: blur(8px);
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .75)) blur(8px);
 }
 
 #lyrics.synchronized .line[distance="-4"],
 #lyrics.synchronized .line[distance="4"] {
 	opacity: 0.27;
-	filter: blur(16px);
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .75)) blur(16px);
 }
 
 #lyrics.synchronized .line[distance="-5"],
 #lyrics.synchronized .line[distance="5"] {
 	opacity: 0.14;
-	filter: blur(32px);
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .75)) blur(32px);
 }
 
 #lyrics.synchronized .line[distance="-6"],
 #lyrics.synchronized .line[distance="6"] {
 	opacity: 0;
-	filter: blur(32px);
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .75)) blur(32px);
 }
 
 html:not(.non-interactive) #lyrics.synchronized:not(:hover) .line[distance="-6"] {
@@ -287,7 +287,7 @@ html.no-lyrics-blur #lyrics.synchronized .line[distance="3"],
 html.no-lyrics-blur #lyrics.synchronized .line[distance="4"],
 html.no-lyrics-blur #lyrics.synchronized .line[distance="5"],
 html.no-lyrics-blur #lyrics.synchronized .line[distance="6"] {
-	filter: none;
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .75));
 }
 
 html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="-6"],
@@ -303,7 +303,7 @@ html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="4"],
 html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="5"],
 html:not(.non-interactive) #lyrics.synchronized:hover .line[distance="6"] {
 	opacity: 1;
-	filter: blur(0px);
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .75));
 }
 
 #lyrics-copyright {

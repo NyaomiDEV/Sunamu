@@ -52,3 +52,48 @@ export function debounce(callback: Function, time: number, leading: boolean = fa
 		}
 	});
 }
+
+export function animateScroll(element: HTMLElement, duration: number = 500) {
+	if(!element) return;
+
+	const parent = element.parentElement;
+	if(!parent) return;
+
+	let start: number;
+
+	const begin = parent.scrollTop;
+	const goal = ((element.offsetTop - parent.offsetTop) + (element.offsetHeight / 2)) - (parent.offsetHeight / 2);
+
+	const status = {
+		invalidated: false,
+		completed: false
+	};
+
+	function step(timestamp: number){
+		if (start === undefined){
+			start = timestamp;
+			parent!.style.scrollBehavior = "unset";
+		}
+
+		const elapsedTimestamp = timestamp - start;
+		const elapsed = Math.min(1, elapsedTimestamp / duration);
+		const easing = (t: number) => 1 + --t * t * t * t * t;
+		const timed = easing(elapsed);
+
+		const target = begin * (1 - timed) + goal * timed;
+
+		if (elapsed >= 1 || parent!.matches(`${parent!.nodeName}:hover`) || status.invalidated) {
+			console.log(status);
+			parent!.style.scrollBehavior = "";
+			status.completed = true;
+			return;
+		}
+
+		parent!.scrollTop = target;
+
+		window.requestAnimationFrame(step);
+	}
+
+	window.requestAnimationFrame(step);
+	return status;
+}

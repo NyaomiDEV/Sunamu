@@ -12,8 +12,6 @@ const documentRoot = document.querySelector(":root") as HTMLElement;
 const featRegex = / \[?\{?\(?(?:feat\.?|ft\.?|featuring) .+\)?\]?\]?/i;
 let artDataBlobUrl: string | undefined;
 
-let positionUpdateInterval;
-
 export function updateNowPlaying() {
 	// CHECK ID
 	if(songdata.metadata.id)
@@ -198,6 +196,10 @@ function positionUpdate(){
 	updateTime(elapsed);
 	updateSeekbarTime(elapsed);
 	updateActiveLyrics(elapsed);
+
+	// we schedule an interval for ourselves if conditions are met
+	if(songdata.status === "Playing")
+		setTimeout(positionUpdate, config.positionUpdateInterval * 1000);
 }
 
 function setDisabledClass(elem, condition) {
@@ -229,15 +231,8 @@ window.np.registerUpdateCallback((_songdata: SongData, metadataChanged: boolean)
 
 	updateNowPlaying();
 
-	if(songdata.status === "Playing"){
-		if(!positionUpdateInterval)
-			positionUpdateInterval = setInterval(positionUpdate, config.positionUpdateInterval * 1000);
-	}
-	else{
-		clearInterval(positionUpdateInterval);
-		positionUpdateInterval = undefined;
-	}
-
+	if (songdata.status === "Playing")
+		positionUpdate();
 });
 
 window.np.registerPositionCallback((position: Position, reportsPosition: boolean) => {

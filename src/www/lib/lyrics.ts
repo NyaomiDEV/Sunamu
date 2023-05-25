@@ -1,11 +1,12 @@
 import lang from "./lang/index.js";
 import songdata from "./songdata.js";
 import config from "./config.js";
+import { animateScroll } from "./util.js";
 
 const container = document.getElementById("lyrics")!;
 const copyright = document.getElementById("lyrics-copyright")!;
 
-let isContainerHovered;
+let isContainerHovered: boolean, animateStatus: { invalidated: boolean; completed: boolean; } | undefined;
 
 export function putLyricsInPlace() {
 	// remove all children of container
@@ -212,12 +213,14 @@ export function updateActiveLyrics(elapsed: number) {
 		}
 	}
 
-	// now we bring the active into view
+	// now we animate the active into view
 	if (!wasActiveBefore && !isContainerHovered) {
-		container.children[lineIndex]?.scrollIntoView({
-			block: "center",
-			behavior: "smooth"
-		});
+		// invalidate previous animation
+		if(animateStatus)
+			animateStatus.invalidated = true;
+
+		// call new animation
+		animateStatus = animateScroll(container.children[lineIndex] as HTMLElement);
 	}
 }
 
