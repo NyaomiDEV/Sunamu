@@ -1,5 +1,4 @@
-html.no-playing-indicator .playing-indicator,
-html.widget-mode .playing-indicator {
+html:is(.no-playing-indicator, .widget-mode) .playing-indicator {
 	display: none;
 }
 
@@ -18,8 +17,7 @@ html.no-player-icon #player-icon {
 	transition: ease .2s;
 }
 
-html.idle .playing-indicator,
-html.not-playing .playing-indicator {
+html:is(.idle, .not-playing) .playing-indicator {
 	opacity: 0;
 }
 

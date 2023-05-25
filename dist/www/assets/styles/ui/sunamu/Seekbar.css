@@ -1,6 +1,4 @@
-html.no-progress .seekbar-container,
-html.not-playing .seekbar-container,
-html.not-reporting-position .seekbar-container {
+html:is(.no-progress, .not-playing, .not-reporting-position) .seekbar-container {
 	display: none;
 }
 

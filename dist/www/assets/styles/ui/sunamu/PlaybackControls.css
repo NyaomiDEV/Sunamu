@@ -1,6 +1,4 @@
-html.no-controls #playback-controls,
-html.non-interactive #playback-controls,
-html.not-playing #playback-controls {
+html:is(.no-controls, .non-interactive, .not-playing) #playback-controls {
 	display: none;
 }
 
@@ -8,8 +6,7 @@ html.no-show-lyrics #lyrics-btn {
 	display: none;
 }
 
-html.no-extra-buttons #spotify,
-html.no-extra-buttons #lastfm {
+html.no-extra-buttons :is(#spotify, #lastfm) {
 	display: none;
 }
 

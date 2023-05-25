@@ -18,16 +18,12 @@
 	--color-bg: var(--color-dark-vibrant);
 }
 
-html.no-colors,
-html.no-palette,
-html.not-playing {
+html:is(.no-colors, .no-palette, .not-playing) {
 	--color-fg: white;
 	--color-bg: rgba(0, 0, 0, 0.5);
 }
 
-html.inverted-default-colors.no-colors,
-html.inverted-default-colors.no-palette,
-html.inverted-default-colors.not-playing {
+html.inverted-default-colors:is(.no-colors, .no-palette, .not-playing) {
 	--color-fg: black;
 	--color-bg: rgba(255, 255, 255, 0.5);
 }

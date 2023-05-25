@@ -57,8 +57,7 @@ html.idle #artist {
 	opacity: 0.5;
 }
 
-html.idle #album,
-html.idle #play-count-info {
+html.idle :is(#album, #play-count-info) {
 	font-size: 0;
 	opacity: 0;
 }
