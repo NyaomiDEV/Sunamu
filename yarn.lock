@@ -614,13 +614,13 @@
   dependencies:
     "@vibrant/types" "^3.2.1-alpha.1"
 
-"@xhayper/discord-rpc@^1.0.16":
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/@xhayper/discord-rpc/-/discord-rpc-1.0.16.tgz#6bc32f876640695f8dde4b88ec09f05be57865b1"
-  integrity sha512-/i/A8fbQJmfHYGnNswv0oxQyZ8rbSOobVGi5eHXzB1innXGPIwzAR0MokNSP00hr54Rjcd7i1SIQXXhgJH5/YA==
+"@xhayper/discord-rpc@^1.0.17":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@xhayper/discord-rpc/-/discord-rpc-1.0.17.tgz#11c6d242acda545d0bb8a02c1512b2824e1bdc99"
+  integrity sha512-4+dVxI7MHkrpnxZ2vVQz4aFq3frs/itdlN+NRHUpArbYi0p5osCcWZJyV894jidFXgjUTB8tWakDlTRfQHKa6Q==
   dependencies:
-    axios "^1.3.5"
-    discord-api-types "^0.37.37"
+    axios "^1.4.0"
+    discord-api-types "^0.37.42"
     ws "^8.13.0"
 
 abab@^2.0.6:
@@ -782,7 +782,7 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-axios@^1.3.5, axios@^1.4.0:
+axios@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.4.0.tgz#38a7bf1224cd308de271146038b551d725f0be1f"
   integrity sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==
@@ -1231,7 +1231,7 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-discord-api-types@^0.37.37:
+discord-api-types@^0.37.42:
   version "0.37.42"
   resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.42.tgz#3c196267ed31e9ea249e6880c15e2af1c6428629"
   integrity sha512-1Huaj9cQ1W7/uryS8MZs/tZemnoKB94thM1cE40lep3rpU3q7WHqkdjN/veX0prTkYlPhcyLd/DeF/pBO8X8oQ==
