@@ -70,10 +70,8 @@ export function animateScroll(element: HTMLElement, duration: number = 500) {
 	};
 
 	function step(timestamp: number){
-		if (start === undefined){
+		if (start === undefined)
 			start = timestamp;
-			parent!.style.scrollBehavior = "unset";
-		}
 
 		const elapsedTimestamp = timestamp - start;
 		const elapsed = Math.min(1, elapsedTimestamp / duration);
@@ -83,12 +81,15 @@ export function animateScroll(element: HTMLElement, duration: number = 500) {
 		const target = begin * (1 - timed) + goal * timed;
 
 		if (elapsed >= 1 || parent!.matches(`${parent!.nodeName}:hover`) || status.invalidated) {
-			parent!.style.scrollBehavior = "";
 			status.completed = true;
 			return;
 		}
 
-		parent!.scrollTop = target;
+		parent!.scrollTo({
+			top: target,
+			// @ts-ignore wtffff
+			behavior: "instant"
+		});
 
 		window.requestAnimationFrame(step);
 	}
