@@ -5,6 +5,7 @@ import { query as Musixmatch } from "../lyricproviders/musixmatch";
 import { query as NetEase } from "../lyricproviders/netease";
 import { query as Genius } from "../lyricproviders/genius";
 import { query as Metadata } from "../lyricproviders/metadata";
+import { query as Local } from "../lyricproviders/local";
 import type { Lyrics, Metadata as MetadataType } from "../../types";
 import { getAll as getConfig } from "../config";
 
@@ -12,7 +13,8 @@ const providerList = {
 	Musixmatch,
 	NetEase,
 	Genius,
-	Metadata
+	Metadata,
+	Local
 };
 
 export async function queryLyrics(metadata: MetadataType, spotifyId?: string): Promise<Lyrics | undefined> {

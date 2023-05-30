@@ -141,7 +141,8 @@ export type Metadata = {
 	length: number,
 	count?: number,
 	lyrics?: string,
-	id: string
+	id: string,
+	location?: URL
 }
 
 export type Capabilities = {

@@ -294,6 +294,7 @@ async function parseMetadata(metadata): Promise<Metadata> {
 		artData: artData || undefined,
 		count: metadata["xesam:useCount"] || undefined,
 		lyrics: metadata["xesam:asText"] || undefined,
-		id: metadata["mpris:trackid"]
+		id: metadata["mpris:trackid"],
+		location: typeof metadata["xesam:url"] === "string" ? new URL(metadata["xesam:url"]) : undefined,
 	};
 }

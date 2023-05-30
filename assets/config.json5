@@ -54,7 +54,8 @@
 		Musixmatch: true,
 		NetEase: true,
 		Genius: true,
-		Metadata: true
+		Metadata: true,
+		Local: true
 	},
 	scenes: {
 		// The following is just an example! Leave it as is.
