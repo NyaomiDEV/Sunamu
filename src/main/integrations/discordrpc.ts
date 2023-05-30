@@ -77,14 +77,12 @@ async function getPresence() {
 		return;
 
 	const activity: SetActivity = { // everything must be two characters long at least
-		details: `"${songdata.metadata.title}"`,
-		state: `By ${songdata.metadata.artist}`,
-		largeImageKey: undefined,
-		largeImageText: `"${songdata.metadata.album}"`,
+		details: songdata.metadata.title ? `"${songdata.metadata.title}"` : "Unknown track",
+		state: songdata.metadata.artist ? `By ${songdata.metadata.artist}` : undefined,
+		largeImageText: songdata.metadata.album ? `"${songdata.metadata.album}"` : undefined,
 		smallImageKey: songdata.status.toLowerCase(),
-		smallImageText: `${songdata.status} (${secondsToTime(songdata.metadata.length)})`,
-		instance: false,
-		buttons: []
+		smallImageText: `${songdata.status}` + (songdata.metadata.length > 0 ? ` (${secondsToTime(songdata.metadata.length)})` : ""),
+		instance: false
 	};
 
 	if (songdata.status === "Playing" && songdata.elapsed.howMuch) {
@@ -102,10 +100,12 @@ async function getPresence() {
 				activity.largeImageKey = images[images?.length-1]?.url;
 		}
 
-		activity.buttons!.push({
-			label: "Listen on Spotify",
-			url: songdata.spotify.external_urls.spotify
-		});
+		activity.buttons = [
+			{
+				label: "Listen on Spotify",
+				url: songdata.spotify.external_urls.spotify
+			}
+		];
 	}
 
 	if (songdata.lastfm) {
@@ -115,17 +115,16 @@ async function getPresence() {
 				activity.largeImageKey = images[images?.length - 1]?.["#text"];
 		}
 
-		activity.buttons!.push({
-			label: "View on Last.fm",
-			url: songdata.lastfm.url
-		});
+		activity.buttons = [
+			{
+				label: "View on Last.fm",
+				url: songdata.lastfm.url
+			}
+		];
 	}
 
 	if (!activity.largeImageKey)
 		activity.largeImageKey = "app_large";
-
-	if (!activity.buttons!.length)
-		delete activity.buttons;
 
 	return activity;
 }
