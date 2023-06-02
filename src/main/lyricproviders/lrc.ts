@@ -24,9 +24,10 @@ function extractMetadataLine(data: string): string[] {
 	return data.trim().slice(1, -1).split(": ");
 }
 
-function extractKaraoke(line: string, timestamp: number): LyricsKaraokeVerse[] {
-	const howAKaraokeLineLooks = /\(\d+,(\d+)\)/g;
-	const components = line.split(howAKaraokeLineLooks);
+function extractKaraokeNetEase(line: string, timestamp: number): LyricsKaraokeVerse[] {
+	// netease karaoke line
+	const howANetEaseKaraokeLineLooks = /\(\d+,(\d+)\)/g;
+	const components = line.split(howANetEaseKaraokeLineLooks);
 	const karaokeVerses: LyricsKaraokeVerse[] = [];
 	let accumulator = 0;
 	for(let i = 1; i < components.length; i += 2){
@@ -48,6 +49,7 @@ export function parseLrc(data: string): LrcFile{
 
 	// Sanitize our data first and foremost
 	// remove enhanced LRC format
+	// TODO: Do not remove this and instead use it
 	data = data.replace(/<\d+:\d+\.\d+>/g, "").replace(/<\d+:\d+>/g, "").replace(/<\d+>/g, "");
 	// extend compressed time tags (ex. [01:30] becomes [01:30.000])
 	data = data.replace(/\[(\d+):(\d+)\]/g, (_match: any, p1: any, p2: any) => `[${p1}:${p2}.000]`);
@@ -61,7 +63,7 @@ export function parseLrc(data: string): LrcFile{
 				const resultLine: LyricsLine = {
 					text: lyrdata[2].replace(/\(\d+,\d+\)/g, "").replace(/\s+/g, " "),
 					time: timestamp,
-					karaoke: extractKaraoke(lyrdata[2], timestamp)
+					karaoke: extractKaraokeNetEase(lyrdata[2], timestamp)
 				};
 
 				if(!resultLine.karaoke?.length)
