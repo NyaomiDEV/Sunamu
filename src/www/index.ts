@@ -28,7 +28,7 @@ window.title = "Sunamu" + (document.documentElement.classList.contains("widget-m
 if(await window.np.isDebugMode()){
 	window.getNowPlaying = () => songdata;
 	window.detectedLanguage = navigator.language.split("-")[0];
-	window.copyLyrics = () => songdata.lyrics?.lines?.map(x => x.text).join("\n");
+	window.copyLyrics = () => songdata.lyrics?.lines?.map(x => x.text).join("\n") + `\n\n("${songdata.metadata.title}" - ${songdata.metadata.artist})`;
 }
 
 updateNowPlaying();
