@@ -10,6 +10,8 @@
 	webserverPort: 3000,
 	// Do you want to run Sunamu in debug mode?
 	debugMode: false,
+	// Do you want DevTools to show up at startup when debug mode is active?
+	devToolsAtStartup: false,
 	// How often to poll for track position? (in seconds)
 	positionPollInterval: 1,
 	// How often to update the track position internally? (in seconds)

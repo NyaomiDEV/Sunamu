@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
 import { addConfigChangedCallback, deleteConfigChangedCallback, getAll as getAllConfig } from "./config";
-import { widgetModeElectron, debugMode } from "./appStatus";
+import { widgetModeElectron, debugMode, devTools } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
 import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
 import { getThemeLocation } from "./themes";
@@ -151,7 +151,7 @@ async function spawnWindow(scene = "electron") {
 	});
 	windowState.manage(win);
 
-	if (debugMode) win.webContents.openDevTools();
+	if (debugMode && devTools) win.webContents.openDevTools();
 
 	win.loadFile(resolve(__dirname, "..", "www", "index.htm"));
 	win.once("ready-to-show", async () => {

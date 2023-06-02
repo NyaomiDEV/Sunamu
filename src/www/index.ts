@@ -18,6 +18,7 @@ declare global {
 		np: NowPlayingAPI,
 		getNowPlaying?: () => SongData,
 		detectedLanguage?: string,
+		copyLyrics?: () => (string | undefined);
 	}
 }
 
@@ -27,6 +28,7 @@ window.title = "Sunamu" + (document.documentElement.classList.contains("widget-m
 if(await window.np.isDebugMode()){
 	window.getNowPlaying = () => songdata;
 	window.detectedLanguage = navigator.language.split("-")[0];
+	window.copyLyrics = () => songdata.lyrics?.lines?.map(x => x.text).join("\n");
 }
 
 updateNowPlaying();

@@ -55,6 +55,7 @@ export type Config = {
 	useElectron: boolean,
 	useWebserver: boolean,
 	debugMode: boolean,
+	devToolsAtStartup: boolean,
 	positionPollInterval: number,
 	positionUpdateInterval: number,
 	karaoke: boolean,
