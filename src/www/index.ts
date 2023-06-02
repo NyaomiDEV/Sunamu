@@ -19,6 +19,7 @@ declare global {
 		getNowPlaying?: () => SongData,
 		detectedLanguage?: string,
 		copyLyrics?: () => (string | undefined);
+		copyLyricsTranslated?: () => (string | undefined);
 	}
 }
 
@@ -29,6 +30,7 @@ if(await window.np.isDebugMode()){
 	window.getNowPlaying = () => songdata;
 	window.detectedLanguage = navigator.language.split("-")[0];
 	window.copyLyrics = () => songdata.lyrics?.lines?.map(x => x.text).join("\n") + `\n\n("${songdata.metadata.title}" - ${songdata.metadata.artist})`;
+	window.copyLyricsTranslated = () => songdata.lyrics?.lines?.map(x => x.translation || x.text).join("\n") + `\n\n("${songdata.metadata.title}" - ${songdata.metadata.artist})`;
 }
 
 updateNowPlaying();
