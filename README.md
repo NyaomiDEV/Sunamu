@@ -38,7 +38,9 @@ It only supports Windows and Linux for now. macOS support is not planned. Pull r
 
 ### Windows / Linux
 
-#### NOTE: Windows builds are provided but they are highly experimental and reported issues will not be fixed unless they also happen for the same reason on Linux. When reporting any issues you have to state that you are on Windows, since Sunamu works differently there and I am not able to support your platform of choice in official capacity.
+#### NOTE: Windows builds are provided but they are highly experimental (think of that as essentially PoC / tech demos) and reported issues will not be fixed unless they also happen for the same reason on Linux. When reporting any issues you have to state that you are on Windows, since Sunamu works differently there and I am not able to support your platform of choice in official capacity.
+
+#### NOTE 2: Sunamu is very slow on development, mostly because there's hardly anything to implement that I can do (local girl needs help). Please consider this when running a tagged release, as you can easily run a months-old, or even years-old, version. Please try compiling Sunamu from this repo instead!
 
 Get the latest release from the [Releases](https://github.com/NyaomiDEV/Sunamu/releases/latest) section.
 
@@ -49,6 +51,7 @@ On Linux, the AppImage is recommended since it runs basically everywhere (but al
 ### Arch Linux
 
 `sunamu` and `sunamu-git` are available as AUR packages. Install either of them via your AUR helper of choice.
+The Git package usually breaks because I like using very recent Electron versions, so if you use that please be advised that there can be multiple issues if your system's Electron package is not the very latest (or close to).
 
 ## Configuration
 
