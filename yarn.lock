@@ -614,13 +614,13 @@
   dependencies:
     "@vibrant/types" "^3.2.1-alpha.1"
 
-"@xhayper/discord-rpc@^1.0.17":
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/@xhayper/discord-rpc/-/discord-rpc-1.0.17.tgz#11c6d242acda545d0bb8a02c1512b2824e1bdc99"
-  integrity sha512-4+dVxI7MHkrpnxZ2vVQz4aFq3frs/itdlN+NRHUpArbYi0p5osCcWZJyV894jidFXgjUTB8tWakDlTRfQHKa6Q==
+"@xhayper/discord-rpc@^1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@xhayper/discord-rpc/-/discord-rpc-1.0.18.tgz#319513213c101a14497f4afb838074ac9eaf69d1"
+  integrity sha512-fsx/493eOtWTDWyO96f5CnjTpuwyIFYWhWnCnDbzWLsVgL0GXwMedHr6zXtfhcERCFMaT45t9mirOuhNl4GeTQ==
   dependencies:
     axios "^1.4.0"
-    discord-api-types "^0.37.42"
+    discord-api-types "^0.37.46"
     ws "^8.13.0"
 
 abab@^2.0.6:
@@ -1231,10 +1231,10 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-discord-api-types@^0.37.42:
-  version "0.37.42"
-  resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.42.tgz#3c196267ed31e9ea249e6880c15e2af1c6428629"
-  integrity sha512-1Huaj9cQ1W7/uryS8MZs/tZemnoKB94thM1cE40lep3rpU3q7WHqkdjN/veX0prTkYlPhcyLd/DeF/pBO8X8oQ==
+discord-api-types@^0.37.46:
+  version "0.37.48"
+  resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.48.tgz#347907bce8f3c00e746b2a7afcf98628d7065731"
+  integrity sha512-vu2NQJD7SZRjpKDC2DPNsxTz34KS53OrotA+LGRW6mcyT55Hjqu66aRrouzjYhea7tllL9I7rvWVX7bg3aT2AQ==
 
 dmg-builder@23.6.0:
   version "23.6.0"
@@ -2454,15 +2454,15 @@ node-addon-api@^1.6.3:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.7.2.tgz#3df30b95720b53c24e59948b49532b662444f54d"
   integrity sha512-ibPK3iA+vaY1eEjESkQkM0BbCqFOaZMiXRTtdB0u7b4djtY6JnsjvPdUHVMg6xQt3B8fpTTWHI9A+ADjM9frzg==
 
-node-addon-api@^4.2.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-4.3.0.tgz#52a1a0b475193e0928e98e0426a0d1254782b77f"
-  integrity sha512-73sE9+3UaLYYFmDsFZnqCInzPyh3MqIwZO9cw58yIqAZhONrrabrYyYe3TuIqtIiOuTXVhsGau8hcrhhwSsDIQ==
-
 node-addon-api@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-6.1.0.tgz#ac8470034e58e67d0c6f1204a18ae6995d9c0d76"
   integrity sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==
+
+node-addon-api@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-7.0.0.tgz#8136add2f510997b3b94814f4af1cce0b0e3962e"
+  integrity sha512-vgbBJTS4m5/KkE16t5Ly0WW9hz46swAstv0hYYwMtbG7AznRhNyfLRe8HZAiWIpcHzoO7HxhLuBQj9rJ/Ho0ZA==
 
 node-static@^0.7.11:
   version "0.7.11"
@@ -3382,17 +3382,17 @@ which@^2.0.1:
 
 windowtoolbox@NyaomiDEV/windowtoolbox:
   version "1.0.1"
-  resolved "https://codeload.github.com/NyaomiDEV/windowtoolbox/tar.gz/88ab22f8bb7ffe4c6e50b70fa8543e3448b0fb23"
+  resolved "https://codeload.github.com/NyaomiDEV/windowtoolbox/tar.gz/08c5ebc5764c7bb95e35baf5357c69805c142431"
   dependencies:
     bindings "^1.5.0"
-    node-addon-api "^4.2.0"
+    node-addon-api "^7.0.0"
 
 winplayer-node@NyaomiDEV/WinPlayer-Node:
-  version "1.0.6"
-  resolved "https://codeload.github.com/NyaomiDEV/WinPlayer-Node/tar.gz/018c2e6ed265b9e47f57beda3665dd7b995d14b9"
+  version "1.0.9"
+  resolved "https://codeload.github.com/NyaomiDEV/WinPlayer-Node/tar.gz/2209b3f71e3a5ea550a528e7d59028d1ec3c782a"
   dependencies:
     bindings "^1.5.0"
-    node-addon-api "^4.2.0"
+    node-addon-api "^7.0.0"
 
 word-wrap@^1.2.3:
   version "1.2.3"

@@ -51,7 +51,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@xhayper/discord-rpc": "^1.0.17",
+    "@xhayper/discord-rpc": "^1.0.18",
     "axios": "^1.4.0",
     "electron-window-state": "^5.0.3",
     "golden-fleece": "^1.0.9",
