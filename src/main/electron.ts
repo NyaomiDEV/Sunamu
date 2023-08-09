@@ -95,10 +95,10 @@ function willSceneShowLyrics(scene: string){
 }
 
 function registerWindowCallbacks(win: BrowserWindow){
-	const positionCallback = async (position, reportsPosition) => win.webContents.send("position", position, reportsPosition);
-	const songDataCallback = async (songdata, metadataChanged) => win.webContents.send("update", songdata, metadataChanged);
-	const lyricsUpdateCallback = async () => win.webContents.send("refreshLyrics");
-	const configChangedCallback = async () => win.webContents.send("configChanged");
+	const positionCallback = async (position, reportsPosition) => if(!win.webContents.isLoading()) win.webContents.send("position", position, reportsPosition);
+	const songDataCallback = async (songdata, metadataChanged) => if(!win.webContents.isLoading()) win.webContents.send("update", songdata, metadataChanged);
+	const lyricsUpdateCallback = async () => if(!win.webContents.isLoading()) win.webContents.send("refreshLyrics");
+	const configChangedCallback = async () => if(!win.webContents.isLoading()) win.webContents.send("configChanged");
 
 	addPositionCallback(positionCallback);
 	addSongDataCallback(songDataCallback);
@@ -110,6 +110,10 @@ function registerWindowCallbacks(win: BrowserWindow){
 		deleteSongDataCallback(songDataCallback);
 		deleteLyricsUpdateCallback(lyricsUpdateCallback);
 		deleteConfigChangedCallback(configChangedCallback);
+	});
+
+	win.once("closed", () => {
+		openedBrowserWindows.delete(win);
 	});
 }
 
