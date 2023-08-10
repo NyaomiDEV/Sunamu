@@ -3388,8 +3388,8 @@ windowtoolbox@NyaomiDEV/windowtoolbox:
     node-addon-api "^7.0.0"
 
 winplayer-node@NyaomiDEV/WinPlayer-Node:
-  version "1.0.9"
-  resolved "https://codeload.github.com/NyaomiDEV/WinPlayer-Node/tar.gz/2209b3f71e3a5ea550a528e7d59028d1ec3c782a"
+  version "1.0.10"
+  resolved "https://codeload.github.com/NyaomiDEV/WinPlayer-Node/tar.gz/88157a74ce14b29356e8fc837c22b59dfb072606"
   dependencies:
     bindings "^1.5.0"
     node-addon-api "^7.0.0"
