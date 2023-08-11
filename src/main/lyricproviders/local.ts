@@ -3,6 +3,9 @@ import type { Lyrics, Metadata } from "../../types";
 import { parseLrc } from "./lrc";
 import { basename, dirname, extname, sep } from "path";
 
+export const name = "Local";
+export const supportedPlatforms = ["linux"];
+
 export async function query(metadata: Metadata): Promise<Lyrics | undefined> {
 	if (metadata.location?.protocol !== "file:") {
 		console.error("Could not get lyrics from Local: Location is not local.");

@@ -5,6 +5,9 @@ import axios, { AxiosResponse } from "axios";
 import { get as getConfig, set as setConfig } from "../config";
 import { getOSLocale } from "../util";
 
+export const name = "Musixmatch";
+export const supportedPlatforms = ["linux", "win32"];
+
 async function queryMusixmatch(method: string, params?: any, shouldUseToken = true): Promise<any | undefined> {
 
 	let token;

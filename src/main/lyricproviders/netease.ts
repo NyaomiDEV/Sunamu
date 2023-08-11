@@ -4,6 +4,9 @@ import { URLSearchParams } from "url";
 import axios, { AxiosResponse } from "axios";
 import { parseLrc } from "./lrc";
 
+export const name = "NetEase";
+export const supportedPlatforms = ["linux", "win32"];
+
 const search_url = "http://music.163.com/api/search/get";
 const lyrics_url = "http://music.163.com/api/song/lyric";
 

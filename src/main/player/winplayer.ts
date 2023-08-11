@@ -16,9 +16,20 @@ export async function init(callback: Function): Promise<void>{
 
 export async function getUpdate(): Promise<Update | null> {
 	const update = await _player.getUpdate();
+	console.log(update);
 
 	if(update !== null){
-		if (update.metadata.artData) {
+		if (typeof update.metadata === "undefined"){
+			update.metadata = {
+				title: "",
+				artist: "",
+				artists: [],
+				albumArtists: [],
+				length: 0
+			}
+		}
+
+		if (update.metadata?.artData) {
 			try {
 				const palettebuffer = await sharp(update.metadata.artData.data)
 					.resize(512, 512, { withoutEnlargement: true })
@@ -45,7 +56,7 @@ export async function getUpdate(): Promise<Update | null> {
 		}
 	}
 
-	return update;
+	return update as Update | null;
 }
 
 export function Play() {

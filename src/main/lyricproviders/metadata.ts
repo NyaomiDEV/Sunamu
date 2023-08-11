@@ -1,6 +1,9 @@
 import type { Lyrics, Metadata } from "../../types";
 import { parseLrc } from "./lrc";
 
+export const name = "Metadata";
+export const supportedPlatforms = ["linux"];
+
 export async function query(metadata: Metadata): Promise<Lyrics | undefined> {
 	const reply: Lyrics = {
 		provider: "Metadata",

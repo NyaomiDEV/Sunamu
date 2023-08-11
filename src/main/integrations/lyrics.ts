@@ -1,21 +1,26 @@
 import { debug } from "../";
 import { get as getLyrics, save as saveLyrics } from "./lyricsOffline";
 
-import { query as Musixmatch } from "../lyricproviders/musixmatch";
-import { query as NetEase } from "../lyricproviders/netease";
-import { query as Genius } from "../lyricproviders/genius";
-import { query as Metadata } from "../lyricproviders/metadata";
-import { query as Local } from "../lyricproviders/local";
+import * as Musixmatch from "../lyricproviders/musixmatch";
+import * as NetEase from "../lyricproviders/netease";
+import * as Genius from "../lyricproviders/genius";
+import * as Metadata from "../lyricproviders/metadata";
+import * as Local from "../lyricproviders/local";
 import type { Lyrics, Metadata as MetadataType } from "../../types";
 import { getAll as getConfig } from "../config";
 
-const providerList = {
+const providerList: any[] = [
 	Musixmatch,
 	NetEase,
 	Genius,
 	Metadata,
 	Local
-};
+];
+
+for(let i = 0; i < providerList.length; i++){
+	if(!providerList[i].supportedPlatforms.includes(process.platform))
+		providerList.splice(i, 1);
+}
 
 export async function queryLyrics(metadata: MetadataType, spotifyId?: string): Promise<Lyrics | undefined> {
 	if (!metadata.artist || !metadata.title) // there can't be lyrics without at least those two fields
@@ -42,8 +47,12 @@ export async function queryLyrics(metadata: MetadataType, spotifyId?: string): P
 			if(!cached && ["Genius", "Metadata"].includes(provider))
 				continue;
 
+			const _provider = providerList.find(x => x.name == provider);
+			if (!_provider)
+				continue;
+
 			debug("Fetching from " + provider);
-			const _lyrics = await providerList[provider](metadata, spotifyId);
+			const _lyrics = await _provider.query(metadata, spotifyId);
 			if (_lyrics?.lines.length){
 				lyrics = _lyrics;
 				break;

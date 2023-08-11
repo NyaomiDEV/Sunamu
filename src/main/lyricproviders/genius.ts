@@ -4,6 +4,9 @@ import { URLSearchParams } from "url";
 import axios, { AxiosResponse } from "axios";
 import { JSDOM } from "jsdom";
 
+export const name = "Genius";
+export const supportedPlatforms = ["linux", "win32"];
+
 const search_url = "https://genius.com/api/search/song";
 
 export async function query(metadata: Metadata): Promise<Lyrics | undefined> {
