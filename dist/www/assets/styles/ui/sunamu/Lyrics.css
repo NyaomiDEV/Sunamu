@@ -134,7 +134,7 @@ html:not(.no-clickable-lyrics, .non-interactive) #lyrics.synchronized .line .wor
 	opacity: 0.5;
 }
 
-#lyrics.synchronized .line.active .word {
+#lyrics.synchronized .line .word {
 	background-image: linear-gradient(90deg, var(--color-fg) 50%, color-mix(in srgb, var(--color-fg), transparent 40%) 50%);
 	background-position-x: 100%;
 	background-size: 200% 100%;
