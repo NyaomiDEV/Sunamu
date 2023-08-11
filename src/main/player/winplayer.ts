@@ -15,8 +15,9 @@ export async function init(callback: Function): Promise<void>{
 }
 
 export async function getUpdate(): Promise<Update | null> {
+	debug("Update queried on Win32");
 	const update = await _player.getUpdate();
-	debug("Update got on Win32", update);
+	debug("Update", update);
 
 	if(update !== null){
 		if (typeof update.metadata === "undefined"){
