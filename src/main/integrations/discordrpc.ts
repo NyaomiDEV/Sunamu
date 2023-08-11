@@ -6,7 +6,7 @@ import { addConfigChangedCallback, get as getConfig } from "../config";
 import { songdata } from "../playbackStatus";
 import { secondsToTime } from "../util";
 
-let config: DiscordPresenceConfig = getPresenceConfig();
+export let discordPresenceConfig: DiscordPresenceConfig = getPresenceConfig();
 
 const clientId = "908012408008736779";
 let rpc = new Client({clientId});
@@ -20,7 +20,7 @@ rpc.on("disconnected", async () => {
 });
 
 addConfigChangedCallback(async () => {
-	config = getPresenceConfig();
+	discordPresenceConfig = getPresenceConfig();
 });
 
 function getPresenceConfig() {
@@ -57,7 +57,10 @@ const connect = (() => {
 })();
 
 export async function updatePresence() {
-	if (!config.enabled) return;
+	if (!discordPresenceConfig.enabled){
+		if(rpc.isConnected) rpc.destroy();
+		return;
+	}
 
 	const presence = await getPresence();
 
@@ -73,7 +76,7 @@ export async function updatePresence() {
 }
 
 async function getPresence() {
-	if (!songdata || !songdata.metadata.id || config.blacklist.includes(songdata.appName))
+	if (!songdata || !songdata.metadata.id || discordPresenceConfig.blacklist.includes(songdata.appName))
 		return;
 
 	const activity: SetActivity = { // everything must be two characters long at least

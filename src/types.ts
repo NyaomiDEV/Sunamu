@@ -67,6 +67,7 @@ export type Config = {
 	discordRpc: DiscordPresenceConfig,
 	lyricsProviders: LyricsProvidersConfig,
 	targetLyricsCacheSize?: string,
+	logPlayedTracksToFile: boolean,
 	scenes: {
 		[sceneName: string]: SceneConfig
 	},

@@ -6,6 +6,8 @@ import { widgetModeElectron, debugMode, devTools } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
 import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
 import { getThemeLocation } from "./themes";
+import { setTrackLogActive, trackLogActive } from "./integrations/tracklogger";
+import { discordPresenceConfig, updatePresence } from "./integrations/discordrpc";
 
 const openedBrowserWindows: Map<BrowserWindow, string> = new Map();
 let trayIcon: Tray | undefined;
@@ -177,6 +179,29 @@ function setupTrayIcon() {
 		trayIcon.setToolTip("Sunamu Widget");
 		trayIcon.setTitle("Sunamu");
 		const contextMenu = new Menu();
+
+		// Discord RPC toggle
+		contextMenu.append(new MenuItem({
+			label: "Discord RPC",
+			type: "checkbox",
+			checked: discordPresenceConfig.enabled,
+			click(item) {
+				discordPresenceConfig.enabled = item.checked;
+				updatePresence();
+			}
+		}));
+
+		// Tracklog toggle
+		contextMenu.append(new MenuItem({
+			label: "Log tracks to file",
+			type: "checkbox",
+			checked: trackLogActive,
+			click(item) {
+				setTrackLogActive(item.checked);
+			}
+		}));
+
+		// Quit
 		contextMenu.append(new MenuItem({
 			label: "Quit Sunamu",
 			type: "normal",

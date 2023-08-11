@@ -2,6 +2,7 @@ import getPlayer, { Player } from "./player";
 import { addSongDataCallback, updateInfo } from "./playbackStatus";
 import { consolidateConfig, useElectron, useWebserver } from "./appStatus";
 import { updatePresence } from "./integrations/discordrpc";
+import { logTrack } from "./integrations/tracklogger";
 import Instance from "./instance";
 import { manageLyricsCache } from "./integrations/lyricsOffline";
 import { consolidateToDefaultConfig } from "./config";
@@ -45,8 +46,10 @@ async function main(): Promise<void> {
 		await WebServer.default();
 	}
 
-	addSongDataCallback(async () => {
+	addSongDataCallback(async (_songdata?, metadataChanged?) => {
 		updatePresence();
+		if(metadataChanged)
+			logTrack();
 	});
 
 	// Lyrics cache management

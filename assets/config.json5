@@ -36,6 +36,9 @@
 	// Multiple-byte units are calculated following the IEC standard, so 1 Kilobyte = 1000 bytes and so on.
 	// You can set this value to an empty string or to zero to never "trim" the lyrics cache, however this is not recommended.
 	targetLyricsCacheSize: "10M",
+	// Whether to log lyrics to a local file.
+	// This is useful to streamers, for example, in the case they only use Sunamu as an OBS overlay and they want to send a playlist of the occurred stream to their followers.
+	logPlayedTracksToFile: false,
 	// Specify your Last.FM username here to get the fancy play count in the details section.
 	lfmUsername: "",
 	// Specify your Spotify Developer Client ID and Secret here to get the Spotify URL for the playing tracks.
