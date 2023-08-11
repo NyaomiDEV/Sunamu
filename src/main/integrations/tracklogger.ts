@@ -21,7 +21,7 @@ addConfigChangedCallback(async () => {
 });
 
 function getTrackLoggerConfig() {
-	const _active = Object.assign({}, getConfig<boolean>("logPlayedTracksToFile"));
+	const _active = getConfig<boolean>("logPlayedTracksToFile");
 	return checkFunctionality(_active, "log-tracks");
 }
 
