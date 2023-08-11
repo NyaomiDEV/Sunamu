@@ -16,7 +16,7 @@ export async function init(callback: Function): Promise<void>{
 
 export async function getUpdate(): Promise<Update | null> {
 	const update = await _player.getUpdate();
-	console.log(update);
+	debug("Update got on Win32", update);
 
 	if(update !== null){
 		if (typeof update.metadata === "undefined"){
@@ -104,5 +104,8 @@ export function SetPosition(position: number) {
 }
 
 export async function GetPosition() {
-	return _player.GetPosition();
+	debug("Position queried on Win32");
+	const _pos = _player.GetPosition();
+	debug("Position", _pos);
+	return _pos;
 }
