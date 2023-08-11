@@ -54,7 +54,7 @@ function registerIpc(socket: Socket) {
 	});
 }
 
-function registerWindowCallbacks(socket) {
+function registerWindowCallbacks(socket: Socket) {
 	const positionCallback = async (position, reportsPosition) => { socket.emit("position", position, reportsPosition); };
 	const songDataCallback = async (songdata, metadataChanged) => { socket.emit("update", songdata, metadataChanged); };
 	const lyricsUpdateCallback = async () => { socket.emit("refreshLyrics"); };
@@ -66,6 +66,7 @@ function registerWindowCallbacks(socket) {
 	addConfigChangedCallback(configChangedCallback);
 
 	socket.once("disconnect", () => {
+		socket.removeAllListeners();
 		deletePositionCallback(positionCallback);
 		deleteSongDataCallback(songDataCallback);
 		deleteLyricsUpdateCallback(lyricsUpdateCallback);

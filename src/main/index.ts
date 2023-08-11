@@ -5,8 +5,8 @@ import { updatePresence } from "./integrations/discordrpc";
 import Instance from "./instance";
 import { manageLyricsCache } from "./integrations/lyricsOffline";
 import { consolidateToDefaultConfig } from "./config";
-
-export { logToDebug as debug } from "./logger";
+import { logToDebug } from "./logger";
+export { logToDebug as debug };
 
 process.title = "sunamu";
 
@@ -29,6 +29,7 @@ async function main(): Promise<void> {
 	player.init(updateInfo);
 
 	if(useElectron){
+		logToDebug("Loading Electron");
 		try{
 			const Electron = await import("./electron");
 			await Electron.default();
@@ -39,6 +40,7 @@ async function main(): Promise<void> {
 	}
 
 	if(_useWebserver){
+		logToDebug("Loading Webserver");
 		const WebServer = await import("./webserver");
 		await WebServer.default();
 	}

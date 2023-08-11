@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, shell } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, MenuItem, shell, Tray } from "electron";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
 import { addConfigChangedCallback, deleteConfigChangedCallback, getAll as getAllConfig } from "./config";
@@ -8,6 +8,7 @@ import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, dele
 import { getThemeLocation } from "./themes";
 
 const openedBrowserWindows: Map<BrowserWindow, string> = new Map();
+let trayIcon: Tray | undefined;
 let player: Player;
 
 // Enable GPU rasterization so it's smooth asf
@@ -170,11 +171,31 @@ async function spawnWindow(scene = "electron") {
 	return win;
 }
 
+function setupTrayIcon() {
+	if(!trayIcon){
+		trayIcon = new Tray(getIcon());
+		trayIcon.setToolTip("Sunamu Widget");
+		trayIcon.setTitle("Sunamu");
+		const contextMenu = new Menu();
+		contextMenu.append(new MenuItem({
+			label: "Quit Sunamu",
+			type: "normal",
+			role: "quit",
+			click() {
+				return app.exit();
+			},
+		}));
+
+		trayIcon.setContextMenu(contextMenu);
+	}
+}
+
 export default async function electronMain() {
 	player = await getPlayer();
 	registerIpc();
 
 	await app.whenReady();
+	setupTrayIcon();
 	for(const scene in getAllConfig().scenes){
 		if (getAllConfig().scenes[scene].type === "electron")
 			openedBrowserWindows.set(await spawnWindow(scene), scene);
