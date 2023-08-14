@@ -6,7 +6,7 @@ import { widgetModeElectron, debugMode, devTools } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
 import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
 import { getThemeLocation } from "./themes";
-import { setTrackLogActive, trackLogActive } from "./integrations/tracklogger";
+import { setTrackLogActive, trackLogActive, trackLogPath } from "./integrations/tracklogger";
 import { discordPresenceConfig, updatePresence } from "./integrations/discordrpc";
 
 const openedBrowserWindows: Map<BrowserWindow, string> = new Map();
@@ -182,6 +182,7 @@ function setupTrayIcon() {
 
 		// Discord RPC toggle
 		contextMenu.append(new MenuItem({
+			id: "discordRpcToggle",
 			label: "Discord RPC",
 			type: "checkbox",
 			checked: discordPresenceConfig.enabled,
@@ -193,16 +194,33 @@ function setupTrayIcon() {
 
 		// Tracklog toggle
 		contextMenu.append(new MenuItem({
+			id: "tracklogToggle",
 			label: "Log tracks to file",
 			type: "checkbox",
 			checked: trackLogActive,
 			click(item) {
 				setTrackLogActive(item.checked);
+				const tracklogOpen = contextMenu.items.find(x => x.id === "tracklogOpen");
+				if(tracklogOpen)
+					tracklogOpen.visible = item.checked;
+				trayIcon?.setContextMenu(contextMenu);
+			}
+		}));
+
+		// Tracklog open
+		contextMenu.append(new MenuItem({
+			id: "tracklogOpen",
+			label: "Open current track log",
+			type: "normal",
+			visible: trackLogActive,
+			click() {
+				return shell.openPath(trackLogPath);
 			}
 		}));
 
 		// Quit
 		contextMenu.append(new MenuItem({
+			id: "quit",
 			label: "Quit Sunamu",
 			type: "normal",
 			role: "quit",

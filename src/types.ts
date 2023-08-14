@@ -68,6 +68,7 @@ export type Config = {
 	lyricsProviders: LyricsProvidersConfig,
 	targetLyricsCacheSize?: string,
 	logPlayedTracksToFile: boolean,
+	logPlayedTracksUTCTimestamps: boolean,
 	scenes: {
 		[sceneName: string]: SceneConfig
 	},
