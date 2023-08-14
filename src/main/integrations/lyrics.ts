@@ -47,7 +47,7 @@ export async function queryLyrics(metadata: MetadataType, spotifyId?: string): P
 			if(!cached && ["Genius", "Metadata"].includes(provider))
 				continue;
 
-			const _provider = providerList.find(x => x.name == provider);
+			const _provider = providerList.find(x => x.name === provider);
 			if (!_provider)
 				continue;
 

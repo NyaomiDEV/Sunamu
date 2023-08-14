@@ -6,6 +6,7 @@ import { getLFMTrackInfo } from "./thirdparty/lastfm";
 import { spotiId } from "./util";
 import { queryLyrics } from "./integrations/lyrics";
 import { debug } from ".";
+import { lyricsActive } from "./appStatus";
 
 // eslint-disable-next-line no-unused-vars
 const songdataCallbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
@@ -71,7 +72,7 @@ export async function updateInfo(update?: Update) {
 		updateInfoSymbol = currentSymbol;
 
 		// we need to reset our extra songdata stuff
-		songdata.lyrics = update?.metadata.id
+		songdata.lyrics = update?.metadata.id && lyricsActive
 			? undefined
 			: { unavailable: true };
 
@@ -94,7 +95,8 @@ export async function updateInfo(update?: Update) {
 		const extraMetadata: Partial<SongData> = {};
 		extraMetadata.spotify = await pollSpotifyDetails(update.metadata);
 		extraMetadata.lastfm = await getLFMTrackInfo(update.metadata, get("lfmUsername"));
-		extraMetadata.lyrics = await queryLyrics(update.metadata, extraMetadata.spotify?.id);
+		if(lyricsActive)
+			extraMetadata.lyrics = await queryLyrics(update.metadata, extraMetadata.spotify?.id);
 		// END OF "HUGE SUSPENSION POINT"
 
 		// we now have to check our symbol to avoid updating stuff that is newer than us

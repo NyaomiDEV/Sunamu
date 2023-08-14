@@ -58,6 +58,7 @@ export type Config = {
 	devToolsAtStartup: boolean,
 	positionPollInterval: number,
 	positionUpdateInterval: number,
+	lyricsActive: boolean,
 	karaoke: boolean,
 	translations: boolean,
 	mxmlanguage: string,

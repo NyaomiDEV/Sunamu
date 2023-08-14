@@ -17,6 +17,9 @@
 	// How often to update the track position internally? (in seconds)
 	// This can improve lyrics timing if you're using a very long polling interval to not overload your system.
 	positionUpdateInterval: 0.05,
+	// Do you want Sunamu to download and display lyrics AT ALL?
+	// If this is disabled, Sunamu will be stuck at "No lyrics found", so it is expected that you also disable the lyrics view in the scenes you use.
+	lyricsActive: true,
 	// Do you want Sunamu to be in karaoke mode?
 	karaoke: true,
 	// Do you want the lyrics to be translated? (Musixmatch only)

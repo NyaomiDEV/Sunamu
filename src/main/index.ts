@@ -1,6 +1,6 @@
 import getPlayer, { Player } from "./player";
 import { addSongDataCallback, updateInfo } from "./playbackStatus";
-import { consolidateConfig, useElectron, useWebserver } from "./appStatus";
+import { consolidateConfig, lyricsActive, useElectron, useWebserver } from "./appStatus";
 import { updatePresence } from "./integrations/discordrpc";
 import { logTrack } from "./integrations/tracklogger";
 import Instance from "./instance";
@@ -53,7 +53,8 @@ async function main(): Promise<void> {
 	});
 
 	// Lyrics cache management
-	await manageLyricsCache();
+	if(lyricsActive)
+		await manageLyricsCache();
 }
 
 main();
