@@ -3,6 +3,7 @@ import { evaluate, patch } from "golden-fleece";
 import { copyFileSync, mkdirSync, readFileSync, watchFile, writeFileSync } from "fs";
 import { resolve } from "path";
 import { getAppData } from "./util";
+import EventEmitter from "events";
 
 const configPath = resolve(getAppData(), "sunamu", "config.json5");
 const defaultConfigPath = resolve(__dirname, "..", "..", "assets", "config.json5");
@@ -10,7 +11,8 @@ const defaultConfigPath = resolve(__dirname, "..", "..", "assets", "config.json5
 const defaultConfig: Config = evaluate(readFileSync(defaultConfigPath, "utf8"));
 let config: Config = getUserConfig();
 
-const configChangedCallbacks: Array<() => Promise<void>> = [];
+const emitter = new EventEmitter();
+export { emitter as default };
 
 if (compare(config, defaultConfig, true))
 	save();
@@ -20,7 +22,7 @@ watchFile(configPath, () => {
 
 	if (compare(config, _config, false)){
 		config = _config;
-		broadcastConfigChanged();
+		emitter.emit("configChanged");
 	}
 
 });
@@ -85,18 +87,4 @@ export function getAll(): Config {
 export function set<T = any>(name: string, value: T){
 	config[name] = value;
 	save(false);
-}
-
-export async function broadcastConfigChanged() {
-	for (const cb of configChangedCallbacks) await cb();
-}
-
-// eslint-disable-next-line no-unused-vars
-export function addConfigChangedCallback(cb: () => Promise<void>) {
-	configChangedCallbacks.push(cb);
-}
-
-// eslint-disable-next-line no-unused-vars
-export function deleteConfigChangedCallback(cb: () => Promise<void>) {
-	configChangedCallbacks.splice(configChangedCallbacks.indexOf(cb), 1);
 }

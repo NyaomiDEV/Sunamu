@@ -1,10 +1,10 @@
 import { app, BrowserWindow, ipcMain, Menu, MenuItem, shell, Tray } from "electron";
 import { resolve } from "path";
 import getPlayer, { Player } from "./player";
-import { addConfigChangedCallback, deleteConfigChangedCallback, getAll as getAllConfig } from "./config";
+import configEmitter, { getAll as getAllConfig } from "./config";
 import { widgetModeElectron, debugMode, devTools } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
-import { addLyricsUpdateCallback, addPositionCallback, addSongDataCallback, deleteLyricsUpdateCallback, deletePositionCallback, deleteSongDataCallback, songdata } from "./playbackStatus";
+import playbackStatus, { songdata } from "./playbackStatus";
 import { getThemeLocation } from "./themes";
 import { setTrackLogActive, trackLogActive, trackLogPath } from "./integrations/tracklogger";
 import { discordPresenceConfig, updatePresence } from "./integrations/discordrpc";
@@ -103,16 +103,18 @@ function registerWindowCallbacks(win: BrowserWindow){
 	const lyricsUpdateCallback = async () => { if(!win.webContents.isLoading()) return win.webContents.send("refreshLyrics"); };
 	const configChangedCallback = async () => { if(!win.webContents.isLoading()) return win.webContents.send("configChanged"); };
 
-	addPositionCallback(positionCallback);
-	addSongDataCallback(songDataCallback);
-	addLyricsUpdateCallback(lyricsUpdateCallback);
-	addConfigChangedCallback(configChangedCallback);
+	playbackStatus.on("position", positionCallback);
+	playbackStatus.on("songdata", songDataCallback);
+	playbackStatus.on("lyrics", lyricsUpdateCallback);
+
+	configEmitter.on("configChanged", configChangedCallback);
 
 	win.once("close", () => {
-		deletePositionCallback(positionCallback);
-		deleteSongDataCallback(songDataCallback);
-		deleteLyricsUpdateCallback(lyricsUpdateCallback);
-		deleteConfigChangedCallback(configChangedCallback);
+		playbackStatus.off("position", positionCallback);
+		playbackStatus.off("songdata", songDataCallback);
+		playbackStatus.off("lyrics", lyricsUpdateCallback);
+
+		configEmitter.off("configChanged", configChangedCallback);
 	});
 
 	win.once("closed", () => {

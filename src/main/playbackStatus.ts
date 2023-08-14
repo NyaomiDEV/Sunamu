@@ -1,4 +1,4 @@
-import { DeepPartial, Metadata, Position, SongData, SpotifyInfo, Update } from "../types";
+import { DeepPartial, Metadata, SongData, SpotifyInfo, Update } from "../types";
 import { get } from "./config";
 import getPlayer from "./player";
 import { getSpotifySongFromId, searchSpotifySong } from "./thirdparty/spotify";
@@ -7,12 +7,10 @@ import { spotiId } from "./util";
 import { queryLyrics } from "./integrations/lyrics";
 import { debug } from ".";
 import { lyricsActive } from "./appStatus";
+import EventEmitter from "events";
 
-// eslint-disable-next-line no-unused-vars
-const songdataCallbacks: Array<(songdata?: SongData, metadataChanged?: boolean) => Promise<void>> = [];
-const lyricsCallbacks: Array<() => Promise<void>> = [];
-// eslint-disable-next-line no-unused-vars
-const positionCallbacks: Array<(position: Position, reportsPosition: boolean) => Promise<void>> = [];
+const emitter = new EventEmitter();
+export{ emitter as default };
 
 setInterval(pollPosition, get("positionPollInterval") * 1000);
 
@@ -80,7 +78,7 @@ export async function updateInfo(update?: Update) {
 		songdata.spotify = undefined;
 
 		// broadcast our initial update so people won't think sunamu is laggy asf
-		await broadcastSongData(true);
+		emitter.emit("songdata", songdata, true);
 		// this also updates the lyrics to whatever screen is suitable
 
 		// if we do have an update containing an ID in it, then we assume a track is playing
@@ -112,11 +110,11 @@ export async function updateInfo(update?: Update) {
 	songdata.reportsPosition = songdata.elapsed.howMuch > 0;
 
 	// we broadcast the changed status
-	await broadcastSongData(false); // false means metadata didn't change (we already notified that inside the if block)
+	emitter.emit("songdata", songdata, false); // false means metadata didn't change (we already notified that inside the if block)
 
 	// we need to broadcast an update for lyrics (unconditional) too
 	if (metadataChanged)
-		await broadcastLyrics();
+		emitter.emit("lyrics");
 }
 
 function hasMetadataChanged(oldMetadata: Metadata, newMetadata?: Metadata): boolean {
@@ -161,49 +159,10 @@ async function pollSpotifyDetails(metadata: Metadata): Promise<SpotifyInfo | und
 }
 
 // ------ SONG DATA
-export async function broadcastSongData(metadataChanged: boolean){
+emitter.on("songdata", (_songdata, metadataChanged) => {
 	debug(1, "broadcastSongData called with", metadataChanged);
 	//debug(songdata);
-	for (const cb of songdataCallbacks) await cb(songdata, metadataChanged);
-}
-
-// eslint-disable-next-line no-unused-vars
-export function addSongDataCallback(cb: (songdata?: SongData, metadataChanged?: boolean) => Promise<void>) {
-	songdataCallbacks.push(cb);
-}
-
-// eslint-disable-next-line no-unused-vars
-export function deleteSongDataCallback(cb: (songdata?: SongData, metadataChanged?: boolean) => Promise<void>) {
-	songdataCallbacks.splice(songdataCallbacks.indexOf(cb), 1);
-}
-
-// ------- LYRICS
-export async function broadcastLyrics(){
-	for (const cb of lyricsCallbacks) await cb();
-}
-
-export function addLyricsUpdateCallback(cb: () => Promise<void>) {
-	lyricsCallbacks.push(cb);
-}
-
-export function deleteLyricsUpdateCallback(cb: () => Promise<void>) {
-	lyricsCallbacks.splice(lyricsCallbacks.indexOf(cb), 1);
-}
-
-// ------- POSITION
-export async function broadcastPosition() {
-	for (const cb of positionCallbacks) await cb(songdata.elapsed, songdata.reportsPosition);
-}
-
-// eslint-disable-next-line no-unused-vars
-export function addPositionCallback(cb: (position: Position, reportsPosition: boolean) => Promise<void>) {
-	positionCallbacks.push(cb);
-}
-
-// eslint-disable-next-line no-unused-vars
-export function deletePositionCallback(cb: (position: Position, reportsPosition: boolean) => Promise<void>) {
-	positionCallbacks.splice(positionCallbacks.indexOf(cb), 1);
-}
+});
 
 export async function pollPosition() {
 	if (songdata.status === "Playing"){
@@ -212,5 +171,5 @@ export async function pollPosition() {
 	}
 
 	// calls
-	await broadcastPosition();
+	emitter.emit("position", songdata.elapsed, songdata.reportsPosition);
 }

@@ -1,5 +1,5 @@
 import getPlayer, { Player } from "./player";
-import { addSongDataCallback, updateInfo } from "./playbackStatus";
+import playbackStatus, { updateInfo } from "./playbackStatus";
 import { consolidateConfig, lyricsActive, useElectron, useWebserver } from "./appStatus";
 import { updatePresence } from "./integrations/discordrpc";
 import { logTrack } from "./integrations/tracklogger";
@@ -46,7 +46,7 @@ async function main(): Promise<void> {
 		await WebServer.default();
 	}
 
-	addSongDataCallback(async (_songdata?, metadataChanged?) => {
+	playbackStatus.on("songdata", async (_songdata?, metadataChanged?) => {
 		updatePresence();
 		if(metadataChanged)
 			logTrack();

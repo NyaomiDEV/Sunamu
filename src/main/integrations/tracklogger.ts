@@ -1,6 +1,6 @@
 import { FileHandle, mkdir, open } from "fs/promises";
 import { checkFunctionality } from "../appStatus";
-import { addConfigChangedCallback, get as getConfig } from "../config";
+import configEmitter, { get as getConfig } from "../config";
 import { songdata } from "../playbackStatus";
 import { resolve } from "path";
 import { getAppData } from "../util";
@@ -11,7 +11,7 @@ export let trackLogActive = getTrackLoggerConfig();
 export const trackLogUTC = getTrackLoggerUTCConfig(); // not definable at runtime for consistency
 export const trackLogPath = getFilePath();
 
-addConfigChangedCallback(async () => {
+configEmitter.on("configChanged", async () => {
 	trackLogActive = getTrackLoggerConfig();
 	await handleFile();
 });

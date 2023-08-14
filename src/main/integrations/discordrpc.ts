@@ -2,7 +2,7 @@ import { Client, SetActivity } from "@xhayper/discord-rpc";
 import { DiscordPresenceConfig } from "../../types";
 import { debug } from "../";
 import { checkFunctionality } from "../appStatus";
-import { addConfigChangedCallback, get as getConfig } from "../config";
+import configEmitter, { get as getConfig } from "../config";
 import { songdata } from "../playbackStatus";
 import { secondsToTime } from "../util";
 
@@ -19,7 +19,7 @@ rpc.on("disconnected", async () => {
 	debug("Discord RPC was disconnected");
 });
 
-addConfigChangedCallback(async () => {
+configEmitter.on("configChanged", async () => {
 	discordPresenceConfig = getPresenceConfig();
 });
 

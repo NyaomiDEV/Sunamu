@@ -1,12 +1,12 @@
 import path from "path";
 import getPlayer, { Player } from "./player";
-import { addConfigChangedCallback, deleteConfigChangedCallback, get as getConfig, getAll as getAllConfig } from "./config";
+import configEmitter, { get as getConfig, getAll as getAllConfig } from "./config";
 import { widgetMode, debugMode, useElectron } from "./appStatus";
 
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { Server as StaticServer } from "node-static";
-import { addLyricsUpdateCallback, addSongDataCallback, songdata, addPositionCallback, deletePositionCallback, deleteSongDataCallback, deleteLyricsUpdateCallback } from "./playbackStatus";
+import playbackStatus, { songdata } from "./playbackStatus";
 import { getThemeLocation, getThemesDirectory } from "./themes";
 
 import { debug } from ".";
@@ -60,17 +60,19 @@ function registerWindowCallbacks(socket: Socket) {
 	const lyricsUpdateCallback = async () => { socket.emit("refreshLyrics"); };
 	const configChangedCallback = async () => { socket.emit("configChanged"); };
 
-	addPositionCallback(positionCallback);
-	addSongDataCallback(songDataCallback);
-	addLyricsUpdateCallback(lyricsUpdateCallback);
-	addConfigChangedCallback(configChangedCallback);
+	playbackStatus.on("position", positionCallback);
+	playbackStatus.on("songdata", songDataCallback);
+	playbackStatus.on("lyrics", lyricsUpdateCallback);
+
+	configEmitter.on("configChanged", configChangedCallback);
 
 	socket.once("disconnect", () => {
 		socket.removeAllListeners();
-		deletePositionCallback(positionCallback);
-		deleteSongDataCallback(songDataCallback);
-		deleteLyricsUpdateCallback(lyricsUpdateCallback);
-		deleteConfigChangedCallback(configChangedCallback);
+		playbackStatus.off("position", positionCallback);
+		playbackStatus.off("songdata", songDataCallback);
+		playbackStatus.off("lyrics", lyricsUpdateCallback);
+
+		configEmitter.off("configChanged", configChangedCallback);
 	});
 }
 
