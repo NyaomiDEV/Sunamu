@@ -15,12 +15,13 @@ let updateCallback: Function;
 export async function init(callback: Function): Promise<void>{
 	updateCallback = callback;
 	const playerManager = await getPlayerManager();
-	if(playerManager) {
-		managerEvents(playerManager)
-	}
+	if(playerManager) 
+		managerEvents(playerManager);
+	
 }
 
 export async function managerEvents(playerManager: PlayerManager) {
+	// eslint-disable-next-line no-constant-condition
 	while(true) {
 		if(!playerManager) break;
 		const evt = await playerManager.pollNextEvent();
@@ -47,6 +48,7 @@ export async function managerEvents(playerManager: PlayerManager) {
 }
 
 export async function playerEvents(){
+	// eslint-disable-next-line no-constant-condition
 	while(true) {
 		if(_revokeToken.revoked) break;
 		if(!_player) break;
@@ -76,7 +78,7 @@ export async function getUpdate(): Promise<Update | null> {
 				artists: [],
 				albumArtists: [],
 				length: 0
-			}
+			};
 		}
 
 		
@@ -105,7 +107,7 @@ export async function getUpdate(): Promise<Update | null> {
 			elapsed: status.elapsed ?? { howMuch: 0, when: new Date(0)},
 			app: status.app ?? "",
 			appName: status.app ? await getFriendlyNameFor(status.app) ?? status.app ?? "" : status.app ?? ""
-		}
+		};
 
 		if (status.metadata?.artData) {
 			try {
@@ -132,7 +134,7 @@ export async function getUpdate(): Promise<Update | null> {
 							Muted: palette.Muted?.hex,
 							Vibrant: palette.Vibrant?.hex,
 						}
-					}
+					};
 				}
 			} catch (e) {
 				debug("Couldn't compute palette for image", e);
