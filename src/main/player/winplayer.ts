@@ -1,27 +1,76 @@
-import { ArtData, Update } from "../../types";
+import { Position, Update } from "../../types";
 
-// @ts-ignore
-import Player, { Player as IPlayer } from "winplayer-node";
+import { Player, PlayerManager, getFriendlyNameFor, getPlayerManager } from "winplayer-rs";
 import Vibrant from "node-vibrant";
 
 import { debug } from "..";
 import sharp from "sharp";
 
-let _player: IPlayer;
+let _player: Player | null;
+// there is no pass by reference so we will make our makeshift ref here
+type RevokeToken = { revoked: boolean };
+let _revokeToken: RevokeToken = { revoked: false };
+let updateCallback: Function;
 
 export async function init(callback: Function): Promise<void>{
-	const _cb = async () => callback(await getUpdate());
-	_player = new Player(_cb);
+	updateCallback = callback;
+	const playerManager = await getPlayerManager();
+	if(playerManager) {
+		managerEvents(playerManager)
+	}
+}
+
+export async function managerEvents(playerManager: PlayerManager) {
+	while(true) {
+		if(!playerManager) break;
+		const evt = await playerManager.pollNextEvent();
+		switch(evt) {
+			case "ActiveSessionChanged":
+				_player = null;
+				_revokeToken.revoked = true;
+				const player = playerManager.getActiveSession();
+				if(player){
+					_player = player;
+					_revokeToken.revoked = false;
+					playerEvents();
+				}
+				updateCallback(await getUpdate());
+				break;
+			case "SystemSessionChanged":
+				playerManager.updateSystemSession();
+				break;
+			case "SessionsChanged":
+				playerManager.updateSessions();
+				break;
+		}
+	}
+}
+
+export async function playerEvents(){
+	while(true) {
+		if(_revokeToken.revoked) break;
+		if(!_player) break;
+		const evt = await _player.pollNextEvent();
+		switch(evt) {
+			case "PlaybackInfoChanged":
+				updateCallback(await getUpdate());
+				break;
+			case "TimelinePropertiesChanged":
+				updateCallback(await getUpdate());
+				break;
+			case "MediaPropertiesChanged":
+				updateCallback(await getUpdate());
+				break;
+		}
+	}
 }
 
 export async function getUpdate(): Promise<Update | null> {
-	debug("Update queried on Win32");
-	const update = await _player.getUpdate();
-	debug("Update", update);
+	const status = await _player?.getStatus();
 
-	if(update !== null){
-		if (typeof update.metadata === "undefined"){
-			update.metadata = {
+	if(status){
+		if (typeof status.metadata === "undefined"){
+			status.metadata = {
 				title: "",
 				artist: "",
 				artists: [],
@@ -30,9 +79,37 @@ export async function getUpdate(): Promise<Update | null> {
 			}
 		}
 
-		if (update.metadata?.artData) {
+		
+		const update: Update = {
+			provider: "WinPlayer",
+			metadata: {
+				title: status.metadata.title,
+				album: status.metadata.album ?? "",
+				albumArtist: status.metadata.albumArtist,
+				albumArtists: status.metadata.albumArtists,
+				artist: status.metadata.artist,
+				artists: status.metadata.artists,
+				artUrl: undefined,
+				artData: undefined,
+				length: status.metadata.length,
+				count: undefined,
+				lyrics: undefined,
+				id: status.metadata.id ?? "",
+				location: undefined
+			},
+			capabilities: status.capabilities,
+			status: status.status,
+			loop: status.isLoop,
+			shuffle: status.shuffle,
+			volume: status.volume,
+			elapsed: status.elapsed ?? { howMuch: 0, when: new Date(0)},
+			app: status.app ?? "",
+			appName: status.app ? await getFriendlyNameFor(status.app) ?? status.app ?? "" : status.app ?? ""
+		}
+
+		if (status.metadata?.artData) {
 			try {
-				const palettebuffer = await sharp(update.metadata.artData.data)
+				const palettebuffer = await sharp(status.metadata.artData.data)
 					.resize(512, 512, { withoutEnlargement: true })
 					.png()
 					.toBuffer();
@@ -42,71 +119,91 @@ export async function getUpdate(): Promise<Update | null> {
 				})).getPalette();
 				if (palette) {
 
-					(update.metadata.artData as ArtData).palette = {
-						DarkMuted: palette.DarkMuted?.hex,
-						DarkVibrant: palette.DarkVibrant?.hex,
-						LightMuted: palette.LightMuted?.hex,
-						LightVibrant: palette.LightVibrant?.hex,
-						Muted: palette.Muted?.hex,
-						Vibrant: palette.Vibrant?.hex,
-					};
+					update.metadata.artData = {
+						data: status.metadata.artData.data,
+						type: [
+							status.metadata.artData.mimetype
+						],
+						palette: {
+							DarkMuted: palette.DarkMuted?.hex,
+							DarkVibrant: palette.DarkVibrant?.hex,
+							LightMuted: palette.LightMuted?.hex,
+							LightVibrant: palette.LightVibrant?.hex,
+							Muted: palette.Muted?.hex,
+							Vibrant: palette.Vibrant?.hex,
+						}
+					}
 				}
 			} catch (e) {
 				debug("Couldn't compute palette for image", e);
 			}
 		}
+		return update;
 	}
-
-	return update as Update | null;
+	return null;
 }
 
-export function Play() {
-	return _player.Play();
+export async function Play() {
+	return await _player?.play();
 }
 
-export function Pause() {
-	return _player.Pause();
+export async function Pause() {
+	return await _player?.pause();
 }
 
-export function PlayPause() {
-	return _player.PlayPause();
+export async function PlayPause() {
+	return await _player?.playPause();
 }
 
-export function Stop() {
-	return _player.Stop();
+export async function Stop() {
+	return await _player?.stop();
 }
 
-export function Next() {
-	return _player.Next();
+export async function Next() {
+	return await _player?.next();
 }
 
-export function Previous() {
-	return _player.Previous();
+export async function Previous() {
+	return await _player?.previous();
 }
 
-export function Shuffle() {
-	return _player.Shuffle();
+export async function Shuffle() {
+	const shuffle = await _player?.getShuffle();
+	return _player?.setShuffle(!shuffle);
 }
 
-export function Repeat() {
-	return _player.Repeat();
+export async function Repeat() {
+	const repeat = await _player?.getRepeat();
+	switch(repeat){
+		case "List":
+		default:
+			return await _player?.setRepeat("None");
+		case "None":
+			return await _player?.setRepeat("Track");
+		case "Track":
+			return await _player?.setRepeat("List");
+	}
 }
 
-export function Seek(offset: number) {
-	return _player.Seek(offset);
+export async function Seek(offset: number) {
+	return await _player?.seek(offset);
 }
 
-export function SeekPercentage(percentage: number) {
-	return _player.SeekPercentage(percentage);
+export async function SeekPercentage(percentage: number) {
+	return await _player?.seekPercentage(percentage);
 }
 
-export function SetPosition(position: number) {
-	return _player.SetPosition(position);
+export async function SetPosition(position: number) {
+	return await _player?.setPosition(position);
 }
 
-export async function GetPosition() {
-	debug("Position queried on Win32");
-	const _pos = _player.GetPosition();
-	debug("Position", _pos);
-	return _pos;
+export async function GetPosition(): Promise<Position> {
+	const pos = await _player?.getPosition(true);
+	if(!pos) {
+		return {
+			howMuch: 0,
+			when: new Date(0)
+		};
+	}
+	return pos;
 }
