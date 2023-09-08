@@ -14,26 +14,30 @@ import MediaPlayer2 from "mpris-for-dummies/lib/MediaPlayer2";
 import sharp from "sharp";
 
 let players: { [key: string]: MediaPlayer2 } = {};
+let _denylist: string[] | undefined;
 let activePlayer: string | undefined;
 let updateCallback: Function;
 
-export async function init(callback: Function): Promise<void>{
+export async function init(callback: Function, denylist?: string[]): Promise<void>{
+	_denylist = denylist;
 	updateCallback = callback;
 	const proxy = await dbus.sessionBus().getProxyObject("org.freedesktop.DBus", "/org/freedesktop/DBus");
 	const iface = proxy.getInterface("org.freedesktop.DBus");
 
 	iface.on("NameOwnerChanged", async (name, oldOwner, newOwner) => {
 		if (name.match(/org\.mpris\.MediaPlayer2/) !== null) {
-			if (oldOwner === "")
+			if (oldOwner === "" && !_denylist?.includes(name))
 				await addPlayer(name);
-			else if (newOwner === "")
+			else if (newOwner === "" && Object.keys(players).includes(name))
 				await deletePlayer(name);
 		}
 	});
 
 	const names = await getPlayerNames();
-	for (let name of names)
-		await addPlayer(name);
+	for (let name of names) {
+		if(!denylist?.includes(name))
+			await addPlayer(name);
+	}
 }
 
 export async function getUpdate(): Promise<Update | null> {

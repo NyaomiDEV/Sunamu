@@ -70,6 +70,7 @@ export type Config = {
 	targetLyricsCacheSize?: string,
 	logPlayedTracksToFile: boolean,
 	logPlayedTracksUTCTimestamps: boolean,
+	denylist?: string[],
 	scenes: {
 		[sceneName: string]: SceneConfig
 	},

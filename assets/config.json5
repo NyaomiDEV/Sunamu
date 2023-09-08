@@ -68,6 +68,10 @@
 		Metadata: true,
 		Local: true
 	},
+	// Do you have a player that you do not want to track at all in Sunamu? Put its name here!
+	// On Linux, the name is the name of the D-Bus MPRIS2 instance, minus the "org.mpris.MediaPlayer2." prefix.
+	// On Windows, the name is the App User Model ID, and you have to search for that probably.
+	denylist: [],
 	scenes: {
 		// The following is just an example! Leave it as is.
 		_example: {

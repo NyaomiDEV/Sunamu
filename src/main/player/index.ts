@@ -2,7 +2,7 @@
 import { Position, Update } from "../../types";
 
 const fallback: Player = {
-	init: async (_callback: Function) => undefined,
+	init: async (_callback: Function, _denylist?: string[]) => undefined,
 	getUpdate: async () => null,
 	Play: async () => undefined,
 	Pause: async () => undefined,
@@ -43,22 +43,22 @@ export default async function getPlayer(){
 }
 
 export interface Player {
-	init(callback: Function): Promise<void>
+	init(callback: Function, denylist?: string[]): Promise<void>
 	getUpdate(): Promise<Update | null>
 
-	Play(): Promise<void>
-	Pause(): Promise<void>
-	PlayPause(): Promise<void>
-	Stop(): Promise<void>
+	Play(): Promise<void | boolean>
+	Pause(): Promise<void | boolean>
+	PlayPause(): Promise<void | boolean>
+	Stop(): Promise<void | boolean>
 
-	Next(): Promise<void>
-	Previous(): Promise<void>
+	Next(): Promise<void | boolean>
+	Previous(): Promise<void | boolean>
 
-	Shuffle(): void
-	Repeat(): void
+	Shuffle(): void | Promise<boolean>
+	Repeat(): void | Promise<boolean>
 
-	Seek(offset: number): Promise<void>
-	SeekPercentage(percentage: number): Promise<void>
+	Seek(offset: number): Promise<void | boolean>
+	SeekPercentage(percentage: number): Promise<void | boolean>
 	GetPosition(): Promise<Position>
-	SetPosition(position: number): Promise<void>
+	SetPosition(position: number): Promise<void | boolean>
 }

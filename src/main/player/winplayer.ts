@@ -7,12 +7,14 @@ import { debug } from "..";
 import sharp from "sharp";
 
 let _player: Player | null;
+let _denylist: string[] | undefined;
 // there is no pass by reference so we will make our makeshift ref here
 type RevokeToken = { revoked: boolean };
 let _revokeToken: RevokeToken = { revoked: false };
 let updateCallback: Function;
 
-export async function init(callback: Function): Promise<void>{
+export async function init(callback: Function, denylist?: string[]): Promise<void>{
+	_denylist = denylist;
 	updateCallback = callback;
 	const playerManager = await getPlayerManager();
 	if(playerManager) 
@@ -41,7 +43,7 @@ export async function managerEvents(playerManager: PlayerManager) {
 				playerManager.updateSystemSession();
 				break;
 			case "SessionsChanged":
-				playerManager.updateSessions();
+				playerManager.updateSessions(_denylist);
 				break;
 		}
 	}
