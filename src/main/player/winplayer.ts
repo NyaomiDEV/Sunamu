@@ -1,5 +1,6 @@
 import { Position, Update } from "../../types";
 
+// @ts-ignore
 import { Player, PlayerManager, getFriendlyNameFor, getPlayerManager } from "winplayer-rs";
 import Vibrant from "node-vibrant";
 
