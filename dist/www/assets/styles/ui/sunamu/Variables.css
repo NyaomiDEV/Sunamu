@@ -27,3 +27,7 @@ html.inverted-default-colors:is(.no-colors, .no-palette, .not-playing) {
 	--color-fg: black;
 	--color-bg: rgba(255, 255, 255, 0.5);
 }
+
+html.colorblock:is(.not-playing) {
+	--color-bg: var(--color-dark-vibrant);
+}
