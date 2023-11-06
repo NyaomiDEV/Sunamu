@@ -59,18 +59,13 @@ Get the latest release from the [Releases](https://github.com/NyaomiDEV/Sunamu/r
 
 On Windows, you can choose between the installer and the ZIP file (portable app).
 
-On Linux, the AppImage is recommended since it runs basically everywhere (but also Flatpak, Fedora/RedHat, Debian and Arch packages are provided.)
-
-### Arch Linux
-
-`sunamu` and `sunamu-git` are available as AUR packages. Install either of them via your AUR helper of choice.
-The Git package usually breaks because I like using very recent Electron versions, so if you use that please be advised that there can be multiple issues if your system's Electron package is not the very latest (or close to).
+On Linux, the AppImage is recommended since it runs basically everywhere. You can choose between that and a compressed tarball.
 
 ## Configuration
 
 Sunamu's configuration file is located in:
 - Linux: Usually `~/.config/sunamu/config.json5` (`$XDG_CONFIG_HOME/sunamu/config.json5`);
-- Linux Flatpak: `~/.var/app/xyz.nyaomi.sunamu/config/sunamu/config.json5`;
+- Linux Flatpak: `~/.var/app/xyz.nyaomi.sunamu/config/sunamu/config.json5` (unsupported! but you can compile it yourself);
 - Windows: `%APPDATA%\sunamu\config.json5`.
 
 You can use it to enable or disable features, and there are a LOT of them!
