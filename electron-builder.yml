@@ -1,6 +1,6 @@
 appId: xyz.nyaomi.sunamu
 productName: Sunamu
-copyright: Copyright © 2021 Naomi Calabretta
+copyright: Copyright © 2021-2023 Naomi Calabretta
 directories:
   output: targets
 files:
@@ -142,4 +142,4 @@ win:
   target:
     - nsis
   icon: assets/icons/icon.ico
-  legalTrademarks: Copyright © 2021 Naomi Calabretta
+  legalTrademarks: Copyright © 2021-2023 Naomi Calabretta
