@@ -40,12 +40,7 @@ asarUnpack:
   - "./node_modules/winplayer-node/build/**/*"
 linux:
   target:
-    - flatpak
     - AppImage
-    - deb
-    - rpm
-    - pacman
-    - tar.xz
   maintainer: Naomi Calabretta
   vendor: Naomi Calabretta
   executableName: Sunamu
@@ -146,6 +141,5 @@ flatpak:
 win:
   target:
     - nsis
-    - zip
   icon: assets/icons/icon.ico
   legalTrademarks: Copyright © 2021 Naomi Calabretta
