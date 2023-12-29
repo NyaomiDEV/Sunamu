@@ -4,17 +4,6 @@
 # Sunamu (スナム)
 Show your currently playing song in a stylish way!
 
-## Announcement
-
-As it's come to my knowledge that third parties are redistributing builds of Sunamu for Windows that have been taken down from the official Releases section due to critical instabilities.
-
-It is, therefore, recommended to stick to the Github releases section when downloading Sunamu.
-
-If you're running Sunamu downloaded from a third party, be advised that you are running buggy software on your system, at best. At worst, that software may have been compromised as it is not coming from an official source.
-
-Neither I (NyaomiDEV) nor any of my contributors and testers shall be expected to take any liability.
-[Read the License file about it.](https://github.com/NyaomiDEV/Sunamu/blob/c735f4e969f42a665aae9063bcb2832569106fd2/LICENSE#L261-L301)
-
 ## Screenshots
 
 <div style="display: flex; justify-items: space-between; flex-wrap: wrap; width: 100%">
@@ -33,8 +22,6 @@ Sunamu (pronounced as it is written) is a fancy music controller whose only purp
 
 _It effectively is the WAY TOO COMPLEX successor of MPRISLyrics, a project I made back when synchronized lyrics on Linux was a niche thing to have._
 
-It only supports Windows and Linux for now. macOS support is not planned. Pull request, someone?
-
 ## Features
 
 - Display what you are playing in your TV, secondary display, or (heck) around the entire house!
@@ -49,24 +36,17 @@ It only supports Windows and Linux for now. macOS support is not planned. Pull r
 
 ## Installation
 
-### Windows / Linux
+### Linux
 
-#### NOTE: Windows builds are provided but they are highly experimental (think of that as essentially PoC / tech demos) and reported issues will not be fixed unless they also happen for the same reason on Linux. When reporting any issues you have to state that you are on Windows, since Sunamu works differently there and I am not able to support your platform of choice in official capacity.
-
-#### NOTE 2: Sunamu is very slow on development, mostly because there's hardly anything to implement that I can do (local girl needs help). Please consider this when running a tagged release, as you can easily run a months-old, or even years-old, version. Please try compiling Sunamu from this repo instead!
+#### NOTE: Sunamu is very slow on development, mostly because there's hardly anything to implement that I can do (local girl needs help). Please consider this when running a tagged release, as you can easily run a months-old, or even years-old, version. Please try compiling Sunamu from this repo instead!
 
 Get the latest release from the [Releases](https://github.com/NyaomiDEV/Sunamu/releases/latest) section.
-
-On Windows, you can choose between the installer and the ZIP file (portable app).
-
-On Linux, the AppImage is recommended since it runs basically everywhere. You can choose between that and a compressed tarball.
 
 ## Configuration
 
 Sunamu's configuration file is located in:
 - Linux: Usually `~/.config/sunamu/config.json5` (`$XDG_CONFIG_HOME/sunamu/config.json5`);
 - Linux Flatpak: `~/.var/app/xyz.nyaomi.sunamu/config/sunamu/config.json5` (unsupported! but you can compile it yourself);
-- Windows: `%APPDATA%\sunamu\config.json5`.
 
 You can use it to enable or disable features, and there are a LOT of them!
 

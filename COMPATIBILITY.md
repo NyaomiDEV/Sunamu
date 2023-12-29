@@ -6,8 +6,6 @@
 - Detected: Sunamu detects it, but it doesn't work.
 - Not working: Sunamu cannot detect it.
 
-## On Linux (MPRIS2 backend)
-
 |Name|Status|Comments|
 |-|-|-|
 |Spotify|Perfect|They fixed their shit recently! Yay!|
@@ -29,19 +27,3 @@
 |Lollypop|Detected|It doesn't implement the `PropertiesChanged` signal|
 |Amarok|Detected|Seems to not report the song information; Reported by @KorbsStudio|
 |Amberol|Detected|Non-compliant MPRIS2 implementation. Sunamu cannot support players not reporting `mpris:trackId`|
-
-## On Windows (GlobalSystemMediaTransportControlsSession -> WinPlayer backend)
-
-|Name|Status|Comments|
-|-|-|-|
-|Spotify|Perfect||
-|Sonixd|Working|Seekbar, current position and synchronized lyrics are not working. Displays as `org.erb.sonixd`.|
-|Groove Music|Working|Seekbar doesn't work|
-|foobar2000|Working|Seekbar, current position and synchronized lyrics are not working. Using [foo_mediacontrol](https://github.com/Hual/foo_mediacontrol)|
-|AIMP|Working|Seekbar, current position and synchronized lyrics are not working. Using [Windows 10 Media Control](https://www.aimp.ru/?do=catalog&rec_id=1097)|
-|MusicBee|Working|Seekbar, current position and synchronized lyrics are not working. Using [Windows 10 Media Control Overlay](https://getmusicbee.com/addons/plugins/98/windows-10-media-control-overlay/)|
-|Microsoft Edge|Working|Seekbar, current position and synchronized lyrics are not working. Displays as `MSEdge`.|
-|Google Chrome|Working|Seekbar, current position and synchronized lyrics are not working.|
-|VLC UWP|Working|Seekbar, current position and synchronized lyrics are not working.|
-|iTunes|Not working|It doesn't expose itself through the GlobalSystemMediaTransportControlsSession API.|
-|VLC Classic|Not working|It doesn't expose itself through the GlobalSystemMediaTransportControlsSession API.|
