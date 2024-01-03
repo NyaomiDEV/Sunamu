@@ -10,7 +10,7 @@ export const supportedPlatforms = ["linux", "win32"];
 
 async function queryMusixmatch(method: string, params?: any, shouldUseToken = true): Promise<any | undefined> {
 
-	let token;
+	let token: string | undefined;
 	if (shouldUseToken){
 		// Get a token from the usual place
 		token = getConfig("mxmusertoken") || await getToken() || undefined;
@@ -67,7 +67,7 @@ async function getToken(){
 	return undefined;
 }
 
-export async function query(metadata: Metadata, spotifyId?: string): Promise<Lyrics | undefined> {
+export async function query(metadata: Metadata): Promise<Lyrics | undefined> {
 	const reply: Lyrics = {
 		provider: "Musixmatch",
 		synchronized: true,
@@ -88,9 +88,6 @@ export async function query(metadata: Metadata, spotifyId?: string): Promise<Lyr
 		f_subtitle_length: `${metadata.length}`,
 		f_subtitle_length_max_deviation: "40",
 	};
-
-	if (spotifyId)
-		queryParams.track_spotify_id = spotifyId;
 
 	const result = await queryMusixmatch("macro.subtitles.get", queryParams);
 

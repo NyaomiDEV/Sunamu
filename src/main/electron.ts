@@ -4,10 +4,11 @@ import getPlayer, { Player } from "./player";
 import configEmitter, { getAll as getAllConfig } from "./config";
 import { widgetModeElectron, debugMode, devTools } from "./appStatus";
 import windowStateKeeper from "electron-window-state";
-import playbackStatus, { songdata } from "./playbackStatus";
+import playbackStatus, { setCustomLyrics, songdata } from "./playbackStatus";
 import { getThemeLocation } from "./themes";
 import { setTrackLogActive, trackLogActive, trackLogPath } from "./integrations/tracklogger";
 import { discordPresenceConfig, updatePresence } from "./integrations/discordrpc";
+import { getAllLyrics } from "./integrations/lyrics";
 
 const openedBrowserWindows: Map<BrowserWindow, string> = new Map();
 let trayIcon: Tray | undefined;
@@ -15,6 +16,7 @@ let player: Player;
 
 // Enable GPU rasterization so it's smooth asf
 app.commandLine.appendSwitch("enable-gpu-rasterization");
+app.commandLine.appendSwitch("ozone-platform-hint", "auto");
 
 function getIcon() {
 	let icoName = "512x512.png";
@@ -42,6 +44,9 @@ function registerIpc() {
 
 	ipcMain.handle("getSongData", () => songdata);
 	ipcMain.handle("getConfig", () => getAllConfig());
+
+	ipcMain.handle("searchAllLyrics", async (_e, metadata) => await getAllLyrics(metadata));
+	ipcMain.on("chooseLyrics", async (_e, lyrics) => await setCustomLyrics(lyrics));
 
 	ipcMain.handle("isWidgetMode", (e) => {
 		const _win = BrowserWindow.fromWebContents(e.sender);

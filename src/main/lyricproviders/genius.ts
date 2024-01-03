@@ -18,7 +18,7 @@ export async function query(metadata: Metadata): Promise<Lyrics | undefined> {
 	};
 
 
-	const songId = await getSongURL(metadata);
+	const songId = await getSongURL(metadata.artist, metadata.title);
 	if (!songId) {
 		console.error("Could not find the song on Genius!");
 		return undefined;
@@ -34,19 +34,19 @@ export async function query(metadata: Metadata): Promise<Lyrics | undefined> {
 	return reply;
 }
 
-function getSearchFields(metadata: Metadata) {
+function getSearchFields(artist: string, title: string) {
 	const post_fields = new URLSearchParams({
-		q: metadata.artist + " " + metadata.title,
+		q: artist + " " + title,
 		per_page: "1"
 	});
 
 	return post_fields.toString();
 }
 
-async function getSongURL(metadata: Metadata) {
+async function getSongURL(artist: string, title: string) {
 	let result: AxiosResponse<any, any>;
 	try {
-		result = await axios.get(search_url + "?" + getSearchFields(metadata));
+		result = await axios.get(search_url + "?" + getSearchFields(artist, title));
 	} catch (e) {
 		console.error("Genius search request got an error!", e);
 		return undefined;

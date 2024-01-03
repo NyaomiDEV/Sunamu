@@ -22,6 +22,9 @@ export type NowPlayingAPI = {
 	getSongData: () => Promise<SongData>,
 	getConfig: () => Promise<Config>,
 
+	searchAllLyrics: (metadata: Metadata) => Promise<Lyrics[]>,
+	chooseLyrics: (lyrics: Lyrics) => void,
+
 	isWidgetMode: () => Promise<boolean>,
 	isDebugMode: () => Promise<boolean>,
 	isElectronRunning?: () => Promise<boolean>,
@@ -188,7 +191,8 @@ export type Lyrics = {
 	synchronized?: boolean,
 	lines?: LyricsLine[],
 	copyright?: string,
-	unavailable?: boolean
+	unavailable?: boolean,
+	cached?: boolean
 }
 
 export type LyricsLine = {

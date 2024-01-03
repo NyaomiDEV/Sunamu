@@ -23,6 +23,9 @@ if(!isElectron()){
 		getSongData: () => new Promise(resolve => socket.emit("getSongData", resolve)),
 		getConfig: () => new Promise(resolve => socket.emit("getConfig", resolve)),
 
+		searchAllLyrics: (metadata) => new Promise(resolve => socket.emit("searchAllLyrics", metadata, resolve)),
+		chooseLyrics: (lyrics) => socket.emit("chooseLyrics", lyrics),
+
 		isWidgetMode: () => new Promise(resolve => socket.emit("isWidgetMode", resolve)),
 		isDebugMode: () => new Promise(resolve => socket.emit("isDebugMode", resolve)),
 		isElectronRunning: () => new Promise(resolve => socket.emit("isElectronRunning", resolve)),

@@ -22,10 +22,23 @@ for(let i = 0; i < providerList.length; i++){
 		providerList.splice(i, 1);
 }
 
-export async function queryLyrics(metadata: MetadataType, spotifyId?: string): Promise<Lyrics | undefined> {
+export async function getAllLyrics(metadata: MetadataType): Promise<Lyrics[]> {
 	if (!metadata.artist || !metadata.title) // there can't be lyrics without at least those two fields
-		return { unavailable: true };
-	
+		return [];
+
+	const configProviders = getConfig().lyricsProviders;
+	const providerPromises = Object.keys(configProviders).map(x => configProviders[x] ? providerList.find(y => y.name === x)?.query(metadata) : undefined).filter(Boolean);
+
+	return (await Promise.all(providerPromises)).filter(x => x?.lines.length);
+}
+
+export async function saveCustomLyrics(metadata: MetadataType, lyrics: Lyrics){
+	const id = computeLyricsID(metadata);
+	await saveLyrics(id, lyrics);
+	debug("Saved custom lyrics from " + lyrics.provider);
+}
+
+export async function queryLyricsAutomatically(metadata: MetadataType): Promise<Lyrics | undefined> {
 	let lyrics: Lyrics | undefined;
 	const id = computeLyricsID(metadata);
 
@@ -36,35 +49,13 @@ export async function queryLyrics(metadata: MetadataType, spotifyId?: string): P
 		if (!cached) debug(`Cache miss for ${metadata.artist} - ${metadata.title}`);
 		else if (!cached?.synchronized) debug(`Cache hit but unsynced lyrics. Trying to fetch synchronized lyrics for ${metadata.artist} - ${metadata.title}`);
 
-		const configProviders = getConfig().lyricsProviders;
-
-		for (const provider in configProviders) {
-			// if it's disabled just skip it
-			if(!configProviders[provider])
-				continue;
-
-			// if cached then we could assume it is unsync
-			if(!cached && ["Genius", "Metadata"].includes(provider))
-				continue;
-
-			const _provider = providerList.find(x => x.name === provider);
-			if (!_provider)
-				continue;
-
-			debug("Fetching from " + provider);
-			const _lyrics = await _provider.query(metadata, spotifyId);
-			if (_lyrics?.lines.length){
-				lyrics = _lyrics;
-				break;
-			}
-		}
+		lyrics = (await getAllLyrics(metadata)).find(x => !cached?.synchronized ? x.synchronized : true);
 
 		if (lyrics){
-			saveLyrics(id, lyrics);
+			await saveLyrics(id, lyrics);
 			debug("Fetched from " + lyrics.provider);
 		}else
 			debug("Unable to fetch lyrics");
-		
 	}
 
 	if(cached && !lyrics)

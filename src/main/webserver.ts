@@ -6,10 +6,11 @@ import { widgetMode, debugMode, useElectron } from "./appStatus";
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { Server as StaticServer } from "node-static";
-import playbackStatus, { songdata } from "./playbackStatus";
+import playbackStatus, { setCustomLyrics, songdata } from "./playbackStatus";
 import { getThemeLocation, getThemesDirectory } from "./themes";
 
 import { debug } from ".";
+import { getAllLyrics } from "./integrations/lyrics";
 
 let player: Player;
 
@@ -40,6 +41,10 @@ function registerIpc(socket: Socket) {
 
 	socket.on("getSongData", (callback) => callback(songdata));
 	socket.on("getConfig", (callback) => callback(getAllConfig()));
+
+	socket.on("searchAllLyrics", async (metadata, callback) => callback(await getAllLyrics(metadata)));
+	socket.on("chooseLyrics", async (lyrics) => await setCustomLyrics(lyrics));
+
 
 	socket.on("isWidgetMode", (callback) => callback(widgetMode));
 	socket.on("isDebugMode", (callback) => callback(debugMode));

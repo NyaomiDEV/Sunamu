@@ -1,10 +1,10 @@
-import { DeepPartial, Metadata, SongData, SpotifyInfo, Update } from "../types";
+import { DeepPartial, Lyrics, Metadata, SongData, SpotifyInfo, Update } from "../types";
 import { get } from "./config";
 import getPlayer from "./player";
 import { getSpotifySongFromId, searchSpotifySong } from "./thirdparty/spotify";
 import { getLFMTrackInfo } from "./thirdparty/lastfm";
 import { spotiId } from "./util";
-import { queryLyrics } from "./integrations/lyrics";
+import { queryLyricsAutomatically, saveCustomLyrics } from "./integrations/lyrics";
 import { debug } from ".";
 import { lyricsActive } from "./appStatus";
 import EventEmitter from "events";
@@ -55,6 +55,15 @@ export const songdata = Object.assign({}, fallback) as SongData;
 
 let updateInfoSymbol: Symbol;
 
+export async function setCustomLyrics(lyrics: Lyrics) {
+	songdata.lyrics = lyrics;
+
+	await saveCustomLyrics(songdata.metadata, lyrics);
+
+	emitter.emit("songdata", songdata, false);
+	emitter.emit("lyrics");
+}
+
 export async function updateInfo(update?: Update) {
 	// create our unique symbol
 	const currentSymbol = Symbol();
@@ -94,7 +103,7 @@ export async function updateInfo(update?: Update) {
 		extraMetadata.spotify = await pollSpotifyDetails(update.metadata);
 		extraMetadata.lastfm = await getLFMTrackInfo(update.metadata, get("lfmUsername"));
 		if(lyricsActive)
-			extraMetadata.lyrics = await queryLyrics(update.metadata, extraMetadata.spotify?.id);
+			extraMetadata.lyrics = await queryLyricsAutomatically(update.metadata);
 		// END OF "HUGE SUSPENSION POINT"
 
 		// we now have to check our symbol to avoid updating stuff that is newer than us

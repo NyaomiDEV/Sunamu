@@ -18,8 +18,10 @@ const npApi: NowPlayingAPI = {
 	registerConfigChangedCallback: (callback) => ipcRenderer.on("configChanged", (_e, ...args) => callback(...args)),
 
 	getSongData: () => ipcRenderer.invoke("getSongData"),
-
 	getConfig: () => ipcRenderer.invoke("getConfig"),
+
+	searchAllLyrics: (metadata) => ipcRenderer.invoke("searchAllLyrics", metadata),
+	chooseLyrics: (lyrics) => ipcRenderer.send("chooseLyrics", lyrics),
 
 	isWidgetMode: () => ipcRenderer.invoke("isWidgetMode"),
 	isDebugMode: () => ipcRenderer.invoke("isDebugMode"),
