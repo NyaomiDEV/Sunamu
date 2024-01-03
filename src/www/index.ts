@@ -51,9 +51,12 @@ async function searchForCustomLyrics(title?: string, artist?: string, album?: st
 	lrcStorage.id = metadata.id;
 	(await window.np.searchAllLyrics(metadata)).forEach(x => lrcStorage.lyrics.push(x));
 	if (!lrcStorage.lyrics.length) return console.error("No lyrics found");
+	console.log(`Searching lyrics for (input) "${metadata.title}" by ${metadata.artist} in album "${metadata.album}"`);
+	console.log(`Whatever you choose will replace lyrics for (actual metadata we got) "${songdata.metadata.title}" by ${songdata.metadata.artist} in album "${songdata.metadata.album}"`);
 	console.log("Select your lyrics from here");
-	lrcStorage.lyrics.forEach((x, k) => console.log(`From ${x.provider} - ${x.synchronized ? "Synchronized" : "Unsynchronized"} - Choice #${k+1}\nPreview:\n${x.lines?.slice(0, 4).map(x => x.text).join("\n")}`));
+	lrcStorage.lyrics.forEach((x, k) => console.log(`From ${x.provider} - ${x.synchronized ? "Synchronized" : "Unsynchronized"} - Choice #${k+1}\nPreview:\n${x.lines?.slice(0, 10).map(x => x.text).join("\n")}`));
 	console.log("So, what's your favourite? Type `chooseLyrics(N)` where N is your choice.");
+	console.log("You have to be quick! You can only choose lyrics as the song is playing!");
 }
 
 function chooseLyrics(input: number){
