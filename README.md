@@ -36,6 +36,8 @@ _It effectively is the WAY TOO COMPLEX successor of MPRISLyrics, a project I mad
 
 ## Installation
 
+**Sunamu only works on Linux! Do not spam the issue section regarding Windows or macOS, as it cannot be ported to those computers!**
+
 ### Linux
 
 #### NOTE: Sunamu is very slow on development, mostly because there's hardly anything to implement that I can do (local girl needs help). Please consider this when running a tagged release, as you can easily run a months-old, or even years-old, version. Please try compiling Sunamu from this repo instead!
