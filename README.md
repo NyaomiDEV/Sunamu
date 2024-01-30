@@ -1,5 +1,4 @@
 <img alt="Logo" src="assets/icons/icon.svg" width="128px" height="128px" align="left"/>
-<a href="https://discord.gg/cnkMUu9Z7b"><img alt="Chat on Discord" align="right" src="https://img.shields.io/discord/1002639896600645732?color=blue&label=Chat%20on%20Discord&logo=discord&logoColor=white&style=for-the-badge"></a>
 
 # Sunamu (スナム)
 Show your currently playing song in a stylish way!
@@ -40,7 +39,7 @@ _It effectively is the WAY TOO COMPLEX successor of MPRISLyrics, a project I mad
 
 ### Linux
 
-#### NOTE: Sunamu is very slow on development, mostly because there's hardly anything to implement that I can do (local girl needs help). Please consider this when running a tagged release, as you can easily run a months-old, or even years-old, version. Please try compiling Sunamu from this repo instead!
+#### NOTE: Sunamu is very slow on development, mostly because there's hardly anything to implement that the developer can do. Please consider this when running a tagged release, as you can easily run a months-old, or even years-old, version. Please try compiling Sunamu from this repo instead!
 
 Get the latest release from the [Releases](https://github.com/NyaomiDEV/Sunamu/releases/latest) section.
 
